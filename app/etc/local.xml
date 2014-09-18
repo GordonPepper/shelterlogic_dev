@@ -40,7 +40,7 @@
             </db>
             <default_setup>
                 <connection>
-                    <host><![CDATA[localhost]]></host>
+                    <host><![CDATA[cl-mgnto-4vap02]]></host>
                     <username><![CDATA[farm-ent]]></username>
                     <password><![CDATA[DB2#JBk%]]></password>
                     <dbname><![CDATA[farmbuildings]]></dbname>
