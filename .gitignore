@@ -9,3 +9,4 @@ media/catalog/product/cache/**/*
 media/js/*
 media/css/*.css
 errors/local.xml
+.idea
