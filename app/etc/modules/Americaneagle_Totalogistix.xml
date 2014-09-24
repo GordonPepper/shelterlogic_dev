@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Americaneagle_Totalogistix>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Americaneagle_Totalogistix>
+    </modules>
+</config>

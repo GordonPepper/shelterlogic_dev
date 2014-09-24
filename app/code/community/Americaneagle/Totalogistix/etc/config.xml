@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Americaneagle_Totalogistix>
+            <version>1.0.0</version>
+        </Americaneagle_Totalogistix>
+    </modules>
+    <global>
+        <blocks>
+            <americaneagle_totalogistix>
+                <class>Americaneagle_Totalogistix_Block</class>
+            </americaneagle_totalogistix>
+        </blocks>
+        <helpers>
+            <americaneagle_totalogistix>
+                <class>Americaneagle_Totalogistix_Helper</class>
+            </americaneagle_totalogistix>
+        </helpers>
+    </global>
+</config>
