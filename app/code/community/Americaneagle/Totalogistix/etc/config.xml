@@ -16,5 +16,34 @@
                 <class>Americaneagle_Totalogistix_Helper</class>
             </americaneagle_totalogistix>
         </helpers>
+        <models>
+            <americaneagle_totalogistix>
+                <class>Americaneagle_Totalogistix_Model</class>
+            </americaneagle_totalogistix>
+            <sales>
+                <rewrite>
+                    <quote_address>Americaneagle_Totalogistix_Model_Quote_Address</quote_address>
+                </rewrite>
+            </sales>
+        </models>
+        <resources>
+            <americaneagle_totalogistix_setup>
+                <setup>
+                    <module>Americaneagle_Totalogistix</module>
+                    <class>Mage_Customer_Model_Entity_Setup</class>
+                </setup>
+            </americaneagle_totalogistix_setup>
+        </resources>
     </global>
+    <default>
+        <carriers>
+            <totalogistix>
+                <active>1</active>
+                <model>americaneagle_totalogistix/carrier</model>
+                <title>TOTALogistix</title>
+                <sort_order>10</sort_order>
+                <sallowspecific>0</sallowspecific>
+            </totalogistix>
+        </carriers>
+    </default>
 </config>

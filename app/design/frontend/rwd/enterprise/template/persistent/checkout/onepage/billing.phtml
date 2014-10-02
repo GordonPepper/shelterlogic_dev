@@ -131,6 +131,15 @@
                             <input type="tel" name="billing[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('fax') ?>" id="billing:fax" />
                         </div>
                     </div>
+					<div class="field">
+						<label for="billing:is_residential" class="required"><em>*</em><?php echo $this->__('Residential Address') ?></label>
+						<div class="input-box">
+							<select id="billing:is_residential" class="validate-select required-entry validation-failed" style="" title="<?php echo $this->__('Residential Address') ?>" name="billing[is_residential]">
+								<option value="1">Yes</option>
+								<option value="0">No</option>
+							</select>
+						</div>
+					</div>
                 </li>
 
                 <?php $addressAttributes = $this->getChild('customer_form_billing_address_user_defined_attributes');?>

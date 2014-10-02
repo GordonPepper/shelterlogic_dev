@@ -4,6 +4,9 @@
         <Americaneagle_Totalogistix>
             <active>true</active>
             <codePool>community</codePool>
+            <depends>
+                <Mage_Shipping />
+            </depends>
         </Americaneagle_Totalogistix>
     </modules>
 </config>
