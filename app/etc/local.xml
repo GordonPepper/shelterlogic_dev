@@ -40,15 +40,15 @@
             </db>
             <default_setup>
                 <connection>
-                    <!--<host><![CDATA[127.0.0.1]]></host>-->
-                    <!--<username><![CDATA[magento]]></username>-->
-                    <!--<password><![CDATA[magento]]></password>-->
-                    <!--<dbname><![CDATA[farmbuildings]]></dbname>-->
-
-                    <host><![CDATA[cl-mgnto-4vap02]]></host>
-                    <username><![CDATA[farm-ent]]></username>
-                    <password><![CDATA[DB2#JBk%]]></password>
+                    <host><![CDATA[127.0.0.1]]></host>
+                    <username><![CDATA[magento]]></username>
+                    <password><![CDATA[magento]]></password>
                     <dbname><![CDATA[farmbuildings]]></dbname>
+
+                    <!--<host><![CDATA[cl-mgnto-4vap02]]></host>-->
+                    <!--<username><![CDATA[farm-ent]]></username>-->
+                    <!--<password><![CDATA[DB2#JBk%]]></password>-->
+                    <!--<dbname><![CDATA[farmbuildings]]></dbname>-->
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>

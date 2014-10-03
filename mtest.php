@@ -15,9 +15,13 @@ Mage::setIsDeveloperMode(true);
 /** @var Mage $app */
 $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
+
 $allowedFunctions = array(
-	'totaLogistix'
+	'totaLogistix',
+	'fb_getItemList',
+	'farmImportAddVals'
 );
+
 $html = new HtmlOutputter();
 $html->startHtml()->startBody();
 $html->para('<a href="/mtest.php">home</a>');
@@ -39,6 +43,11 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function farmImportAddVals() {
+	$source = new CsvReader('/home/magentouser/import.csv',',', true);
+	$dest = new CsvWriter('/home/magentouser/import_fixed.csv', ',');
+
+}
 
 function xmlTesting() {
 	global $html;
@@ -159,56 +168,6 @@ function checkTableExists() {
 	}
 }
 
-function checkLog() {
-	global $html;
-	Mage::log('Foo is logged', null, 'hawksearch_errors.log');
-	$html->para('well i tried...');
-}
-
-
-function getVersion() {
-	global $html;
-	$html->para("version: " . Mage::getVersion());
-	$html->para('version info' . print_r(Mage::getVersionInfo(), true));
-}
-
-function getAttributes() {
-	global $html;
-
-	$handle = fopen("/var/www/magentoce.1-7.local/htdocs/magento/var/hawksearch/feeds/attributes.txt",'r');
-	$keys = fgetcsv($handle, 0, "\t");
-	$atts = array();
-	while( $vals = fgetcsv($handle, 0, "\t")) {
-		if( $vals[1] == 'model' || $vals[1] == 'model_name'){
-			$atts[] = array('attribute' => $vals[1], 'value' => $vals[2]);
-		} elseif ($vals[0] =='NOW' && $vals[1] == 'OUTPUTTING') {
-			$atts[] = array('attribute' => 'NOW OUTPUTTING', 'value' => $vals[2]);
-		}
-	}
-	$html->para('done, found ' . count($atts) . ' attributes');
-	$html->startList();
-	foreach($atts as $a) {
-		$html->listItem($a['attribute'] . ': ' . $a['value']);
-	}
-	$html->endList();
-
-	fclose($handle);
-
-
-
-	/** @var Mage_Catalog_Model_Product $product */
-//	$product = Mage::helper('catalog/product')->getProduct('10780', Mage::app()->getStore()->getId(), 'sku');
-//	//$html->para('the guitar: ' . print_r($product, true));
-//	$atts = $product->getAttributes();
-//
-//	ksort($atts);
-//	foreach(array_keys($atts) as $a) {
-//		$html->para($a);
-//	}
-
-
-}
-
 function productList() {
 	global $html;
 	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
@@ -249,36 +208,6 @@ function productList() {
 
 }
 
-function checkItemSku() {
-	global $html;
-	$filename = "/home/magentouser/items.txt";
-	$delim = "\t";
-	$headerRow = true;
-	$csv = new CsvReader($filename, $delim, $headerRow);
-	if($csv !== false) {
-		$a = array();
-		while($csv->nextRow()){
-			if(isset($a[$csv->item('sku')]) && is_array($a[$csv->item('sku')])){
-				$a[$csv->item('sku')][] = new HawkItem($csv);
-			} else {
-				$a[$csv->item('sku')] = array(new HawkItem($csv));
-			}
-		}
-		$csv->close();
-		foreach (array_keys($a) as $key){
-			if(count($a[$key]) > 1) {
-				if(($col = compareItems($a[$key])) !== false){
-					$map = $csv->getMap();
-					$idx = array_keys($map, $col);
-					$name = $idx[0];
-					$html->para("found sku: $key, " . count($a[$key]) . " times with different values for col $name");
-				}
-			}
-		}
-		$html->para("Done checking Item sku");
-	}
-}
-
 function compareItems($hi){
 	/* start with the first row, and check each other row for differences. if
 	 * found, stop and return true
@@ -292,42 +221,6 @@ function compareItems($hi){
 		}
 	}
 	return false;
-}
-
-function streamTest() {
-	$path = Mage::helper('hawksearch_datafeed/feed')->getFeedFilePath();
-	/* ok, so the goal here is to test the behavior of the "php://temp/maxmemory:$byteSize" stream
-	 * for the purpose of buffering the fputcsv() function call.
-	 * so what we want to do is to fill up the buffer, and periodically flush to file.
-	 * My typical plan for such a task would be to create a private class that handles
-	 * opening, buffering, flushing, and closing of the file, so lets try it. */
-	$buffer = new CsvWriteBuffer($path . '/testbuff.csv', "\t", 1024 * 2048, 1023 * 2048);
-	$counter = 0;
-	while ($counter++ < 1000) {
-		$buffer->appendRow(array($counter, 'test, one', 'emedeede "quotes"', "embedded tab->   <-", "another embedded tab->\t<-"));
-		$buffer->appendRow(array($counter, 'here', 'are', 'some', 'plain', 'fields'));
-		$buffer->appendRow(array($counter, 'with spaces', 'withoutspaces'));
-		$buffer->appendRow(array($counter, 'and don\'t forget', "about embedded\nline endings!"));
-	}
-}
-
-function createTabFields() {
-	global $app;
-
-	$out = fopen('php://output', 'a');
-	fputcsv($out, array('test, one', 'emedeede "quotes"', "embedded tab->	<-", "another embedded tab->\t<-"), "\t");
-	fputcsv($out, array('here', 'are', 'some', 'plain', 'fields'), "\t");
-	fputcsv($out, array('plain', 'embedded, comma', 'embedded faux \t tab'), "\t");
-	fputcsv($out, array('with spaces', 'withoutspaces'), "\t");
-	fputcsv($out, array('and don\'t forget', "about embedded\nline endings!"), "\t");
-	fputcsv($out, array('comma sep', 'values', 'with embedded, comma'));
-	fclose($out);
-}
-
-function mdg_giftregistry() {
-	//$registry = Mage::getModel('mdg_giftregistry/entity');
-//echo get_class($registry);
-
 }
 
 function checkCountryCode() {
@@ -352,17 +245,6 @@ function checkCountryCode() {
 	echo 'itemid US: ' . $countryMap[$code];
 }
 
-function getTempDirList() {
-	$dir = array();
-	if ($handle = opendir(sys_get_temp_dir())) {
-		while (false !== ($entry = readdir($handle))) {
-			$dir[] = $entry;
-		}
-	}
-	closedir($handle);
-	asort($dir);
-	return $dir;
-}
 
 function showAllowedFunctions($html) {
 	global $allowedFunctions;
@@ -371,21 +253,6 @@ function showAllowedFunctions($html) {
 	}
 }
 
-class HawkItem {
-	private $values;
-	/** @var $row CsvReader */
-	public function __construct($row){
-		foreach($row->getMap() as $key => $idx) {
-			$this->values[$idx] = $row->item($key);
-		}
-	}
-	public function item($idx) {
-		return $this->values[$idx];
-	}
-	public function itemCount() {
-		return count($this->values);
-	}
-}
 
 class CsvReader {
 	private $fileName;
@@ -489,19 +356,14 @@ class HtmlOutputter {
 	}
 }
 
-
-class CsvWriteBuffer {
-	private $tempBuffer;
-	private $bufferSize;
+class CsvWriter {
 	private $finalDestinationPath;
 	private $outputFile;
-	private $currentSize;
-	private $bufferOpen = false;
 	private $outputOpen = false;
 	private $delimiter;
-	private $flushSize;
+	private $bufferSize;
 
-	public function __construct($destFile, $delim = ",", $buffSize, $flushSize) {
+	public function __construct($destFile, $delim, $buffSize = null) {
 		$this->finalDestinationPath = $destFile;
 		if (file_exists($this->finalDestinationPath)) {
 			if (false === unlink($this->finalDestinationPath)) {
@@ -510,61 +372,39 @@ class CsvWriteBuffer {
 		}
 		$this->delimiter = $delim;
 		$this->bufferSize = $buffSize;
-		$this->flushSize = $flushSize;
 	}
 
 	public function __destruct() {
-		$this->flushBuffer();
-		fclose($this->tempBuffer);
-		fclose($this->outputFile);
+		$this->closeOutput();
 	}
 
 	public function appendRow(array $fields) {
-		if (!$this->bufferOpen) {
-			$this->openBuffer();
+		if (!$this->outputOpen) {
+			$this->openOutput();
 		}
-		$this->currentSize += fputcsv($this->tempBuffer, $fields, $this->delimiter);
-		if ($this->currentSize >= $this->flushSize) {
-			$this->flushBuffer();
+		if (false === fputcsv($this->outputFile, $fields, $this->delimiter)) {
+			throw new Exception("CsvWriter: failed to write row.");
 		}
 	}
 
-	private function openBuffer() {
-		if (false === ($this->tempBuffer = fopen("php://temp/maxmemory:$this->bufferSize", 'r+'))) {
-			throw new Exception("CsvWriteBuffer: Failed to open temp buffer");
-		}
-		$this->bufferOpen = true;
-		$this->currentSize = 0;
-	}
-
-	private function openOutput() {
+	public function openOutput() {
 		if (false === ($this->outputFile = fopen($this->finalDestinationPath, 'a'))) {
-			throw new Exception("CsvWriteBuffer: Failed to open destination file '$this->finalDestinationPath''");
+			throw new Exception("CsvWriter: Failed to open destination file '$this->finalDestinationPath'.");
+		}
+		if (!is_null($this->bufferSize)) {
+			stream_set_write_buffer($this->outputFile, $this->bufferSize);
 		}
 		$this->outputOpen = true;
 	}
 
-	private function flushBuffer() {
+	public function closeOutput() {
 		if (!$this->outputOpen) {
-			$this->openOutput();
-		}
-		rewind($this->tempBuffer);
-		while (!feof($this->tempBuffer)) {
-			if (false === fwrite($this->outputFile, fread($this->tempBuffer, 8192))) {
-				throw new Exception("CsvWriteBuffer: Error writing to destination file '$this->finalDestinationPath'");
+			if (false === fclose($this->outputFile)) {
+				throw new Exception("CsvWriter: Failed to close destination file'$this->finalDestinationPath'.");
 			}
+			$this->outputOpen = false;
 		}
-		ftruncate($this->tempBuffer, 0);
-		rewind($this->tempBuffer);
-		$this->currentSize = 0;
 	}
+
 }
-class TestObject {
-	private $value;
-	private $array;
-	public function __construct($value){
-		$this->value = $value;
-		$this->array['value'] =  $value;
-		$this->array['ammendedvalue'] = $value . ' ammended';
-	}
-}
+
