@@ -1,0 +1,399 @@
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<?php 
+	$currentDesign = Mage::getSingleton('core/design_package')->getPackageName();
+	
+	$companyEnabled = Mage::getStoreConfig('payment/generalset/enable_com');
+	$telEnabled = Mage::getStoreConfig('payment/generalset/enable_tel');
+	$faxEnabled = Mage::getStoreConfig('payment/generalset/enable_fax');
+	$queryBoxEnabled = Mage::getStoreConfig('payment/generalset/enable_query');
+	$query_cust_msg = Mage::getStoreConfig('payment/generalset/query_cust_msg');
+	
+	$enable_add_cus_msg = Mage::getStoreConfig('payment/generalset/enable_add_cus_msg');
+	$add_card_cus_msg = Mage::getStoreConfig('payment/generalset/add_card_cus_msg');
+	
+?>
+
+<table>
+	
+	<tbody><tr>
+		<td>
+			<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/add_card.png';?>" alt="<?php echo $this->__('Add New Card') ?>" title="<?php echo $this->__('Add New Card') ?>" style="width:44px;height:44px"/>
+		</td>
+		<td colspan="3">
+			<span class="auth_title"><?php echo $this->__('Add New Card') ?></span>
+		</td>
+	</tr>
+	
+	<tr>
+ 
+		<td colspan="4">
+			&nbsp;
+		</td>
+	</tr>
+ </tbody></table>
+
+<!--<form action="<?php //echo Mage::getBaseUrl('web');?>morecc/index/createCustomerProfile/" id="authForm" method="post">-->
+
+<form action="<?php echo $this->getUrl("morecc/index/createCustomerProfile/",array('_secure'=>true));?>" id="authForm" method="post">
+<table class="form-edit" cellspacing="0" width="100%">
+
+ <tr>
+ 	<td style="float:right;">
+		<table>
+			<tr>
+		 		<td>
+					<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/manage_cards.png';?>" alt="<?php echo $this->__('Manage My Cards') ?>" title="<?php echo $this->__('Manage My Cards') ?>" style="width:20px;height:20px;margin-right:2px;"/>
+				</td>
+				<td>
+					<a href="<?php echo $this->getUrl('morecc/index/profiles',array('_secure'=>true)) ?>"><?php echo $this->__('Manage My Cards') ?></a>&nbsp;
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+
+
+   <tr>
+		<td class="fieldset" colspan="2">
+			<table class="form-edit" cellspacing="0" width="100%">
+				<tr> 
+					<td style="width:40%">
+						
+						<table>
+							<tr>
+								<td><img style="margin:5px 0 0 0px;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/i_ma-info.gif';?>" alt="<?php echo $this->__('Cardholder Information') ?>" title="<?php echo $this->__('Cardholder Information') ?>"/>
+								</td>
+								<td>
+									<span class="childh2" style="margin:0px 0 0 3px;" ><?php echo Mage::helper('morecc')->__('Cardholder Information') ?></span>
+								</td>				
+							</tr>
+						</table>
+								
+						<ul class="form-list">
+							<li class="fields">
+					<div class="field">
+						<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('First Name') ?></label>
+						<div class="input-box">
+							<input name="first_name" id="first_name" title="<?php echo Mage::helper('morecc')->__('First Name') ?>" value="" class="input-text required-entry" type="text" />
+						</div>
+					</div>
+				</li>
+				
+							<li class="fields">
+					<div class="field">
+						<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('Last Name') ?></label>
+						<div class="input-box">
+							<input name="last_name" id="last_name" title="<?php echo Mage::helper('morecc')->__('Last Name') ?>" value="" class="input-text required-entry" type="text" />
+						</div>
+					</div>
+				</li>
+
+							<li class="fields">
+					<div class="field">
+						<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('Street Address') ?></label>
+						<div class="input-box">
+							<input name="address" id="address" title="<?php echo Mage::helper('morecc')->__('Street Address') ?>" value="" class="input-text required-entry" type="text" />
+						</div>
+					</div>
+				</li>
+				
+							<li class="fields">
+					<div class="field">
+						<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('City') ?></label>
+						<div class="input-box">
+							<input name="city" id="city" title="<?php echo Mage::helper('morecc')->__('City') ?>" value="" class="input-text required-entry" type="text" />
+						</div>
+					</div>
+				</li>
+
+							<li class="fields">
+					<div class="field">
+						<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('Zip/Postal Code') ?></label>
+						<div class="input-box">
+							<input name="zip" id="zip" title="<?php echo Mage::helper('morecc')->__('Zip/Postal Code') ?>" value="" class="input-text required-entry" type="text" />
+						</div>
+					</div>
+				</li>
+		 			
+							<li class="fields">
+					<div class="input-box input-country">
+						<label for="billing:country_id"><?php echo $this->__('Country');?>
+						<span class="required">*</span></label><br />
+						<?php echo $this->getCountryHtmlSelect();?>
+					</div>
+				
+				</li>
+			
+							<li class="fields">
+					<div class="input-box">
+						<label for="region_id"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
+						<select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>">
+							<option value="0"><?php echo $this->__('Please select region, state or province') ?></option>
+							<?php
+							$this->setData('country_id','US'); // or 'FR'..., default is 'US'
+							$regions     =   $this->getRegionCollection();
+							foreach($regions as $region)
+							{
+								echo "<option value=$region[region_id]>".$region['name'] . "</option>";
+							}
+							?>
+						</select>  
+					
+						<input style="display:none;" type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" />
+					</div> 
+				</li>
+				
+			<?php if($companyEnabled  == 1){ ?>
+				<li class="fields">
+					<div class="field">
+						<label for="name"><?php echo Mage::helper('morecc')->__('Company') ?></label>
+						<div class="input-box">
+							<input name="company" id="company" title="<?php echo Mage::helper('morecc')->__('Company') ?>" value="" class="input-text" type="text" />
+						</div>
+					</div>
+				</li>
+			<?php } ?>
+			
+			<?php if($telEnabled  == 1){ ?>
+				<li class="fields">
+					<div class="field">
+						<label for="name"><?php echo Mage::helper('morecc')->__('Telephone') ?></label>
+						<div class="input-box">
+							<input name="telephone" id="telephone" title="<?php echo Mage::helper('morecc')->__('Telephone') ?>" value="" class="input-text" type="text" />
+						</div>
+					</div>
+				</li>
+			<?php } ?>
+			
+			<?php if($faxEnabled  == 1){ ?>
+							<li class="fields">
+					<div class="field">
+						<label for="name"><?php echo Mage::helper('morecc')->__('Fax') ?></label>
+						<div class="input-box">
+							<input name="fax" id="fax" title="<?php echo Mage::helper('morecc')->__('Fax') ?>" value="" class="input-text" type="text" />
+						</div>
+					</div>
+					 
+				</li>
+			<?php } ?>
+				
+						</ul>
+					</td>
+			<?php $obj = new Aumd_Morecc_Block_Morecc(); ?>
+			
+					<td style="width:50%;<?php if($currentDesign == 'rwd'){?>padding-bottom:314px;<?php } ?>">
+						
+						<table>
+							<tr>
+								<td>				
+						<img style="margin:7px 0 0 0px;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/fam_creditcards.gif';?>" alt="<?php echo $this->__('Credit Card Information') ?>" title="<?php echo $this->__('Credit Card Information') ?>"/>		
+								</td>
+								<td>
+									<span class="childh2" style="margin:0px 0 0 3px;" ><?php echo Mage::helper('morecc')->__('Credit Card Information') ?></span>
+								</td>				
+							</tr>
+						</table>
+						
+						<ul class="form-list">
+							<li>
+						<label class="required" for="cimprofilewebservice_cc_type"><em>*</em><?php echo Mage::helper('morecc')->__('Credit Card Type') ?></label>
+						<div class="input-box">
+							<select class="required-entry validate-cc-type-select" name="payment[cc_type]" id="cimprofilewebservice_cc_type" autocomplete="off">
+								<option value=""><?php echo Mage::helper('morecc')->__('--Please Select--') ?></option>
+								<?php 
+									$ccTypes =  $obj->getCcActiveTypes();
+									foreach($ccTypes as $key => $ccType)
+									{
+								?>
+								<option value="<?php echo $key; ?>"><?php echo $ccType; ?></option>
+								<?php } ?>
+							</select>
+						</div>
+					</li>
+							<li>
+						<label class="required" for="cimprofilewebservice_cc_number"><em>*</em><?php echo Mage::helper('morecc')->__('Credit Card Number') ?></label>
+						<div class="input-box">
+							<input type="text" value="" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="cimprofilewebservice_cc_number" autocomplete="off">
+						</div>
+					</li>
+							<li id="cimprofilewebservice_cc_type_exp_div">
+						<label class="required" for="cimprofilewebservice_expiration"><em>*</em><?php echo Mage::helper('morecc')->__('Expiration Date') ?></label>
+						<div class="input-box">
+							<div class="v-fix">
+								<select class="month validate-cc-exp required-entry" name="payment[cc_exp_month]" id="cimprofilewebservice_expiration" style="width:130px;">
+									<option selected="selected" value="">Month</option>
+									<?php 
+										$monthsArray =  $obj->getCcMonths();
+										foreach($monthsArray as $key => $month)
+										{
+									?>
+										<option value="<?php echo $key; ?>"><?php echo $month; ?></option>
+									<?php } ?>
+								</select>
+							</div>
+							<div class="v-fix">
+								<select class="year required-entry" name="payment[cc_exp_year]" id="cimprofilewebservice_expiration_yr" style="width:130px;">
+										<option selected="selected" value=""><?php echo Mage::helper('morecc')->__('Year') ?></option>
+										<?php 
+										
+											$yearsArray =  $obj->getCcYears();
+											foreach($yearsArray as $year)
+											{
+										?>
+											<option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+										<?php } ?>
+								</select>
+							</div>
+						</div>
+					</li>
+					
+					<?php if($this->hasVerification()): ?>
+					<li id="cimprofilewebservice_cc_type_cvv_div">
+						<label class="required" for="cimprofilewebservice_cc_cid"><em>*</em><?php echo Mage::helper('morecc')->__('Card Verification Number') ?></label>
+						<div class="input-box">
+							<div class="v-fix">
+								<input style="width:60px;" type="text" value="" name="payment[cc_cid]" id="cimprofilewebservice_cc_cid" class="input-text cvv required-entry validate-cc-cvn" title="Card Verification Number">
+							</div>
+						</div>
+					</li>
+					<?php endif; ?>
+						</ul>
+				
+						<div>
+							<button type="submit" title="<?php echo Mage::helper('morecc')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('morecc')->__('Submit') ?></span></span></button><span class="required" style="margin-left:10px;color:#FF0000;margin-left;4px;"><?php echo Mage::helper('morecc')->__('* Required Fields') ?></span> 
+						</div>
+					
+					<?php if($enable_add_cus_msg == 1){?>
+						<div class="add_card_cus_msg"><?php echo $add_card_cus_msg?></div>
+					<?php } ?>
+			
+					</td>
+					
+					</tr>
+				</table>
+			 </td>	
+		</tr>
+		</table> 
+</form>
+
+						
+<?php if($queryBoxEnabled == 1){?>						
+ 
+	<table> 
+		<tr>
+			<td>
+			<ul>
+				<li>
+					<div class="field" style="margin-top:10px;">
+						<label for="name" style="font-weight:bold;"><?php echo $query_cust_msg; ?></label>
+						<div class="input-box" style="margin-bottom:2px;">
+							<textarea name="querymessage" style="width:680px;height:200px;" id="querymessage" class="input-text required-entry"></textarea>
+						</div>
+					</div>
+					<div>
+			 
+					
+					<button onclick="askQuery()" title="<?php echo Mage::helper('morecc')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('morecc')->__('Submit') ?></span></span></button>
+										 
+					</div>
+				</li>
+			</ul>
+			 
+				 </td>	
+			</tr>
+		</table> 
+	 
+<?php } ?>
+
+<?php if($currentDesign == 'rwd'){?>
+
+<div style="left: -2px; top: 0px; display:none;" id="loading-mask">
+    <p id="loading_mask_loaderrwd" class="loaderrwd"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/ajax-loader-tr.gif';?>">  <?php echo $this->__('Please wait...') ?></p>
+</div>
+<?php } else{ ?>
+<div style="left: -2px; top: 0px; display:none;" id="loading-mask">
+    <p id="loading_mask_loader" class="loader"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/ajax-loader-tr.gif';?>"> <br/><?php echo $this->__('Please wait...') ?></p>
+</div>
+<?php } ?>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var authForm = new VarienForm('authForm', true); 
+//]]>
+
+//var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
+
+</script>
+
+<script type="text/javascript">
+
+new RegionUpdater('bill:country_id', 'region', 'region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>);
+</script>  
+ 
+
+<script type="text/javascript">
+
+document.observe('dom:loaded', function() {
+    if($('payment-tool-tip-close')){
+        Event.observe($('payment-tool-tip-close'), 'click', toggleToolTip);
+    }
+
+    $$('.cvv-what-is-this').each(function(element){
+        Event.observe(element, 'click', toggleToolTip);
+    });
+
+
+});
+
+function toggleToolTip(event){
+    if($('payment-tool-tip')){
+        $('payment-tool-tip').setStyle({
+            left: (Event.pointerX(event)-100)+'px',
+            top: (Event.pointerY(event)-300)+'px'
+        });
+        $('payment-tool-tip').toggle();
+    }
+    Event.stop(event);
+}
+
+</script>
+
+<script>
+function askQuery()
+{ 
+	var message = document.getElementById('querymessage').value ;
+	if(message == ""){alert('<?php echo Mage::helper('morecc')->__('Please Enter Message.') ?>');document.getElementById('querymessage').focus();}
+	if(message != "" )
+	{
+		var params = {};   	 
+		document.getElementById('loading-mask').style.display = 'block';
+		//var url = '<?php //echo Mage::getBaseUrl('web')."morecc/index/askQuery/"; ?>';
+		var url = '<?php echo $this->getUrl("morecc/index/askQuery/",array('_secure'=>true)); ?>';
+	   	url = url + '&isAjax=true' ;
+	   
+		var str = 'msg='+message;
+			new Ajax.Request(url, {
+				method: 'post',
+				parameters: str,
+				onSuccess: function(transport) {
+					document.getElementById('loading-mask').style.display = 'none';
+					 var data = transport.responseText.evalJSON();
+					   if(data.success==true){
+					   		alert(data.msg);
+							document.getElementById('querymessage').value = '';	
+					   }
+					   else{
+					   		alert(data.msg);
+							document.getElementById('querymessage').value = '';	
+					   }
+				},
+				
+				onFailure: function()
+				{	//alert("not worked");  
+				}
+			});		
+   		}
+}
+
+</script>

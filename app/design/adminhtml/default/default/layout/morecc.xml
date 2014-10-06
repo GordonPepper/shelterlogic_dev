@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout>
+
+	<adminhtml_sales_order_create_index>
+		<reference name="head">
+			<action method="addItem" ifconfig="payment/acimpro/active"><type>skin_js</type><name>cim/cimjs.js</name></action>
+		</reference>
+    </adminhtml_sales_order_create_index>
+	
+	<adminhtml_sales_order_edit_index>
+		<reference name="head">
+			<action method="addItem" ifconfig="payment/acimpro/active"><type>skin_js</type><name>cim/cimjs.js</name></action>
+		</reference>
+	</adminhtml_sales_order_edit_index>
+	
+</layout>

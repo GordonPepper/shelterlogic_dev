@@ -1,0 +1,52 @@
+#loading-mask .loaderrwd {
+    background: none repeat scroll 0 0 #FFF4E9;
+    border: 2px solid #F1AF73;
+    color: #D85909;
+    font-weight: bold;
+    left: 50%;
+    padding: 15px 30px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 230px;
+    z-index: 1000;
+}
+#loading_mask_loaderrwd img{margin-left:60px;}
+
+
+#loading-mask .loader {
+    background: none repeat scroll 0 0 #FFF4E9;
+    border: 2px solid #F1AF73;
+    color: #D85909;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -105px;
+    padding: 15px 30px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 230px;
+    z-index: 1000;
+}
+#loading_mask_loader img{margin-left:0px;}
+
+.auth_title{border-bottom: 1px solid #EDEDED;
+    color: #0A263C;
+    font-size: 24px;
+    text-transform: uppercase;
+	margin-left:4px;
+	border-bottom:1px solid #CCCCCC;
+}
+.margin2{margin-left:2px;}
+.paddingleft4{padding-left:4px;}
+.add_card_cus_msg{font-weight:bold;margin-top:10px;font-style:italic}
+
+ 
+.childh2{font-size:17px;text-decoration:underline;font-weight:normal;color:#0A263C;line-height:1.35;margin:0 0 5px;} 
+.form-edit-auth select {height:29px;}
+#authForm .form-list select {height:29px;}
+.no_line{text-decoration:none;}
+input:disabled, select:disabled
+{
+	background:#dddddd;
+}

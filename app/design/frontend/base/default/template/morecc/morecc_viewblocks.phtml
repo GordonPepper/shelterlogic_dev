@@ -1,0 +1,255 @@
+<?php 	
+ 	$customerEmail = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+	$customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
+	$customerEmail = trim($customerEmail); 
+	$obj1 = new Aumd_Morecc_Block_Profiles();
+?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+
+<?php $currentDesign = Mage::getSingleton('core/design_package')->getPackageName();?>
+
+<table>
+	
+	<tbody><tr>
+		<td>
+			<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/bullet_creditcard4.png';?>" alt="<?php echo $this->__('My Credit Cards') ?>" title="<?php echo $this->__('My Credit Cards') ?>" style="width:44px;height:44px"/>
+		</td>
+		<td colspan="3">
+			<span class="auth_title"><?php echo $this->__('My Credit Cards') ?></span>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="4">
+			&nbsp;
+		</td>
+	</tr>
+ </tbody></table>
+ 
+ 
+
+ <table class="form-edit" cellspacing="0" width="100%">
+ 
+ <tr>
+ 	<td style="float:right;">
+		<table>
+			<tr>
+		 		<td>
+					<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/manage_cards.png';?>" alt="<?php echo $this->__('Manage My Cards') ?>" title="<?php echo $this->__('Manage My Cards') ?>" style="width:20px;height:20px;margin-right:2px;"/>
+				</td>
+				<td>
+					<a href="<?php echo $this->getUrl('morecc/index/profiles',array('_secure'=>true)) ?>"><?php echo $this->__('Manage My Cards') ?></a>&nbsp;
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+	<tr>
+		<td class="fieldset">
+ 			<ol>
+	
+				<?php
+					$resource = Mage::getSingleton('core/resource');
+					$read= $resource->getConnection('core_read');
+					$moreccTable = $resource->getTableName('morecc');
+					$remainningDays = '';
+
+					$collection = Mage::getModel('morecc/morecc')->getCollection()->addFieldToFilter('cus_id',$customerId);
+					$obj = new Aumd_Morecc_Block_Morecc();
+					foreach ($collection as $item) {
+                    $data = $this->getPaymentProfileAction($item['profile_id'],$item['pay_id']);
+                 ?>
+
+			<?php 
+				$currentDate = Mage::app()->getLocale()->storeDate(Mage::app()->getStore(), null, true)->toString('Y-MM-dd');
+				$cardExpDate = $item->getExprMonth().'-'.$item->getExprYear();
+				$generateLastDayExpDate = $item->getExprYear().'-'.$item->getExprMonth().'-' . '1';
+				
+				$lastDaySql  = "SELECT LAST_DAY('$generateLastDayExpDate') as lday";
+				$lastDaySqlRes = $read->fetchRow($lastDaySql);
+				if(isset($lastDaySqlRes['lday']) && $lastDaySqlRes['lday'] != "")
+				{
+					$sqlResArr = explode("-",$lastDaySqlRes['lday']);
+					if(isset($sqlResArr[2]) && $sqlResArr[2] != "")
+					{
+						$addNewLastDayExpDate = $item->getExprYear().'-'.$item->getExprMonth().'-' . $sqlResArr[2] ;
+						$select  = "SELECT DATEDIFF('$currentDate','$addNewLastDayExpDate') AS days from $moreccTable where morecc_id='".$item->getMoreccId()."'" ; 
+						$diffRes = $read->fetchRow($select); 					
+						if(isset($diffRes['days']) && $diffRes['days'] != "")
+						{
+							$remainningDays = ($diffRes['days'] < 0) ? $diffRes['days'] * -1 : $diffRes['days'];
+						}
+					}
+				}
+			?>                 
+
+			<?php if($currentDesign == 'rwd'){?>
+				<li class="item" style="float:left;margin:10px 60px 0 0 ;">
+	
+					
+						<table>
+								<tr>
+									<td>
+							<img style="margin:7px 3px 0 0px;" src="<?php echo  Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/fam_creditcards.gif';?>" alt="<?php echo $this->__('Credit Card Information') ?>" title="<?php echo $this->__('Credit Card Information') ?>"/>			
+									</td>
+								<td>
+									<span class="childh2"><?php echo $this->__('Card:').' '.$item['number'] ;?></span><span> <?php echo '('.$item['card_type'].')'; ?></span>
+								</td>				
+							</tr>
+						</table>
+	 
+					
+					<address>
+						
+						<span style="<?php if($remainningDays < 30){?>color:red;<?php } ?>">
+							<?php echo Mage::helper('morecc')->__('Exp Date: '). $obj1->getMonthFormat($item['expr_month']).','.$item['expr_year']; ?>
+						</span>
+							<?php if($remainningDays < 30){ echo '( '.Mage::helper('morecc')->__('About to Expire').')'; }?>
+						<br />
+						
+						<?php echo $this->parseXML('<firstname>','</firstname>',$data) .' '.$this->parseXML('<lastname>','</lastname>',$data); ?><br />
+						<?php echo $this->parseXML('<address>','</address>',$data); ?><br />
+						<?php echo $this->parseXML('<state>','</state>',$data); ?><br />
+						<?php echo $this->parseXML('<zip>','</zip>',$data); ?><br />
+						<?php echo $this->parseXML('<country>','</country>',$data); ?>
+						
+					
+					
+					<table style="float:right;">
+						<tr>
+							<td style="padding-right:2px;">					 
+								<a class="no_line" href="<?php echo $this->getUrl('morecc/index/view/').'id/'.$item['morecc_id']?>">
+									<button type="submit" title="<?php echo Mage::helper('morecc')->__('View') ?>" class="button">
+										<span><span> <?php echo Mage::helper('morecc')->__('View') ?> </span></span>
+									</button>
+								</a>
+							</td>
+							<td style="padding-right:2px;">
+								<a class="no_line" href="<?php echo $this->getUrl('morecc/index/edit/').'id/'.$item['morecc_id']?>">
+									<button type="submit" title="<?php echo Mage::helper('morecc')->__('Edit') ?>" class="button">
+										<span><span><?php echo Mage::helper('morecc')->__('Edit') ?></span></span>
+									</button>
+								</a>
+							</td>
+							<td>	
+								<a class="no_line" href="javascript:deleteRecord('<?php echo $item['morecc_id']; ?>','<?php echo  $item['pay_id']; ?>','<?php echo $item['profile_id']; ?>');">
+									<button type="submit" title="<?php echo Mage::helper('morecc')->__('Delete') ?>" class="button">
+										<span><span><?php echo Mage::helper('morecc')->__('Delete') ?></span></span>
+									</button>
+								</a>
+					 	 
+							</td>
+						</tr>
+						</table>
+
+					</address>
+				</li>
+	
+				<?php }else{ ?>
+				
+				
+				<li class="item" style="float:left;margin:10px 30px 0 0 ;">
+	 
+						
+			 			
+	<img style="margin:7px 0 0 0px;" src="<?php echo  Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/fam_creditcards.gif';?>" alt="<?php echo $this->__('Credit Card Information') ?>" title="<?php echo $this->__('Credit Card Information') ?>"/>	
+			
+					<span class="childh2"><?php echo $this->__('Card:').' '.$item['number'];?></span><span> <?php echo '('.$item['card_type'].')'; ?></span>
+
+					<address>				
+						<span style="<?php if($remainningDays < 30){?>color:red;<?php } ?>">
+							<?php echo Mage::helper('morecc')->__('Exp Date: '). $obj1->getMonthFormat($item['expr_month']).','.$item['expr_year']; ?>
+						</span>
+							<?php if($remainningDays < 30){ echo '( '.Mage::helper('morecc')->__('About to Expire').' )'; }?>
+						<br />	 
+						<?php echo $this->parseXML('<firstname>','</firstname>',$data) .' '.$this->parseXML('<lastname>','</lastname>',$data); ?><br />
+						<?php echo $this->parseXML('<address>','</address>',$data); ?><br />
+						<?php echo $this->parseXML('<state>','</state>',$data); ?><br />
+						<?php echo $this->parseXML('<zip>','</zip>',$data); ?><br />
+						<?php echo $this->parseXML('<country>','</country>',$data); ?> 
+					
+					
+						<span style="float:right;">
+							
+							<a class="no_line" href="<?php echo $this->getUrl('morecc/index/view/', array('_secure'=>true)).'id/'.$item['morecc_id']?>">
+								<button type="submit" title="<?php echo Mage::helper('morecc')->__('View') ?>" class="button">
+									<span><span> <?php echo Mage::helper('morecc')->__('View') ?> </span></span>
+								</button>
+							</a>
+							
+							<a class="no_line" href="<?php echo $this->getUrl('morecc/index/edit/', array('_secure'=>true)).'id/'.$item['morecc_id']?>">
+								<button type="submit" title="<?php echo Mage::helper('morecc')->__('Edit') ?>" class="button">
+									<span><span><?php echo Mage::helper('morecc')->__('Edit') ?></span></span>
+								</button>
+							</a>
+								<a class="no_line" href="javascript:deleteRecord('<?php echo $item['morecc_id']; ?>','<?php echo  $item['pay_id']; ?>','<?php echo $item['profile_id']; ?>');">
+									<button type="submit" title="<?php echo Mage::helper('morecc')->__('Delete') ?>" class="button">
+										<span><span><?php echo Mage::helper('morecc')->__('Delete') ?></span></span>
+									</button>
+								</a>
+				
+						</span>
+						
+					</address>
+				</li>
+	
+			<?php } } ?>
+	
+			</ol>
+		</td>
+	<tr>
+</table> 
+
+<?php if($currentDesign == 'rwd'){?>
+
+<div style="left: -2px; top: 0px; display:none;" id="loading-mask">
+    <p id="loading_mask_loaderrwd" class="loaderrwd"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/ajax-loader-tr.gif';?>"> <?php echo $this->__('Please wait...') ?></p>
+</div>
+<?php } else{ ?>
+<div style="left: -2px; top: 0px; display:none;" id="loading-mask">
+    <p id="loading_mask_loader" class="loader"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/ajax-loader-tr.gif';?>"> <br/><?php echo $this->__('Please wait...') ?></p>
+</div>
+<?php } ?>
+
+
+<script>
+function deleteRecord(recordId,PaymentId,profileId)
+{
+
+	if (confirm("<?php echo Mage::helper('ordermanager')->__('Are you sure ?');?>") ) {
+       var params = {};  
+	   //var url = '<?php //echo Mage::getBaseUrl('web')."morecc/index/deletePaymentProfile/"; ?>';
+	   var url = '<?php echo $this->getUrl("morecc/index/deletePaymentProfile/",array('_secure'=>true)); ?>';
+	   url = url + '&isAjax=true' ;
+	   
+	   document.getElementById('loading-mask').style.display = 'block';
+	   
+	   var str = 'record_id='+recordId + '&payment_id=' + PaymentId + '&profile_id=' +  profileId;
+	 
+	   new Ajax.Request(url, { 
+		   method: 'post',
+		   parameters: str,
+		   onSuccess: function(transport) {
+					try {
+						   document.getElementById('loading-mask').style.display = 'none';
+                            if (transport.responseText.isJSON()) {
+
+                                var response = transport.responseText.evalJSON()
+                                if (response.error) {
+                                }
+                                else{window.location.reload();}
+                            } else {
+                                window.location.reload();
+                            }
+                        }
+                        catch (e) {
+                            
+                        }
+		   }
+	   }
+	   );
+    } 
+}
+
+</script>

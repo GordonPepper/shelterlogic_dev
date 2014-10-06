@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+    <config>
+       <sections>
+    <!-- payment tab -->
+            <payment>
+                <groups>
+    <!-- newmodule fieldset -->
+                    <acimpro translate="label" module="paygate">
+    <!-- will have title 'New Module' -->
+                        <label>Authorize.net CIM</label>
+    <!-- position between other payment methods -->
+                        <sort_order>670</sort_order>
+    <!-- do not show this configuration options in store scope -->
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                        <fields>
+    <!-- is this payment method active for the website? -->
+                            <active translate="label">
+                                <label>Enabled</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_yesno</source_model>
+                                <sort_order>1</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </active>
+                            <title translate="label">
+                                <label>Title</label>
+                                <frontend_type>text</frontend_type>
+                                <sort_order>2</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>1</show_in_store>
+                            </title>
+							
+							<order_status translate="label">
+                                <label>New order status</label>
+                                <frontend_type>select</frontend_type>
+                                <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                                <sort_order>3</sort_order>
+                                <show_in_default>1</show_in_default>
+                                <show_in_website>1</show_in_website>
+                                <show_in_store>0</show_in_store>
+                            </order_status>
+							
+							<checkout_mode translate="label">
+								<label>Live Mode</label>
+								<comment><![CDATA[For sanbox please select No.]]></comment>
+								<frontend_type>select</frontend_type>
+								<source_model>adminhtml/system_config_source_yesno</source_model>
+								<sort_order>4</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+							</checkout_mode>
+						
+						
+							<api_key translate="label">
+								<label>API Login ID</label>
+								<frontend_type>obscure</frontend_type>
+								<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+								<sort_order>5</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								
+								<show_in_store>1</show_in_store>
+							</api_key>
+							
+							<transaction_key translate="label">
+								<label>Transaction Key</label>
+								<frontend_type>obscure</frontend_type>
+								<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+								<sort_order>6</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+							</transaction_key>
+								
+							<payment_action translate="label">
+								<label>Action</label>
+								<frontend_type>select</frontend_type>
+								<source_model>acimpro/systemsettings_paymentAction</source_model>
+								<sort_order>7</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+							</payment_action>
+							
+							<debug translate="label">
+								<label>Debug (only valid in Test mode)</label>
+								<frontend_type>select</frontend_type>
+								<source_model>adminhtml/system_config_source_yesno</source_model>
+								<sort_order>9</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>0</show_in_store>
+							</debug>
+							
+							<cctypes translate="label">
+								<label>Credit Card Types</label>
+								<frontend_type>multiselect</frontend_type>
+								<source_model>adminhtml/system_config_source_payment_cctype</source_model>
+								<sort_order>10</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>0</show_in_store>
+<!--                            <can_be_empty>1</can_be_empty>   -->
+							</cctypes>
+							
+							<useccv translate="label">
+								<label>Credit Card Verification</label>
+								<frontend_type>select</frontend_type>
+								<source_model>adminhtml/system_config_source_yesno</source_model>
+								<sort_order>10</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+							</useccv>
+							
+							<allowspecific translate="label">
+								<label>Payment from applicable countries</label>
+								<frontend_type>allowspecific</frontend_type>
+								<sort_order>11</sort_order>
+								<source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+							</allowspecific>
+							<specificcountry translate="label">
+								<label>Payment from Specific countries</label>
+								<frontend_type>multiselect</frontend_type>
+								<sort_order>12</sort_order>
+								<source_model>adminhtml/system_config_source_country</source_model>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+							</specificcountry>
+							
+							<sort_order translate="label">
+								<label>Sort order</label>
+								<frontend_type>text</frontend_type>
+								<sort_order>13</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>0</show_in_store>
+							</sort_order>
+
+							<generalset translate="label" type="group">
+								<label>General Settings</label>
+								<frontend_type>text</frontend_type>
+								<sort_order>14</sort_order>
+								<show_in_default>1</show_in_default>
+								<show_in_website>1</show_in_website>
+								<show_in_store>1</show_in_store>
+								<fields>
+									<enable_com translate="label">
+										<label>Enable Company Field</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>1</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Enable Company Field for Add,Edit,View Form.]]></comment>
+									</enable_com> 
+									
+									<enable_tel translate="label">
+										<label>Enable Telephone Field</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>2</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Enable Telephone Field for Add, Edit, View Form.]]></comment>
+									</enable_tel>
+									
+									<enable_fax translate="label">
+										<label>Enable Fax Field</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>03</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Enable Fax field for Add, Edit, View Form.]]></comment>
+									</enable_fax>
+									
+									<enable_admin_card_list translate="label">
+										<label>Enable Card List View</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>4</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Enable Card List view in Admin in customer Edit section.]]></comment>
+									</enable_admin_card_list>
+									
+									<enable_query translate="label">
+										<label>Enable Query Box</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>4</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[If customer has any question related to the Manage Cards, can ask quick Question. Query box will be available Profile, Add,Edit page.]]></comment>
+									</enable_query>
+									
+									 <identity translate="label">
+										<label>Query Email Sender</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_email_identity</source_model>
+										<sort_order>5</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+									</identity>
+									
+									<query_email translate="label">
+										<label>Send Email To</label>
+										<frontend_type>text</frontend_type>
+										<sort_order>5</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Query will be send to this Email Id.]]></comment>
+									</query_email>
+									 
+									<template translate="label">
+										<label>Query Email Template</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_email_template</source_model>
+										<sort_order>6</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+									</template>
+									
+									<query_cust_msg translate="label">
+										<label>QueryBox Custom Label</label>
+										<frontend_type>textarea</frontend_type>
+										<sort_order>7</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Custom Message for the Manage Cards Page.]]></comment>
+									</query_cust_msg>
+									
+									<custom_msg translate="label">
+										<label>Manage My Cards Custom Message</label>
+										<frontend_type>textarea</frontend_type>
+										<sort_order>8</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Custom Message for the Manage Cards Page.]]></comment>
+									</custom_msg>
+									
+									<custom_msg_payment translate="label">
+										<label>Payment Method Custom Message</label>
+										<frontend_type>textarea</frontend_type>
+										<sort_order>9</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[Custom Message in the Payment Method Section.]]></comment>
+									</custom_msg_payment> 
+									
+									
+									<enable_add_cus_msg translate="label">
+										<label>Enable Add Card Custom Message</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>10</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+									</enable_add_cus_msg>
+									
+									<add_card_cus_msg translate="label">
+										<label>Add Card Custom Message</label>
+										<frontend_type>textarea</frontend_type>
+										<sort_order>11</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[This Custom Message will be visible on 'Edit Card' form under the 'Credit Card Information' section.]]></comment>
+									</add_card_cus_msg>
+									
+									<enable_edit_cus_msg translate="label">
+										<label>Enable Edit Card Custom Message</label>
+										<frontend_type>select</frontend_type>
+										<source_model>adminhtml/system_config_source_yesno</source_model>
+										<sort_order>12</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+									</enable_edit_cus_msg>
+									
+									<edit_card_cus_msg translate="label">
+										<label>Edit Card Custom Message</label>
+										<frontend_type>textarea</frontend_type>
+										<sort_order>13</sort_order>
+										<show_in_default>1</show_in_default>
+										<show_in_website>1</show_in_website>
+										<show_in_store>1</show_in_store>
+										<comment><![CDATA[This Custom Message will be visible on 'Add Card' form under the 'Credit Card Information' section.]]></comment>
+									</edit_card_cus_msg>
+									
+								</fields>
+							</generalset>
+					
+                        </fields>
+						 
+                    </acimpro>
+					
+				
+					
+                </groups>
+            </payment>
+        </sections>
+    </config>

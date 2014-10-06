@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+		<reference name="head">
+			<action method="addCss" ifconfig="payment/acimpro/active">
+				<name>cim/morecc.css</name> 
+			</action>
+			<action method="addItem" ifconfig="payment/acimpro/active"><type>skin_js</type><name>cim/cimjs.js</name></action>
+		</reference>
+    </default>
+
+	<morecc_index_profiles>
+		<update handle="customer_account"/>
+		 <reference name="my.account.wrapper">
+            <block type="morecc/profiles" name="sales.order.history">
+                <block type="core/text_list" name="sales.order.history.info" as="info" translate="label">
+                    <label>Profile History Info</label>
+                </block>
+            </block> 
+        </reference>
+    </morecc_index_profiles>
+	
+    <morecc_index_index>
+		<update handle="customer_account"/>
+		<reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="morecc"><title>Add New Card</title></action>
+        </reference>
+		
+        <reference name="content">
+			<block type="page/html_wrapper" name="my.account.wrapper">
+                <action method="setElementClass"><value>my-account</value></action>
+            </block>
+			
+            <block type="morecc/morecc" name="morecc" template="morecc/morecc.phtml" />
+        </reference>
+		
+    </morecc_index_index>
+	
+	<morecc_index_edit>
+		<update handle="customer_account"/>
+		<reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="morecc"><title>Edit Customer Payment Profile</title></action>
+        </reference>
+		
+        <reference name="content">
+			<block type="page/html_wrapper" name="my.account.wrapper">
+                <action method="setElementClass"><value>my-account</value></action>
+            </block>
+			
+            <block type="morecc/morecc" name="morecc" template="morecc/morecc_edit.phtml" />
+        </reference>
+		
+    </morecc_index_edit>
+	
+	<morecc_index_viewblocks>
+		<update handle="customer_account"/>
+		<reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="morecc"><title>My Cards History</title></action>
+        </reference>
+		
+        <reference name="content">
+			<block type="page/html_wrapper" name="my.account.wrapper">
+                <action method="setElementClass"><value>my-account</value></action>
+            </block>
+			
+            <block type="morecc/morecc" name="morecc" template="morecc/morecc_viewblocks.phtml" />
+        </reference>
+		
+    </morecc_index_viewblocks>
+	
+	<morecc_index_view>
+		<update handle="customer_account"/>
+		<reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setHeaderTitle" translate="title" module="morecc"><title>View Customer Payment Profile</title></action>
+        </reference>
+		
+        <reference name="content">
+			<block type="page/html_wrapper" name="my.account.wrapper">
+                <action method="setElementClass"><value>my-account</value></action>
+            </block>
+			
+            <block type="morecc/morecc" name="morecc" template="morecc/morecc_view.phtml" />
+        </reference>
+		
+    </morecc_index_view>
+	
+	<customer_account translate="label">        
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" ifconfig="payment/acimpro/active">
+				<name>profiles</name>
+				<path>morecc/index/profiles/</path>
+				<label>Manage My Cards</label>
+				<params><_secure>true</_secure></params>
+			</action>
+        </reference>
+    </customer_account>
+	
+</layout> 

@@ -19,7 +19,8 @@ $f = $app->getRequest()->getParam('f');
 $allowedFunctions = array(
 	'totaLogistix',
 	'fb_getItemList',
-	'getNextConfig'
+	'getNextConfig',
+	'tarCheck'
 );
 
 $html = new HtmlOutputter();
@@ -41,6 +42,25 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->para("allowed functions:");
 	showAllowedFunctions($html);
 	exit;
+}
+
+function tarCheck() {
+	global $html;
+
+	$lines = file('/home/magentouser/Web/tar.out');
+	$dirs = array();
+	foreach ($lines as $line) {
+		$parts = explode( '/', rtrim($line));
+		if(count($parts) > 1 && !isset($dirs[$parts[1]]) && !empty($parts[1]))
+			$dirs[$parts[1]] = array();
+		if(count($parts) > 2 && !isset($dirs[$parts[1]][$parts[2]]) && !empty($parts[2]))
+			$dirs[$parts[1]][$parts[2]] = array();
+		if(count($parts) > 3 && !isset($dirs[$parts[1]][$parts[2]][$parts[3]]) && !empty($parts[3]))
+			$dirs[$parts[1]][$parts[2]][$parts[3]] = 1;
+	}
+
+	$html->para('tar strucutre parsed');
+	$html->pre(print_r($dirs, true));
 }
 
 function getNextConfig() {
