@@ -5,6 +5,12 @@ var/session/*
 var/log/*
 var/locks/*
 var/report/*
+var/backups/*
+var/import/*
+var/importexport/*
+var/tmp/
+mergedconfig.xml
+mtest.php
 media/catalog/product/cache/**/*
 media/js/*
 media/css/*.css
