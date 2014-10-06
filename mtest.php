@@ -19,7 +19,7 @@ $f = $app->getRequest()->getParam('f');
 $allowedFunctions = array(
 	'totaLogistix',
 	'fb_getItemList',
-	'farmImportAddVals'
+	'getNextConfig'
 );
 
 $html = new HtmlOutputter();
@@ -43,10 +43,36 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
-function farmImportAddVals() {
-	$source = new CsvReader('/home/magentouser/import.csv',',', true);
-	$dest = new CsvWriter('/home/magentouser/import_fixed.csv', ',');
+function getNextConfig() {
+	global $html;
+	$html->para('peak selected, getting materials');
 
+	/** @var Mage_Catalog_Model_Product $product */
+	$product = Mage::getModel('catalog/product')->load("1");
+	$html->para('product is a: ' . get_class($product));
+	/** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $attributes */
+	$attributes = $product->getTypeInstance(true)->getConfigurableAttributes($product);
+	$html->para('attributes array: ' . count($attributes));
+
+	/** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $att */
+//	foreach($attributes as $att) {
+//		//$html->para('first attribute is a: ' . get_class($att));
+//
+//		$html->para('Attribute: ' . $att->getLabel(). ', options: ');
+//		$html->startList();
+//		foreach($att->getPrices() as $value) {
+//			$html->listItem(sprintf("Label: %s, Index: %s", $value['label'], $value['value_index']));
+//		}
+//		$html->endList();
+//	}
+
+	$coll = Mage::getModel('catalog/product')->getCollection();
+	$html->para(sprintf("found %d products", count($coll)));
+
+	/* ok, now suppose that we need to know what fabric material options are avaliable
+	 * for peak roof barns. */
+//	$preconfig = $product->getPreconfiguredValues();
+//	$html->para('preconfig: ' . print_r($preconfig, true));
 }
 
 function xmlTesting() {

@@ -61,6 +61,7 @@ $_renderers = $this->getChild('attr_renderers')->getSortedChildren();
     <?php endforeach; ?>
     </dl>
     <script type="text/javascript">
+		var productId = <?php echo $_product->getId() ?>;
         var spConfig = new Product.Config(<?php echo $_jsonConfig ?>);
     </script>
     <?php echo $this->getChildHtml('after') ?>
