@@ -17,10 +17,15 @@ $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
-	'totaLogistix',
+	'totaLogistixSampleCall',
 	'fb_getItemList',
 	'getNextConfig',
-	'tarCheck'
+	'tarCheck',
+	'wfKeyGen',
+	'trimImportFile',
+	'cleanImportFile',
+	'getProductAttributes',
+	'reviewSimpleImport'
 );
 
 $html = new HtmlOutputter();
@@ -42,6 +47,39 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->para("allowed functions:");
 	showAllowedFunctions($html);
 	exit;
+}
+
+
+function wfKeyGen() {
+	global $html;
+
+	$domain = getDomain($_SERVER['SERVER_NAME']);
+	$key = "wf" . substr(sha1('WF1DM' . $domain), 0, 20);
+	$html->para("key: " . $key);
+}
+function getDomain($url)
+{
+	$url = str_replace(array('http://', 'https://', '/'), '', $url);
+	$tmp = explode('.', $url);
+	$cnt = count($tmp);
+
+	$suffix = $tmp[$cnt - 2] . '.' . $tmp[$cnt - 1];
+
+	$exceptions = array(
+		'com.au', 'com.br', 'com.bz', 'com.ve', 'com.gp',
+		'com.ge', 'com.eg', 'com.es', 'com.ye', 'com.kz',
+		'com.cm', 'net.cm', 'com.cy', 'com.co', 'com.km',
+		'com.lv', 'com.my', 'com.mt', 'com.pl', 'com.ro',
+		'com.sa', 'com.sg', 'com.tr', 'com.ua', 'com.hr',
+		'com.ee', 'ltd.uk', 'me.uk', 'net.uk', 'org.uk',
+		'plc.uk', 'co.uk', 'co.nz', 'co.za', 'co.il',
+		'co.jp', 'ne.jp', 'net.au', 'com.ar'
+	);
+
+	if (in_array($suffix, $exceptions))
+		return $tmp[$cnt - 3] . '.' . $tmp[$cnt - 2] . '.' . $tmp[$cnt - 1];
+
+	return $suffix;
 }
 
 function tarCheck() {
@@ -103,13 +141,13 @@ function xmlTesting() {
 	file_put_contents("/tmp/config.xml", $config->asXML());
 }
 
-function totaLogistix() {
+function totaLogistixSampleCall() {
 	global $html;
 	// start with the sample call:
 	$client = new Zend_Http_Client();
 
 	$html->para('starting...');
-	$items = fb_getItemList();
+	$items = tl_getItemList();
 
 	$html->para('sending items:');
 	$html->pre(htmlentities($items));
@@ -151,7 +189,7 @@ function totaLogistix() {
 
 }
 
-function fb_getItemList(){
+function tl_getItemList(){
 	$items = array(
 		array('class' => '55', 'weight' => '640'),
 		array('class' => '50', 'weight' => '140')
@@ -299,7 +337,144 @@ function showAllowedFunctions($html) {
 	}
 }
 
+function getProductAttributes(){
+	global $html;
 
+	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
+	$collection = Mage::getModel('catalog/product')
+		->getCollection();
+	$collection->addAttributeToSelect('*');
+	$collection->addFieldToFilter('sku', '123-Barn-14 oz PE-Brown-12-10-24');
+
+	/** @var Mage_Catalog_Model_Product $product */
+	$product = $collection->getFirstItem();
+		//->load('123-Barn-14 oz PE-Brown-12-10-20');
+
+
+	$html->startList();
+
+
+	/** @var Mage_Catalog_Model_Resource_Eav_Attribute $att */
+	foreach($product->getData() as $key => $val) {
+		if($key == 'stock_item') {
+			$html->listItem('att name: stock_item, value: unknown');
+		} else {
+			$html->listItem(sprintf('att name: %s, att value: %s',
+				$key, $val));
+
+		}
+
+	}
+
+	$html->endList();
+}
+
+
+function reviewSimpleImport() {
+	global $html;
+	$infile = new CsvReader('/home/magentouser/catalog_product_20141008_183053.csv', ',',true);
+
+	while ($infile->nextRow()) {
+		if($infile->item('_type') =='simple') {
+			$html->para(sprintf("type: '%s', _super_products_sku: '%s', _super_attribute_code: %s, _super_attribute_option: %s, _super_attribute_price_corr: %s",
+				$infile->item('_type'),
+				$infile->item('_super_products_sku'),
+				$infile->item('_super_attribute_code'),
+				$infile->item('_super_attribute_option'),
+				$infile->item('_super_attribute_price_corr')));
+		}
+	}
+	$infile->close();
+}
+
+function cleanImportFile() {
+	global $html;
+	$infile = new CsvReader('/home/magentouser/fullproductlist.csv', ',',true);
+
+	$outfile = new CsvWriter('/home/magentouser/dest/products_trimed.csv', ',');
+
+	$header = array_keys($infile->getMap());
+//	$header[] = 'category_ids';
+	$outfile->appendRow($header);
+
+
+	$skus = array();
+	while ($infile->nextRow()) {
+		if($infile->item('_type') =='simple' && (count($skus) < 2000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
+			$skus[] = $infile->item('sku');
+			$html->para(sprintf("sku: %s, stock: %s, type: %s, category: %s, visibility: %s, status: %s, mstock: %s",
+				$infile->item('sku'),
+				$infile->item('is_in_stock'),
+				$infile->item('_type'),
+				$infile->item('_category'),
+				$infile->item('visibility'),
+				$infile->item('status'),
+				$infile->item('manage_stock')));
+//			$infile->item('is_in_stock', 1);
+			$infile->item('visibility', '4');
+			$infile->item('_category', 'SP Shelter');
+			$infile->item('_root_category', 'Default Category');
+//			$infile->item('qty', '1');
+//			$infile->item('category_ids', '5');
+//			$infile->item('_store', 'default');
+			$outfile->appendRow($infile->getData());
+		}
+	}
+	$infile->rewind();
+	while($infile->nextRow()){
+		if($infile->item('_type') == 'configurable') {
+			$infile->item('_category', 'SP Shelter');
+//			$infile->item('_root_category', 'Default Category');
+//			$infile->item('_super_products_sku', '');
+//			$infile->item('_super_attribute_code'. '');
+//			$infile->item('_super_attribute_option', '');
+//			$infile->item('_super_attribute_price_corr', '');
+			$infile->item('tax_class_id', '2');
+			$infile->item('visibility', '4');
+
+			$outfile->appendRow($infile->getData());
+		} elseif (is_empty($infile->item('sku')) && in_array($infile->item('_super_products_sku'), $skus)) {
+//			$infile->item('_category', 'SP Shelter');
+//			$infile->item('_root_category', 'Default Category');
+//			$infile->item('_super_products_sku', '');
+//			$infile->item('_super_attribute_code'. '');
+//			$infile->item('_super_attribute_option', '');
+//			$infile->item('_super_attribute_price_corr', '');
+//			$infile->item('tax_class_id', '2');
+//			$infile->item('visibility', '4');
+
+			$outfile->appendRow($infile->getData());
+
+		}
+	}
+
+	$infile->close();
+	$outfile->closeOutput();
+
+}
+
+function trimImportFile() {
+	global $html;
+
+
+	$infile = new CsvReader('/home/magentouser/products_10.7.2014.csv', ',',true);
+	$outfile = new CsvWriter('/home/magentouser/dest/products_trimed.csv', ',');
+
+	$outfile->appendRow(array_keys($infile->getMap()));
+
+	/* NOTE: calling nextRow advances the pointer, so the first row is skipped! */
+	while ($row = $infile->nextRow() && (is_empty($infile->item('sku')) || $infile->item('sku') == '123')) {
+		1;
+	}
+	while($infile->nextRow()){
+		$outfile->appendRow($infile->getData());
+	}
+
+	$html->para('should be done');
+}
+function is_empty($val) {
+	return empty($val);
+}
 class CsvReader {
 	private $fileName;
 	private $handle;
@@ -331,7 +506,16 @@ class CsvReader {
 		$this->data = fgetcsv($this->handle, 0, $this->delimiter);
 		return $this->data;
 	}
-	public function item($field){
+	public function item($field, $value = null){
+		if(isset($value)) {
+			if(isset($this->hMap[$field])) {
+				$this->data[$this->hMap[$field]] = $value;
+			} else {
+				$this->data[] = $value;
+				$this->hMap[$field] = count($this->hMap);
+			}
+			return true;
+		}
 		if(is_array($this->data)){
 			return $this->data[$this->hMap[$field]];
 		}
@@ -344,6 +528,68 @@ class CsvReader {
 	}
 	public function getMap(){
 		return $this->hMap;
+	}
+	public function getData(){
+		return $this->data;
+	}
+
+	public function rewind(){
+		rewind($this->handle);
+		if (isset($this->hMap)) {
+			$this->nextRow();
+		}
+	}
+}
+
+
+class CsvWriter {
+	private $finalDestinationPath;
+	private $outputFile;
+	private $outputOpen = false;
+	private $delimiter;
+	private $bufferSize;
+
+	public function __construct($destFile, $delim, $buffSize = null) {
+		$this->finalDestinationPath = $destFile;
+		if (file_exists($this->finalDestinationPath)) {
+			if (false === unlink($this->finalDestinationPath)) {
+				throw new Exception("CsvWriteBuffer: unable to remove old file '$this->finalDestinationPath'");
+			}
+		}
+		$this->delimiter = $delim;
+		$this->bufferSize = $buffSize;
+	}
+
+	public function __destruct() {
+		$this->closeOutput();
+	}
+
+	public function appendRow(array $fields) {
+		if (!$this->outputOpen) {
+			$this->openOutput();
+		}
+		if (false === fputcsv($this->outputFile, $fields, $this->delimiter)) {
+			throw new Exception("CsvWriter: failed to write row.");
+		}
+	}
+
+	public function openOutput() {
+		if (false === ($this->outputFile = fopen($this->finalDestinationPath, 'a'))) {
+			throw new Exception("CsvWriter: Failed to open destination file '$this->finalDestinationPath'.");
+		}
+		if (!is_null($this->bufferSize)) {
+			stream_set_write_buffer($this->outputFile, $this->bufferSize);
+		}
+		$this->outputOpen = true;
+	}
+
+	public function closeOutput() {
+		if (!$this->outputOpen) {
+			if (false === fclose($this->outputFile)) {
+				throw new Exception("CsvWriter: Failed to close destination file'$this->finalDestinationPath'.");
+			}
+			$this->outputOpen = false;
+		}
 	}
 
 }
@@ -401,56 +647,3 @@ class HtmlOutputter {
 		return $this;
 	}
 }
-
-class CsvWriter {
-	private $finalDestinationPath;
-	private $outputFile;
-	private $outputOpen = false;
-	private $delimiter;
-	private $bufferSize;
-
-	public function __construct($destFile, $delim, $buffSize = null) {
-		$this->finalDestinationPath = $destFile;
-		if (file_exists($this->finalDestinationPath)) {
-			if (false === unlink($this->finalDestinationPath)) {
-				throw new Exception("CsvWriteBuffer: unable to remove old file '$this->finalDestinationPath'");
-			}
-		}
-		$this->delimiter = $delim;
-		$this->bufferSize = $buffSize;
-	}
-
-	public function __destruct() {
-		$this->closeOutput();
-	}
-
-	public function appendRow(array $fields) {
-		if (!$this->outputOpen) {
-			$this->openOutput();
-		}
-		if (false === fputcsv($this->outputFile, $fields, $this->delimiter)) {
-			throw new Exception("CsvWriter: failed to write row.");
-		}
-	}
-
-	public function openOutput() {
-		if (false === ($this->outputFile = fopen($this->finalDestinationPath, 'a'))) {
-			throw new Exception("CsvWriter: Failed to open destination file '$this->finalDestinationPath'.");
-		}
-		if (!is_null($this->bufferSize)) {
-			stream_set_write_buffer($this->outputFile, $this->bufferSize);
-		}
-		$this->outputOpen = true;
-	}
-
-	public function closeOutput() {
-		if (!$this->outputOpen) {
-			if (false === fclose($this->outputFile)) {
-				throw new Exception("CsvWriter: Failed to close destination file'$this->finalDestinationPath'.");
-			}
-			$this->outputOpen = false;
-		}
-	}
-
-}
-
