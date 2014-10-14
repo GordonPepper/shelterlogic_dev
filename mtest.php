@@ -400,7 +400,7 @@ function cleanImportFile() {
 
 	$skus = array();
 	while ($infile->nextRow()) {
-		if($infile->item('_type') =='simple' && (count($skus) < 2000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
+		if($infile->item('_type') =='simple' && (count($skus) < 50000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
 			$skus[] = $infile->item('sku');
 			$html->para(sprintf("sku: %s, stock: %s, type: %s, category: %s, visibility: %s, status: %s, mstock: %s",
 				$infile->item('sku'),

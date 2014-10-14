@@ -916,6 +916,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             }
 
             $this->_beforeToHtml();
+
             $html = $this->_toHtml();
             $this->_saveCache($html);
 

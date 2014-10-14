@@ -61,7 +61,8 @@ $_renderers = $this->getChild('attr_renderers')->getSortedChildren();
     <?php endforeach; ?>
     </dl>
     <script type="text/javascript">
-        var spConfig = new Product.Config(<?php echo $_jsonConfig ?>);
+        var aeConfig = new aeProduct.Config(<?php echo $_jsonConfig ?>);
+//		var foo = new Product.Config(<?php //echo $this->orig_getJsonConfig() ?>//);
     </script>
     <?php echo $this->getChildHtml('after') ?>
 <?php endif;?>

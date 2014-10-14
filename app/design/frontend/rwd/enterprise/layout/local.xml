@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<layout>
-    <checkout_cart_index>
-        <remove name="checkout.cart.shipping"/>
-    </checkout_cart_index>
-</layout>
