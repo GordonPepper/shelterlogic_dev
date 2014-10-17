@@ -13,9 +13,9 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable
 		return true;
 	}
 	public function hasOptions($product = null){
-		if ($this->getProduct($product)->getOptions()) {
-			return true;
-		}
+//		if ($this->getProduct($product)->getOptions()) {
+//			return true;
+//		}
 
 		//$attributes = $this->getConfigurableAttributes($product);
 		return true;
@@ -28,7 +28,7 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable
 //			}
 //		}
 
-		return false;
+//		return false;
 	}
 
 	public function getConfigurableAttributes($product = null) {
@@ -49,7 +49,7 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable
 			$select = $conn->select();
 
 			$select->from(array('super_attribute' => $conn->getTableName('catalog_product_super_attribute')), '*')
-				->where('super_attribute.product_id = ?', '22926')
+				->where('super_attribute.product_id = ?', $product->getId())
 				->order('position');
 
 			$res = $conn->fetchAll($select);

@@ -453,16 +453,16 @@ function cleanImportFile() {
 
 	$skus = array();
 	while ($infile->nextRow()) {
-		if($infile->item('_type') =='simple' && (count($skus) < 500 || $infile->item('sku') == 'PEAACA0101F01202008')) {
+		if($infile->item('_type') =='simple' && (count($skus) < 10000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
 			$skus[] = $infile->item('sku');
-			$html->para(sprintf("sku: %s, stock: %s, type: %s, category: %s, visibility: %s, status: %s, mstock: %s",
-				$infile->item('sku'),
-				$infile->item('is_in_stock'),
-				$infile->item('_type'),
-				$infile->item('_category'),
-				$infile->item('visibility'),
-				$infile->item('status'),
-				$infile->item('manage_stock')));
+//			$html->para(sprintf("sku: %s, stock: %s, type: %s, category: %s, visibility: %s, status: %s, mstock: %s",
+//				$infile->item('sku'),
+//				$infile->item('is_in_stock'),
+//				$infile->item('_type'),
+//				$infile->item('_category'),
+//				$infile->item('visibility'),
+//				$infile->item('status'),
+//				$infile->item('manage_stock')));
 //			$infile->item('is_in_stock', 1);
 			$infile->item('visibility', '4');
 			$infile->item('_category', 'SP Shelter');
@@ -504,6 +504,7 @@ function cleanImportFile() {
 	$infile->close();
 	$outfile->closeOutput();
 
+	$html->para('ok done.');
 }
 
 function trimImportFile() {
