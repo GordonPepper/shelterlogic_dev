@@ -49,7 +49,7 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable
 			$select = $conn->select();
 
 			$select->from(array('super_attribute' => $conn->getTableName('catalog_product_super_attribute')), '*')
-				->where('super_attribute.product_id = ?', $product->getId())
+				->where('super_attribute.product_id = ?', $this->getProduct($product)->getId())
 				->order('position');
 
 			$res = $conn->fetchAll($select);

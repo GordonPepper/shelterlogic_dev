@@ -65,7 +65,7 @@ function getConfigurableAttributes($product = null)
 	$select = $conn->select();
 
 	$select->from(array('super_attribute' => $conn->getTableName('catalog_product_super_attribute')),'*')
-		->where('super_attribute.product_id = ?', '22926')
+		->where('super_attribute.product_id = ?', $product->getId())
 		->order('position');
 
 	$res = $conn->fetchAll($select);
@@ -453,7 +453,7 @@ function cleanImportFile() {
 
 	$skus = array();
 	while ($infile->nextRow()) {
-		if($infile->item('_type') =='simple' && (count($skus) < 10000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
+		if($infile->item('_type') =='simple' && (count($skus) < 30000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
 			$skus[] = $infile->item('sku');
 //			$html->para(sprintf("sku: %s, stock: %s, type: %s, category: %s, visibility: %s, status: %s, mstock: %s",
 //				$infile->item('sku'),
