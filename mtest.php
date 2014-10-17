@@ -25,7 +25,9 @@ $allowedFunctions = array(
 	'trimImportFile',
 	'cleanImportFile',
 	'getProductAttributes',
-	'reviewSimpleImport'
+	'reviewSimpleImport',
+	'productList',
+	'getConfigurableAttributes'
 );
 
 $html = new HtmlOutputter();
@@ -49,6 +51,52 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function getConfigurableAttributes($product = null)
+{
+	global $html;
+	//Mage::log('returning from ' . __METHOD__);
+	/** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $collection */
+	$collection = Mage::getResourceModel('catalog/product_type_configurable_attribute_collection');
+
+	/** @var Magento_Db_Adapter_Pdo_Mysql $conn */
+	$conn = $collection->getConnection();
+
+	/** @var Varien_Db_Select $select */
+	$select = $conn->select();
+
+	$select->from(array('super_attribute' => $conn->getTableName('catalog_product_super_attribute')),'*')
+		->where('super_attribute.product_id = ?', '22926')
+		->order('position');
+
+	$res = $conn->fetchAll($select);
+
+	foreach($res as $row) {
+		$html->para('got row: ' . print_r($row, true));
+		/** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $att */
+		$att = Mage::getModel('catalog/product_type_configurable_attribute');
+		$att->setData($row);
+		$collection->addItem($att);
+	}
+
+
+	//$collection->addItem(new ());
+
+	/** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $att */
+	$att = Mage::getModel('catalog/product_type_configurable_attribute');
+
+	//return;
+	Varien_Profiler::start('CONFIGURABLE:'.__METHOD__);
+	if (!$this->getProduct($product)->hasData($this->_configurableAttributes)) {
+		$configurableAttributes = $this->getConfigurableAttributeCollection($product)
+			->orderByPosition()
+			->load();
+		$this->getProduct($product)->setData($this->_configurableAttributes, $configurableAttributes);
+	}
+	Varien_Profiler::stop('CONFIGURABLE:'.__METHOD__);
+	return $this->getProduct($product)->getData($this->_configurableAttributes);
+}
+
+
 
 function wfKeyGen() {
 	global $html;
@@ -57,6 +105,7 @@ function wfKeyGen() {
 	$key = "wf" . substr(sha1('WF1DM' . $domain), 0, 20);
 	$html->para("key: " . $key);
 }
+
 function getDomain($url)
 {
 	$url = str_replace(array('http://', 'https://', '/'), '', $url);
@@ -262,8 +311,8 @@ function productList() {
 //	$pstatus->addVisibleFilterToCollection($collection);
 
 	$collection->addAttributeToSelect('*');
-	$collection->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-	$collection->getSelect()->limit(2);
+	$collection->addAttributeToFilter('sku', array('eq' => '123'));
+	//$collection->getSelect()->limit(2);
 	$html->code($collection->getSelect()->__toString());
 	$html->para('found product count: ' . $collection->count());
 	$items = $collection->getItems();
@@ -275,20 +324,26 @@ function productList() {
 	$html->para('item sku: ' . $firstItem->getSku());
 	$html->para('item type: ' . $attributeSetName);
 
+	foreach($firstItem->getAttributes() as $att) {
+		if($att->getIsConfigurable() == 1)
+			$html->para('found config attribute: ' . $att->getName());
+	}
+
+
 	// resetData does not cut the mustard here.
-	$collection->resetData();
-	$collection->getSelect()->limit(20,20);
-
-	$html->code($collection->getSelect()->__toString());
-	$html->para('found product count: ' . $collection->count());
-	$items = $collection->load()->getItems();
-
-	$firstItem = current($items);
-	$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
-	$attributeSetModel->load($firstItem->getAttributeSetId());
-	$attributeSetName  = $attributeSetModel->getAttributeSetName();
-	$html->para('item sku: ' . $firstItem->getSku());
-	$html->para('item type: ' . $attributeSetName);
+//	$collection->clear();
+//	$collection->getSelect()->limit(20,20);
+//
+//	$html->code($collection->getSelect()->__toString());
+//	$html->para('found product count: ' . $collection->count());
+//	$items = $collection->load()->getItems();
+//
+//	$firstItem = current($items);
+//	$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+//	$attributeSetModel->load($firstItem->getAttributeSetId());
+//	$attributeSetName  = $attributeSetModel->getAttributeSetName();
+//	$html->para('item sku: ' . $firstItem->getSku());
+//	$html->para('item type: ' . $attributeSetName);
 
 }
 
@@ -329,7 +384,6 @@ function checkCountryCode() {
 	echo 'itemid US: ' . $countryMap[$code];
 }
 
-
 function showAllowedFunctions($html) {
 	global $allowedFunctions;
 	foreach($allowedFunctions as $func){
@@ -369,7 +423,6 @@ function getProductAttributes(){
 	$html->endList();
 }
 
-
 function reviewSimpleImport() {
 	global $html;
 	$infile = new CsvReader('/home/magentouser/catalog_product_20141008_183053.csv', ',',true);
@@ -400,7 +453,7 @@ function cleanImportFile() {
 
 	$skus = array();
 	while ($infile->nextRow()) {
-		if($infile->item('_type') =='simple' && (count($skus) < 50000 || $infile->item('sku') == 'PEAACA0101F01202008')) {
+		if($infile->item('_type') =='simple' && (count($skus) < 500 || $infile->item('sku') == 'PEAACA0101F01202008')) {
 			$skus[] = $infile->item('sku');
 			$html->para(sprintf("sku: %s, stock: %s, type: %s, category: %s, visibility: %s, status: %s, mstock: %s",
 				$infile->item('sku'),

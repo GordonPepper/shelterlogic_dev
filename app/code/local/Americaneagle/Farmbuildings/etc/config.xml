@@ -24,7 +24,16 @@
         <models>
             <americaneagle_farmbuildings>
                 <class>Americaneagle_Farmbuildings_Model</class>
+                <resourceModel>americaneagle_farmbuildings_resource</resourceModel>
             </americaneagle_farmbuildings>
+            <americaneagle_farmbuildings_resource>
+                <class>Americaneagle_Farmbuildings_Model_Resource</class>
+            </americaneagle_farmbuildings_resource>
+            <catalog>
+                <rewrite>
+                    <product_type_configurable>Americaneagle_Farmbuildings_Model_Product_Type_Configurable</product_type_configurable>
+                </rewrite>
+            </catalog>
         </models>
     </global>
     <frontend>

@@ -1,0 +1,4 @@
+app/design/frontend/rwd/default/template/catalog/product/view/type/options/configurable.phtml
+app/design/frontend/rwd/enterprise/layout/local.xml
+app/design/frontend/rwd/enterprise/template/checkout/onepage/shipping.phtml
+app/design/frontend/rwd/enterprise/template/persistent/checkout/onepage/billing.phtml

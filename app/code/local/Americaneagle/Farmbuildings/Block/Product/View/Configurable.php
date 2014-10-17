@@ -1,13 +1,14 @@
 <?php
 
 class Americaneagle_Farmbuildings_Block_Product_View_Configurable
-extends Mage_Catalog_Block_Product_View_Type_Configurable {
-
+	extends Mage_Catalog_Block_Product_View_Type_Configurable
+{
 	public function _construct() {
-		parent::_construct();
+		//parent::_construct();
 	}
 
 	public function getJsonConfig() {
+		//return 'foo';
 		$cache = Mage::app()->getCache();
 		$option = $cache->getOption('automatic_serialization');
 		$key = 'attributeTree';
@@ -17,11 +18,7 @@ extends Mage_Catalog_Block_Product_View_Type_Configurable {
 		//$dend = $dstart  - microtime(true);
 		$tree = false;
 		if($tree === false) {
-			//Mage::log('hard attribute tree refresh');
-			$start = microtime(true);
 			$tree = Mage::helper('farmbuildings')->getAttributeTree($this);
-			$total = $start - microtime(true);
-			//Mage::log('tree build took: ' . sprintf("%F", $total));
 			$cache->save($tree, $key);
 		} else {
 			//Mage::log(sprintf('using cached tree, took %F to deserialize', $dend));
@@ -32,12 +29,13 @@ extends Mage_Catalog_Block_Product_View_Type_Configurable {
 		 */
 
 		$firstOption = array();
-		foreach ($tree->children[0]->options as $option) {
-			$firstOption[] = array('id' => $option->id, 'val' => $option->val, 'pos' => $option->pos);
+		$keys = array_keys($tree);
+
+		foreach ($tree[$keys[0]]['options'] as $optid => $option) {
+			$firstOption[] = array('id' => $optid, 'val' => $option['val'], 'pos' => $option['pos']);
 		}
-		usort($firstOption, function($a,$b){return ($a->pos > $b->pos); });
-		return json_encode(array('id' => $tree->children[0]->id, 'code' => $tree->children[0]->code, 'options' => $firstOption));
-//		return 'foo';
+		usort($firstOption, function($a,$b){return ($a['pos'] > $b['pos']); });
+		return json_encode(array('id' => $keys[0], 'code' => $tree[$keys[0]]['code'], 'options' => $firstOption));
 
 	}
 
