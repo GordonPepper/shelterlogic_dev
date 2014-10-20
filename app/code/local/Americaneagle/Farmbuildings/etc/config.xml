@@ -32,6 +32,7 @@
             <catalog>
                 <rewrite>
                     <product_type_configurable>Americaneagle_Farmbuildings_Model_Product_Type_Configurable</product_type_configurable>
+                    <product_type_configurable_price>Americaneagle_Farmbuildings_Model_Product_Type_Configurable_Price</product_type_configurable_price>
                 </rewrite>
             </catalog>
         </models>

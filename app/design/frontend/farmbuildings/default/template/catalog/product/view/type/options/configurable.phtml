@@ -62,7 +62,9 @@ $_renderers = $this->getChild('attr_renderers')->getSortedChildren();
     </dl>
     <script type="text/javascript">
         var aeConfig = new aeProduct.Config(<?php echo $_jsonConfig ?>);
-//		var foo = new Product.Config(<?php //echo $this->orig_getJsonConfig() ?>//);
-    </script>
+		var aeProductId = <?php echo $_product->getId(); ?>;
+		var priceFormat = <?php echo $this->helper('tax')->getPriceFormat($this->getStore()); ?>;
+
+	</script>
     <?php echo $this->getChildHtml('after') ?>
 <?php endif;?>

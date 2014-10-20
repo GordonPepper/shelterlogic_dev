@@ -44,8 +44,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $conn */
 		$conn = Mage::getSingleton('core/resource')->getConnection('core_read');
-		Mage::log(sprintf('found product with id: %s', $configprod->getProduct()->getId()));
-
+		//Mage::log(sprintf('found product with id: %s', $configprod->getProduct()->getId()));
 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $select */
 		$select = $conn->select();
@@ -92,6 +91,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$tree = array();
 		foreach($conn->fetchAll($select) as $row){
 			$root = &$tree;
+			$lastid = '';
 			foreach($attmap as $att) {
 				if(!isset($root[$att['id']])){
 					$root[$att['id']] = array(
@@ -107,7 +107,9 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 					);
 				}
 				$root = &$root[$att['id']]['options'][$row[$att['code']]]['children'];
+				$lastid = $row['id'];
 			}
+			$root['id'] = $lastid;
 		}
 		return $tree;
 	}
