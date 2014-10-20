@@ -43,6 +43,10 @@ aeProduct.Config.prototype = {
             if(selector.id == element.id){
                 disable = true;
             }
+            if(this.settings[this.settings.length - 1].id == selector.id){
+                Event.observe(selector, 'change', this.lastOptionChanged);
+            }
+
         }.bind(this));
 
         new Ajax.Request('/fbconfig/index', {
@@ -59,6 +63,11 @@ aeProduct.Config.prototype = {
         var disable = false;
         this.settings.each(function(selector) {
             selector.disabled = disable;
+            if(disable) {
+                for(i = selector.options.length; i > 1; i--) {
+                    selector.remove(i-1);
+                }
+            }
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(i=0; i<nextOptions.options.length; ++i ) {
                     selector.options[i+1] = new Option(nextOptions.options[i]['val'], nextOptions.options[i]['id']);
@@ -66,6 +75,21 @@ aeProduct.Config.prototype = {
                 disable = true;
             }
         }.bind(this));
+    },
+    lastOptionChanged: function(thing) {
+        //alert('last item changed, thing is a: ' + thing);
+        new Ajax.Request('/fbconfig/index/product', {
+            method: 'post',
+            requestHeaders: {Accept: 'application/json'},
+            postBody: Object.toJSON(params),
+            onSuccess: function(transport) {
+                var result = transport.responseText.evalJSON(true);
+                this.updateAttributes(result);
+            }
+        })
+    },
+    updateAttributes: function (res) {
+        alert('foo has happened');
     }
 };
 
