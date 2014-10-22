@@ -72,24 +72,24 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable
 
 
 	public function orig_getConfigurableAttributes($product = null) {
-		Mage::log('returning from ' . __METHOD__);
+		//Mage::log('returning from ' . __METHOD__);
 		/** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $collection */
 		$collection = Mage::getResourceModel('catalog/product_type_configurable_attribute_collection');
 
 		//$collection->addItem(new ());
 
 		/** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $att */
-		$att = Mage::getModel('catalog/product_type_configurable_attribute');
+		//$att = Mage::getModel('catalog/product_type_configurable_attribute');
 
 		//return;
-		Varien_Profiler::start('CONFIGURABLE:' . __METHOD__);
+		//Varien_Profiler::start('CONFIGURABLE:' . __METHOD__);
 		if (!$this->getProduct($product)->hasData($this->_configurableAttributes)) {
 			$configurableAttributes = $this->getConfigurableAttributeCollection($product)
 				->orderByPosition()
 				->load();
 			$this->getProduct($product)->setData($this->_configurableAttributes, $configurableAttributes);
 		}
-		Varien_Profiler::stop('CONFIGURABLE:' . __METHOD__);
+		//Varien_Profiler::stop('CONFIGURABLE:' . __METHOD__);
 		return $this->getProduct($product)->getData($this->_configurableAttributes);
 	}
 

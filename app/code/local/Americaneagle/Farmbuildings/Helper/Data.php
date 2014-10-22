@@ -1,73 +1,78 @@
 <?php
-class AeAttribute {
-	public $id;
-	public $code;
-	public $options;
-	public function __construct($i, $v) {
-		$this->id = $i;
-		$this->code = $v;
-		$this->options = array();
-	}
-	public function getOption($id) {
-		foreach ($this->options as $opt) {
-			if($opt->id == $id) {
-				return $opt;
-			}
-		}
-		return false;
-	}
-}
-class AeOption {
-	public $id;
-	public $val;
-	public $pos;
-	public $children;
-	public function __construct($i, $v, $p) {
-		$this->id = $i;
-		$this->val = $v;
-		$this->pos = $p;
-		$this->children = array();
-	}
-	public function getChild($id) {
-		foreach ($this->children as $child){
-			if ($child->id == $id)
-				return $child;
-		}
-		return false;
-	}
-}
+//class AeAttribute {
+//	public $id;
+//	public $code;
+//	public $options;
+//	public function __construct($i, $v) {
+//		$this->id = $i;
+//		$this->code = $v;
+//		$this->options = array();
+//	}
+//	public function getOption($id) {
+//		foreach ($this->options as $opt) {
+//			if($opt->id == $id) {
+//				return $opt;
+//			}
+//		}
+//		return false;
+//	}
+//}
+//class AeOption {
+//	public $id;
+//	public $val;
+//	public $pos;
+//	public $children;
+//	public function __construct($i, $v, $p) {
+//		$this->id = $i;
+//		$this->val = $v;
+//		$this->pos = $p;
+//		$this->children = array();
+//	}
+//	public function getChild($id) {
+//		foreach ($this->children as $child){
+//			if ($child->id == $id)
+//				return $child;
+//		}
+//		return false;
+//	}
+//}
 
 class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract {
 
-	public function getAttributeTree($configprod) {
-
+	public function getAttributeTree($product) {
 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $conn */
 		$conn = Mage::getSingleton('core/resource')->getConnection('core_read');
-		//Mage::log(sprintf('found product with id: %s', $configprod->getProduct()->getId()));
 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $select */
 		$select = $conn->select();
 		/** @var Varien_Db_Select $from */
+		$atts = $product->getTypeInstance(true)->getConfigurableAttributes($product);
+		$fields = array();
+		$fields['id'] = 'e.entity_id';
+		foreach($atts as $att) {
+			$code = $att->getProductAttribute()->getAttributeCode();
+			$fields[$code] = 'at_' . $code . '.value';
+		}
 		$from = $select->from(
 			array('e' => $conn->getTableName('catalog_product_entity')),
-			array(
-				'id' => 'e.entity_id',
-				'style' => 'at_style.value',
-				'fabric_material' => 'at_fabric_material.value',
-				'fabric_color' => 'at_fabric_color.value',
-				'length' => 'at_length.value',
-				'width' => 'at_width.value',
-				'height' => 'at_height.value'
-			)
+			$fields
+//			array(
+//				'id' => 'e.entity_id',
+//				'style' => 'at_style.value',
+//				'fabric_material' => 'at_fabric_material.value',
+//				'fabric_color' => 'at_fabric_color.value',
+//				'length' => 'at_length.value',
+//				'width' => 'at_width.value',
+//				'height' => 'at_height.value'
+//			)
 		);
 		$from->joinInner(
 			array('link_table' => $conn->getTableName('catalog_product_super_link')),
 			'link_table.product_id = e.entity_id',
 			array());
-		$atts = $configprod->getProduct()->getTypeInstance(true)->getConfigurableAttributes($configprod->getProduct());
 		$where = array();
-		$where[] = 'link_table.parent_id = ' . $configprod->getProduct()->getId();
+		$where[] = 'link_table.parent_id = ' . $product->getId();
 		$where[] = "((e.required_options != '1') OR (e.required_options IS NULL))";
 
 		$attmap = array();
@@ -191,19 +196,20 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		return $tree;
 	}
 
-	public function getTree() {
+	public function getTree($pid) {
 		$cache = Mage::app()->getCache();
 		$option = $cache->getOption('automatic_serialization');
-		$key = 'attributeTree';
+		$key = 'attributeTree' . $pid;
 		$cache->setOption('automatic_serialization', true);
 
 		$tree = $cache->load($key);
 
 		if($tree === false) {
-			Mage::logException("oops, tree does not exist! must build new tree");
-			//$tree = $this->getAttributeTree();
+			$product = Mage::getModel('catalog/product')->load($pid);
+			//Mage::logException("oops, tree does not exist! must build new tree");
+			$tree = $this->getAttributeTree($product);
 
-			//$cache->save($tree, $key);
+			$cache->save($tree, $key);
 		}
 		$cache->setOption('automatic_serialization', $option); // must reset the option
 		return $tree;

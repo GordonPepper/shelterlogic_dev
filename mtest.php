@@ -398,7 +398,7 @@ function getProductAttributes(){
 	$collection = Mage::getModel('catalog/product')
 		->getCollection();
 	$collection->addAttributeToSelect('*');
-	$collection->addFieldToFilter('sku', '123-Barn-14 oz PE-Brown-12-10-24');
+	$collection->addFieldToFilter('sku', 'PEBADA0301F03010019');
 
 	/** @var Mage_Catalog_Model_Product $product */
 	$product = $collection->getFirstItem();
@@ -415,7 +415,6 @@ function getProductAttributes(){
 		} else {
 			$html->listItem(sprintf('att name: %s, att value: %s',
 				$key, $val));
-
 		}
 
 	}

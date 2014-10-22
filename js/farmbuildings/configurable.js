@@ -39,12 +39,12 @@ aeProduct.Config.prototype = {
         */
         var self = this;
         var element = Event.element(event);
-        var params = [];
+        var params = {"pid": aeProductId, "options": []};
         var disable = false;
         this.settings.each(function(selector) {
             selector.disabled = disable;
             if(!disable) {
-                params.push({"id": selector.id, "value": selector.options[selector.options.selectedIndex].value});
+                params.options.push({"id": selector.id, "value": selector.options[selector.options.selectedIndex].value});
             }
             if(selector.id == element.id){
                 disable = true;
@@ -67,7 +67,7 @@ aeProduct.Config.prototype = {
         var disable = false;
         this.settings.each(function(selector) {
             selector.disabled = disable;
-            if(disable) {
+            if(disable || selector.id == 'attribute' + nextOptions.attributeid) {
                 for(i = selector.options.length; i > 1; i--) {
                     selector.remove(i-1);
                 }
