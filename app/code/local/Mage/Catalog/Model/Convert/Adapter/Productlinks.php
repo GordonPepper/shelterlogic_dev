@@ -67,6 +67,18 @@ class Mage_Catalog_Model_Convert_Adapter_Productlinks
 
                 $product->load($productId);
 
+                if ($data = $product->getConfigurableAttributesData()) {
+                    foreach ($data as $attributeData) {
+                        $id = isset($attributeData['id']) ? $attributeData['id'] : null;
+                        Mage::getModel('catalog/product_type_configurable_attribute')
+                            ->setData($attributeData)
+                            ->setId($id)
+                            ->setStoreId($this->getProduct($product)->getStoreId())
+                            ->setProductId($this->getProduct($product)->getId())
+                            ->save();
+                    }
+                }
+
                 Mage::getResourceModel('catalog/product_type_configurable')
                     ->saveProducts($product, $this->skusToIds($importData['associated'], $product));
 
