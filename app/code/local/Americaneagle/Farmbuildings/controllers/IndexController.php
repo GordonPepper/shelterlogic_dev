@@ -42,8 +42,9 @@ class Americaneagle_Farmbuildings_IndexController
 	public function productAction() {
 		$params = json_decode(file_get_contents('php://input'));
 		$product = Mage::getModel('catalog/product')->load($params[0]->pid);
+		$sproduct = Mage::getModel('catalog/product')->load($params[0]->spid);
 		$additional = array();
-		foreach($this->getAdditionalData($product) as $adds) {
+		foreach($this->getAdditionalData($sproduct) as $adds) {
 			$additional[$adds['code']] = $product->getData($adds['code']);
 		}
 		$vals = array(

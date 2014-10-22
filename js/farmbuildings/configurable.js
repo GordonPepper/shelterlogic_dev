@@ -88,7 +88,12 @@ aeProduct.Config.prototype = {
         var self = this;
         var element = Event.element(event);
         var params = [];
-        params.push({"pid": element.options[element.options.selectedIndex].dataset.pid});
+        params.push(
+            {
+                "pid": element.options[element.options.selectedIndex].dataset.pid,
+                "spid": aeProductId
+            }
+        );
         new Ajax.Request('/fbconfig/index/product', {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
