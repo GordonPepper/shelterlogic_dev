@@ -8,6 +8,7 @@ var/report/*
 var/backups/*
 var/import/*
 var/importexport/*
+var/export/*
 var/tmp/
 mergedconfig.xml
 mtest.php

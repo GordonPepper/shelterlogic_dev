@@ -59,6 +59,10 @@ class Mage_Catalog_Model_Convert_Adapter_Productpriceupdate
             $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'sku');
             Mage::throwException($message);
         }
+        if (empty($importData['price'])) {
+            $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'price');
+            Mage::throwException($message);
+        }
         $product->setStoreId($store->getId());
         $productId = $product->getIdBySku($importData['sku']);
 
