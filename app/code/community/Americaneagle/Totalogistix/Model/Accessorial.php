@@ -14,7 +14,8 @@ class Americaneagle_Totalogistix_Model_Accessorial {
 			array('value' => 'IDL', 'label' => $h->__('Inside Delivery')),
 			array('value' => 'LFT', 'label' => $h->__('Lift Gate')),
 			array('value' => 'NFY', 'label' => $h->__('Notification Charge')),
-			array('value' => 'REP', 'label' => $h->__('Residential'))
+			array('value' => 'REP', 'label' => $h->__('Residential')),
+			array('value' => 'LTD', 'label' => $h->__('Limited Access'))
 		);
 	}
 } 

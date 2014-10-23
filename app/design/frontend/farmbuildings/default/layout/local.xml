@@ -10,7 +10,7 @@
                 <script>farmbuildings/configurable.js</script>
             </action>
             <action method="removeItem">
-                <type>foojs</type>
+                <type>js</type>
                 <name>varien/configurable.js</name>
             </action>
         </reference>
@@ -29,5 +29,94 @@
     </catalog_product_view>
     <default>
         <remove name="product.info.configurable.extra"></remove>
+        <reference name="head">
+             
+                <!-- Default -->
+                <action method="addCss">
+                    <stylesheet>webforms/form.css</stylesheet>
+                </action>
+                <action method="addCss">
+                    <stylesheet>webforms/results.css</stylesheet>
+                </action>
+             
+                <!-- Logic -->
+                <action method="addJs">
+                    <js>webforms/logic.js</js>
+                </action>
+             
+                <!-- Multistep template -->
+                <action method="addJs">
+                    <js>webforms/multistep.js</js>
+                </action>
+             
+                <!-- Star Rating -->
+                <action method="addCss">
+                    <stylesheet>webforms/stars.css</stylesheet>
+                </action>
+                <action method="addJs">
+                    <js>webforms/stars.js</js>
+                </action>
+             
+                <!-- Date Picker -->
+                <action method="addItem">
+                    <type>js_css</type>
+                    <name>calendar/calendar-blue.css</name>
+                </action>
+                <action method="addJs">
+                    <js>calendar/calendar.js</js>
+                </action>
+                <action method="addJs">
+                    <js>calendar/calendar-setup.js</js>
+                </action>
+             
+                <!-- Ajax Submission Popup Windows -->
+                <action method="addJs">
+                    <js>prototype/window.js</js>
+                </action>
+                <action method="addItem">
+                    <type>js_css</type>
+                    <name>prototype/windows/themes/default.css</name>
+                </action>
+                <action method="addItem">
+                    <type>js_css</type>
+                    <name>prototype/windows/themes/alphacube.css</name>
+                </action>
+             
+                <!-- HTML Editor -->
+                <action method="addJs">
+                    <js>tiny_mce/tiny_mce.js</js>
+                </action>
+             
+                <!-- Ajax File Uploader / Not compatible with some Magento themes -->
+            <!--    <action method="addJs">-->
+            <!--        <js>webforms/jQuery/jquery-1.7.1.min.js</js>-->
+            <!--    </action>-->
+            <!--    <action method="addJs">-->
+            <!--        <js>webforms/jQuery/no-conflict.js</js>-->
+            <!--    </action>-->
+            <!--    <action method="addJs">-->
+            <!--        <js>webforms/blueimp/js/vendor/jquery.ui.widget.js</js>-->
+            <!--    </action>-->
+            <!--    <action method="addJs">-->
+            <!--        <js>webforms/blueimp/js/jquery.iframe-transport.js</js>-->
+            <!--    </action>-->
+            <!--    <action method="addJs">-->
+            <!--        <js>webforms/blueimp/js/jquery.fileupload.js</js>-->
+            <!--    </action>-->
+            <!--    <action method="addCss">-->
+            <!--        <stylesheet>webforms/file-upload.css</stylesheet>-->
+            <!--    </action>-->
+             
+        </reference>
+         
+        <reference name="content">
+             
+                <!-- Date Picker Block -->
+                <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+             
+                <!-- HTML Editor Block -->
+                <block type="core/template" name="tiny_mce.init" template="webforms/scripts/tiny_mce.phtml"/>
+             
+        </reference>
     </default>
 </layout>

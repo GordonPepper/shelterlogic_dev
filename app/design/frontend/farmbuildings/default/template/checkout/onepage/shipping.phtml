@@ -130,6 +130,15 @@
 								</select>
 							</div>
 						</div>
+						<div class="field">
+							<label for="shipping:is_limited_access" class="required"><em>*</em><?php echo $this->__('Limited Access') ?></label>
+							<div class="input-box">
+								<select id="shipping:is_limited_access" class="validate-select required-entry validation-failed" style="" title="<?php echo $this->__('Limited Access') ?>" name="shipping[is_limited_access]">
+									<option value="1">Yes</option>
+									<option value="0">No</option>
+								</select>
+							</div>
+						</div>
 					</li>
 					<?php $addressAttributes = $this->getChild('customer_form_shipping_address_user_defined_attributes');?>
 					<?php if ($addressAttributes): ?>
