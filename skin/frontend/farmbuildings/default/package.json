@@ -1,0 +1,26 @@
+{
+  "name": "foundation-libsass-template",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-imagemin": "^0.8.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-uglify": "~0.5.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "",
+    "node-sass": ""
+  },
+  "dependencies": {
+    "imagemin-gifsicle": "^0.1.1",
+    "imagemin-jpeg-recompress": "^1.0.0",
+    "imagemin-jpegoptim": "^1.0.0",
+    "imagemin-jpegtran": "^1.0.0",
+    "imagemin-mozjpeg": "^1.0.0",
+    "imagemin-optipng": "^0.1.0",
+    "imagemin-pngcrush": "^0.1.0",
+    "imagemin-pngquant": "^1.0.1",
+    "imagemin-svgo": "^1.0.2",
+    "imagemin-zopfli": "^0.1.0"
+  }
+}

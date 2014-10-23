@@ -101,6 +101,7 @@ aeProduct.Config.prototype = {
             onSuccess: function(transport) {
                 var result = transport.responseText.evalJSON(true);
                 self.updateAttributes(result);
+                self.addSkuToRequestForm(result.sku);
             }
         })
     },
@@ -117,6 +118,9 @@ aeProduct.Config.prototype = {
             $$('button[data-id="atc-button"]').first().style.display = 'inline';
             $$('button[data-id="raq-button"]').first().style.display = 'none';
         }
+    },
+    addSkuToRequestForm: function(sku) {
+        $$('input[name="field[28]"]').first().value = sku;
     },
     requestQuote: function (button) {
         alert('requesting quote!');
