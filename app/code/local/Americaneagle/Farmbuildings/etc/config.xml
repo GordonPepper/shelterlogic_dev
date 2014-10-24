@@ -20,6 +20,11 @@
                     <product_view_type_configurable>Americaneagle_Farmbuildings_Block_Product_View_Configurable</product_view_type_configurable>
                 </rewrite>
             </catalog>
+            <checkout>
+                <rewrite>
+                    <onepage>Americaneagle_Farmbuildings_Block_Checkout_Onepage</onepage>
+                </rewrite>
+            </checkout>
         </blocks>
         <models>
             <americaneagle_farmbuildings>
