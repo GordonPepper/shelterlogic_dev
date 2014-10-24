@@ -338,10 +338,10 @@
 						$proPayObj = $cptrObj->addChild('profileTransAuthOnly');
 						$proPayObj->addChild('amount', $amount);
 
-						if(isset($cvv) && $cvv != "" && $cvv != "111")
+						/*if(isset($cvv) && $cvv != "" && $cvv != "111")
 						{
 							$proPayObj->addChild('cardCode', $cvv);
-						}
+						}*/
 						
 						if($tax>0) {
 							$credittax = $proPayObj->addChild('tax');
