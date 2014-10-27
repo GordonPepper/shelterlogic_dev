@@ -58,7 +58,7 @@
                     <span class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
                 </div>
 
-                <div class="price-info">
+                <div class="price-info" id="mainPrice">
                     <?php echo $this->getPriceHtml($_product); ?>
                     <?php echo $this->getChildHtml('bundle_prices') ?>
                     <?php echo $this->getTierPriceHtml() ?>
@@ -185,7 +185,7 @@
         <?php endif; ?>
     </div>
 
-<!--    --><?php //echo $this->getChildHtml('upsell_products') ?>
-<!--    --><?php //echo $this->getChildHtml('product_additional_data') ?>
+    <?php echo $this->getChildHtml('upsell_products') ?>
+    <?php echo $this->getChildHtml('product_additional_data') ?>
 
 </div>

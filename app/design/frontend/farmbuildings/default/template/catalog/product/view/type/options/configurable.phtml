@@ -30,6 +30,7 @@ $_product    = $this->getProduct();
 $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
 $_jsonConfig = $this->getJsonConfig();
 $_renderers = $this->getChild('attr_renderers')->getSortedChildren();
+$_super_att_index = 1;
 ?>
 <?php if ($_product->isSaleable() && count($_attributes)):?>
     <dl>
@@ -53,11 +54,12 @@ $_renderers = $this->getChild('attr_renderers')->getSortedChildren();
         <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
         <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
             <div class="input-box">
-                <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="configurable_<?php echo $_configID; ?> required-entry super-attribute-select">
+                <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" data-index="<?php echo $_super_att_index ?>" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="configurable_<?php echo $_configID; ?> required-entry super-attribute-select">
                     <option><?php echo $this->__('Choose an Option...') ?></option>
                   </select>
               </div>
         </dd>
+        <?php $_super_att_index++; ?>
         <?php endif; ?>
     <?php endforeach; ?>
     </dl>
