@@ -7,20 +7,14 @@ class Americaneagle_Farmbuildings_Block_Product_View_Configurable
 	}
 
 	public function getJsonConfig() {
-		//return 'foo';
 		$cache = Mage::app()->getCache();
 		$option = $cache->getOption('automatic_serialization');
 		$key = 'attributeTree' . $this->getProduct()->getId();
 		$cache->setOption('automatic_serialization', true);
-		//$dstart = microtime(true);
 		$tree = $cache->load($key);
-		//$dend = $dstart  - microtime(true);
-		//$tree = false;
 		if ($tree === false) {
 			$tree = Mage::helper('farmbuildings')->getAttributeTree($this->getProduct());
 			$cache->save($tree, $key);
-		} else {
-			//Mage::log(sprintf('using cached tree, took %F to deserialize', $dend));
 		}
 		$cache->setOption('automatic_serialization', $option); // must reset the option
 
@@ -28,7 +22,6 @@ class Americaneagle_Farmbuildings_Block_Product_View_Configurable
 		if ($sa) {
 			$config = array('reconfigure' => 'true');
 
-			$current = "";
 			foreach($sa as $attid => $selected_opt_id) {
 				foreach($tree[$attid]['options'] as $opt_id => $option) {
 					$selected = $opt_id == $selected_opt_id ? 1 : 0;
