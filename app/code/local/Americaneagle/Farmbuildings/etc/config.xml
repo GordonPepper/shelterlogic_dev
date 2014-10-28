@@ -51,6 +51,13 @@
                     <frontName>fbconfig</frontName>
                 </args>
             </fbconfig>
+            <checkout>
+                <args>
+                    <modules>
+                        <americaneagle_farmbuildings before="Mage_Checkout">Americaneagle_Farmbuildings_Checkout</americaneagle_farmbuildings>
+                    </modules>
+                </args>
+            </checkout>
         </routers>
     </frontend>
 </config>

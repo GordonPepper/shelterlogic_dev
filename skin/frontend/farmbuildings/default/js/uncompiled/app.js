@@ -229,16 +229,16 @@
 	*/
 	var s7_colors = {
 		// not defined in current form
-		'MAIN'	: "jQuerymainjQuery",
-		'Hunter Green'	: "jQueryhuntergreenjQuery",
-		'Black'	: "jQueryblackjQuery",
+		'MAIN'	: "$main$",
+		'Hunter Green'	: "$huntergreen$",
+		'Black'	: "$black$",
 		// defined in current form
-		'Gray'	: "jQuerygrayjQuery",
-		'White'	: "jQuerywhitejQuery",
-		'Green'	: "jQuerygreenjQuery",
-		'Tan'	: "jQuerytanjQuery",
-		'Clear'	: "jQuerytranslucentjQuery",
-		'Brown'	: "jQuerybrownjQuery"
+		'Gray'	: "$gray$",
+		'White'	: "$white$",
+		'Green'	: "$green$",
+		'Tan'	: "$tan$",
+		'Clear'	: "$translucent$",
+		'Brown'	: "$brown$"
 	};
 	// example to use variable as obj attr/index 
 	// data[x]; //=> bar
@@ -471,7 +471,7 @@
 				var width 	= _formObj.width[_selectArray['Width']];
 				var height 	= (_formObj.height[_selectArray['Height']] < 10 ? '0'+_formObj.height[_selectArray['Height']] : _formObj.height[_selectArray['Height']]);
 	    		var length 	= _formObj.length[_selectArray['Length']];
-	    		var color 	= (s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] !== undefined ? s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] : "jQuerygrayjQuery");
+	    		var color 	= (s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] !== undefined ? s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] : "$gray$");
 
 	    		if(!style || style === undefined) {
 	    			style = "a";
@@ -647,9 +647,9 @@
 
 		        var _i = _b.find('img');
 		        var image_url = _local.getURL();
-		        _i.addClass('op_0');
-		        _bod.addClass('loading');
-		        jQuery('#loader').addClass('loading');
+		        
+		        
+
 		        var nImg = document.createElement('img');
 		        nImg.setAttribute('src', image_url);
 		        nImg.setAttribute('class', 'preload');
@@ -657,11 +657,9 @@
 				nImg.onload = function() {
 				    // image exists and is loaded
 				    _i.attr('src',image_url);
-				    _local.center();
-				    _bod.removeClass('loading');
-				    _i.removeClass('op_0');
-				     jQuery('#loader').removeClass('loading');
-				     return;
+				    return _local.center();
+
+				    
 				}
 				nImg.onerror = function() {
 				    // image did not load
@@ -675,12 +673,9 @@
 				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&jQuerygrayjQuery&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&jQuerygrayjQuery&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 
 				    _i.attr('src',image_url);
-				    _local.center();
-				    _bod.removeClass('loading');
-				    _i.removeClass('op_0');
-				     jQuery('#loader').removeClass('loading');
-				     return;
+				    
 				    scriptError.report('Failed to load image: '+image_url, true);
+				    return _local.center();
 				}
 		    },
 		    uiLoad: {
@@ -828,20 +823,23 @@
 		    			var __id = _this.attr('id');
 		    			var __type = __id.split('build_').pop();
 	    				var _loc_select = jQuery('.'+_selectPartial + __type);
+	    				var _dataFunc = 'setAttr';
 	    				jQuery(_loc_select).find( 'option' ).each(function(index) {
 	    					var __this = jQuery(this);
+	    					//console.log(_this.parent().attr('id'));
+	    					if(_this.parent().attr('id') === 'startStyle') _dataFunc = 'setStyle';
 	    					if(__this.text().indexOf(_defaultFormOption) < 0) {
 								switch(__type) {
 									case 'Style':
 											var theText = __this.text().split('P');
-											_this.append('<button class="UI UI-Option button expand textLeft" data-func="setAttr" data-type="'+__type+'" data-value="'+__this.attr('value')+'">'+__this.text()+'<i class="fa fa-check center"></i></button>');
+											_this.append('<button class="UI UI-Option button expand textLeft" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'">'+__this.text()+'<i class="fa fa-check center"></i></button>');
 										break;
 									case 'FabricMaterial':
 										var theText = __this.text().split('P');
-										_this.append('<button class="UI UI-Option button expand textLeft" data-func="setAttr" data-type="'+__type+'" data-value="'+__this.attr('value')+'"><span class="hide-for-large-up">'+theText[0]+'</span><span class="show-for-large-up">'+__this.text()+'</span><i class="fa fa-check center"></i></button>');
+										_this.append('<button class="UI UI-Option button expand textLeft" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'"><span class="hide-for-large-up">'+theText[0]+'</span><span class="show-for-large-up">'+__this.text()+'</span><i class="fa fa-check center"></i></button>');
 										break;
 									case 'FabricColor':
-										_this.append('<button class="UI UI-Option button expand box-shadow textCenter makeSquare '+__this.text().replace(" ","_")+'" data-func="setAttr" data-type="'+__type+'" data-value="'+__this.attr('value')+'"> '+__this.text()+' <i class="fa fa-check centerVertical centerHorizontal"></i></button>');
+										_this.append('<button class="UI UI-Option button expand box-shadow textCenter makeSquare '+__this.text().replace(" ","_")+'" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'"> '+__this.text()+' <i class="fa fa-check centerVertical centerHorizontal"></i></button>');
 										
 										break;
 
@@ -855,7 +853,7 @@
 		    	setPrice:function() {
 		    		if(_price.doesExist()) {
 						var _total = _price.text();
-						if(_total === 'jQuery0.00' || _total === '') {
+						if(_total === '$0.00' || _total === '') {
 							_calcPrice.text('Build Your Building');
 							jQuery('#addToCart').addClass('disabled');
 						} else {
@@ -1041,7 +1039,7 @@
 			    				// call go with value
 			    				_go(jQuery(this).val()); 
 			    				jQuery(this).unbind('click');
-			    				return;
+			    				return _NS.loading(true);
 			    			});
 
 			    		} else if (is_select && !is_safari && !isMobile.any()) {
@@ -1049,7 +1047,7 @@
 			    				// call go with value
 			    				_go(jQuery(this).val());
 			    				jQuery(this).unbind('change');
-			    				return;
+			    				return _NS.loading(true);
 			    			}); 
 			    		} else if (is_select && isMobile.any()) {
 			    			//alert('test');
@@ -1057,12 +1055,12 @@
 			    				// call go with value
 			    				_go(jQuery(this).val()); 
 			    				jQuery(this).unbind('blur');
-			    				return;
+			    				return _NS.loading(true);
 			    			});
 			    		} else { // if it is not a select field
 			    			// call go with value
 			    			_go(jQuery(_e_.target).data('value'));	
-			    			return;
+			    			return _NS.loading(true);
 			    		}
 			    		return;
 			    	}
@@ -1070,14 +1068,16 @@
 		    	},
 		    	setStyle: function(_e_) {
 		    		if(this.default()) {
+		    			_NS.loading(true);
 			    		var select = _e_;
 			    		var _e_type = jQuery(_e_.target).prop('tagName');
 			    		var is_select = (_e_type.toLowerCase() == 'select' ? true : false);
 			    		var dataType = jQuery(_e_.target).data('type');
 			    		var this_val = jQuery(_e_.target).data('value');
+
 			    		jQuery(".UISection #build_Style button[data-value*='"+jQuery(_e_.target).data('value')+"']").trigger('click');
 			            jQuery('[data-reveal]').foundation('reveal','close');
-			    		
+			    		return _bod.removeClass('start');
 			    	}
 			    	return;
 		    		
@@ -1264,45 +1264,68 @@
 			    	return;
 		    	}
 		    },
-		    
+		    loading: function(start) {
+		    	var _unLoad = function(start) {
+		    		_bod.removeClass('loading');
+		    		jQuery('#building').find('img').removeClass('op_0');
+	        		jQuery('.elements').removeClass('op_0');
+	        		jQuery('#loader').removeClass('loading');
+	        	}
+	    		if(start) {
+		    		_bod.addClass('loading');
+		    		jQuery('#building').find('img').addClass('op_0');
+	        		jQuery('.elements').addClass('op_0');
+	        		jQuery('#loader').addClass('loading');
+		    	} else {
+		    		if(loadingTimer) clearTimeout(loadingTimer);
+		    		var loadingTimer = setTimeout( _unLoad, 2500);
+		    	}
+
+			},
 		    init:{ 
+		    	
 		        getState:function(onloader){
 		        	// set selectArray from form values
-		        		jQuery('.buttonContainer, #quickNav, .UISection select').html('');
-	            		jQuery("select[class^='"+_selectPartial+"']").each(function (i, el) {
-	            			 var _CLASSSESplit = jQuery(this).attr('class').split(" ");
-					         var _CLASSSplit = _CLASSSESplit[0].split("_").pop(-1);
-					         _class = _CLASSSplit.toLowerCase();
+		        	// 
+		        	//_NS.loading(true);
+		        	
+	        		jQuery('.buttonContainer, #quickNav, .UISection select').html('');
+            		jQuery("select[class^='"+_selectPartial+"']").each(function (i, el) {
+            			 var _CLASSSESplit = jQuery(this).attr('class').split(" ");
+				         var _CLASSSplit = _CLASSSESplit[0].split("_").pop(-1);
+				         _class = _CLASSSplit.toLowerCase();
 
-					         jQuery(this).find('option').each(function(){
-					         	if(!jQuery(this).attr('value'))
-					         		return;
+				         jQuery(this).find('option').each(function(){
+				         	if(!jQuery(this).attr('value'))
+				         		return;
 
-					         	_val = jQuery(this).attr('value').toString();
-					         	_formObj[_class][_val] = jQuery(this).text();
-					         });
-	            			
-	            		});
-		            	jQuery("select[class^='"+_selectPartial+"']").each(function (i, el) {
-					         var _CLASSSESplit = jQuery(this).attr('class').split(" ");
-					         var _CLASSSplit = _CLASSSESplit[0].split("_").pop(-1);
-					         
-					         if(_CLASSSplit === "Width" || _CLASSSplit === "Height" || _CLASSSplit === "Length") {
-					         	_selectArray[_CLASSSplit] = jQuery(this).val();
-					         } else {
-					         	_selectArray[_CLASSSplit] = jQuery(this).val();	
-					         }
-					         
-					    });
-					    
-			            _NS.imageUrl();
-			            _NS.uiLoad.getFormAndSetUI();
-			            _NS.uiLoad.setPrice();
-			            
-			            if(onloader)
-			            	_NS.resizer();
+				         	_val = jQuery(this).attr('value').toString();
+				         	_formObj[_class][_val] = jQuery(this).text();
+				         });
+            			
+            		});
+	            	jQuery("select[class^='"+_selectPartial+"']").each(function (i, el) {
+				         var _CLASSSESplit = jQuery(this).attr('class').split(" ");
+				         var _CLASSSplit = _CLASSSESplit[0].split("_").pop(-1);
+				         
+				         if(_CLASSSplit === "Width" || _CLASSSplit === "Height" || _CLASSSplit === "Length") {
+				         	_selectArray[_CLASSSplit] = jQuery(this).val();
+				         } else {
+				         	_selectArray[_CLASSSplit] = jQuery(this).val();	
+				         }
+				         
+				    });
+				    
+		            _NS.imageUrl();
+		            _NS.uiLoad.getFormAndSetUI();
+		            _NS.uiLoad.setPrice();
+		            
+		            if(onloader)
+		            	_NS.resizer();
 
-			            return _NS.infoVisible();
+		            _NS.infoVisible();
+		            
+		            return _NS.loading(false);
 		        	
 		        },
 		        loader: function() {
@@ -1341,7 +1364,7 @@
 	  	// on modal reveal resize text
 		jQuery('.reveal-modal h2').fitText(1.45, { minFontSize: '6px', maxFontSize: '43px' });
 		jQuery('.reveal-modal .color .btnColor span').fitText(1.45, { minFontSize: '10px', maxFontSize: '20px' });
-		jQuery('.reveal-modal#startModal h2').fitText(1, { minFontSize: '6px', maxFontSize: '63px' });
+		jQuery('.reveal-modal#startModal h2').fitText(1.1, { minFontSize: '6px', maxFontSize: '63px' });
 		jQuery('.reveal-modal h4').fitText(1.4, { minFontSize: '6px', maxFontSize: '25px' });
 		var bigbrother = -1;
 
@@ -1376,27 +1399,16 @@
 			return jQuery(this).parent().toggleClass('show');
 		});
 		// END Delete this on live site
-		
-		
-		var bodyChanged = function() {
+		var bodyChanged =  _.debounce(function () {
 			jQuery('.centerHorizontal').centerHorizontal();
-			jQuery('.centerVertical').centerVertical();
-			jQuery('.centerCenter').centerCenter();
-			jQuery('.makeSquare').makeSQ();
-			//console.log('fired');
-		};
-		MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-		var observer = new MutationObserver(function(mutations, observer) {
-		    // Add the actions to be done here if a changes on DOM happened
-		    _.debounce(bodyChanged, 100, false);
+    		jQuery('.centerVertical').centerVertical();
+    		jQuery('.centerCenter').centerCenter();
+    		jQuery('.makeSquare').makeSQ();
+		}, 500);
+		jQuery("#cofiguratorMain").bind("DOMSubtreeModified", function () {
+			bodyChanged();
 		});
-
-		// Register the element root you want to look for changes
-		observer.observe(document.getElementsByTagName('body')[0], {
-		  subtree: true,
-		  attributes: true
-		});
+		
 	});
 
 	jQuery(window).load(function() {
@@ -1426,17 +1438,7 @@
 		| Document smart resize
 		|--------------------------------------------------------------------------
 		*/
-		if(isMobile.any()) {
-			farmBuilding.resizer(true);
-		} else if(jQuery(window).width() < 1030) {
-			clearTimeout(refresh);
-			jQuery('.off-canvas-wrap').fadeOut('fast');
-			var refresh = setTimeout(function(){
-				farmBuilding.init.refresh();
-			},500); 
-		} else {
-			farmBuilding.resizer();
-		}
+		farmBuilding.init.getState(true);
 		
 	});
 

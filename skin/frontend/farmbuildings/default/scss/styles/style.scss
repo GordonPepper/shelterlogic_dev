@@ -219,13 +219,50 @@ body {
 	font-size: 1em;
 	
 	background-size:cover;
-	button, .button, .button.disabled, button.disabled {
+	button, .button, .button2 {
 		@include oswald;
-		background-color:#fff;
+		background-color:$shelter-yellow;
 		color:$shelter-grey;
 		border:2px solid $light-grey;
 		padding-top:rem-calc(12);
 		padding-bottom:rem-calc(12);
+		&.selected, &:hover, &.active {
+			background-color:$shelter-blue;
+			color:#fff;
+			border: 2px solid #fff;
+		}
+	}
+
+	button.button2, .button2.check-gc-status {
+		background-color:$shelter-yellow;
+		padding: 1px 5px;
+		span, span span {
+			line-height:1;
+			height: auto;
+			text-decoration: underline;
+			text-transform: uppercase;
+			display: inline-block;
+			color: $shelter-grey;
+			@include oswald;
+			padding: 5px;
+			
+			text-decoration: none;
+		}
+		&.selected, &:hover, &.active {
+			background-color:$shelter-blue;
+			color:#fff;
+			border: 2px solid #fff;
+			span, span span {
+				color: #fff;
+				text-decoration: none;
+			}
+		}
+	}
+	
+	.button.disabled, button.disabled {
+		background-color:#fff;
+		color:$shelter-grey;
+		border:2px solid $light-grey;
 		&.selected, &:hover, &.active {
 			background-color:$shelter-yellow;
 			color:#fff;
@@ -274,6 +311,7 @@ body {
 		
 		width:800px;
 		height: auto;
+		max-height: 98%;
 		padding:10px;
 		background:#ccc;
 		position:absolute;
@@ -281,8 +319,14 @@ body {
 		top: 10px;
 		right: -820px;
 		z-index: 9999999999999999;
+		
 		&.show {
 			right:10px;
+		}
+		.product-view {
+			max-height: 700px;
+			overflow-y: scroll;
+			overflow-x: hidden;
 		}
 		#showForm {
 
@@ -293,7 +337,7 @@ body {
 		table {
 			width:100%;
 		}
-		display: internet;
+		//display: none;
 		// @media #{$small-up} { display: none; }
 		// @media #{$medium-up} { display: none; }
 	}
@@ -337,7 +381,7 @@ body {
 			background: $nav-bg;
 			color: #fff;
 			z-index: 99999;
-			.left-small { border-right: solid 0px; }
+			.left-small, .right-small { border: solid 0px; }
 			a {
 				text-transform: uppercase;
 				color:#fff;
@@ -477,7 +521,7 @@ body {
 							.panelnav { 
 								left: 33.2%; 
 								@media #{$medium-down} { width: 33.6%; } 
-								@media #{$small-only} { width: 34.4%; left: 33%; } }
+								@media #{$small-only} { width: 34.1%; left: 33%; } }
 						}
 						&:last-child {
 							.panelnav { right: 0; }
@@ -521,9 +565,9 @@ body {
 				@media #{$medium-down} { 
 					.content {
 						position:absolute;
-						top: 41px;
+						top: 46px;
 						@media #{$small-only} {
-							top: 33px;
+							top: 46px;
 						}
 						left: 0;
 						width: 100%;
@@ -898,6 +942,12 @@ body {
 							width: auto;
 							height: 86%;
 							margin: 4px 4% 4px 0;
+							&.small {
+								width:25%;
+								max-width:25%;
+								height: auto;
+								margin: 4px 4% 4px 4%;
+							}
 						}
 					}
 				}
@@ -945,6 +995,9 @@ body {
 	.align-center {
 		&.STlogo {
 			width: 100px;
+			height: 45px;
+			overflow: hidden;
+
 			@media #{$small-up} { width: 160px; margin-left:0px; text-align:left; }
 			@media #{$medium-up} { width: 250px; margin-left:auto; }
 			@media #{$large-up} { width: 310px; }
@@ -1005,11 +1058,14 @@ body {
 			z-index: -1;
 			overflow: hidden;
 			width:100%;
+			@include simple-transition(all,1000ms);
 			&.loading {
 				//display: none;
+				@include simple-transition(all,1000ms);
+				@include opacity(.0);
 			}
 			img {
-				@include simple-transition(all,500ms);
+				@include simple-transition(all,1000ms);
 				height:auto;
 				position:absolute;
 				max-width:125%;
@@ -1333,6 +1389,7 @@ body {
 		&#startModal {
 			h2, h4 {
 				text-align: center;
+
 			}
 			#startStyle {
 				text-align: center;
@@ -1343,6 +1400,17 @@ body {
 					&#startBarn {}
 					&#startPeak {}
 					&#startRound {}
+				}
+				.buttonContainer {
+					button {
+						max-width: 90%;
+						display: block;
+						margin: 2px auto;
+					}
+				}
+				.styleImages {
+					max-width: 1500px;
+					margin: 0 auto;
 				}
 				.style { 
 					width: 33.3333%; 
@@ -1397,7 +1465,7 @@ body {
 					.styleText {
 						position:absolute;
 						width: 100%;
-						bottom: -64%;
+						bottom: -60%;
 						min-height: 100%;
 						max-height: 100%;
 						padding: 18% 10%;
@@ -1408,7 +1476,7 @@ body {
 							}
 						}
 						p {
-							font-size: rem-calc(16);
+							font-size: rem-calc(13);
 						}
 					}
 					&:hover {
@@ -1557,6 +1625,19 @@ body {
 
 		}
 	}
+	.right-off-canvas-menu {
+		.off-canvas-list {
+			a {
+				display: inline-block;
+				margin: 10px 30px;
+			}
+			.fa.fa-shopping-cart {
+				max-width: 50px;
+			}
+
+		}
+	}
+	
 	.fa.fa-shopping-cart {
 		position: relative;
 		font-size: rem-calc(25);
@@ -1643,6 +1724,7 @@ body {
 		img {
 			margin-right: 40px; 
 			max-height: 100%;
+			float: left;
 		}
 		a {
 			color: rgba(255,255,255,.9);
@@ -1686,6 +1768,34 @@ body {
 				background-color:$shelter-yellow;
 				border:2px solid $shelter-yellow;
 			}
+			.webforms-fields-comment {
+				display:none;
+			}
+		}
+	}
+	.checkout-cart-index {
+		table {
+			tr {
+				td {
+					color:$shelter-grey;
+					text-align: left;
+				}
+			}
+			&#shopping-cart-totals-table {
+				tr {
+					td {
+						color:#000;
+						
+					}
+				}
+			}
+		}
+		#discount-coupon-form label, .cart .giftcard label {
+			vertical-align: top;
+			margin-top: 5px;
+		}
+		#discount-coupon-form .field-wrapper, .cart .giftcard .field-wrapper {
+			width: 72%;
 		}
 	}
 }
