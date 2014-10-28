@@ -86,6 +86,12 @@ aeProduct.Config.prototype = {
 
         }.bind(this));
 
+        // clear specs table:
+        var specs = $$('#product-attribute-specs-table td');
+        specs.each(function (td) {
+            td.innerHTML = "No";
+        });
+
         new Ajax.Request('/fbconfig/index', {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
