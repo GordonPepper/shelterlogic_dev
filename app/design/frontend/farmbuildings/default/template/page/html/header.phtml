@@ -34,44 +34,21 @@
 
     <section class="right tab-bar-section">
             <div class="row">
-                    <div class="medium-2 show-for-medium-up columns">
-                            &nbsp;
-                    </div>
-
-                    <div class="small-8 medium-8 columns nomar nopadd">
-                            <div class="STlogo align-center main" id="mainSTlogo">
-                                    <a class="STlogo" href="<?php echo $this->getUrl('') ?>">
-                                        <span class="title main">
-                                            <span class="st-s"></span> 
-                                            <span class="st-h"></span> 
-                                            <span class="st-e"></span> 
-                                            <span class="st-l"></span> 
-                                            <span class="st-t1"></span> 
-                                            <span class="st-e"></span> 
-                                            <span class="st-r"></span> 
-                                            <span class="st-t yellow"></span> 
-                                            <span class="st-e yellow"></span> 
-                                            <span class="st-c yellow"></span> 
-                                            <span class="st-h no-break yellow"></span>
-                                        </span>
-                                    </a>
-                            </div>
-                    </div>
-
-                    <div class="small-4 medium-2 columns align-right nomar nopadd">
+                    
+                    <div class="show-for-medium-up small-4 medium-4 columns align-right nomar nopadd right">
                         <div class="store-language-container">
                             <?php echo $this->getChildHtml('store_language') ?>
                         </div>
 
                         <?php echo $this->getChildHtml('currency_switcher') ?>
-                        <a href="#header-nav" class="skip-link skip-nav">
+                       <!--  <a href="#header-nav" class="skip-link skip-nav">
                             <span class="icon"></span>
-                            <span class="label"><?php echo $this->__('Menu'); ?></span>
-                        </a>
+                            <span class="label"><?php // echo $this->__('Menu'); ?></span>
+                        </a> -->
 
                         <!-- <a href="#header-search" class="skip-link skip-search">
                             <span class="icon"></span>
-                            <span class="label"><?php echo $this->__('Search'); ?></span>
+                            <span class="label"><?php // echo $this->__('Search'); ?></span>
                         </a> -->
 
                         <a href="#header-account" class="skip-link skip-account">
@@ -99,12 +76,38 @@
                         <a class="fa fa-shopping-cart" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>" style="font-style: italic" target="_blank"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a>
                         <a data-reveal-id="contactModal" href="#contact">Help</a>
                     </div>
+
+                    <div class="small-8 medium-6 small-centered columns">
+                            <div class="STlogo align-center main" id="mainSTlogo">
+                                    <a class="STlogo" href="<?php echo $this->getUrl('') ?>">
+                                        <span class="title main">
+                                            <span class="st-s"></span> 
+                                            <span class="st-h"></span> 
+                                            <span class="st-e"></span> 
+                                            <span class="st-l"></span> 
+                                            <span class="st-t1"></span> 
+                                            <span class="st-e"></span> 
+                                            <span class="st-r"></span> 
+                                            <span class="st-t yellow"></span> 
+                                            <span class="st-e yellow"></span> 
+                                            <span class="st-c yellow"></span> 
+                                            <span class="st-h no-break yellow"></span>
+                                        </span>
+                                    </a>
+                            </div>
+                    </div>
+
+                    
             </div>
+    </section>
+    <section class="hide-for-medium-up right-small">
+            <a class="right-off-canvas-toggle menu-icon"><span></span></a>
     </section>
 </nav><!-- Off Canvas Menu -->
 
 <aside class="left-off-canvas-menu">
         <!-- whatever you want goes here -->
+        <?php echo $this->__('Menu'); ?>
         <?php echo $this->getChildHtml('topMenu') ?>
         <ul class="off-canvas-list">
 
@@ -121,6 +124,13 @@
                 <li><a data-reveal-id="privacyModal" href="#privacy">Privacy Policy</a></li>
 
                 <li><a class="UI startOver" data-func="startOver" href="#startOver">Start Over</a></li>
+        </ul>
+</aside>
+<aside class="right-off-canvas-menu">
+        <ul class="off-canvas-list">
+
+                <li><a class="fa fa-shopping-cart" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>" style="font-style: italic" target="_blank"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a> <a data-reveal-id="contactModal" href="#contact">Help</a></li>
+
         </ul>
 </aside>
 

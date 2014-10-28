@@ -9,10 +9,51 @@ aeProduct.Config = Class.create();
 aeProduct.Config.prototype = {
     initialize: function(config) {
         this.config = config;
-        //alert("configurating the product! ");
-
         this.settings = $$('.super-attribute-select');
-        //alert('found selector: ' + selectors[0].id);
+
+        var self = this;
+        if(this.config.hasOwnProperty('reconfigure') && this.config.reconfigure == "true") {
+            var attributeId = '';
+            for(i = 0; i < this.settings.length; i++ ) {
+                attributeId = this.settings[i].id.replace(/[a-z]*/, '');
+                for(j = 0; j < this.config.attributes[attributeId].length; j++) {
+                    var newOption = new Option(this.config.attributes[attributeId][j]['val'], this.config.attributes[attributeId][j]['id']);
+                    if(this.config.attributes[attributeId][j].selected == 1) {
+                        newOption.selected = true;
+                    }
+                    this.settings[i].options[j+1] = newOption;
+                    if(this.config.attributes[attributeId][j].pid !== "undefined"){
+                        this.settings[i].options[j+1].dataset.pid =  this.config.attributes[attributeId][j].pid;
+                    }
+
+                }
+            }
+            var params = [];
+            var last = this.settings[this.settings.length - 1];
+            params.push(
+                {
+                    "pid": last.options[last.options.selectedIndex].dataset.pid,
+                    "spid": aeProductId
+                }
+            );
+            new Ajax.Request('/fbconfig/index/product', {
+                method: 'post',
+                requestHeaders: {Accept: 'application/json'},
+                postBody: Object.toJSON(params),
+                onSuccess: function(transport) {
+                    var result = transport.responseText.evalJSON(true);
+                    self.updateAttributes(result);
+                    self.addSkuToRequestForm(result.sku);
+                }
+            })
+
+        } else {
+            // set first one:
+            for (i = 0; i < this.config['options'].length; i++) {
+                var newOption = new Option(this.config.options[i]['val'], this.config.options[i]['id']);
+                this.settings[0].options[i+1] = newOption;
+            }
+        }
         this.settings.each(function(element) {
             if(this.settings[this.settings.length - 1].id == element.id){
                 Event.observe(element, 'change', this.lastOptionChanged.bind(this));
@@ -20,13 +61,6 @@ aeProduct.Config.prototype = {
                 Event.observe(element, 'change', this.configure.bind(this));
             }
         }.bind(this));
-
-        // set first one:
-        var attributeId = this.settings[0].id.replace(/[a-z]*/, '');
-        for (i = 0; i < this.config['options'].length; i++) {
-            var newOption = new Option(this.config.options[i]['val'], this.config.options[i]['id']);
-            this.settings[0].options[i+1] = newOption;
-        }
 
         // need to clean and disable subsequent values.
     },

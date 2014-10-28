@@ -57,15 +57,6 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$from = $select->from(
 			array('e' => $conn->getTableName('catalog_product_entity')),
 			$fields
-//			array(
-//				'id' => 'e.entity_id',
-//				'style' => 'at_style.value',
-//				'fabric_material' => 'at_fabric_material.value',
-//				'fabric_color' => 'at_fabric_color.value',
-//				'length' => 'at_length.value',
-//				'width' => 'at_width.value',
-//				'height' => 'at_height.value'
-//			)
 		);
 		$from->joinInner(
 			array('link_table' => $conn->getTableName('catalog_product_super_link')),
@@ -91,7 +82,6 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			);
 		}
 		$from->where(implode(' AND ', $where));
-//		Mage::log(sprintf('created select: %s', $select->__toString()));
 		$labelMap = $this->getAttributeLabelMap($attmap);
 		$tree = array();
 		foreach($conn->fetchAll($select) as $row){
@@ -149,6 +139,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 	}
 
 	public function first_getAttributeTree($configprod){
+		throw new Exception("invalid method call");
 		//$product = $this->getProduct();
 		//return "{product name is: {$product->getName()}";
 		/**
@@ -206,9 +197,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 		if($tree === false) {
 			$product = Mage::getModel('catalog/product')->load($pid);
-			//Mage::logException("oops, tree does not exist! must build new tree");
 			$tree = $this->getAttributeTree($product);
-
 			$cache->save($tree, $key);
 		}
 		$cache->setOption('automatic_serialization', $option); // must reset the option

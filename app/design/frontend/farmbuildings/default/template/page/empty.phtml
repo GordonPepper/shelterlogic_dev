@@ -47,7 +47,7 @@
 <body class="page-empty <?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
     <?php echo $this->getChildHtml('after_body_start') ?>
     <div id="cofiguratorMain">
-	    <div class="off-canvas-wrap docs-wrap" data-offcanvas>
+	    <div class="off-canvas-wrap" data-offcanvas>
 			<div class="inner-wrap winH">
 			    <i class="fa fa-circle-o-notch fa-spin" id="loader"></i>
 
@@ -276,8 +276,9 @@
 			                        <dl class="accordion hide-for-large-up" data-accordion="" data-options="multi_expand:false;toggleable: true" id="mobileAccordion"></dl>
 			                        <div class="infoWind info infoBuilderBox hide-for-large-up left">
 			                            <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-			                            <h3>test</h3>
-			                            <p>Lorem ipsum dolor sit amet.</p>
+			                            <br><br>
+	                                        <img class="windAndSnow left small" src="<?php echo $this->getSkinUrl('images/src/sp_wind_snow.png'); ?>"> <!-- <h3>Wind &amp; Snow</h3> -->
+	                                        <p>Wind and snow loads given are for reference only and assume a securely anchored frame according to local building codes and ordinances. These have been calculated using combined snow and wind load provisions in accordance with ASCE 7-05 based on an unoccupied, fully enclosed building. Local code requirements vary by location; Conformance to local codes is the responsibility of the purchaser.</p>
 			                        </div>
 			                    </div>
 			                </div><!-- end elements -->
@@ -306,7 +307,7 @@
 		        </div>
 		    </div>
 		    <div class="row" id="startStyle">
-		        <div class="show-for-large-up">
+		        <div class="styleImages show-for-large-up">
 		            <div class="styles style peak">
 		                <img alt="Peak style frame" class="" id="start_peak" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
 		                <div class="styleText">
@@ -372,7 +373,7 @@
 		                </form> -->
 		                <div class="border-right webforms">
 		                <?php echo $this->getLayout()->createBlock('webforms/webforms', 'quote_webform_block', array(
-						    'webform_id' => 2,
+						    'webform_id' => 3,
 						    'template' => 'webforms/default.phtml',
 						))->toHtml(); ?>
 						</div>
@@ -399,7 +400,7 @@
 		                            <div class="spacing" id="FabricMaterialSelected">
 		                                <span class="cap">FabricMaterial</span> <span class="attribute right">-</span>
 		                            </div>
-		                            <div class="spacing" id="ColorSelected">
+		                            <div class="spacing" id="FabricColorSelected">
 		                                <span class="cap">color</span> <span class="attribute right">-</span>
 		                            </div>
 		                        </div>
