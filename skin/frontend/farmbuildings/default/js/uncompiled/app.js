@@ -1,62 +1,62 @@
-//jQuery.noconflict();
-
-	jQuery(document).foundation({
+jQuery.noConflict();
+(function( $ ) {
+	$(document).foundation({
 		reveal : {
 		    close_on_background_click: false
 		},
 		 
 	});
-	jQuery.cookie.raw = true;
+	$.cookie.raw = true;
 
 
 	// get tagname 
-	jQuery.fn.tagName = function() {
+	$.fn.tagName = function() {
 	  return this.prop("tagName").toLowerCase();
 	};
 	// does exist
-	jQuery.fn.doesExist = function(){
-	        return jQuery(this).length > 0;
+	$.fn.doesExist = function(){
+	        return $(this).length > 0;
 	};
-	jQuery.fn.centerCenter = function(){
-	 if(jQuery(this).length <= 0)return false;
-	 jQuery(this).each(function(){
+	$.fn.centerCenter = function(){
+	 if($(this).length <= 0)return false;
+	 $(this).each(function(){
 	   //get height and width (unitless) and divide by 2
-	   var hWide = (jQuery(this).outerWidth())/2; //half the image's width
-	   var hTall = (jQuery(this).outerHeight())/2; //half the image's height, etc.
+	   var hWide = ($(this).outerWidth())/2; //half the image's width
+	   var hTall = ($(this).outerHeight())/2; //half the image's height, etc.
 
 	   // attach negative and pixel for CSS rule
 	   hWide = '-' + hWide + 'px';
 	   hTall = '-' + hTall + 'px';
 
-	   jQuery(this).css({
+	   $(this).css({
 	     "margin-left" : hWide,
 	     "margin-top" : hTall
 	   });
 	 });
 	};
-	jQuery.fn.centerVertical = function(){
-	 if(jQuery(this).length <= 0)return false;
-	 jQuery(this).each(function(){
+	$.fn.centerVertical = function(){
+	 if($(this).length <= 0)return false;
+	 $(this).each(function(){
 	   //get height and width (unitless) and divide by 2
-	   var hTall = (jQuery(this).height())/2; //half the image's height, etc.
+	   var hTall = ($(this).height())/2; //half the image's height, etc.
 
 	   // attach negative and pixel for CSS rule
 	   hTall = '-' + hTall + 'px';
 
-	   jQuery(this).css({
+	   $(this).css({
 	     "margin-top" : hTall
 	   });
 	 });
 	};
-	jQuery.fn.centerHorizontal = function(){
-	 if(jQuery(this).length <= 0)return false;
-	 jQuery(this).each(function(){
-	   var hWide = (jQuery(this).width())/2; //half the image's width
+	$.fn.centerHorizontal = function(){
+	 if($(this).length <= 0)return false;
+	 $(this).each(function(){
+	   var hWide = ($(this).width())/2; //half the image's width
 
 	   // attach negative and pixel for CSS rule
 	   hWide = '-' + hWide + 'px';
 
-	   jQuery(this).css({
+	   $(this).css({
 	     "margin-left" : hWide
 	   });
 	 });
@@ -74,7 +74,7 @@
 	var is_Opera = browser.indexOf("presto") > -1;
 	var device_type = (isMobile.any() ? "mobile" : "desktop");
 	setTimeout(function() {
-		jQuery('body').addClass( device_type + ' op_1 ' + browser.split(' ')[0] );
+		$('body').addClass( device_type + ' op_1 ' + browser.split(' ')[0] );
 	},500);
 	// Avoid `console` errors in browsers that lack a console.
 	(function() {
@@ -104,43 +104,43 @@
 	| Base selectors
 	|--------------------------------------------------------------------------
 	*/
-    var _bod = jQuery('body');
-    var _b = jQuery('#building');
-    var _screenH = jQuery('.winH');
-    var _screenW = jQuery('.winW');
-    var _screenWH = jQuery('.winHW');
-    var _screenCenter = jQuery('.centerCenter');
-    var _screenCenterVertical = jQuery('.centerVertical');
-    var _screenCenterHorizontal = jQuery('.centerHorizontal');
-    var _makeSquare = jQuery('.makeSquare');
+    var _bod = $('body');
+    var _b = $('#building');
+    var _screenH = $('.winH');
+    var _screenW = $('.winW');
+    var _screenWH = $('.winHW');
+    var _screenCenter = $('.centerCenter');
+    var _screenCenterVertical = $('.centerVertical');
+    var _screenCenterHorizontal = $('.centerHorizontal');
+    var _makeSquare = $('.makeSquare');
 
-    var _startMod = jQuery('#startModal');
-    var _landscapeMod = jQuery('#landscapeModal');
+    var _startMod = $('#startModal');
+    var _landscapeMod = $('#landscapeModal');
 
-    var _door_center_height = jQuery('#door_center_height');
-    var _UIDiagram = jQuery('#diagram');
-    var _theDiagram = jQuery('#theDiagram');
+    var _door_center_height = $('#door_center_height');
+    var _UIDiagram = $('#diagram');
+    var _theDiagram = $('#theDiagram');
 
-    var _calcPrice = jQuery('.calcPrice');
+    var _calcPrice = $('.calcPrice');
 
     /*
 	|--------------------------------------------------------------------------
 	| UI elements
 	|--------------------------------------------------------------------------
 	*/
-    var _ui_element = jQuery('.UI');
-    var _ui_element_option = jQuery('.UI.UI-Option');
-    var _ui_builder_nav = jQuery('.UIBuilderNav');
-    var _ui_builder_nav_item = jQuery('.UIBuilderNav .UI');
-    var _ui_builder_list = jQuery('#UIList');
-    var _ui_builder_list_li = jQuery('ul#UIList li.UISection');
+    var _ui_element = $('.UI');
+    var _ui_element_option = $('.UI.UI-Option');
+    var _ui_builder_nav = $('.UIBuilderNav');
+    var _ui_builder_nav_item = $('.UIBuilderNav .UI');
+    var _ui_builder_list = $('#UIList');
+    var _ui_builder_list_li = $('ul#UIList li.UISection');
     var _info_selected_class = 'selected';
     var _uni_info_class = 'info';
-    var _ui_quickNav = jQuery('#quickNav');
-    var _info_Main = jQuery('#infoMain');
-    var _mobile_info_Main = jQuery('#mobileInfoMain');
-    var _accordion_dl_main = jQuery('#mainAccordion');
-    var _accordion_dl_mobile = jQuery('#mobileAccordion');
+    var _ui_quickNav = $('#quickNav');
+    var _info_Main = $('#infoMain');
+    var _mobile_info_Main = $('#mobileInfoMain');
+    var _accordion_dl_main = $('#mainAccordion');
+    var _accordion_dl_mobile = $('#mobileAccordion');
 
     /*
 	|--------------------------------------------------------------------------
@@ -148,15 +148,15 @@
 	|--------------------------------------------------------------------------
 	*/
 	var _selectPartial = 'configurable_';
-	var _selectGroup = jQuery('.product-essential select');
+	var _selectGroup = $('.product-essential select');
 	var _detailPartial = 'ctl00_ContentPlaceHolderBody_ctl00_lbl';
 	var _defaultFormOption = 'Choose a';
-	var _price = jQuery('#mainPrice .regular-price .price');
-	var _quoteModal = jQuery('#quoteModal');
+	var _price = $('#mainPrice .regular-price .price');
+	var _quoteModal = $('#quoteModal');
 	var _quoteMessage = _quoteModal.find('input[name=message]');
 	// var _optionsTable = 'ctl00_ContentPlaceHolderBody_ctl00_tblOptions';
-	var _miniCart = jQuery('.header-minicart .count');
-	var _items_miniCart_count = jQuery('.header-minicart .count');
+	var _miniCart = $('.header-minicart .count');
+	var _items_miniCart_count = $('.header-minicart .count');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -198,20 +198,20 @@
 	var UISlide = {};
 	function setUISlide () {
 		UISlide = {
-			'width'			: jQuery('.UIBuilderContainer').width(),
-			'in_width'		: jQuery('.UIBuilderContainer').innerWidth(),
-			'count'			: jQuery('ul#UIList li.UISection').size(),
+			'width'			: $('.UIBuilderContainer').width(),
+			'in_width'		: $('.UIBuilderContainer').innerWidth(),
+			'count'			: $('ul#UIList li.UISection').size(),
 		};
 	}setUISlide ();
 	// extend calcuable data for UISlider element
-	jQuery.extend(true, UISlide, {
+	$.extend(true, UISlide, {
 		'contanWidth'	: (UISlide.in_width*UISlide.count)
 	});
 
 	/*
 	|--------------------------------------------------------------------------
 	| scene7 variables
-	| example url : 'http://s7d2.scene7.com/is/image/ShelterLogic/pe-cb-025xxx14_cover020?layer=1&src=pe-cb-025xxx14_cover060&jQuerygreenjQuery&posN=0,0&layer=2&src=pe-cb-025xxx14_logo-frm&jQuerygrayjQuery&posN=0,0&layer=3&src=xx-xx-000xxx00_charact1&posN=0,0';
+	| example url : 'http://s7d2.scene7.com/is/image/ShelterLogic/pe-cb-025xxx14_cover020?layer=1&src=pe-cb-025xxx14_cover060&$green$&posN=0,0&layer=2&src=pe-cb-025xxx14_logo-frm&$gray$&posN=0,0&layer=3&src=xx-xx-000xxx00_charact1&posN=0,0';
 	|--------------------------------------------------------------------------
 	*/
  
@@ -355,7 +355,7 @@
 			//console.log(text);
 			loc = window.location;
 			//loc = 'www.shelterlogic.com/farmtest';
-			jQuery.get(
+			$.get(
 				"https://zapier.com/hooks/catch/o2hiic/",
 				{ url: loc, message: text, date: Date() },
 				function(data) {
@@ -397,7 +397,7 @@
 		    	if (centertimer) clearTimeout(centertimer);
 		    	var doCenter = function() {
 		    		_screenCenter.each(function() {
-			    		jQuery(this).stop().centerCenter();
+			    		$(this).stop().centerCenter();
 			    	});
 			    	return;
 		    	}
@@ -407,16 +407,16 @@
 		    setActive: function(pos) {
 		    	var currentPos = pos + 1;
 		    	var quickSelect = function() {
-		    		if(jQuery(this).data('index') < currentPos) {
-		    			jQuery(this).removeClass('disable').addClass('active');
-		    		} else if (jQuery(this).data('index') == currentPos) {
-		    			jQuery(this).removeClass('disable').addClass('current');
+		    		if($(this).data('index') < currentPos) {
+		    			$(this).removeClass('disable').addClass('active');
+		    		} else if ($(this).data('index') == currentPos) {
+		    			$(this).removeClass('disable').addClass('current');
 		    		} else {
-		    			jQuery(this).removeClass('active').addClass('disable');
+		    			$(this).removeClass('active').addClass('disable');
 		    		}
 		    		return;
 		    	}
-		    	return jQuery('.UI.quickSelect').each(quickSelect);
+		    	return $('.UI.quickSelect').each(quickSelect);
 		    },
 		    translateValue: function (v,item) {
 		    	if (v.indexOf(_defaultFormOption) <= 0) return false;
@@ -500,7 +500,7 @@
 	    			color = s7_colors[_formObj.fabriccolor['Gray']];
 	    		}
 
-	    		var imgWidth = (Math.floor(jQuery(window).width()*1.5) < 2000 ? Math.floor(jQuery(window).width()*1.5) : 1999);
+	    		var imgWidth = (Math.floor($(window).width()*1.5) < 2000 ? Math.floor($(window).width()*1.5) : 1999);
 	    		var image_starter = 'blank_logo';
 	    		var image_vs, logo_vs, image_url, image_white = '';
 	    		
@@ -546,18 +546,18 @@
 			    image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/'+image_starter+
 			    '?layer=1&src='+image_vs+'&'+color+'&posN='+img_offset+
 			    ',0&layer=2&src='+image_white+'&posN='+img_offset+
-			    ',0&layer=3&src='+logo_vs+'&jQuerygrayjQuery&posN='+img_offset+
+			    ',0&layer=3&src='+logo_vs+'&$gray$&posN='+img_offset+
 			    ',0&layer=4&src='+s7_guy+'&posN='+img_offset+
 			    ',0&fmt=png-alpha&wid='+imgWidth+'&hei='+imgWidth;
 
 			    // console.log('?layer=1&src='+image_vs+'&'+color+'&posN='+img_offset+
 			    // ',0&layer=2&src='+image_white+'&posN='+img_offset+
-			    // ',0&layer=3&src='+logo_vs+'&jQuerygrayjQuery&posN='+img_offset+
+			    // ',0&layer=3&src='+logo_vs+'&$gray$&posN='+img_offset+
 			    // ',0&layer=4&src='+s7_guy+'&posN='+img_offset+
 			    // ',0&fmt=png-alpha&wid='+imgWidth+'&hei='+imgWidth);
 			    
 			    return image_url;
-		    	// return 'http://s7d2.scene7.com/is/image/ShelterLogic/pe-cb-025xxx14_cover020?layer=1&src=pe-cb-025xxx14_cover060&jQuerygreenjQuery&posN=0,0&layer=2&src=pe-cb-025xxx14_logo-frm&jQuerygrayjQuery&posN=0,0&layer=3&src=xx-xx-000xxx00_charact1&posN=0,0';
+		    	// return 'http://s7d2.scene7.com/is/image/ShelterLogic/pe-cb-025xxx14_cover020?layer=1&src=pe-cb-025xxx14_cover060&$green$&posN=0,0&layer=2&src=pe-cb-025xxx14_logo-frm&$gray$&posN=0,0&layer=3&src=xx-xx-000xxx00_charact1&posN=0,0';
 
 		    },
 		    buildCookie: {
@@ -586,7 +586,7 @@
 						}
 						for (i = 0; i <= _array.length; i++) {
 							if ( i < _array.length ) {
-							    var in_a = jQuery.inArray( _array[i] , match_arr );
+							    var in_a = $.inArray( _array[i] , match_arr );
 							    if(in_a >= 0) { _coded.push(insert_arr[in_a]); }
 							    else { _coded.push(_array[i]); }
 							} else if ( i = _array.length ) {
@@ -599,24 +599,24 @@
 					}
 		    	},
 		    	set: 	function (_name, _val) {
-		    		//jQuery.cookie( _name, _val, { expires: _cookExp, path: _cookPath } );
-					jQuery.cookie( this.coded( _name, 'en' ), this.coded( _val, 'en' ), { expires: _cookExp, path: _cookPath } );
+		    		//$.cookie( _name, _val, { expires: _cookExp, path: _cookPath } );
+					$.cookie( this.coded( _name, 'en' ), this.coded( _val, 'en' ), { expires: _cookExp, path: _cookPath } );
 					return;
 		    	},
 		    	get: 	function (_name) {
-		    		//return jQuery.cookie( _name );
-		    		return this.coded( jQuery.cookie( _name ), 'de' );
+		    		//return $.cookie( _name );
+		    		return this.coded( $.cookie( _name ), 'de' );
 		    	},
 		    	getObj: function () {
-		    		return jQuery.cookie();
+		    		return $.cookie();
 		    	},
 		    	tester: 	function (_name) {
-		    		//return jQuery.cookie( _name ) !== undefined ? true : false;
-		    		return jQuery.cookie( this.coded( _name, 'en' ) ) !== undefined ? true : false;
+		    		//return $.cookie( _name ) !== undefined ? true : false;
+		    		return $.cookie( this.coded( _name, 'en' ) ) !== undefined ? true : false;
 		    	},
 		    	relinquish: 	function (_name) {
-		    		//return jQuery.removeCookie( _name,{ path: _cookPath });
-		    		return jQuery.removeCookie( this.coded( _name, 'en' ),{ path: _cookPath });
+		    		//return $.removeCookie( _name,{ path: _cookPath });
+		    		return $.removeCookie( this.coded( _name, 'en' ),{ path: _cookPath });
 		    	},
 		    	clear: function() {
 		    		Object.keys( _local.buildCookie.getObj() ).forEach(function(key) {
@@ -639,7 +639,7 @@
 		| Extend the buildings namespace
 		|--------------------------------------------------------------------------
 		*/
-	    jQuery.extend(true, _NS, {
+	    $.extend(true, _NS, {
 	    	
 		    imageUrl: function () {
 		    	if(_lastSelection == "FabricMaterial")
@@ -653,7 +653,7 @@
 		        var nImg = document.createElement('img');
 		        nImg.setAttribute('src', image_url);
 		        nImg.setAttribute('class', 'preload');
-		        jQuery('.preload').append(nImg);
+		        $('.preload').append(nImg);
 				nImg.onload = function() {
 				    // image exists and is loaded
 				    _i.attr('src',image_url);
@@ -664,13 +664,13 @@
 				nImg.onerror = function() {
 				    // image did not load
 				    if(_formObj.style[_selectArray['Style']] === 'Peak')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&jQuerygrayjQuery&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&jQuerygrayjQuery&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else if(_formObj.style[_selectArray['Style']] === 'Barn')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&jQuerygrayjQuery&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&jQuerygrayjQuery&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else if(_formObj.style[_selectArray['Style']] === 'Round')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&jQuerygrayjQuery&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&jQuerygrayjQuery&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&jQuerygrayjQuery&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&jQuerygrayjQuery&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 
 				    _i.attr('src',image_url);
 				    
@@ -687,15 +687,15 @@
 					   var width = obj['Width'];
 					   var height = obj['Height'];
 					   var src = getBaseUrl()+'images/src/diagrams/'+obj['Style']+'/'+style+'_'+width+'x'+height+'.png';
-					   jQuery.get(src)
+					   $.get(src)
 					    .done(function() { 
 					        // exists code 
-					        _theDiagram.each(function() { jQuery(this).attr('src', src); });
-					   		_UIDiagram.each(function() { jQuery(this).show(); });
+					        _theDiagram.each(function() { $(this).attr('src', src); });
+					   		_UIDiagram.each(function() { $(this).show(); });
 					    }).fail(function() { 
 					        // not exists code
-					        _theDiagram.each(function() { jQuery(this).attr('src', ''); });
-					   		_UIDiagram.each(function() { jQuery(this).hide(); });
+					        _theDiagram.each(function() { $(this).attr('src', ''); });
+					   		_UIDiagram.each(function() { $(this).hide(); });
 					    });
 					    return;
 					}
@@ -703,7 +703,7 @@
 		    			if ( key == 'Style' || key == 'Width' || key == 'Height' ) {
 		    				if ( _selectArray[key] !== null ) {
 								
-								loadSelected_tmp = jQuery.grep(obj, function( n ) {
+								loadSelected_tmp = $.grep(obj, function( n ) {
 									return ( n[key] == _formObj[key.toLowerCase()][_selectArray[key]]);
 								});
 								
@@ -721,19 +721,19 @@
 		    		if (loadSelected_tmp !== false && obtained == 1) {
 		    			ImageExist(loadSelected[0]);
 		    			if(loadSelected[0]['door_width'] !== "0")
-		    				jQuery('#door_width .attribute').text(loadSelected[0]['door_width']);
+		    				$('#door_width .attribute').text(loadSelected[0]['door_width']);
 		    			if(loadSelected[0]['door_height'] !== "0")
-		    				jQuery('#door_height .attribute').text(loadSelected[0]['door_height']);
+		    				$('#door_height .attribute').text(loadSelected[0]['door_height']);
 		    			if(loadSelected[0]['snow_load'] !== "0")
-		    				jQuery('#snow_load .attribute').text(loadSelected[0]['snow_load']+" psf*");
+		    				$('#snow_load .attribute').text(loadSelected[0]['snow_load']+" psf*");
 		    			if(loadSelected[0]['wind_load'] !== "0")
-		    				jQuery('#wind_load .attribute').text(loadSelected[0]['wind_load']+" mph*");
+		    				$('#wind_load .attribute').text(loadSelected[0]['wind_load']+" mph*");
 
 		    			if(loadSelected[0]['door_center_height'] !== "0") {
-		    				jQuery('#door_center_height').show();
-		    				jQuery('#door_center_height .attribute').text(loadSelected[0]['door_center_height']);
+		    				$('#door_center_height').show();
+		    				$('#door_center_height .attribute').text(loadSelected[0]['door_center_height']);
 		    			} else {
-		    				jQuery('#door_center_height').hide();
+		    				$('#door_center_height').hide();
 		    			}
 		    			_UIDiagram.show();
 		    		} else {
@@ -749,16 +749,16 @@
 		    			return false;
 
 		    		Object.keys(_selectArray).forEach(function(key) {
-					    jQuery('.UI[data-type="'+key+'"]').each(function(){
-					    	if (jQuery(this).data('value') == _selectArray[key]) {
-					    		jQuery(this).addClass(_info_selected_class);
+					    $('.UI[data-type="'+key+'"]').each(function(){
+					    	if ($(this).data('value') == _selectArray[key]) {
+					    		$(this).addClass(_info_selected_class);
 					    	}
 					    });
 					    if(_formObj[key.toLowerCase()][_selectArray[key]] !== null && _formObj[key.toLowerCase()][_selectArray[key]] !== undefined) {
 					    	if ( key == 'Width' || key == 'Height' || key == 'Length' ) {
-					    		jQuery('#'+key+'Selected .attribute').text(_formObj[key.toLowerCase()][_selectArray[key]]+"'");
+					    		$('#'+key+'Selected .attribute').text(_formObj[key.toLowerCase()][_selectArray[key]]+"'");
 					    	} else {
-						    	jQuery('#'+key+'Selected .attribute').text(_formObj[key.toLowerCase()][_selectArray[key]]);
+						    	$('#'+key+'Selected .attribute').text(_formObj[key.toLowerCase()][_selectArray[key]]);
 						    }
 					    }
 					    //_bod.addClass(key+'_'+_selectArray[key]);
@@ -779,9 +779,9 @@
 		    		return;
 		    	},
 		    	ajaxModalConnect: function () {
-		    		jQuery('.modalAjax').each(function() {
+		    		$('.modalAjax').each(function() {
 		    			// this
-		    			var _this = jQuery(this);
+		    			var _this = $(this);
 		    			var where = window.location.host;
 		    			var fileslocation = getBaseUrl();
 		    			// get href
@@ -791,25 +791,25 @@
 		    		return;
 		    	},
 		    	updateCartCount: function () {
-		    		jQuery('.fa.fa-shopping-cart span').text(_items_miniCart_count.text());
+		    		$('.fa.fa-shopping-cart span').text(_items_miniCart_count.text());
 		    		return;
 		    	},
 		    	getFormAndSetUI: function () {
 		    		// create quick nav
 					_ui_builder_list_li.each(function(index) {
-						var _e = jQuery(this);
+						var _e = $(this);
 						var _eAsset = _e.attr('id').split('choose').pop();
 						_eAsset = _eAsset.split('Fabric').pop();
 						_ui_quickNav.append('<div class="small-4 large-4 columns UI quickSelect" data-func="whichChoice" data-index="'+index+'">'+_eAsset+'</div>');
 					});
 		    		// get the options from the hidden form and build our select fields
 		    		_ui_element_option.each(function() {
-		    			var _this = jQuery(this);
+		    			var _this = $(this);
 		    			if(_this.prop('tagName').toLowerCase() == 'select') {
 		    				var __type = _this.data('type');
-		    				var _loc_select = jQuery('.'+_selectPartial + __type);
-		    				jQuery(_loc_select).find( 'option' ).each(function() {
-		    					var _ = jQuery(this);
+		    				var _loc_select = $('.'+_selectPartial + __type);
+		    				$(_loc_select).find( 'option' ).each(function() {
+		    					var _ = $(this);
 		    					var _val = _.attr('value');
 		    					var _new = _.clone();
 		    					_new.attr('data-value', _.text());
@@ -818,21 +818,21 @@
 		    			}
 		    		});
 		    		// get and set FabricMaterial
-		    		jQuery('.buttonContainer').each(function() {
-		    			var _this = jQuery(this);
+		    		$('.buttonContainer').each(function() {
+		    			var _this = $(this);
 		    			var __id = _this.attr('id');
 		    			var __type = __id.split('build_').pop();
-	    				var _loc_select = jQuery('.'+_selectPartial + __type);
+	    				var _loc_select = $('.'+_selectPartial + __type);
 	    				var _dataFunc = 'setAttr';
-	    				jQuery(_loc_select).find( 'option' ).each(function(index) {
-	    					var __this = jQuery(this);
+	    				$(_loc_select).find( 'option' ).each(function(index) {
+	    					var __this = $(this);
 	    					//console.log(_this.parent().attr('id'));
 	    					if(_this.parent().attr('id') === 'startStyle') _dataFunc = 'setStyle';
 	    					if(__this.text().indexOf(_defaultFormOption) < 0) {
 								switch(__type) {
 									case 'Style':
 											var theText = __this.text().split('P');
-											_this.append('<button class="UI UI-Option button expand textLeft" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'">'+__this.text()+'<i class="fa fa-check center"></i></button>');
+											_this.append('<button class="UI UI-Option button expand" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'">'+__this.text()+'<i class="fa fa-check center"></i></button>');
 										break;
 									case 'FabricMaterial':
 										var theText = __this.text().split('P');
@@ -855,13 +855,13 @@
 						var _total = _price.text();
 						if(_total === '$0.00' || _total === '') {
 							_calcPrice.text('Build Your Building');
-							jQuery('#addToCart').addClass('disabled');
+							$('#addToCart').addClass('disabled');
 						} else {
 							_calcPrice.text(_total);
-							jQuery('#addToCart').removeClass('disabled');
-							jQuery('.btn-cart').each(function(){
-								if ( jQuery(this).css('display') == 'none') {
-								    jQuery('#addToCart').text(jQuery(this).attr('data-text')).attr('data-func',jQuery(this).attr('data-func'));
+							$('#addToCart').removeClass('disabled');
+							$('.btn-cart').each(function(){
+								if ( $(this).css('display') == 'none') {
+								    $('#addToCart').text($(this).attr('data-text')).attr('data-func',$(this).attr('data-func'));
 							    }
 							});
 							
@@ -890,15 +890,15 @@
 			},
 			observing: {
 				formCascade: function(id) {
-					// var _e = jQuery('#'+id);
-					// console.log(jQuery('.super-attribute-select').length);
-					// var _eLength = jQuery('.super-attribute-select').length;
+					// var _e = $('#'+id);
+					// console.log($('.super-attribute-select').length);
+					// var _eLength = $('.super-attribute-select').length;
 					// var _eIndex = _e.attr('data-index');
 					// var is_select = _e.hasClass('super-attribute-select');
 					// if(is_select && _eIndex <= _eLength) {
 					// 	_e.find('option')[1].selected = true;
 						
-					// 	var obj = jQuery(_e).get();
+					// 	var obj = $(_e).get();
 					//     Event.observe(obj[0],'change',function(){});
 					//     var eventReturn = _NS.fireEvent(obj[0],'change');
 					//     _NS.observing.formChange();
@@ -935,26 +935,26 @@
 		    uiEvent: {
 		    	default: function () {
 		    		//this.closeInfo();
-		    		jQuery('.infoBuilderBox').removeClass(_info_selected_class);
+		    		$('.infoBuilderBox').removeClass(_info_selected_class);
 		    		_ui_quickNav.stop().slideUp();
 		    		return true;
 		    	},
 		    	addToCart: function() {
-		    		jQuery('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
+		    		$('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
 		    		return;
 		    	},
 		    	getAQuote: function() {
-		    		jQuery('#quoteModal').foundation('reveal', 'open');
+		    		$('#quoteModal').foundation('reveal', 'open');
 		    		return;
 		    	},
 		    	setAttr: function(_e_) {
 		    		if(this.default()) {
 		    			//console.log('setAttr');
 			    		var select = _e_;
-			    		var _e_type = jQuery(_e_.target).prop('tagName');
+			    		var _e_type = $(_e_.target).prop('tagName');
 			    		var is_select = (_e_type.toLowerCase() == 'select' ? true : false);
-			    		var dataType = jQuery(_e_.target).data('type');
-			    		var dataValue = jQuery(_e_.target).data('value');
+			    		var dataType = $(_e_.target).data('type');
+			    		var dataValue = $(_e_.target).data('value');
 			    		_selectArray[dataType] = dataValue;
 			    		_lastSelection = dataType;
 			    		
@@ -1002,11 +1002,11 @@
 							// // if re-set style remova all cookies
 							// if (dataType == "Style") {
 							// 	Object.keys( _local.buildCookie.getObj() ).forEach(function(key) {
-							// 	    //alert(key, jQuery.cookie()[key]);
+							// 	    //alert(key, $.cookie()[key]);
 							// 	    //var decKey = key;
 							// 	    var decKey = _local.buildCookie.coded( key, 'de' );
 							// 	    if ( RegExp( /\b(_build_)/g ).test( decKey ) ) {
-							// 	    	//jQuery.removeCookie(key,{ path: '/' });
+							// 	    	//$.removeCookie(key,{ path: '/' });
 							// 	    	_local.buildCookie.relinquish( decKey );
 							// 	    }
 							// 	});
@@ -1017,15 +1017,15 @@
 							// _local.buildCookie.set(_lastBuild, dataType);
 							
 							// get insite form and set values
-				    		var _formE = jQuery('.'+_selectPartial+dataType);
-				    		jQuery(_formE).stop().each(function(e) {jQuery(this).val(dataValue);});
-					    	jQuery(_formE).find('option').each(function() {
-					    		if (jQuery(this).attr('value') == dataValue) {
-					    			jQuery(this).attr('selected', true);
+				    		var _formE = $('.'+_selectPartial+dataType);
+				    		$(_formE).stop().each(function(e) {$(this).val(dataValue);});
+					    	$(_formE).find('option').each(function() {
+					    		if ($(this).attr('value') == dataValue) {
+					    			$(this).attr('selected', true);
 					    		}
 					    	});
 					    	
-					    	var obj = jQuery(_formE).get();
+					    	var obj = $(_formE).get();
 						    Event.observe(obj[0],'change',function(){});
 						    var eventReturn = _NS.fireEvent(obj[0],'change');
 
@@ -1035,31 +1035,31 @@
 
 			    		// if our ui is a select field
 			    		if (is_select && is_safari && !isMobile.any()) {
-			    			jQuery(_e_.target).on('click', function(e){ 
+			    			$(_e_.target).on('click', function(e){ 
 			    				// call go with value
-			    				_go(jQuery(this).val()); 
-			    				jQuery(this).unbind('click');
+			    				_go($(this).val()); 
+			    				$(this).unbind('click');
 			    				return _NS.loading(true);
 			    			});
 
 			    		} else if (is_select && !is_safari && !isMobile.any()) {
-			    			jQuery(_e_.target).on('change', function(e){ 
+			    			$(_e_.target).on('change', function(e){ 
 			    				// call go with value
-			    				_go(jQuery(this).val());
-			    				jQuery(this).unbind('change');
+			    				_go($(this).val());
+			    				$(this).unbind('change');
 			    				return _NS.loading(true);
 			    			}); 
 			    		} else if (is_select && isMobile.any()) {
 			    			//alert('test');
-			    			jQuery(_e_.target).on('blur', function(e){ 
+			    			$(_e_.target).on('blur', function(e){ 
 			    				// call go with value
-			    				_go(jQuery(this).val()); 
-			    				jQuery(this).unbind('blur');
+			    				_go($(this).val()); 
+			    				$(this).unbind('blur');
 			    				return _NS.loading(true);
 			    			});
 			    		} else { // if it is not a select field
 			    			// call go with value
-			    			_go(jQuery(_e_.target).data('value'));	
+			    			_go($(_e_.target).data('value'));	
 			    			return _NS.loading(true);
 			    		}
 			    		return;
@@ -1070,13 +1070,13 @@
 		    		if(this.default()) {
 		    			_NS.loading(true);
 			    		var select = _e_;
-			    		var _e_type = jQuery(_e_.target).prop('tagName');
+			    		var _e_type = $(_e_.target).prop('tagName');
 			    		var is_select = (_e_type.toLowerCase() == 'select' ? true : false);
-			    		var dataType = jQuery(_e_.target).data('type');
-			    		var this_val = jQuery(_e_.target).data('value');
+			    		var dataType = $(_e_.target).data('type');
+			    		var this_val = $(_e_.target).data('value');
 
-			    		jQuery(".UISection #build_Style button[data-value*='"+jQuery(_e_.target).data('value')+"']").trigger('click');
-			            jQuery('[data-reveal]').foundation('reveal','close');
+			    		$(".UISection #build_Style button[data-value*='"+$(_e_.target).data('value')+"']").trigger('click');
+			            $('[data-reveal]').foundation('reveal','close');
 			    		return _bod.removeClass('start');
 			    	}
 			    	return;
@@ -1097,7 +1097,7 @@
 		    			}
 						if (e) {
 						
-							var _e = jQuery(e.currentTarget);
+							var _e = $(e.currentTarget);
 							if ( _e.hasClass('fa') ) { 
 								if ( _e.hasClass('prev') ) { var move_to = curr_pos-move; }
 								else { var move_to = curr_pos+move; }
@@ -1115,7 +1115,12 @@
 						} //end if
 						else {
 							//console.log('repeater test - you should only see this once per call');
-							var _position = jQuery( '#choose'+_lastSelection ).index();
+							if(aeConfig.config.reconfigure && _lastSelection !== undefined) {
+								var _position = $( '#chooseFabricColor' ).index();
+								_lastSelection = 'FabricColor';
+							} else {
+								var _position = $( '#choose'+_lastSelection ).index();
+							}
 							_local.setActive(_position);
 							var check_move = move*(_position+1);
 							if ( check_move < (UISlide.count)*UISlide.width ) {
@@ -1127,15 +1132,15 @@
 
 						_ui_builder_list.css( {'left':"-"+move_to+"px"} );
 						if( move_to == 0 ) {
-				        	jQuery('.prev').addClass('disable');
+				        	$('.prev').addClass('disable');
 				        } else if ( move_to >= ((UISlide.count-1)*UISlide.width) ) { 
-				        	jQuery('.next').addClass('disable');
+				        	$('.next').addClass('disable');
 				    	} else {
 				        	_ui_builder_nav_item.removeClass('disable');
 				        }
-				        jQuery('.UIBottom .UIBuilderContainer').addClass('highlight');
+				        $('.UIBottom .UIBuilderContainer').addClass('highlight');
 				        var blink = function() {
-				        	jQuery('.UIBottom .UIBuilderContainer').removeClass('highlight');
+				        	$('.UIBottom .UIBuilderContainer').removeClass('highlight');
 				        }
 						var highlight = setTimeout(blink, 5000);
 
@@ -1143,18 +1148,18 @@
 				    }
 		    	},
 		    	getInfo: function (e) {
-		    		var infoId = jQuery(e.target).data('infoid');
-		    		if ( jQuery('.'+infoId).hasClass(_info_selected_class) ) {
-		    			jQuery('.'+infoId).removeClass(_info_selected_class);
+		    		var infoId = $(e.target).data('infoid');
+		    		if ( $('.'+infoId).hasClass(_info_selected_class) ) {
+		    			$('.'+infoId).removeClass(_info_selected_class);
 		    		} else {
-			    		jQuery('.'+_uni_info_class).removeClass(_info_selected_class);
-			    		jQuery('.'+infoId).addClass(_info_selected_class);
-			    		jQuery('.'+infoId+' .scroll').height(jQuery('.leftSide .UIBottom .UIBuilderContainer').height()+8);
+			    		$('.'+_uni_info_class).removeClass(_info_selected_class);
+			    		$('.'+infoId).addClass(_info_selected_class);
+			    		$('.'+infoId+' .scroll').height($('.leftSide .UIBottom .UIBuilderContainer').height()+8);
 			    	}
 			    	return;
 		    	},
 		    	closeInfo: function (e) {
-		    		var _e = jQuery(e.target);
+		    		var _e = $(e.target);
 		    		var _parent_id = _e.parent().attr('id');
 		    		return _e.parent().removeClass(_info_selected_class);
 
@@ -1164,7 +1169,7 @@
 		    	},
 		    	closeAccordion: function () {
 		    		if (this.default()) {
-		    			jQuery('.accordion-navigation, .accordion-navigation .content').removeClass('active');
+		    			$('.accordion-navigation, .accordion-navigation .content').removeClass('active');
 		    		}
 		    		return;
 		    	},
@@ -1181,12 +1186,12 @@
 								break;
 						}
 						
-						if (isMobile.any() && jQuery(window).height() < 459 && landscape) {
+						if (isMobile.any() && $(window).height() < 459 && landscape) {
 							//alert('in');
 							//return false;
 							_landscapeMod.foundation('reveal', 'open');
-							jQuery('#mainUIElements').addClass('op_0');
-						} else if (isMobile.any() && jQuery(window).height() > 459 && !landscape && fired) {
+							$('#mainUIElements').addClass('op_0');
+						} else if (isMobile.any() && $(window).height() > 459 && !landscape && fired) {
 							farmBuilding.init.refresh();
 						}
 					}
@@ -1194,52 +1199,52 @@
 		    	}
 		    },
 		    resizer: function (f) {
-	    		setUISlide();
-	    		//_NS.uiLoad.setUIListWidth();
-		    	_screenWH.each(function() {
-		    		jQuery(this).winHW(window,true,true, _local.center());
-		    	});
-		    	_screenH.each(function() {
-		    		jQuery(this).winHW(window,true,false, _local.center());
-		    	});
-		    	_screenW.each(function() {
-		    		jQuery(this).winHW(window,false,true, _local.center());
-		    	});
-		    	_screenCenterHorizontal.each(function() {
-		    		jQuery(this).centerHorizontal();
-		    	});
-		    	_screenCenterVertical.each(function() {
-		    		jQuery(this).centerVertical();
-		    	});
-		    	_makeSquare.each(function() {
-		    		jQuery(this).stop().makeSQ();
-		    	});
-		    	_NS.uiEvent.checkOrientation(f);
-		    	// added initializers
-	            if (isMobile.any() || jQuery(window).width() <= 1025) {
-	            	jQuery('.accordion-navigation .content').removeClass('active');
-	            	jQuery('dl.accordion').data('options', 'multi_expand:false;toggleable: true');
-	            } else {
-	            	if (!jQuery('.accordion-navigation .content').hasClass('active')) {
-	            		jQuery('.accordion-navigation .content').addClass('active');
-	            	}
-	            	jQuery('dl.accordion').data('options', 'multi_expand:true;toggleable: true');
-	            }
-	            jQuery("#mainAccordion .panelnav, #mobileAccordion .panelnav").fitText(1.2, { minFontSize: '6px', maxFontSize: '17px' });
-				jQuery("#productTitle, #calcPrice").fitText(1, { minFontSize: '6px', maxFontSize: '25px' });
-				jQuery("#shortDesc").fitText(1.1, { minFontSize: '4px', maxFontSize: '20px' });
-				jQuery("#addToCart").fitText(1.1, { minFontSize: '10px', maxFontSize: '25px' });
-				jQuery("#build_FabricColor button").fitText(1.1, { minFontSize: '10px', maxFontSize: '25px' });
-				
-				return;
+		    		if(_local.isConfigurable())
+		    			setUISlide();
+		    		//_NS.uiLoad.setUIListWidth();
+			    	_screenWH.stop().each(function() {
+			    		$(this).winHW(window,true,true, _local.center());
+			    	});
+			    	_screenH.stop().each(function() {
+			    		$(this).winHW(window,true,false, _local.center());
+			    	});
+			    	_screenW.stop().each(function() {
+			    		$(this).winHW(window,false,true, _local.center());
+			    	});
+			    	_screenCenterHorizontal.stop().each(function() {
+			    		$(this).centerHorizontal();
+			    	});
+			    	_screenCenterVertical.stop().each(function() {
+			    		$(this).centerVertical();
+			    	});
+			    	_makeSquare.stop().each(function() {
+			    		$(this).stop().makeSQ();
+			    	});
+			    	_NS.uiEvent.checkOrientation(f);
+			    	// added initializers
+		            if (isMobile.any() || $(window).width() <= 1025) {
+		            	$('.accordion-navigation .content').stop().removeClass('active');
+		            	$('dl.accordion').stop().data('options', 'multi_expand:false;toggleable: true');
+		            } else {
+		            	if (!$('.accordion-navigation .content').stop().hasClass('active')) {
+		            		$('.accordion-navigation .content').stop().addClass('active');
+		            	}
+		            	$('dl.accordion').stop().data('options', 'multi_expand:true;toggleable: true');
+		            }
+		            $("#mainAccordion .panelnav, #mobileAccordion .panelnav").stop().fitText(1.2, { minFontSize: '6px', maxFontSize: '17px' });
+					$("#productTitle, #calcPrice").stop().fitText(1, { minFontSize: '6px', maxFontSize: '25px' });
+					$("#shortDesc").stop().fitText(1.1, { minFontSize: '4px', maxFontSize: '20px' });
+					$("#addToCart").stop().fitText(1.1, { minFontSize: '10px', maxFontSize: '25px' });
+					$("#build_FabricColor button").stop().fitText(1.1, { minFontSize: '10px', maxFontSize: '25px' });
+	    		return;
 		    },
 		    infoVisible: function () {
-		    	jQuery('.showInfo').each(function() {
-		    		var jQuerythis = jQuery(this);
-		    		var infoEle = jQuery('div.'+jQuerythis.data('infoid'));
+		    	$('.showInfo').each(function() {
+		    		var $this = $(this);
+		    		var infoEle = $('div.'+$this.data('infoid'));
 		    		var infoContent = infoEle.find('.scroll').html();
 		    		if(!infoContent) {
-		    			jQuerythis.hide();
+		    			$this.hide();
 		    		}
 		    	});
 		    	return;
@@ -1247,7 +1252,7 @@
 		    
 		    modalWork: {
 		    	contactModal: function () {
-		    		jQuery('#contactModal #infoTable').text('testing');
+		    		$('#contactModal #infoTable').text('testing');
 		    		return;
 		    	},
 		    	quoteModal: function() {
@@ -1267,15 +1272,19 @@
 		    loading: function(start) {
 		    	var _unLoad = function(start) {
 		    		_bod.removeClass('loading');
-		    		jQuery('#building').find('img').removeClass('op_0');
-	        		jQuery('.elements').removeClass('op_0');
-	        		jQuery('#loader').removeClass('loading');
+		    		$('#building').find('img').removeClass('op_0');
+	        		$('.elements').removeClass('op_0');
+	        		$('#loader').removeClass('loading');
+	        		//console.log(farmBuilding);
+	        		delete farmBuilding;
+	        		//console.log(farmBuilding);
+	        		// setTimeout( _NS, 1000 );
 	        	}
 	    		if(start) {
 		    		_bod.addClass('loading');
-		    		jQuery('#building').find('img').addClass('op_0');
-	        		jQuery('.elements').addClass('op_0');
-	        		jQuery('#loader').addClass('loading');
+		    		$('#building').find('img').addClass('op_0');
+	        		$('.elements').addClass('op_0');
+	        		$('#loader').addClass('loading');
 		    	} else {
 		    		if(loadingTimer) clearTimeout(loadingTimer);
 		    		var loadingTimer = setTimeout( _unLoad, 2500);
@@ -1288,30 +1297,29 @@
 		        	// set selectArray from form values
 		        	// 
 		        	//_NS.loading(true);
-		        	
-	        		jQuery('.buttonContainer, #quickNav, .UISection select').html('');
-            		jQuery("select[class^='"+_selectPartial+"']").each(function (i, el) {
-            			 var _CLASSSESplit = jQuery(this).attr('class').split(" ");
+	        		$('.buttonContainer, #quickNav, .UISection select').html('');
+            		$("select[class^='"+_selectPartial+"']").each(function (i, el) {
+            			 var _CLASSSESplit = $(this).attr('class').split(" ");
 				         var _CLASSSplit = _CLASSSESplit[0].split("_").pop(-1);
 				         _class = _CLASSSplit.toLowerCase();
 
-				         jQuery(this).find('option').each(function(){
-				         	if(!jQuery(this).attr('value'))
+				         $(this).find('option').each(function(){
+				         	if(!$(this).attr('value'))
 				         		return;
 
-				         	_val = jQuery(this).attr('value').toString();
-				         	_formObj[_class][_val] = jQuery(this).text();
+				         	_val = $(this).attr('value').toString();
+				         	_formObj[_class][_val] = $(this).text();
 				         });
             			
             		});
-	            	jQuery("select[class^='"+_selectPartial+"']").each(function (i, el) {
-				         var _CLASSSESplit = jQuery(this).attr('class').split(" ");
+	            	$("select[class^='"+_selectPartial+"']").each(function (i, el) {
+				         var _CLASSSESplit = $(this).attr('class').split(" ");
 				         var _CLASSSplit = _CLASSSESplit[0].split("_").pop(-1);
 				         
 				         if(_CLASSSplit === "Width" || _CLASSSplit === "Height" || _CLASSSplit === "Length") {
-				         	_selectArray[_CLASSSplit] = jQuery(this).val();
+				         	_selectArray[_CLASSSplit] = $(this).val();
 				         } else {
-				         	_selectArray[_CLASSSplit] = jQuery(this).val();	
+				         	_selectArray[_CLASSSplit] = $(this).val();	
 				         }
 				         
 				    });
@@ -1332,7 +1340,8 @@
 	        	
 		        	_NS.uiLoad.ajaxModalConnect();
 		    		if(_local.isConfigurable()) {
-			    		_local.pop.start();
+		    			if(!aeConfig.config.reconfigure)
+			    			_local.pop.start();
 			    		_NS.init.getState(true);
 			    	} else {
 			    		farmBuilding.resizer();
@@ -1342,51 +1351,86 @@
 		    	},
 			    refresh: function () {
 			    	//comment out condition for ios, for some reason it is working now
-					// if (navigator && navigator.platform && navigator.platform.match(/^(iPad|iPod|iPhone)jQuery/)) {
+					// if (navigator && navigator.platform && navigator.platform.match(/^(iPad|iPod|iPhone)$/)) {
 					//     window.location.reload;
 					// } else {
 						window.location = window.location;
 					//}
 			    	return false;
 			    }
+		    },
+		    product_sp_series_shelter: {
+		    	init: function() {
+		    		_NS.init.loader();
+		
+					$('body').delegate('.UI','click',function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+						if(!$(this).hasClass('disable')) {
+							var func = $(this).data('func');
+							_.debounce(farmBuilding.uiEvent[func](e), 1000, true);
+						}
+
+					});
+		    	}
+		    },
+		    checkout_cart_index: {
+		    	init: function() {
+		    		$('.btn-proceed-checkout span span').prepend('<i class="fa fa-shopping-cart"></i>');
+		    	}
 		    }
 		});
 	    
 	})(farmBuilding = farmBuilding || {});
 
 	
-	jQuery(document).on('opened.fndtn.reveal', '#quoteModal', function () {
+	$(document).on('opened.fndtn.reveal', '#quoteModal', function () {
 	  return farmBuilding.modalWork.quoteModal();
 	});
-	jQuery(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-		var modal = jQuery(this);
-	  	jQuery('body').addClass('modalOpen');
+	$(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+		var modal = $(this);
+	  	$('body').addClass('modalOpen');
 	  	// on modal reveal resize text
-		jQuery('.reveal-modal h2').fitText(1.45, { minFontSize: '6px', maxFontSize: '43px' });
-		jQuery('.reveal-modal .color .btnColor span').fitText(1.45, { minFontSize: '10px', maxFontSize: '20px' });
-		jQuery('.reveal-modal#startModal h2').fitText(1.1, { minFontSize: '6px', maxFontSize: '63px' });
-		jQuery('.reveal-modal h4').fitText(1.4, { minFontSize: '6px', maxFontSize: '25px' });
+		$('.reveal-modal h2').fitText(1.45, { minFontSize: '6px', maxFontSize: '43px' });
+		$('.reveal-modal .color .btnColor span').fitText(1.45, { minFontSize: '10px', maxFontSize: '20px' });
+		$('.reveal-modal#startModal h2').fitText(1.1, { minFontSize: '6px', maxFontSize: '63px' });
+		$('.reveal-modal h4').fitText(1.4, { minFontSize: '6px', maxFontSize: '25px' });
 		var bigbrother = -1;
 
-	    jQuery('.orbit-slides-container li').each(function() {
-	      bigbrother = bigbrother > jQuery('.orbit-slides-container li').height() ? bigbrother : jQuery('.orbit-slides-container li').height();
+	    $('.orbit-slides-container li').each(function() {
+	      bigbrother = bigbrother > $('.orbit-slides-container li').height() ? bigbrother : $('.orbit-slides-container li').height();
 	    });
 
-	    jQuery('.orbit-slides-container').each(function() {
-	      jQuery('.orbit-slides-container').height(bigbrother);
+	    $('.orbit-slides-container').each(function() {
+	      $('.orbit-slides-container').height(bigbrother);
 	    });
-	    jQuery('.centerHorizontal').centerHorizontal();
-		jQuery('.centerVertical').centerVertical();
-		jQuery('.centerCenter').centerCenter();
-		jQuery('.makeSquare').makeSQ();
+	    $('.centerHorizontal').centerHorizontal();
+		$('.centerVertical').centerVertical();
+		$('.centerCenter').centerCenter();
+		$('.makeSquare').makeSQ();
 		return;
 	});
 
-	jQuery(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-	    return jQuery('body').removeClass('modalOpen');
+	$(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+	    return $('body').removeClass('modalOpen');
 	});
+	var UTIL = {
+	  fire: function(func, funcname, args) {
+	    var namespace = farmBuilding;
+	    funcname = (funcname === undefined) ? 'init' : funcname;
+	    if (func !== '' && namespace[func] && typeof namespace[func][funcname] === 'function') {
+	      namespace[func][funcname](args);
+	    }
+	  },
+	  loadEvents: function() {
+	    UTIL.fire('common');
 
-	jQuery(document).ready(function() {
+	    $.each(document.body.className.replace(/-/g, '_').split(/\s+/),function(i,classnm) {
+	      UTIL.fire(classnm);
+	    });
+	  }
+	};
+	$(document).ready(function() {
 		/*
 		|--------------------------------------------------------------------------
 		| Document ready state
@@ -1394,45 +1438,26 @@
 		*/
 		
 		// delete this on live site
-		jQuery('#showForm').on('click',function(e) {
+		$('#showForm').on('click',function(e) {
 			e.preventDefault();
-			return jQuery(this).parent().toggleClass('show');
+			return $(this).parent().toggleClass('show');
 		});
 		// END Delete this on live site
 		var bodyChanged =  _.debounce(function () {
-			jQuery('.centerHorizontal').centerHorizontal();
-    		jQuery('.centerVertical').centerVertical();
-    		jQuery('.centerCenter').centerCenter();
-    		jQuery('.makeSquare').makeSQ();
+			$('.centerHorizontal').centerHorizontal();
+    		$('.centerVertical').centerVertical();
+    		$('.centerCenter').centerCenter();
+    		$('.makeSquare').makeSQ();
 		}, 500);
-		jQuery("#cofiguratorMain").bind("DOMSubtreeModified", function () {
+		$("#cofiguratorMain").bind("DOMSubtreeModified", function () {
 			bodyChanged();
 		});
 		
 	});
 
-	jQuery(window).load(function() {
-		/*
-		|--------------------------------------------------------------------------
-		| Document ready state
-		|--------------------------------------------------------------------------
-		*/
-		farmBuilding.init.loader();
-		
-		jQuery('body').delegate('.UI','click',function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			if(!jQuery(this).hasClass('disable')) {
-				var func = jQuery(this).data('func');
-				_.debounce(farmBuilding.uiEvent[func](e), 1000, true);
-			}
+	$(window).load(UTIL.loadEvents);
 
-		});
-
-		
-	});
-
-	jQuery(window).smartresize(function(){
+	$(window).smartresize(function(){
 	    /*
 		|--------------------------------------------------------------------------
 		| Document smart resize
@@ -1442,3 +1467,4 @@
 		
 	});
 
+})(jQuery);

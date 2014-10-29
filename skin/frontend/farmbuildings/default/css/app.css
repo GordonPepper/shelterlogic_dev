@@ -7318,17 +7318,22 @@ body {
     behavior: url(../../../HTC/PIE/PIE.htc); }
   body button, body .button, body .button2 {
     font-family: 'Oswald', sans-serif;
-    background-color: #F0B310;
+    background-color: #fff;
     color: #333333;
     border: 2px solid #cccccc;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem; }
     body button.selected, body button:hover, body button.active, body .button.selected, body .button:hover, body .button.active, body .button2.selected, body .button2:hover, body .button2.active {
-      background-color: #33648A;
+      background-color: #F0B310;
       color: #fff;
-      border: 2px solid #fff; }
+      border: 2px solid #F0B310; }
+  body .button.disabled, body button.disabled, body .button.disabled:hover, body button.disabled:hover {
+    background-color: #fff;
+    color: #333333;
+    border: 2px solid #cccccc; }
   body button.button2, body .button2.check-gc-status {
     background-color: #F0B310;
+    border: 2px solid #F0B310;
     padding: 1px 5px; }
     body button.button2 span, body button.button2 span span, body .button2.check-gc-status span, body .button2.check-gc-status span span {
       line-height: 1;
@@ -7341,24 +7346,12 @@ body {
       padding: 5px;
       text-decoration: none; }
     body button.button2.selected, body button.button2:hover, body button.button2.active, body .button2.check-gc-status.selected, body .button2.check-gc-status:hover, body .button2.check-gc-status.active {
-      background-color: #33648A;
-      color: #fff;
+      background-color: #fff;
+      color: #333333;
       border: 2px solid #fff; }
       body button.button2.selected span, body button.button2.selected span span, body button.button2:hover span, body button.button2:hover span span, body button.button2.active span, body button.button2.active span span, body .button2.check-gc-status.selected span, body .button2.check-gc-status.selected span span, body .button2.check-gc-status:hover span, body .button2.check-gc-status:hover span span, body .button2.check-gc-status.active span, body .button2.check-gc-status.active span span {
-        color: #fff;
+        color: #333333;
         text-decoration: none; }
-  body .button.disabled, body button.disabled {
-    background-color: #fff;
-    color: #333333;
-    border: 2px solid #cccccc; }
-    body .button.disabled.selected, body .button.disabled:hover, body .button.disabled.active, body button.disabled.selected, body button.disabled:hover, body button.disabled.active {
-      background-color: #F0B310;
-      color: #fff;
-      border: 2px solid #F0B310; }
-  body .button.disabled, body button.disabled, body .button.disabled:hover, body button.disabled:hover {
-    background-color: #fff;
-    color: #333333;
-    border: 2px solid #cccccc; }
   body p {
     font-family: 'Lato', sans-serif; }
   body h1, body h2, body h3, body h4, body h5, body h6 {
@@ -7921,6 +7914,8 @@ body {
                 font-size: 10px; } }
             body .inner-wrap .elements .UIBottom .UIBuilderContainer ul#UIList li#chooseStyle button, body .inner-wrap .elements .UIBottom .UIBuilderContainer ul#UIList li#chooseStyle .button {
               margin-bottom: 0.3125rem; }
+              body .inner-wrap .elements .UIBottom .UIBuilderContainer ul#UIList li#chooseStyle button .fa-check, body .inner-wrap .elements .UIBottom .UIBuilderContainer ul#UIList li#chooseStyle .button .fa-check {
+                right: 4%; }
     body .inner-wrap .elements .infoBuilderBox {
       position: absolute;
       top: 0px;
@@ -9065,6 +9060,9 @@ body {
             font-size: 0.8125rem; }
         body .reveal-modal#startModal #startStyle .style:hover .styleText, body .reveal-modal#startModal #startStyle .style:hover dialog#startModal {
           bottom: 0; }
+          @media only screen and (max-width:1190px) {
+            body .reveal-modal#startModal #startStyle .style:hover .styleText {
+              bottom: 17%; } }
     body .reveal-modal p, body .reveal-modal dialog {
       font-family: 'Lato', sans-serif;
       font-weight: 300;
@@ -9113,8 +9111,7 @@ body {
           padding: 0; } }
     body .reveal-modal .STlogo, body .reveal-modal dialog {
       color: #fff;
-      margin-top: 10px;
-      text-align: center; }
+      margin-top: 10px; }
       body .reveal-modal .STlogo .modal, body .reveal-modal .STlogo dialog {
         margin-left: -28%; }
       body .reveal-modal .STlogo .yellow, body .reveal-modal .STlogo dialog {
@@ -9363,11 +9360,11 @@ body {
     margin: 10px 30px; }
   body .right-off-canvas-menu .off-canvas-list .fa.fa-shopping-cart {
     max-width: 50px; }
-  body .fa.fa-shopping-cart {
+  body .tab-bar .fa.fa-shopping-cart {
     position: relative;
     font-size: 1.5625rem;
     margin: 10px; }
-    body .fa.fa-shopping-cart span {
+    body .tab-bar .fa.fa-shopping-cart span {
       position: absolute;
       top: -5px;
       right: -9px;
@@ -9385,6 +9382,113 @@ body {
       -moz-background-clip: padding;
       background-clip: padding-box;
       behavior: url('../bower_components/source-web-files/HTC/PIE/PIE.htc'); }
+  body .page label {
+    vertical-align: top;
+    padding-top: 11px; }
+  body .page button.btn-empty, body .page button.btn-update, body .page button.btn-continue {
+    background-color: #fff;
+    border-color: #fff;
+    color: #333333;
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    behavior: url(../../../HTC/PIE/PIE.htc);
+    font-size: 0.8125rem; }
+    body .page button.btn-empty span span .fa, body .page button.btn-update span span .fa, body .page button.btn-continue span span .fa {
+      font-size: 0.875rem; }
+  body .page button.btn-empty:hover {
+    background-color: #f04124;
+    border-color: #cf280e;
+    color: #FFFFFF;
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    behavior: url(../../../HTC/PIE/PIE.htc); }
+  body .page button.btn-update:hover, body .page button.btn-continue:hover {
+    background-color: #F0B310;
+    border-color: #F0B310;
+    color: #333333;
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    behavior: url(../../../HTC/PIE/PIE.htc); }
+  body .page button.btn-proceed-checkout {
+    background-color: #F0B310;
+    border-color: #F0B310;
+    color: #333333;
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    behavior: url(../../../HTC/PIE/PIE.htc); }
+    body .page button.btn-proceed-checkout:hover {
+      background-color: #333333;
+      border-color: #333333;
+      color: #F0B310;
+      -webkit-transition: all 500ms;
+      -moz-transition: all 500ms;
+      -o-transition: all 500ms;
+      transition: all 500ms;
+      behavior: url(../../../HTC/PIE/PIE.htc); }
+  body .page button span span {
+    width: 100%; }
+    body .page button span span .fa {
+      display: block;
+      float: left;
+      font-size: 22px;
+      margin: -1% 5px -5% 0; }
+      body .page button span span .fa.fa-shopping-cart {
+        font-size: 26px; }
+  body .page a.check-gc-status {
+    margin: 13px auto;
+    width: 100%;
+    text-align: center; }
+  body .page table tr td {
+    color: #333333;
+    text-align: left; }
+  body .page table#shopping-cart-totals-table tr td {
+    color: #000;
+    padding: 3%; }
+  body .page #discount-coupon-form label, body .page .cart .giftcard label {
+    vertical-align: top;
+    margin-top: 5px; }
+  body .page #discount-coupon-form .field-wrapper, body .page .cart .giftcard .field-wrapper {
+    display: block; }
+    body .page #discount-coupon-form .field-wrapper input, body .page .cart .giftcard .field-wrapper input {
+      display: inline;
+      padding: 18px;
+      width: 57%; }
+    body .page #discount-coupon-form .field-wrapper .button-wrapper, body .page .cart .giftcard .field-wrapper .button-wrapper {
+      width: 39.6%; }
+      body .page #discount-coupon-form .field-wrapper .button-wrapper button, body .page .cart .giftcard .field-wrapper .button-wrapper button {
+        width: 100%;
+        text-align: center; }
+  body .page #discount-coupon-form .button2, body .page .cart .giftcard .button2 {
+    background-color: #fff;
+    border-color: #fff;
+    color: #333333;
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    behavior: url(../../../HTC/PIE/PIE.htc);
+    font-size: 0.8125rem; }
+    body .page #discount-coupon-form .button2 span span .fa, body .page .cart .giftcard .button2 span span .fa {
+      font-size: 0.875rem; }
+    body .page #discount-coupon-form .button2:hover, body .page .cart .giftcard .button2:hover {
+      background-color: #333333;
+      border-color: #333333;
+      color: #F0B310;
+      -webkit-transition: all 500ms;
+      -moz-transition: all 500ms;
+      -o-transition: all 500ms;
+      transition: all 500ms;
+      behavior: url(../../../HTC/PIE/PIE.htc); }
+      body .page #discount-coupon-form .button2:hover span span, body .page .cart .giftcard .button2:hover span span {
+        color: #F0B310; }
   body .skip-account, body .skip-cart {
     position: inherit;
     display: none; }
@@ -9472,7 +9576,7 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 10px 20%;
+    padding: 10px 10px;
     color: #fff;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
@@ -9514,16 +9618,6 @@ body {
     border: 2px solid #F0B310; }
   body .webforms form .webforms-fields-comment {
     display: none; }
-  body .checkout-cart-index table tr td {
-    color: #333333;
-    text-align: left; }
-  body .checkout-cart-index table#shopping-cart-totals-table tr td {
-    color: #000; }
-  body .checkout-cart-index #discount-coupon-form label, body .checkout-cart-index .cart .giftcard label {
-    vertical-align: top;
-    margin-top: 5px; }
-  body .checkout-cart-index #discount-coupon-form .field-wrapper, body .checkout-cart-index .cart .giftcard .field-wrapper {
-    width: 72%; }
 
 .highlight {
   animation: shadowThrob 0.6s infinite;
