@@ -11,7 +11,7 @@ ini_set('display_errors', true);
 
 require 'app/Mage.php';
 Mage::setIsDeveloperMode(true);
-
+Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /** @var Mage $app */
 $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
@@ -27,7 +27,8 @@ $allowedFunctions = array(
 	'getProductAttributes',
 	'reviewSimpleImport',
 	'productList',
-	'getConfigurableAttributes'
+	'getConfigurableAttributes',
+	'updateProductImages'
 );
 
 $html = new HtmlOutputter();
@@ -50,7 +51,72 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	showAllowedFunctions($html);
 	exit;
 }
+function updateProductImages() {
+	global $html;
+	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
+	$collection = Mage::getModel('catalog/product')->getCollection();
 
+	$collection->addAttributeToSelect(array('style','width','height'));
+	$collection->addAttributeToFilter('type_id', 'simple');
+	$collection->addAttributeToFilter('attribute_set_id','10');
+	//$collection->getSelect()->limit(1);
+
+	$html->para('got item count: ' . $collection->count());
+	$sid = Mage::app()
+		->getWebsite()
+		->getDefaultGroup()
+		->getDefaultStoreId();
+	foreach ($collection as $p) {
+		$style = $p->getResource()->getAttribute('style')->getFrontend()->getValue($p);
+		$width = $p->getResource()->getAttribute('width')->getFrontend()->getValue($p);
+		$height = $p->getResource()->getAttribute('height')->getFrontend()->getValue($p);
+		$smap = array(
+			'Round' => 'RD',
+			'Peak' => 'PK',
+			'Barn' => 'BN'
+		);
+		$pmap = array(
+			'RD' => 'R',
+			'PK' => 'P',
+			'BN' => 'B'
+		);
+		$style = $smap[$style];
+		$importDir = Mage::getBaseDir('media') . DS . 'import';
+		$filepath = sprintf("%s/%s/%s_%sx%s.png", $importDir, $style, $pmap[$style], $width, $height);
+		$html->para(sprintf("going to update sku: %s, filepath: %s", $p->getSku(), $filepath));
+
+		if(file_exists($filepath)){
+			try{
+				$p->addImageToMediaGallery($filepath, 'thumbnail', false );
+				$p->addImageToMediaGallery($filepath, 'image', false);
+				$p->addImageToMediaGallery($filepath, 'small_image', false);
+				$p->setUrlKey(false);
+				$p->save();
+			} catch (Exception $e) {
+				$html->para('fatal exception: ' . $e->getMessage());
+			}
+		}
+
+	}
+	return;
+
+	$html->code($collection->getSelect()->__toString());
+	$html->para('found product count: ' . $collection->count());
+	$items = $collection->getItems();
+	/** @var Mage_Catalog_Model_Product $firstItem */
+	$firstItem = current($items);
+	$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+	$attributeSetModel->load($firstItem->getAttributeSetId());
+	$attributeSetName  = $attributeSetModel->getAttributeSetName();
+	$html->para('item sku: ' . $firstItem->getSku());
+	$html->para('item type: ' . $attributeSetName);
+
+	foreach($firstItem->getAttributes() as $att) {
+		if($att->getIsConfigurable() == 1)
+			$html->para('found config attribute: ' . $att->getName());
+	}
+
+}
 function getConfigurableAttributes($product = null)
 {
 	global $html;

@@ -13,8 +13,12 @@ var/export/*
 var/tmp/
 mergedconfig.xml
 mtest.php
+media/catalog/*
+media/tmp/*
 media/catalog/product/cache/**/*
 media/js/*
 media/css/*.css
 errors/local.xml
 .idea
+.DS_Store
+app/code/local/Americaneagle/Farmbuildings/Block/Checkout/Renderer.php
