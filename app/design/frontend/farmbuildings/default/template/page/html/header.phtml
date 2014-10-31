@@ -35,7 +35,7 @@
     <section class="right tab-bar-section">
             <div class="row">
                     
-                    <div class="show-for-medium-up small-4 medium-4 columns align-right nomar nopadd right">
+                    <div class="small-4 medium-4 columns align-right nomar nopadd right">
                         <div class="store-language-container">
                             <?php echo $this->getChildHtml('store_language') ?>
                         </div>
@@ -73,65 +73,56 @@
                         <div id="header-account" class="skip-content">
                             <?php echo $this->getChildHtml('topLinks') ?>
                         </div>
-                        <a class="fa fa-shopping-cart" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>" style="font-style: italic" target="_blank"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a>
-                        <a data-reveal-id="contactModal" href="#contact">Help</a>
                     </div>
 
-                    <div class="small-8 medium-6 small-centered columns">
-                            <div class="STlogo align-center main" id="mainSTlogo">
-                                    <a class="STlogo" href="<?php echo $this->getUrl('') ?>">
-                                        <span class="title main">
-                                            <span class="st-s"></span> 
-                                            <span class="st-h"></span> 
-                                            <span class="st-e"></span> 
-                                            <span class="st-l"></span> 
-                                            <span class="st-t1"></span> 
-                                            <span class="st-e"></span> 
-                                            <span class="st-r"></span> 
-                                            <span class="st-t yellow"></span> 
-                                            <span class="st-e yellow"></span> 
-                                            <span class="st-c yellow"></span> 
-                                            <span class="st-h no-break yellow"></span>
-                                        </span>
-                                    </a>
-                            </div>
+                    <div class="STlogo align-center main" id="mainSTlogo">
+                        <a class="STlogo" href="<?php echo $this->getUrl('') ?>">
+                            <span class="title main">
+                                <span class="st-s"></span> 
+                                <span class="st-h"></span> 
+                                <span class="st-e"></span> 
+                                <span class="st-l"></span> 
+                                <span class="st-t1"></span> 
+                                <span class="st-e"></span> 
+                                <span class="st-r"></span> 
+                                <span class="st-t yellow"></span> 
+                                <span class="st-e yellow"></span> 
+                                <span class="st-c yellow"></span> 
+                                <span class="st-h no-break yellow"></span>
+                            </span>
+                        </a>
                     </div>
 
                     
             </div>
     </section>
-    <section class="hide-for-medium-up right-small">
-            <a class="right-off-canvas-toggle menu-icon"><span></span></a>
+    
+    <section class="right-icons">
+        <a class="fa fa-shopping-cart" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a>
+        <a data-reveal-id="contactModal" href="#contact" class="help">Help</a>
     </section>
 </nav><!-- Off Canvas Menu -->
 
 <aside class="left-off-canvas-menu">
-        <!-- whatever you want goes here -->
-        <?php echo $this->__('Menu'); ?>
-        <?php echo $this->getChildHtml('topMenu') ?>
-        <ul class="off-canvas-list">
+    <!-- whatever you want goes here -->
+    <?php echo $this->getChildHtml('topMenu') ?>
+    <ul class="off-canvas-list">
+        <li><a href="/">Build Your Shelter</a></li>
 
-                <li><a data-reveal-id="featuresModal" href="#features">Features</a></li>
+        <li><a data-reveal-id="featuresModal" href="#features">Features</a></li>
 
-                <li><a data-reveal-id="warrantyModal" href="#warranty">Warranty</a></li>
+        <li><a data-reveal-id="warrantyModal" href="#warranty">Warranty</a></li>
 
-                <li><a data-reveal-id="contactModal" href="#contact">Contact Us</a></li>
+        <!-- <li><a data-reveal-id="quoteModal" href="#quote">Quote Modal</a></li> -->
 
-                <!-- <li><a data-reveal-id="quoteModal" href="#quote">Quote Modal</a></li> -->
+        <li><a data-reveal-id="termsModal" href="#terms">Terms &amp; Conditions</a></li>
 
-                <li><a data-reveal-id="termsModal" href="#terms">Terms &amp; Conditions</a></li>
+        <li><a data-reveal-id="privacyModal" href="#privacy">Privacy Policy</a></li>
 
-                <li><a data-reveal-id="privacyModal" href="#privacy">Privacy Policy</a></li>
+        <li><a data-reveal-id="contactModal" href="#contact">Help</a></li>
 
-                <li><a class="UI startOver" data-func="startOver" href="#startOver">Start Over</a></li>
-        </ul>
-</aside>
-<aside class="right-off-canvas-menu">
-        <ul class="off-canvas-list">
-
-                <li><a class="fa fa-shopping-cart" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>" style="font-style: italic" target="_blank"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a> <a data-reveal-id="contactModal" href="#contact">Help</a></li>
-
-        </ul>
+        <li><a class="UI startOver" data-func="startOver" href="#startOver">Start Over</a></li>
+    </ul>
 </aside>
 
 <?php echo $this->getChildHtml('topContainer'); ?>

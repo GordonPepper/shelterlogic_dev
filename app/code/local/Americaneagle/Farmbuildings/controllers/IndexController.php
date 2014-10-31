@@ -40,53 +40,65 @@ class Americaneagle_Farmbuildings_IndexController
 
 
 	public function productAction() {
-		$params = json_decode(file_get_contents('php://input'));
-		$product = Mage::getModel('catalog/product')->load($params[0]->pid);
-		$sproduct = Mage::getModel('catalog/product')->load($params[0]->spid);
-		$additional = array();
-		foreach($this->getAdditionalData($sproduct) as $adds) {
-			$additional[$adds['code']] = $product->getData($adds['code']);
+		try {
+			$params = json_decode(file_get_contents('php://input'));
+			$product = Mage::getModel('catalog/product')->load($params[0]->pid);
+			$sproduct = Mage::getModel('catalog/product')->load($params[0]->spid);
+			$additional = array();
+			foreach($this->getAdditionalData($sproduct) as $adds) {
+				$additional[$adds['code']] = $product->getData($adds['code']);
+			}
+			$vals = array(
+				'price' => $product->getPrice(),
+				'sku' => $product->getSku(),
+				'weight' => $product->getWeight(),
+				'attribs' => $additional
+			);
+			echo json_encode($vals);
+		} catch (Exception $e) {
+			echo json_encode(array('error' => $e->getMessage(),
+				'stack' => $e->getTrace()
+			));
 		}
-		$vals = array(
-			'price' => $product->getPrice(),
-			'sku' => $product->getSku(),
-			'weight' => $product->getWeight(),
-			'attribs' => $additional
-		);
-		echo json_encode($vals);
 	}
 
 	public function indexAction() {
-		$postVars = json_decode(file_get_contents('php://input'));
+		try {
+			$postVars = json_decode(file_get_contents('php://input'));
 
-		$tree = Mage::helper('farmbuildings')->getTree($postVars->pid);
-		//echo sprintf("tree root: '%s', root id: '%s'", $tree->val, $tree->id);
-		foreach($postVars->options as $att) {
-			$attid = substr($att->id, 9); //strlen('attribute') = 9
-			foreach($tree as $id => $attval) {
-				if($id == $attid) {
-					foreach($attval['options'] as $optid => $opt) {
-						if($att->value == $optid) {
-							$tree = $opt['children'];
-							break;
+			$tree = Mage::helper('farmbuildings')->getTree($postVars->pid);
+			//echo sprintf("tree root: '%s', root id: '%s'", $tree->val, $tree->id);
+			foreach($postVars->options as $att) {
+				$attid = substr($att->id, 9); //strlen('attribute') = 9
+				foreach($tree as $id => $attval) {
+					if($id == $attid) {
+						foreach($attval['options'] as $optid => $opt) {
+							if($att->value == $optid) {
+								$tree = $opt['children'];
+								break;
+							}
 						}
+						break;
 					}
-					break;
 				}
 			}
-		}
-		$nextAtt = $tree;
-		$nextOpts = array();
+			$nextAtt = $tree;
+			$nextOpts = array();
 
-		$keys = array_keys($nextAtt);
-		foreach ($nextAtt[$keys[0]]['options'] as $id => $opt) {
-			if(isset($opt['children']['id'])) {
-				$nextOpts[] = array('id' => $id, 'val' => $opt['val'], 'pid' => $opt['children']['id']);
-			} else {
-				$nextOpts[] = array('id' => $id, 'val' => $opt['val']);
+			$keys = array_keys($nextAtt);
+			foreach ($nextAtt[$keys[0]]['options'] as $id => $opt) {
+				if(isset($opt['children']['id'])) {
+					$nextOpts[] = array('id' => $id, 'val' => $opt['val'], 'pid' => $opt['children']['id']);
+				} else {
+					$nextOpts[] = array('id' => $id, 'val' => $opt['val']);
+				}
 			}
+			echo json_encode(array('attributeid' => $keys[0], 'options' => $nextOpts));
+		} catch (Exception $e) {
+			echo json_encode(array('error' => $e->getMessage(),
+				'stack' => $e->getTrace()
+			));
 		}
-		echo json_encode(array('attributeid' => $keys[0], 'options' => $nextOpts));
 	}
 
 }

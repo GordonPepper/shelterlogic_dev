@@ -189,19 +189,20 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 	public function getTree($pid) {
 		$cache = Mage::app()->getCache();
-		$option = $cache->getOption('automatic_serialization');
+		//$option = $cache->getOption('automatic_serialization');
 		$key = 'attributeTree' . $pid;
-		$cache->setOption('automatic_serialization', true);
+		//$cache->setOption('automatic_serialization', true);
 
 		$tree = $cache->load($key);
 
 		if($tree === false) {
 			$product = Mage::getModel('catalog/product')->load($pid);
 			$tree = $this->getAttributeTree($product);
-			$cache->save($tree, $key);
+			$cache->save(serialize($tree), $key);
+			return $tree;
+		} else {
+			return unserialize($tree);
 		}
-		$cache->setOption('automatic_serialization', $option); // must reset the option
-		return $tree;
 	}
 
 }

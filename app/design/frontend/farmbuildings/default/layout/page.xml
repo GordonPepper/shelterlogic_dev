@@ -83,7 +83,7 @@
 
                 <!-- Sets viewport meta tag using text block -->
                 <block type="core/text" name="head.viewport">
-                    <action method="setText"><text><![CDATA[<meta name="viewport" content="initial-scale=1.0, width=device-width" />]]>&#10;</text></action>
+                    <action method="setText"><text><![CDATA[<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes">]]>&#10;</text></action>
                 </block>
             </block>
 

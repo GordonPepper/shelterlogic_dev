@@ -2,22 +2,25 @@
 
 class Americaneagle_Farmbuildings_Block_Product_View_Configurable
 	extends Mage_Catalog_Block_Product_View_Type_Configurable {
-	public function _construct() {
-		//parent::_construct();
-	}
+//	public function _construct() {
+//		//parent::_construct();
+//	}
 
 	public function getJsonConfig() {
-		$cache = Mage::app()->getCache();
-		$option = $cache->getOption('automatic_serialization');
-		$key = 'attributeTree' . $this->getProduct()->getId();
-		$cache->setOption('automatic_serialization', true);
-		$tree = $cache->load($key);
-		if ($tree === false) {
-			$tree = Mage::helper('farmbuildings')->getAttributeTree($this->getProduct());
-			$cache->save($tree, $key);
-		}
-		$cache->setOption('automatic_serialization', $option); // must reset the option
+//		$cache = Mage::app()->getCache();
+//		//$option = $cache->getOption('automatic_serialization');
+//		$key = 'attributeTree' . $this->getProduct()->getId();
+//		//$cache->setOption('automatic_serialization', true);
+//		$tree = $cache->load($key);
+//		if ($tree === false) {
+//			$tree = Mage::helper('farmbuildings')->getAttributeTree($this->getProduct());
+//			$cache->save(serialize($tree), $key);
+//		} else {
+//			$tree = unserialize($tree);
+//		}
+//		//$cache->setOption('automatic_serialization', $option); // must reset the option
 
+		$tree = Mage::helper('farmbuildings')->getTree($this->getProduct()->getId());
 		$sa = Mage::registry('super_attribute_array');
 		if ($sa) {
 			$config = array('reconfigure' => 'true');

@@ -7,8 +7,6 @@ jQuery.noConflict();
 		 
 	});
 	$.cookie.raw = true;
-
-
 	// get tagname 
 	$.fn.tagName = function() {
 	  return this.prop("tagName").toLowerCase();
@@ -68,7 +66,7 @@ jQuery.noConflict();
 	*/
 	var browser = navigator.sayswho.toLowerCase();
 	var is_chrome = browser.indexOf('chrome') > -1;
-	var is_explorer = browser.indexOf('internet') > -1;
+	var is_explorer = browser.indexOf('ie') > -1;
 	var is_firefox = browser.indexOf('firefox') > -1;
 	var is_safari = browser.indexOf("safari") > -1;
 	var is_Opera = browser.indexOf("presto") > -1;
@@ -180,7 +178,7 @@ jQuery.noConflict();
 
 	var loadID, loadCheck = '';
 	var loadSelected_tmp, loadSelected = [];
-	
+	var loadingTimer = setTimeout( _.noop, 2500);
 	/*
 	|--------------------------------------------------------------------------
 	| get hash and split
@@ -188,6 +186,13 @@ jQuery.noConflict();
 	*/
 	var hash = (window.location.hash).split("#");
 
+	/*
+	|--------------------------------------------------------------------------
+	| is reconfigure
+	|--------------------------------------------------------------------------
+	*/
+	var editConfiguration = (typeof aeConfig !== 'undefined' ? aeConfig.config.reconfigure : false);
+	var _firstClick = true;
 
 	/*
 	|--------------------------------------------------------------------------
@@ -220,7 +225,10 @@ jQuery.noConflict();
 	// person variable
 	var s7_guy1 = 'xx-xx-000xxx00_charact1';
 	var s7_guy2 = 'xx-xx-000xxx00_charact2';
-	var s7_guy = (hash.indexOf('charact1') >= 0 ? 'xx-xx-000xxx00_charact1' : 'xx-xx-000xxx00_charact2');
+	var s7_guy3 = 'xx-xx-000xxx00_charact3';
+	var s7_guy = (hash.indexOf('charact1') >= 0 ? 'xx-xx-000xxx00_charact1' : 'xx-xx-000xxx00_charact3');
+	
+
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -352,7 +360,6 @@ jQuery.noConflict();
 
 	var scriptError = scriptError || {
 		logging: function (text) {
-			//console.log(text);
 			loc = window.location;
 			//loc = 'www.shelterlogic.com/farmtest';
 			$.get(
@@ -375,13 +382,7 @@ jQuery.noConflict();
 	var farmBuilding = farmBuilding || {};
 
 	;(function ( _NS, undefined ) {
-	    
-	    
-
-		
-
-		
-		
+	 
 		/*
 		|--------------------------------------------------------------------------
 		| _local defines provate methods
@@ -423,12 +424,10 @@ jQuery.noConflict();
 		    	var _initialV = v;
 		    	var _translatedV = _initialV;
 		    	var _item = item.toLowerCase();
-		    	// if(_item == 'width' || _item == 'height' || _item == 'length') {
-		    	// 	return _translatedV;
-		    	// } else {
+		    	
 			    	_translatedV = _formObj[_item][_initialV];
 			    	return _translatedV;
-		    	//}
+		    	
 		    	return false;
 		    	
 		    },
@@ -557,7 +556,6 @@ jQuery.noConflict();
 			    // ',0&fmt=png-alpha&wid='+imgWidth+'&hei='+imgWidth);
 			    
 			    return image_url;
-		    	// return 'http://s7d2.scene7.com/is/image/ShelterLogic/pe-cb-025xxx14_cover020?layer=1&src=pe-cb-025xxx14_cover060&$green$&posN=0,0&layer=2&src=pe-cb-025xxx14_logo-frm&$gray$&posN=0,0&layer=3&src=xx-xx-000xxx00_charact1&posN=0,0';
 
 		    },
 		    buildCookie: {
@@ -664,90 +662,56 @@ jQuery.noConflict();
 				nImg.onerror = function() {
 				    // image did not load
 				    if(_formObj.style[_selectArray['Style']] === 'Peak')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else if(_formObj.style[_selectArray['Style']] === 'Barn')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else if(_formObj.style[_selectArray['Style']] === 'Round')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact2&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 
 				    _i.attr('src',image_url);
-				    
-				    scriptError.report('Failed to load image: '+image_url, true);
+				    var message = 'Failed to load image: '+image_url;
+				    //scriptError.report(message, true);
 				    return _local.center();
 				}
 		    },
 		    uiLoad: {
 		    	getLoadNDoor: function () {
-		    		var obj = buildAttributes;
 		    		var obtained = 0;
-		    		function ImageExist(obj) {
-					   var style = obj['Style'].split('')[0];
-					   var width = obj['Width'];
-					   var height = obj['Height'];
-					   var src = getBaseUrl()+'images/src/diagrams/'+obj['Style']+'/'+style+'_'+width+'x'+height+'.png';
-					   $.get(src)
-					    .done(function() { 
-					        // exists code 
-					        _theDiagram.each(function() { $(this).attr('src', src); });
-					   		_UIDiagram.each(function() { $(this).show(); });
-					    }).fail(function() { 
-					        // not exists code
-					        _theDiagram.each(function() { $(this).attr('src', ''); });
-					   		_UIDiagram.each(function() { $(this).hide(); });
-					    });
+		    		function ImageExist() {
+		    			if(_selectArray.Style !== 'Choose an Option...' && _selectArray.Width !== 'Choose an Option...' && _selectArray.Height !== 'Choose an Option...') {
+			    		   var StyleMain = _formObj.style[_selectArray['Style']].split(' ')[0];
+						   var style = StyleMain.split('')[0];
+						   var width = _formObj.width[_selectArray['Width']];
+						   var height = _formObj.height[_selectArray['Height']];
+						   var src = getBaseUrl()+'images/src/diagrams/'+StyleMain+'/'+style+'_'+width+'x'+height+'.png';
+						   $.get(src)
+						    .done(function() { 
+						        // exists code 
+						        _theDiagram.each(function() { $(this).attr('src', src); });
+						   		_UIDiagram.each(function() { $(this).show(); });
+						    }).fail(function() { 
+						        // not exists code
+						        _theDiagram.each(function() { $(this).attr('src', ''); });
+						   		_UIDiagram.each(function() { $(this).hide(); });
+						    });
+						}
 					    return;
 					}
-		    		Object.keys(_selectArray).forEach(function(key) {
-		    			if ( key == 'Style' || key == 'Width' || key == 'Height' ) {
-		    				if ( _selectArray[key] !== null ) {
-								
-								loadSelected_tmp = $.grep(obj, function( n ) {
-									return ( n[key] == _formObj[key.toLowerCase()][_selectArray[key]]);
-								});
-								
-								if(loadSelected_tmp !== null) {
-									loadSelected = loadSelected_tmp;
-									obj = loadSelected;
-									obtained = Object.keys(obj).length;
-								} else {
-									loadSelected_tmp = false;
-								}
-		    				}
-		    			}
-		    		});
-		    		//console.log(loadSelected_tmp);
-		    		if (loadSelected_tmp !== false && obtained == 1) {
-		    			ImageExist(loadSelected[0]);
-		    			if(loadSelected[0]['door_width'] !== "0")
-		    				$('#door_width .attribute').text(loadSelected[0]['door_width']);
-		    			if(loadSelected[0]['door_height'] !== "0")
-		    				$('#door_height .attribute').text(loadSelected[0]['door_height']);
-		    			if(loadSelected[0]['snow_load'] !== "0")
-		    				$('#snow_load .attribute').text(loadSelected[0]['snow_load']+" psf*");
-		    			if(loadSelected[0]['wind_load'] !== "0")
-		    				$('#wind_load .attribute').text(loadSelected[0]['wind_load']+" mph*");
+		    		
+					$('#product-attribute-specs-table td.data').each(function() {
+						var _id = $(this).data('attribute-id');
+						$('#'+_id+' .attribute').text($(this).text());
+					});
 
-		    			if(loadSelected[0]['door_center_height'] !== "0") {
-		    				$('#door_center_height').show();
-		    				$('#door_center_height .attribute').text(loadSelected[0]['door_center_height']);
-		    			} else {
-		    				$('#door_center_height').hide();
-		    			}
-		    			_UIDiagram.show();
-		    		} else {
-		    			//scriptError.report('failure to set door and load ratings due to unmet condition',false);
-		    			_UIDiagram.hide();
-		    		}
-		    		return;
+		    		return ImageExist();
 				},
 		    	// functions to set values to UI elements and sizing
 		    	setSelectedItems: function() {
 		    		// loop the _selectArray object and set selected values
 		    		if(!_selectArray)
 		    			return false;
-
 		    		Object.keys(_selectArray).forEach(function(key) {
 					    $('.UI[data-type="'+key+'"]').each(function(){
 					    	if ($(this).data('value') == _selectArray[key]) {
@@ -761,7 +725,6 @@ jQuery.noConflict();
 						    	$('#'+key+'Selected .attribute').text(_formObj[key.toLowerCase()][_selectArray[key]]);
 						    }
 					    }
-					    //_bod.addClass(key+'_'+_selectArray[key]);
 					});
 					return _NS.uiEvent.whichChoice();
 		    	},
@@ -826,7 +789,6 @@ jQuery.noConflict();
 	    				var _dataFunc = 'setAttr';
 	    				$(_loc_select).find( 'option' ).each(function(index) {
 	    					var __this = $(this);
-	    					//console.log(_this.parent().attr('id'));
 	    					if(_this.parent().attr('id') === 'startStyle') _dataFunc = 'setStyle';
 	    					if(__this.text().indexOf(_defaultFormOption) < 0) {
 								switch(__type) {
@@ -836,7 +798,8 @@ jQuery.noConflict();
 										break;
 									case 'FabricMaterial':
 										var theText = __this.text().split('P');
-										_this.append('<button class="UI UI-Option button expand textLeft" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'"><span class="hide-for-large-up">'+theText[0]+'</span><span class="show-for-large-up">'+__this.text()+'</span><i class="fa fa-check center"></i></button>');
+										_this.append('<button class="UI UI-Option button expand textLeft hide-for-large-up" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'">'+theText[0]+'<i class="fa fa-check center"></i></button>');
+										_this.append('<button class="UI UI-Option button expand textLeft show-for-large-up" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'">'+__this.text()+'<i class="fa fa-check center"></i></button>');
 										break;
 									case 'FabricColor':
 										_this.append('<button class="UI UI-Option button expand box-shadow textCenter makeSquare '+__this.text().replace(" ","_")+'" data-func="'+_dataFunc+'" data-type="'+__type+'" data-value="'+__this.attr('value')+'"> '+__this.text()+' <i class="fa fa-check centerVertical centerHorizontal"></i></button>');
@@ -860,8 +823,10 @@ jQuery.noConflict();
 							_calcPrice.text(_total);
 							$('#addToCart').removeClass('disabled');
 							$('.btn-cart').each(function(){
-								if ( $(this).css('display') == 'none') {
+								if ( $(this).css('display') == 'none' && !editConfiguration) {
 								    $('#addToCart').text($(this).attr('data-text')).attr('data-func',$(this).attr('data-func'));
+							    } else if (editConfiguration) {
+							    	$('#addToCart').text($(this).attr('data-text')).attr('data-func',$(this).attr('data-func'));
 							    }
 							});
 							
@@ -891,7 +856,6 @@ jQuery.noConflict();
 			observing: {
 				formCascade: function(id) {
 					// var _e = $('#'+id);
-					// console.log($('.super-attribute-select').length);
 					// var _eLength = $('.super-attribute-select').length;
 					// var _eIndex = _e.attr('data-index');
 					// var is_select = _e.hasClass('super-attribute-select');
@@ -903,18 +867,17 @@ jQuery.noConflict();
 					//     var eventReturn = _NS.fireEvent(obj[0],'change');
 					//     _NS.observing.formChange();
 
-					//     return true;
+					//     return false;
 					// } else {
 					// 	return true;
 					// }
 					return true;
 				},
 				formChange: function (_e) {
-
 		     		var formChanged = _.debounce(function(id) {
 		     			if(_NS.observing.formCascade(id))
 		     				_NS.init.getState(true);
-		     			observer.disconnect();
+		     			return observer.disconnect();
 		     		}, 200, true);
 					MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
@@ -939,8 +902,16 @@ jQuery.noConflict();
 		    		_ui_quickNav.stop().slideUp();
 		    		return true;
 		    	},
-		    	addToCart: function() {
-		    		$('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
+		    	addToCart: function(e) {
+		    		
+		    		if($(e.target).attr('id') === 'addToCart')
+		    			$('#confirmModal').foundation('reveal', 'open');
+		    		if($(e.target).attr('id') === 'confirmAddToCart')
+		    			$('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
+		    		return;
+		    	},
+		    	updateCart: function() {
+		    		$('.add-to-cart-buttons button.btn-cart').trigger('click');
 		    		return;
 		    	},
 		    	getAQuote: function() {
@@ -948,16 +919,22 @@ jQuery.noConflict();
 		    		return;
 		    	},
 		    	setAttr: function(_e_) {
+
 		    		if(this.default()) {
-		    			//console.log('setAttr');
 			    		var select = _e_;
 			    		var _e_type = $(_e_.target).prop('tagName');
-			    		var is_select = (_e_type.toLowerCase() == 'select' ? true : false);
-			    		var dataType = $(_e_.target).data('type');
+			    		var is_select = (_e_type.toLowerCase() === 'select' ? true : false);
+			    		var is_option = (_e_type.toLowerCase() === 'option' ? true : false);
+			    		var is_button = (_e_type.toLowerCase() === 'button' ? true : false);
+			    		if(!is_option)
+			    			var dataType = $(_e_.target).data('type');
+			    		else 
+			    			var dataType = $(_e_.target).parent().data('type');
+
+
 			    		var dataValue = $(_e_.target).data('value');
 			    		_selectArray[dataType] = dataValue;
 			    		_lastSelection = dataType;
-			    		
 			    		// local function to fire form with selected value
 			    		function _go (_value) {
 			    			var dataValue = _value;
@@ -1024,7 +1001,6 @@ jQuery.noConflict();
 					    			$(this).attr('selected', true);
 					    		}
 					    	});
-					    	
 					    	var obj = $(_formE).get();
 						    Event.observe(obj[0],'change',function(){});
 						    var eventReturn = _NS.fireEvent(obj[0],'change');
@@ -1032,15 +1008,18 @@ jQuery.noConflict();
 						    return _NS.observing.formChange();
 						    
 			    		}
-
 			    		// if our ui is a select field
-			    		if (is_select && is_safari && !isMobile.any()) {
-			    			$(_e_.target).on('click', function(e){ 
+			    		if (is_select && is_explorer && !is_safari && !isMobile.any()) {
+			    			
+			    			$(_e_.target).on('change', function(e){ 
 			    				// call go with value
-			    				_go($(this).val()); 
-			    				$(this).unbind('click');
+			    				_go($(this).val());
+			    				$(this).unbind('change');
 			    				return _NS.loading(true);
-			    			});
+			    			}); 
+			    		} else if (is_select && is_safari && !isMobile.any()) {
+			    			_go($(_e_.target).val());	
+			    			return _NS.loading(true);
 
 			    		} else if (is_select && !is_safari && !isMobile.any()) {
 			    			$(_e_.target).on('change', function(e){ 
@@ -1057,7 +1036,7 @@ jQuery.noConflict();
 			    				$(this).unbind('blur');
 			    				return _NS.loading(true);
 			    			});
-			    		} else { // if it is not a select field
+			    		} else if (is_button) { // if it is not a select field
 			    			// call go with value
 			    			_go($(_e_.target).data('value'));	
 			    			return _NS.loading(true);
@@ -1114,8 +1093,8 @@ jQuery.noConflict();
 										        
 						} //end if
 						else {
-							//console.log('repeater test - you should only see this once per call');
-							if(aeConfig.config.reconfigure && _lastSelection !== undefined) {
+
+							if(editConfiguration && _lastSelection === 0) {
 								var _position = $( '#chooseFabricColor' ).index();
 								_lastSelection = 'FabricColor';
 							} else {
@@ -1187,12 +1166,9 @@ jQuery.noConflict();
 						}
 						
 						if (isMobile.any() && $(window).height() < 459 && landscape) {
-							//alert('in');
-							//return false;
 							_landscapeMod.foundation('reveal', 'open');
-							$('#mainUIElements').addClass('op_0');
 						} else if (isMobile.any() && $(window).height() > 459 && !landscape && fired) {
-							farmBuilding.init.refresh();
+							//farmBuilding.init.refresh();
 						}
 					}
 					return;
@@ -1201,7 +1177,6 @@ jQuery.noConflict();
 		    resizer: function (f) {
 		    		if(_local.isConfigurable())
 		    			setUISlide();
-		    		//_NS.uiLoad.setUIListWidth();
 			    	_screenWH.stop().each(function() {
 			    		$(this).winHW(window,true,true, _local.center());
 			    	});
@@ -1275,10 +1250,7 @@ jQuery.noConflict();
 		    		$('#building').find('img').removeClass('op_0');
 	        		$('.elements').removeClass('op_0');
 	        		$('#loader').removeClass('loading');
-	        		//console.log(farmBuilding);
 	        		delete farmBuilding;
-	        		//console.log(farmBuilding);
-	        		// setTimeout( _NS, 1000 );
 	        	}
 	    		if(start) {
 		    		_bod.addClass('loading');
@@ -1287,16 +1259,15 @@ jQuery.noConflict();
 	        		$('#loader').addClass('loading');
 		    	} else {
 		    		if(loadingTimer) clearTimeout(loadingTimer);
-		    		var loadingTimer = setTimeout( _unLoad, 2500);
+		    		loadingTimer = setTimeout( _unLoad, 2500);
 		    	}
-
+		    	return true;
 			},
 		    init:{ 
 		    	
 		        getState:function(onloader){
+		        	console.log('fire');
 		        	// set selectArray from form values
-		        	// 
-		        	//_NS.loading(true);
 	        		$('.buttonContainer, #quickNav, .UISection select').html('');
             		$("select[class^='"+_selectPartial+"']").each(function (i, el) {
             			 var _CLASSSESplit = $(this).attr('class').split(" ");
@@ -1328,8 +1299,9 @@ jQuery.noConflict();
 		            _NS.uiLoad.getFormAndSetUI();
 		            _NS.uiLoad.setPrice();
 		            
-		            if(onloader)
+		            if(onloader) {
 		            	_NS.resizer();
+		            }
 
 		            _NS.infoVisible();
 		            
@@ -1340,29 +1312,28 @@ jQuery.noConflict();
 	        	
 		        	_NS.uiLoad.ajaxModalConnect();
 		    		if(_local.isConfigurable()) {
-		    			if(!aeConfig.config.reconfigure)
-			    			_local.pop.start();
-			    		_NS.init.getState(true);
+
+		    			Pace.on('done', function(){ if(!editConfiguration) { if (_NS.init.getState(true)) { _local.pop.start(); } } });
+			    		
 			    	} else {
 			    		farmBuilding.resizer();
 			    	}
-			    
+
 			    	return true;
 		    	},
 			    refresh: function () {
-			    	//comment out condition for ios, for some reason it is working now
-					// if (navigator && navigator.platform && navigator.platform.match(/^(iPad|iPod|iPhone)$/)) {
-					//     window.location.reload;
-					// } else {
-						window.location = window.location;
-					//}
-			    	return false;
+			    	return window.location = window.location;
 			    }
 		    },
 		    product_sp_series_shelter: {
 		    	init: function() {
-		    		_NS.init.loader();
-		
+					if(editConfiguration) {
+						setTimeout(function() {
+							_NS.init.getState(true)
+						}, 1500);
+					} else {
+						_NS.init.loader();
+					}
 					$('body').delegate('.UI','click',function(e) {
 						e.preventDefault();
 						e.stopPropagation();
@@ -1370,7 +1341,6 @@ jQuery.noConflict();
 							var func = $(this).data('func');
 							_.debounce(farmBuilding.uiEvent[func](e), 1000, true);
 						}
-
 					});
 		    	}
 		    },
@@ -1382,7 +1352,6 @@ jQuery.noConflict();
 		});
 	    
 	})(farmBuilding = farmBuilding || {});
-
 	
 	$(document).on('opened.fndtn.reveal', '#quoteModal', function () {
 	  return farmBuilding.modalWork.quoteModal();
@@ -1436,34 +1405,47 @@ jQuery.noConflict();
 		| Document ready state
 		|--------------------------------------------------------------------------
 		*/
+		$('.menu-icon').click(function(){ false });
 		
-		// delete this on live site
-		$('#showForm').on('click',function(e) {
-			e.preventDefault();
-			return $(this).parent().toggleClass('show');
-		});
-		// END Delete this on live site
+		/*
+		|--------------------------------------------------------------------------
+		| body mutation function
+		|--------------------------------------------------------------------------
+		*/
 		var bodyChanged =  _.debounce(function () {
 			$('.centerHorizontal').centerHorizontal();
     		$('.centerVertical').centerVertical();
     		$('.centerCenter').centerCenter();
     		$('.makeSquare').makeSQ();
-		}, 500);
-		$("#cofiguratorMain").bind("DOMSubtreeModified", function () {
-			bodyChanged();
+		}, 1000);
+		var targetConfig = document.querySelector('#cofiguratorMain');
+			 
+		// create an observer instance
+		var observing = new MutationObserver(function(mutations) {
+		  mutations.forEach(function(mutation) {
+		    bodyChanged();
+		  });    
 		});
-		
+		 
+		// configuration of the observer:
+		var configs = { attributes: true, childList: true, characterData: true };
+		 
+		// pass in the target node, as well as the observer options
+		observing.observe(targetConfig, configs);
+		 
+		// later, you can stop observing
+		//observing.disconnect();
 	});
 
 	$(window).load(UTIL.loadEvents);
 
-	$(window).smartresize(function(){
+	$(window).resize(function(){
 	    /*
 		|--------------------------------------------------------------------------
 		| Document smart resize
 		|--------------------------------------------------------------------------
 		*/
-		farmBuilding.init.getState(true);
+		_.debounce(farmBuilding.init.getState(true), 1000, true);
 		
 	});
 

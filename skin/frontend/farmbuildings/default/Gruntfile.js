@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
-          outputStyle: 'uncompressed'
+          outputStyle: 'compressed'
         },
         files: {
           'css/app.css': 'scss/app.scss'
@@ -40,12 +40,13 @@ module.exports = function(grunt) {
             'bower_components/respond/src/respond.js',
             //'bower_components/selectivizr/selectivizr.js',
             'bower_components/foundation/js/foundation.js',
+            'bower_components/foundation/js/foundation/foundation.offcanvas.js',
             'bower_components/FitText/jquery.fittext.js',
             //'bower_components/jquery-hashchange/jquery.ba-hashchange.js',
             'bower_components/source-web-files/js/custom/detect.browser.js',
             'bower_components/source-web-files/js/custom/make.square.js',
             'bower_components/source-web-files/js/custom/make.windowHeight.js',
-            'bower_components/source-web-files/js/custom/smart.resize.js',
+            // 'bower_components/source-web-files/js/custom/smart.resize.js',
             'bower_components/underscore/underscore.js'
           ],
           'js/jquery.min.js': [
