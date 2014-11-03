@@ -91,6 +91,11 @@ aeProduct.Config.prototype = {
         specs.each(function (td) {
             td.innerHTML = "No";
         });
+        // clear the price
+        var p = $$('#product-price-' + aeProductId + ' > span.price');
+        if(p[0].innerHTML != formatCurrency(0.0, priceFormat)){
+            p[0].innerHTML = formatCurrency(0.0, priceFormat);
+        }
 
         new Ajax.Request('/fbconfig/index', {
             method: 'post',

@@ -151,7 +151,7 @@ jQuery.noConflict();
 	var _defaultFormOption = 'Choose a';
 	var _price = $('#mainPrice .regular-price .price');
 	var _quoteModal = $('#quoteModal');
-	var _quoteMessage = _quoteModal.find('input[name=message]');
+	var _quoteMessage = _quoteModal.find('input[value=##build_description##]');
 	// var _optionsTable = 'ctl00_ContentPlaceHolderBody_ctl00_tblOptions';
 	var _miniCart = $('.header-minicart .count');
 	var _items_miniCart_count = $('.header-minicart .count');
@@ -724,6 +724,8 @@ jQuery.noConflict();
 					    	} else {
 						    	$('#'+key+'Selected .attribute').text(_formObj[key.toLowerCase()][_selectArray[key]]);
 						    }
+					    } else {
+					    	$('#'+key+'Selected .attribute').text('-');
 					    }
 					});
 					return _NS.uiEvent.whichChoice();
@@ -1266,7 +1268,6 @@ jQuery.noConflict();
 		    init:{ 
 		    	
 		        getState:function(onloader){
-		        	console.log('fire');
 		        	// set selectArray from form values
 	        		$('.buttonContainer, #quickNav, .UISection select').html('');
             		$("select[class^='"+_selectPartial+"']").each(function (i, el) {
