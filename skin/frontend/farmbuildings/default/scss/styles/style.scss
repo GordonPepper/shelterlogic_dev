@@ -624,6 +624,13 @@ body {
 				color: $shelter-yellow;
 				padding: 10px 0 0 0;
 				text-shadow: 2px 4px 6px $shelter-grey;
+				@include simple-transition(all, 500);
+				.fa {
+					display: inline-block;
+					margin: -6px 0 0;
+					vertical-align: middle;
+					font-size: 24px;
+				}
 			}
 			.UITop, .UIBuilderContainer, .UIBottom {
 				width: 100%;
@@ -1063,7 +1070,7 @@ body {
 		&.STlogo {
 			width: 100px;
 			height: 45px;
-			overflow: hidden;
+			overflow: visible;
 			margin-left: auto !important;
 			margin-right: auto !important;
 
@@ -1080,7 +1087,15 @@ body {
 		@media #{$large-up} { margin: 7px auto; }
 		.title {
 			line-height: 1;
-			//&.main { margin-left: 10%; }
+			&.main {
+				position:relative;
+				.madeText {
+					position: absolute;
+					right: -18px;
+					display: block;
+					top: -1px;
+				}
+			}
 			&.modal { }
 		}
 	}

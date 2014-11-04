@@ -518,27 +518,27 @@ jQuery.noConflict();
 						length = '100';
 						img_offset = 0;
 						break;
-					case (length <= 100)&&(length > 80):
+					case (length <= 100)&&(length > 90):
 						//do stuff
 						length = '100';
 						img_offset = '0';
 						break;
-					case (length <= 80)&&(length > 60):
+					case (length <= 90)&&(length > 70):
 						//do stuff
 						length = '080';
 						img_offset = '-0.04';
 						break;
-					case (length <= 60)&&(length > 40):
+					case (length <= 70)&&(length > 50):
 						//do stuff
 						length = '060';
 						img_offset = '-0.06';
 						break;
-					case (length <= 40)&&(length > 20):
+					case (length <= 50)&&(length > 30):
 						//do stuff
 						length = '040';
 						img_offset = '-0.10';
 						break;
-					case (length <= 20):
+					case (length <= 30):
 					default:
 						//do stuff
 						length = '020';
@@ -832,11 +832,10 @@ jQuery.noConflict();
 							_calcPrice.text(_total);
 							$('#addToCart').removeClass('disabled');
 							$('.btn-cart').each(function(){
-								if ( $(this).css('display') == 'none' && !editConfiguration) {
+								if ( $(this).css('display') == 'none') {
+									console.log($(this).attr('data-text'));
 								    $('#addToCart').text($(this).attr('data-text')).attr('data-func',$(this).attr('data-func'));
-							    } else if (editConfiguration) {
-							    	$('#addToCart').text($(this).attr('data-text')).attr('data-func',$(this).attr('data-func'));
-							    }
+							    } 
 							});
 							
 						}
@@ -1133,31 +1132,34 @@ jQuery.noConflict();
 				        	
 				        }
 						var highlight = setTimeout(blink, 7000);
+						//alert(_lastSelection);
 						switch(_lastSelection) {
 				    			case 'Style':
-				    				step = 2;
+				    				step = 'Step - 2';
 				    				break;
 				    			case 'Width':
-				    				step = 3;
+				    				step = 'Step - 3';
 				    				break;
 				    			case 'Height':
-				    				step = 4;
+				    				step = 'Step - 4';
 				    				break;
 				    			case 'Length':
-				    				step = 5;
+				    				step = 'Step - 5';
 				    				break;
 				    			case 'FabricMaterial':
-				    				step = 6;
+				    				step = 'Step - 6';
 				    				break;
 				    			case 'FabricColor':
-				    			default:
-				    				if(_lastSelection === '0' && editConfiguration)
-				    					step = 6;
+				    				if(editConfiguration)
+				    					step = '<i class="fa fa-angle-double-up"></i>';
 				    				else
-				    					step = 1;
+				    					step = 'Buy - <i class="fa fa-cc-amex"></i> <i class="fa fa-cc-visa"></i> <i class="fa fa-cc-mastercard"></i> <i class="fa fa-credit-card"></i>';
+				    				break;
+				    			default:
+				    				step = 'Step - 1';
 				    				break;
 				    		}
-						return $('.step .number').text(step);
+						return $('.step').html(step);
 				    }
 		    	},
 		    	getInfo: function (e) {

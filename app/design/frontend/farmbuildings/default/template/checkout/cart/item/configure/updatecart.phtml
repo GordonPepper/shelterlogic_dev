@@ -27,6 +27,7 @@
 
 <?php $_product = $this->getProduct(); ?>
 <?php $buttonTitle = $this->__('Update Cart'); ?>
+<?php $requestQuoteTitle = $this->__('Request a Quote'); ?>
 <?php if ($_product->isSaleable()): ?>
     <div class="add-to-cart">
         <?php if (!$_product->isGrouped()): ?>
@@ -36,7 +37,8 @@
         </div>
         <?php endif; ?>
         <div class="add-to-cart-buttons">
-            <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" data-text="<?php echo $buttonTitle ?>" data-func="updateCart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <button data-id="atc-button" type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" data-text="<?php echo $requestQuoteTitle ?>" data-func="getAQuote" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <button data-id="raq-button" style="display:none;" type="button" title="<?php echo $requestQuoteTitle ?>" data-text="<?php echo $buttonTitle ?>" data-func="updateCart" class="button btn-cart" onclick="aeConfig.requestQuote(this)"><span><span><?php echo $requestQuoteTitle ?></span></span></button>
             <?php echo $this->getChildHtml('', true, true) ?>
         </div>
     </div>
