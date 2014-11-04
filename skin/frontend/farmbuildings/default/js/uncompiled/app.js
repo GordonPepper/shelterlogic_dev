@@ -354,6 +354,12 @@ jQuery.noConflict();
 	
 	/*
 	|--------------------------------------------------------------------------
+	| which step
+	|--------------------------------------------------------------------------
+	*/
+	var step = 1;
+	/*
+	|--------------------------------------------------------------------------
 	| build errors and logs
 	|--------------------------------------------------------------------------
 	*/
@@ -378,6 +384,7 @@ jQuery.noConflict();
 		}
 	};
 
+	
 	//top-level namespace
 	var farmBuilding = farmBuilding || {};
 
@@ -661,11 +668,11 @@ jQuery.noConflict();
 				}
 				nImg.onerror = function() {
 				    // image did not load
-				    if(_formObj.style[_selectArray['Style']] === 'Peak')
+				    if(_formObj.style[_selectArray['Style']] === 'Peak Frame')
 				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
-				    else if(_formObj.style[_selectArray['Style']] === 'Barn')
+				    else if(_formObj.style[_selectArray['Style']] === 'Barn Frame')
 				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
-				    else if(_formObj.style[_selectArray['Style']] === 'Round')
+				    else if(_formObj.style[_selectArray['Style']] === 'Round Frame')
 				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 				    else
 				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
@@ -891,7 +898,9 @@ jQuery.noConflict();
 					// Register the element root you want to look for changes
 					observer.observe(document.getElementById('product_addtocart_form'), {
 					  subtree: true,
-					  attributes: true
+					  attributes: true,
+					  childList: true,
+					  characterData: true,
 					});
 					return;
 				},
@@ -905,11 +914,11 @@ jQuery.noConflict();
 		    		return true;
 		    	},
 		    	addToCart: function(e) {
-		    		
-		    		if($(e.target).attr('id') === 'addToCart')
-		    			$('#confirmModal').foundation('reveal', 'open');
-		    		if($(e.target).attr('id') === 'confirmAddToCart')
-		    			$('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
+		    		$('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
+		    		// if($(e.target).attr('id') === 'addToCart')
+		    		// 	$('#confirmModal').foundation('reveal', 'open');
+		    		// if($(e.target).attr('id') === 'confirmAddToCart')
+		    		// 	$('.add-to-cart-buttons button[data-id=atc-button]').trigger('click');
 		    		return;
 		    	},
 		    	updateCart: function() {
@@ -1006,7 +1015,6 @@ jQuery.noConflict();
 					    	var obj = $(_formE).get();
 						    Event.observe(obj[0],'change',function(){});
 						    var eventReturn = _NS.fireEvent(obj[0],'change');
-
 						    return _NS.observing.formChange();
 						    
 			    		}
@@ -1122,10 +1130,34 @@ jQuery.noConflict();
 				        $('.UIBottom .UIBuilderContainer').addClass('highlight');
 				        var blink = function() {
 				        	$('.UIBottom .UIBuilderContainer').removeClass('highlight');
+				        	
 				        }
-						var highlight = setTimeout(blink, 5000);
-
-						return;
+						var highlight = setTimeout(blink, 7000);
+						switch(_lastSelection) {
+				    			case 'Style':
+				    				step = 2;
+				    				break;
+				    			case 'Width':
+				    				step = 3;
+				    				break;
+				    			case 'Height':
+				    				step = 4;
+				    				break;
+				    			case 'Length':
+				    				step = 5;
+				    				break;
+				    			case 'FabricMaterial':
+				    				step = 6;
+				    				break;
+				    			case 'FabricColor':
+				    			default:
+				    				if(_lastSelection === '0' && editConfiguration)
+				    					step = 6;
+				    				else
+				    					step = 1;
+				    				break;
+				    		}
+						return $('.step .number').text(step);
 				    }
 		    	},
 		    	getInfo: function (e) {
@@ -1179,23 +1211,23 @@ jQuery.noConflict();
 		    resizer: function (f) {
 		    		if(_local.isConfigurable())
 		    			setUISlide();
-			    	_screenWH.stop().each(function() {
+			    	_screenWH.each(function() {
 			    		$(this).winHW(window,true,true, _local.center());
 			    	});
-			    	_screenH.stop().each(function() {
+			    	_screenH.each(function() {
 			    		$(this).winHW(window,true,false, _local.center());
 			    	});
-			    	_screenW.stop().each(function() {
+			    	_screenW.each(function() {
 			    		$(this).winHW(window,false,true, _local.center());
 			    	});
-			    	_screenCenterHorizontal.stop().each(function() {
+			    	_screenCenterHorizontal.each(function() {
 			    		$(this).centerHorizontal();
 			    	});
-			    	_screenCenterVertical.stop().each(function() {
+			    	_screenCenterVertical.each(function() {
 			    		$(this).centerVertical();
 			    	});
-			    	_makeSquare.stop().each(function() {
-			    		$(this).stop().makeSQ();
+			    	_makeSquare.each(function() {
+			    		$(this).makeSQ();
 			    	});
 			    	_NS.uiEvent.checkOrientation(f);
 			    	// added initializers
@@ -1261,7 +1293,7 @@ jQuery.noConflict();
 	        		$('#loader').addClass('loading');
 		    	} else {
 		    		if(loadingTimer) clearTimeout(loadingTimer);
-		    		loadingTimer = setTimeout( _unLoad, 2500);
+		    		loadingTimer = setTimeout( _unLoad, 3000);
 		    	}
 		    	return true;
 			},
@@ -1298,14 +1330,14 @@ jQuery.noConflict();
 				    
 		            _NS.imageUrl();
 		            _NS.uiLoad.getFormAndSetUI();
-		            _NS.uiLoad.setPrice();
+		            
 		            
 		            if(onloader) {
 		            	_NS.resizer();
 		            }
 
 		            _NS.infoVisible();
-		            
+		            _NS.uiLoad.setPrice();
 		            return _NS.loading(false);
 		        	
 		        },
@@ -1326,12 +1358,48 @@ jQuery.noConflict();
 			    	return window.location = window.location;
 			    }
 		    },
+		    common: {
+		    	init: function() {
+		    		if (_local.isConfigurable()) {
+						/*
+						|--------------------------------------------------------------------------
+						| body mutation function
+						|--------------------------------------------------------------------------
+						*/
+						var bodyChanged =  _.debounce(function () {
+							$('.centerHorizontal').centerHorizontal();
+				    		$('.centerVertical').centerVertical();
+				    		$('.centerCenter').centerCenter();
+				    		$('.makeSquare').makeSQ();
+						}, 1500);
+						
+						// $("#cofiguratorMain").bind("DOMSubtreeModified", function() {
+						//     bodyChanged();
+						// });
+						MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+						var observer = new MutationObserver(function(mutations, observer) {
+						    // fired when a mutation occurs
+						    bodyChanged();
+						    // ...
+						});
+
+						// define what element should be observed by the observer
+						// and what types of mutations trigger the callback
+						observer.observe(document.getElementById("cofiguratorMain"), {
+						  subtree: true, attributes: true, childList: false, characterData: false
+						  //...
+						});
+					}
+		    	}
+		    },
 		    product_sp_series_shelter: {
 		    	init: function() {
 					if(editConfiguration) {
 						setTimeout(function() {
 							_NS.init.getState(true)
 						}, 1500);
+						$('.startOver').remove();
 					} else {
 						_NS.init.loader();
 					}
@@ -1348,6 +1416,45 @@ jQuery.noConflict();
 		    checkout_cart_index: {
 		    	init: function() {
 		    		$('.btn-proceed-checkout span span').prepend('<i class="fa fa-shopping-cart"></i>');
+		    	}
+		    },
+		    checkout_onepage_index: {
+		    	init: function () {
+		    		//$('#confirmModal').foundation('reveal', 'open');
+		    		var formOnChanged =  _.debounce(function () {
+		    			console.log($('#opc-review .btn-checkout').doesExist());
+							if($('#opc-review .btn-checkout').doesExist()) {
+								console.log($('#agreeTerms').doesExist());
+								if(!$('#agreeTerms').doesExist()) {
+									$('#review-buttons-container').prepend('<button id="agreeTerms" title="Place Order" class="button" data-reveal-id="confirmModal" ><span><span>Place Order</span></span></button>');
+								}
+							}
+						}, 100);
+						
+						// $("#cofiguratorMain").bind("DOMSubtreeModified", function() {
+						//     bodyChanged();
+						// });
+						MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+						var formobserver = new MutationObserver(function(mutations, formobserver) {
+						    // fired when a mutation occurs
+						    formOnChanged();
+						    // ...
+						});
+
+						// define what element should be observed by the observer
+						// and what types of mutations trigger the callback
+						formobserver.observe(document.getElementById("checkoutSteps"), {
+						  subtree: true, attributes: true, childList: false, characterData: false
+						  //...
+						});
+					$('body').delegate('#confirmOrder','click',function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+						$('[data-reveal]').foundation('reveal','close');
+		    			review.save();	
+					});
+					
 		    	}
 		    }
 		});
@@ -1407,35 +1514,6 @@ jQuery.noConflict();
 		|--------------------------------------------------------------------------
 		*/
 		$('.menu-icon').click(function(){ false });
-		
-		/*
-		|--------------------------------------------------------------------------
-		| body mutation function
-		|--------------------------------------------------------------------------
-		*/
-		var bodyChanged =  _.debounce(function () {
-			$('.centerHorizontal').centerHorizontal();
-    		$('.centerVertical').centerVertical();
-    		$('.centerCenter').centerCenter();
-    		$('.makeSquare').makeSQ();
-		}, 1000);
-		var targetConfig = document.querySelector('#cofiguratorMain');
-			 
-		// create an observer instance
-		var observing = new MutationObserver(function(mutations) {
-		  mutations.forEach(function(mutation) {
-		    bodyChanged();
-		  });    
-		});
-		 
-		// configuration of the observer:
-		var configs = { attributes: true, childList: true, characterData: true };
-		 
-		// pass in the target node, as well as the observer options
-		observing.observe(targetConfig, configs);
-		 
-		// later, you can stop observing
-		//observing.disconnect();
 	});
 
 	$(window).load(UTIL.loadEvents);

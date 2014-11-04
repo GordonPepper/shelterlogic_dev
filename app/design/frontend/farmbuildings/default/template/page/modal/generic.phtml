@@ -23,6 +23,12 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+$agreeToTerms = Mage::getModel('cms/page');
+$agreeToTerms->setStoreId(Mage::app()->getStore()->getId());
+$agreeToTerms->load('agree-to-terms-form','identifier');
+$agreeToTermshelper = Mage::helper('cms');
+$agreeToTermsprocessor = $agreeToTermshelper->getPageTemplateProcessor();
+$agreeToTermshtml = $agreeToTermsprocessor->filter($agreeToTerms->getContent());
 ?>
 <div class="reveal-modal" data-reveal="" id="cookieModal">
     <div class="STlogo dup align-center hide-for-small-only" id="c_Logo">
@@ -52,4 +58,8 @@
     </div>
     <a class="close-reveal-modal">&#215;</a>
 </div>
-<div class="reveal-modal full" data-reveal="" id="ajaxModal"></div>
+<div class="reveal-modal full" id="ajaxModal" data-reveal></div>
+
+<div id="confirmModal" class="reveal-modal full" data-reveal>
+    <?php echo $agreeToTermshtml; ?>
+</div>

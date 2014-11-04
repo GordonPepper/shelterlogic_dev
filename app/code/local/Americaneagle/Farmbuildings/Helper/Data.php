@@ -1,41 +1,4 @@
 <?php
-//class AeAttribute {
-//	public $id;
-//	public $code;
-//	public $options;
-//	public function __construct($i, $v) {
-//		$this->id = $i;
-//		$this->code = $v;
-//		$this->options = array();
-//	}
-//	public function getOption($id) {
-//		foreach ($this->options as $opt) {
-//			if($opt->id == $id) {
-//				return $opt;
-//			}
-//		}
-//		return false;
-//	}
-//}
-//class AeOption {
-//	public $id;
-//	public $val;
-//	public $pos;
-//	public $children;
-//	public function __construct($i, $v, $p) {
-//		$this->id = $i;
-//		$this->val = $v;
-//		$this->pos = $p;
-//		$this->children = array();
-//	}
-//	public function getChild($id) {
-//		foreach ($this->children as $child){
-//			if ($child->id == $id)
-//				return $child;
-//		}
-//		return false;
-//	}
-//}
 
 class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract {
 
@@ -152,6 +115,51 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		} else {
 			return unserialize($tree);
 		}
+	}
+
+	public function getAdditionalData($pid, $spid) {
+		$product = Mage::getModel('catalog/product')->load($pid);
+		$sproduct = Mage::getModel('catalog/product')->load($spid);
+		$additional = array();
+		foreach($this->getSpAttributes($sproduct) as $adds) {
+			$additional[$adds['code']] = $product->getData($adds['code']);
+		}
+		$vals = array(
+			'price' => $product->getPrice(),
+			'sku' => $product->getSku(),
+			'weight' => $product->getWeight(),
+			'attribs' => $additional
+		);
+
+		return $vals;
+	}
+	public function getSpAttributes($product)
+	{
+		$data = array();
+		$attributes = $product->getAttributes();
+		foreach ($attributes as $attribute) {
+//            if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
+			if ($attribute->getIsVisibleOnFront()) {
+				$value = $attribute->getFrontend()->getValue($product);
+
+				if (!$product->hasData($attribute->getAttributeCode())) {
+					$value = Mage::helper('catalog')->__('N/A');
+				} elseif ((string)$value == '') {
+					$value = Mage::helper('catalog')->__('No');
+				} elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
+					$value = Mage::app()->getStore()->convertPrice($value, true);
+				}
+
+				if (is_string($value) && strlen($value)) {
+					$data[$attribute->getAttributeCode()] = array(
+						'label' => $attribute->getStoreLabel(),
+						'value' => $value,
+						'code'  => $attribute->getAttributeCode()
+					);
+				}
+			}
+		}
+		return $data;
 	}
 
 }

@@ -69,6 +69,9 @@
 			                            <button class="UI button nomar-bottom expand disabled" data-func="addToCart" id="addToCart">ADD TO CART</button>
 			                        </div>
 			                    </div>
+			                    <div class="step">
+			                    	Step <span class="number">1</span>
+			                    </div>
 			                    <div class="UIBottom">
 			                        <div class="UIBuilderContainer highlight">
 			                            <div class="row hide" id="quickNav"></div>
@@ -453,38 +456,7 @@
 		    </div><a class="close-reveal-modal">&#215;</a>
 		</div>
 	</div>
-	<div id="confirmModal" class="reveal-modal full" data-reveal>
-		<div class="row">
-		    <div class="small-12 medium-10 large-8 small-centered columns">
-		    	<h2>Terms and Conditions</h2>
-		    	<p class="contactSmall">By clicking "I Agree", you agree to the terms and conditions specified here and will add this configured building to your cart.</p>
-		    	<div class="small-12 medium-5 large-4">
-		    		<a href="#" class="UI button expand alert" id="confirmAddToCart" data-func="addToCart">I Agree</a>
-		    	</div>
-
-				<h4>Cancellations</h4>
-				<p class="justify contactSmall">ProGrade Galvanized Shelters are custom orders built to your exact specifications that can not be cancelled. Please carefully review all specifics regarding your building: size, color and fabric grade prior to submitting.</p>
-
-				<p class="justify contactSmall">If you have questions please contact one of our Shelter Solution Specialist before purchasing: 1-800-932-9344 </p>
-				
-				
-				<h4>Delivery</h4>
-				<p class="justify contactSmall">Upon delivery of your ShelterLogic building, carefully inspect all packages. Make note of any missing or damaged packages on the official delivery document that you sign. Be sure to contact ShelterLogic Customer Service at 800-932-9344 immediately if you note anything missing or damaged. </p>
-
-
-				<h4>Missing or Defective Parts</h4>
-				<p class="justify contactSmall">ShelterLogic will gladly supply the part at no charge to the customer within 30 days of purchase. After 30 days the customer will be responsible for the cost of the missing part and any related shipping cost. Please inspect all packages received with your order. Match all content to the parts list included with each ShelterLogic building. Even if you do not plan to install the unit right away take a few minutes to confirm your order and ensure all parts are included and in good condition. Call our toll free customer support number within the 30 day period and report any missing or damaged parts. This will allow us to quickly correct your order prior to installation. </p>
-
-	        </div>
-	    </div>
-	</div>
-
-	<div id="addModal" class="reveal-modal" data-reveal>
-
-	  <h2>This is a second modal.</h2>
-	  <p>See? It just slides into place after the other first modal. Very handy when you need subsequent dialogs, or when a modal option impacts or requires another decision.</p>
-	  <a class="close-reveal-modal">&#215;</a>
-	</div>
+	
     <div class="form">
     	<a class="button tiny alert" href="#" id="showForm">show form</a>
     	<?php echo $this->getChildHtml('content') ?>

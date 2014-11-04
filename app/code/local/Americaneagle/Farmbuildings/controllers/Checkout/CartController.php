@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: magentouser
- * Date: 10/27/14
- * Time: 1:26 PM
- */
 require_once(Mage::getModuleDir('controllers', 'Mage_Checkout') . DS . 'CartController.php');
 
 class Americaneagle_Farmbuildings_Checkout_CartController extends

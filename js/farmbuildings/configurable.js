@@ -28,24 +28,9 @@ aeProduct.Config.prototype = {
 
                 }
             }
-            var params = [];
-            var last = this.settings[this.settings.length - 1];
-            params.push(
-                {
-                    "pid": last.options[last.options.selectedIndex].dataset.pid,
-                    "spid": aeProductId
-                }
-            );
-            new Ajax.Request('/fbconfig/index/product', {
-                method: 'post',
-                requestHeaders: {Accept: 'application/json'},
-                postBody: Object.toJSON(params),
-                onSuccess: function(transport) {
-                    var result = transport.responseText.evalJSON(true);
-                    self.updateAttributes(result);
-                    self.addSkuToRequestForm(result.sku);
-                }
-            })
+            document.observe("dom:loaded", function() {
+                self.updateAttributes(self.config.additional);
+            });
 
         } else {
             // set first one:
@@ -61,16 +46,9 @@ aeProduct.Config.prototype = {
                 Event.observe(element, 'change', this.configure.bind(this));
             }
         }.bind(this));
-
-        // need to clean and disable subsequent values.
     },
     configure: function(event){
 
-        /*
-        * So. loop over the settings, create an ordered list of options and values
-        * pack into an array. when the current element matches, switch to clearing and
-        * disabling.
-        */
         var self = this;
         var element = Event.element(event);
         var params = {"pid": aeProductId, "options": []};
@@ -171,22 +149,3 @@ aeProduct.Config.prototype = {
         alert('requesting quote!');
     }
 };
-
-/*
-{
-    "id": "174",
-    "code": "style",
-    "options": [
-    {
-        "id": "12",
-        "val": "Barn",
-        "pos": 0
-    },
-    {
-        "id": "14",
-        "val": "Peak",
-        "pos": 1
-    }
-]
-}
-*/
