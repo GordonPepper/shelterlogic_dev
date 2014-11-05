@@ -23,7 +23,7 @@ aeProduct.Config.prototype = {
                     }
                     this.settings[i].options[j+1] = newOption;
                     if(this.config.attributes[attributeId][j].pid !== "undefined"){
-                        this.settings[i].options[j+1].dataset.pid =  this.config.attributes[attributeId][j].pid;
+                        this.settings[i].options[j+1].writeAttribute('data-pid', this.config.attributes[attributeId][j].pid);
                     }
 
                 }
@@ -99,7 +99,7 @@ aeProduct.Config.prototype = {
                 for(i=0; i<nextOptions.options.length; ++i ) {
                     selector.options[i+1] = new Option(nextOptions.options[i]['val'], nextOptions.options[i]['id']);
                     if(typeof nextOptions.options[i].pid !== "undefined"){
-                        selector.options[i+1].dataset.pid =  nextOptions.options[i].pid;
+                        selector.options[i+1].writeAttribute('data-pid', nextOptions.options[i].pid);
                     }
                 }
                 disable = true;
@@ -113,7 +113,7 @@ aeProduct.Config.prototype = {
         var params = [];
         params.push(
             {
-                "pid": element.options[element.options.selectedIndex].dataset.pid,
+                "pid": element.options[element.options.selectedIndex].readAttribute('data-pid'),
                 "spid": aeProductId
             }
         );

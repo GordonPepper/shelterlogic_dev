@@ -67,6 +67,8 @@ jQuery.noConflict();
 	var browser = navigator.sayswho.toLowerCase();
 	var is_chrome = browser.indexOf('chrome') > -1;
 	var is_explorer = browser.indexOf('ie') > -1;
+	var is_IE11 = (is_explorer ? (parseInt(browser.split(' ')[1]) >= 11 ? true : false) : false);
+	var is_IE10Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 11 ? true : false) : false);
 	var is_firefox = browser.indexOf('firefox') > -1;
 	var is_safari = browser.indexOf("safari") > -1;
 	var is_Opera = browser.indexOf("presto") > -1;
@@ -780,10 +782,13 @@ jQuery.noConflict();
 		    			if(_this.prop('tagName').toLowerCase() == 'select') {
 		    				var __type = _this.data('type');
 		    				var _loc_select = $('.'+_selectPartial + __type);
+		    				//console.log(_loc_select);
 		    				$(_loc_select).find( 'option' ).each(function() {
 		    					var _ = $(this);
+		    					//console.log(_);
 		    					var _val = _.attr('value');
 		    					var _new = _.clone();
+		    					console.log(_new.text());
 		    					_new.attr('data-value', _.text());
 							  	_this.append(_new);
 							});
@@ -846,18 +851,31 @@ jQuery.noConflict();
 		    	}
 
 		    },
-		    fireEvent: function(element,event) {
+		    fireEvent: function(element,evttype) {
+
 			    if (document.createEventObject)
 			    {
-			        // dispatch for IE
-			        var evt = document.createEventObject();
-			        return element.fireEvent('on'+event,evt);
+			    	if(is_IE10Below) {
+			    		el = element;
+				        if (document.createEvent) {
+				            var evt = document.createEvent('HTMLEvents');
+				            evt.initEvent(evttype, false, false);
+				            el.dispatchEvent(evt);
+				        } else if (document.createEventObject) {
+				            el.fireEvent('on' + evttype);
+				        }
+				        return this;
+			    	} else {
+				        // dispatch for IE 11
+				        var evt = document.createEventObject();
+				        return element.fireEvent('on'+evttype,evt);
+				    }
 			    }
 			    else
 			    {
 			        // dispatch for firefox + others
 			        var evt = document.createEvent("HTMLEvents");
-			        evt.initEvent(event, true, true );
+			        evt.initEvent(evttype, true, true );
 			        return !element.dispatchEvent(evt);
 			    }
 			},
@@ -882,25 +900,42 @@ jQuery.noConflict();
 					return true;
 				},
 				formChange: function (_e) {
+					if(is_IE10Below )
+						var timer = 5000;
+					else
+						var timer = 200;
 		     		var formChanged = _.debounce(function(id) {
-		     			if(_NS.observing.formCascade(id))
-		     				_NS.init.getState(true);
-		     			return observer.disconnect();
-		     		}, 200, true);
-					MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+		     			if(_NS.observing.formCascade(id)) {
+		     				if(is_IE10Below) {
+		     					setTimeout(_NS.init.getState, 2000);
+								return $("#product_addtocart_form").unbind( "DOMSubtreeModified" );
+								//return;
+							} else if (_NS.init.getState(true)) {
+			     				return observer.disconnect();
+			     			} else {
+			     				return;
+			     			}
+		     			}
+		     			
+		     		}, timer, true);
+		     		if(is_IE10Below) {
+						$("#product_addtocart_form").bind("DOMSubtreeModified", formChanged);
+					} else {
+						MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-					var observer = new MutationObserver(function(mutations, observer) {
-					    // Add the actions to be done here if a changes on DOM happened
-					    formChanged(mutations[0].target.id);
-					});
+						var observer = new MutationObserver(function(mutations, observer) {
+						    // Add the actions to be done here if a changes on DOM happened
+						    formChanged(mutations[0].target.id);
+						});
 
-					// Register the element root you want to look for changes
-					observer.observe(document.getElementById('product_addtocart_form'), {
-					  subtree: true,
-					  attributes: true,
-					  childList: true,
-					  characterData: true,
-					});
+						// Register the element root you want to look for changes
+						observer.observe(document.getElementById('product_addtocart_form'), {
+						  subtree: true,
+						  attributes: true,
+						  childList: true,
+						  characterData: true,
+						});
+					}
 					return;
 				},
 
@@ -1005,16 +1040,23 @@ jQuery.noConflict();
 							
 							// get insite form and set values
 				    		var _formE = $('.'+_selectPartial+dataType);
+				    		var _formE_ID = _formE.attr('id');
+				    		console.log(_formE_ID);
 				    		$(_formE).stop().each(function(e) {$(this).val(dataValue);});
 					    	$(_formE).find('option').each(function() {
 					    		if ($(this).attr('value') == dataValue) {
 					    			$(this).attr('selected', true);
 					    		}
 					    	});
-					    	var obj = $(_formE).get();
+					    	// var obj = document.getElementById(_formE_ID);
+						    // Event.observe(obj,'change',_NS.fireEvent(obj,'change'))
+						    // var eventReturn = _NS.fireEvent(obj,'change');
+
+						    var obj = $(_formE).get();
 						    Event.observe(obj[0],'change',function(){});
 						    var eventReturn = _NS.fireEvent(obj[0],'change');
-						    return _NS.observing.formChange();
+						    
+						    	return _NS.observing.formChange();
 						    
 			    		}
 			    		// if our ui is a select field
@@ -1310,11 +1352,12 @@ jQuery.noConflict();
 				         _class = _CLASSSplit.toLowerCase();
 
 				         $(this).find('option').each(function(){
-				         	if(!$(this).attr('value'))
+				         	if(!$(this).attr('value')) {
 				         		return;
-
-				         	_val = $(this).attr('value').toString();
-				         	_formObj[_class][_val] = $(this).text();
+					         } else {
+					         	_val = $(this).attr('value').toString();
+					         	_formObj[_class][_val] = $(this).text();
+					         }
 				         });
             			
             		});
@@ -1378,20 +1421,24 @@ jQuery.noConflict();
 						// $("#cofiguratorMain").bind("DOMSubtreeModified", function() {
 						//     bodyChanged();
 						// });
-						MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+						if(is_IE10Below) {
+							$("#cofiguratorMain").bind("DOMSubtreeModified", bodyChanged);
+						} else {
+							MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-						var observer = new MutationObserver(function(mutations, observer) {
-						    // fired when a mutation occurs
-						    bodyChanged();
-						    // ...
-						});
+							var observer = new MutationObserver(function(mutations, observer) {
+							    // fired when a mutation occurs
+							    bodyChanged();
+							    // ...
+							});
 
-						// define what element should be observed by the observer
-						// and what types of mutations trigger the callback
-						observer.observe(document.getElementById("cofiguratorMain"), {
-						  subtree: true, attributes: true, childList: false, characterData: false
-						  //...
-						});
+							// define what element should be observed by the observer
+							// and what types of mutations trigger the callback
+							observer.observe(document.getElementById("cofiguratorMain"), {
+							  subtree: true, attributes: true, childList: false, characterData: false
+							  //...
+							});
+						}
 					}
 		    	}
 		    },
@@ -1434,32 +1481,33 @@ jQuery.noConflict();
 		    	init: function () {
 		    		//$('#confirmModal').foundation('reveal', 'open');
 		    		var formOnChanged =  _.debounce(function () {
-		    			console.log($('#opc-review .btn-checkout').doesExist());
 							if($('#opc-review .btn-checkout').doesExist()) {
-								console.log($('#agreeTerms').doesExist());
 								if(!$('#agreeTerms').doesExist()) {
 									$('#review-buttons-container').prepend('<button id="agreeTerms" title="Place Order" class="button" data-reveal-id="confirmModal" ><span><span>Place Order</span></span></button>');
 								}
 							}
 						}, 100);
 						
-						// $("#cofiguratorMain").bind("DOMSubtreeModified", function() {
-						//     bodyChanged();
-						// });
-						MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+						
+						if(is_IE10Below) {
+							$("#checkoutSteps").bind("DOMSubtreeModified", formOnChanged);
+						} else {
+							MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-						var formobserver = new MutationObserver(function(mutations, formobserver) {
-						    // fired when a mutation occurs
-						    formOnChanged();
-						    // ...
-						});
+							var formobserver = new MutationObserver(function(mutations, formobserver) {
+							    // fired when a mutation occurs
+							    formOnChanged();
+							    // ...
+							});
 
-						// define what element should be observed by the observer
-						// and what types of mutations trigger the callback
-						formobserver.observe(document.getElementById("checkoutSteps"), {
-						  subtree: true, attributes: true, childList: false, characterData: false
-						  //...
-						});
+							// define what element should be observed by the observer
+							// and what types of mutations trigger the callback
+							formobserver.observe(document.getElementById("checkoutSteps"), {
+							  subtree: true, attributes: true, childList: false, characterData: false
+							  //...
+							});
+						}
+						
 					$('body').delegate('#confirmOrder','click',function(e) {
 						e.preventDefault();
 						e.stopPropagation();
@@ -1525,6 +1573,12 @@ jQuery.noConflict();
 		| Document ready state
 		|--------------------------------------------------------------------------
 		*/
+		// delete this on live site
+		$('#showForm').on('click',function(e) {
+			e.preventDefault();
+			$(this).parent().toggleClass('show');
+		});
+		// END Delete this on live site
 		$('.menu-icon').click(function(){ false });
 	});
 
