@@ -1413,6 +1413,16 @@ jQuery.noConflict();
 							_.debounce(farmBuilding.uiEvent[func](e), 1000, true);
 						}
 					});
+
+					$(window).resize(function(){
+					    /*
+						|--------------------------------------------------------------------------
+						| Document smart resize
+						|--------------------------------------------------------------------------
+						*/
+						_.debounce(farmBuilding.init.getState(true), 1000, true);
+						
+					});
 		    	}
 		    },
 		    checkout_cart_index: {
@@ -1519,15 +1529,5 @@ jQuery.noConflict();
 	});
 
 	$(window).load(UTIL.loadEvents);
-
-	$(window).resize(function(){
-	    /*
-		|--------------------------------------------------------------------------
-		| Document smart resize
-		|--------------------------------------------------------------------------
-		*/
-		_.debounce(farmBuilding.init.getState(true), 1000, true);
-		
-	});
 
 })(jQuery);

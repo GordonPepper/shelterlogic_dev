@@ -146,6 +146,6 @@ aeProduct.Config.prototype = {
         $$('input[name="field[28]"]').first().value = sku;
     },
     requestQuote: function (button) {
-        alert('requesting quote!');
+        //alert('requesting quote!');
     }
 };

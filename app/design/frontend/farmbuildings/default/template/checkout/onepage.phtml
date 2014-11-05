@@ -4,7 +4,7 @@
 <script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout_rwd.js') ?>"></script>
-<input type="hidden" name="checkout_method" id="login:guest" value="guest" checked="checked">
+<input type="checkbox" name="checkout_method" id="login:guest" value="guest" checked style="display: none;">
 <ol class="opc opc-firststep-<?php echo $this->getActiveStep() ?>" id="checkoutSteps">
 	<?php $i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): ?>
 		<?php if (!$this->getChild($_stepId) || !$this->getChild($_stepId)->isShow()): continue; endif; $i++ ?>
