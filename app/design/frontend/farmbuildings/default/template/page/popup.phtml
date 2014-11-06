@@ -39,20 +39,23 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" id="top" class="no-js"> <!--<![endif]-->
 
 <head>
-    
+    <script data-pace-options='{ "ajax": false }' src="<?php echo $this->getSkinUrl('js/pace.min.js'); ?>"></script>
     <?php echo $this->getChildHtml('head') ?>
     <?php $baseUrl = $this->getBaseUrl() ; ?>
     <script type="text/javascript"> function getBaseUrl() { return '<?php echo $this->getSkinUrl(''); ?>'; } </script>
 </head>
 <body class="page-popup<?php echo $this->getBodyClass()?$this->getBodyClass() : ''?>">
-<div>
-    <?php echo $this->getChildHtml('after_body_start') ?>
-    <?php echo $this->getChildHtml('content') ?>
-</div>
-<?php echo $this->getChildHtml('modal_includes') ?>
-	
-    <?php echo $this->getChildHtml('before_body_end') ?>
+	<?php echo $this->getChildHtml('updatebrowser_includes') ?>
+	<div class="modern">
+		<div>
+		    <?php echo $this->getChildHtml('after_body_start') ?>
+		    <?php echo $this->getChildHtml('content') ?>
+		</div>
+		<?php echo $this->getChildHtml('modal_includes') ?>
+		
+	    <?php echo $this->getChildHtml('before_body_end') ?>
 
-    <?php echo $this->getAbsoluteFooter() ?>
+	    <?php echo $this->getAbsoluteFooter() ?>
+	</div>
 </body>
 </html>
