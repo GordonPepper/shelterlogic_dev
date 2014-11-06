@@ -69,7 +69,7 @@ jQuery.noConflict();
 	var is_explorer = browser.indexOf('ie') > -1;
 	var is_IE11 = (is_explorer ? (parseInt(browser.split(' ')[1]) >= 11 ? true : false) : false);
 	var is_IE10Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 11 ? true : false) : false);
-	var is_IE8Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 9 ? true : false) : false);
+	var is_IE9Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 10 ? true : false) : false);
 	var is_firefox = browser.indexOf('firefox') > -1;
 	var is_safari = browser.indexOf("safari") > -1;
 	var is_Opera = browser.indexOf("presto") > -1;
@@ -500,7 +500,9 @@ jQuery.noConflict();
 	    			length = 20;
 	    		} else if(width && !height || width && height === undefined) {
 	    			
-	    			height = _formObj.height[this.firstElement(_formObj.height)];
+	    			var setHeight = _formObj.height[this.firstElement(_formObj.height)];
+	    			height = (setHeight < 10 ? '0'+setHeight : setHeight);
+	    			console.log(height);
 	    			
 	    		} else if(width && height && !length || width && height && length === undefined) {
 	    			length = 20;
@@ -1341,6 +1343,17 @@ jQuery.noConflict();
 		    init:{ 
 		    	
 		        getState:function(onloader){
+		        	// clear _formObj
+		        	_formObj = {
+						// always PE
+						'product_line'	: 'PE',
+						'style'			: {},
+						'width'			: {},
+						'height'		: {},
+						'length'		: {},
+						'fabricmaterial': {},
+						'fabriccolor'	: {}
+					};
 		        	// set selectArray from form values
 	        		$('.buttonContainer, #quickNav, .UISection select').html('');
             		$("select[class^='"+_selectPartial+"']").each(function (i, el) {
@@ -1386,7 +1399,7 @@ jQuery.noConflict();
 		        loader: function() {
 	        	
 		        	_NS.uiLoad.ajaxModalConnect();
-		    		if(_local.isConfigurable()) {
+		    		if(_local.isConfigurable() && !is_IE9Below ) {
 
 		    			Pace.on('done', function(){ if(!editConfiguration) { if (_NS.init.getState(true)) { _local.pop.start(); } } });
 			    		
