@@ -69,6 +69,7 @@ jQuery.noConflict();
 	var is_explorer = browser.indexOf('ie') > -1;
 	var is_IE11 = (is_explorer ? (parseInt(browser.split(' ')[1]) >= 11 ? true : false) : false);
 	var is_IE10Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 11 ? true : false) : false);
+	var is_IE8Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 9 ? true : false) : false);
 	var is_firefox = browser.indexOf('firefox') > -1;
 	var is_safari = browser.indexOf("safari") > -1;
 	var is_Opera = browser.indexOf("presto") > -1;
@@ -76,6 +77,7 @@ jQuery.noConflict();
 	setTimeout(function() {
 		$('body').addClass( device_type + ' op_1 ' + browser.split(' ')[0] );
 	},500);
+
 	// Avoid `console` errors in browsers that lack a console.
 	(function() {
 	    var method;
@@ -782,13 +784,10 @@ jQuery.noConflict();
 		    			if(_this.prop('tagName').toLowerCase() == 'select') {
 		    				var __type = _this.data('type');
 		    				var _loc_select = $('.'+_selectPartial + __type);
-		    				//console.log(_loc_select);
 		    				$(_loc_select).find( 'option' ).each(function() {
 		    					var _ = $(this);
-		    					//console.log(_);
 		    					var _val = _.attr('value');
 		    					var _new = _.clone();
-		    					console.log(_new.text());
 		    					_new.attr('data-value', _.text());
 							  	_this.append(_new);
 							});
@@ -838,7 +837,6 @@ jQuery.noConflict();
 							$('#addToCart').removeClass('disabled');
 							$('.btn-cart').each(function(){
 								if ( $(this).css('display') == 'none') {
-									console.log($(this).attr('data-text'));
 								    $('#addToCart').text($(this).attr('data-text')).attr('data-func',$(this).attr('data-func'));
 							    } 
 							});
@@ -1041,7 +1039,6 @@ jQuery.noConflict();
 							// get insite form and set values
 				    		var _formE = $('.'+_selectPartial+dataType);
 				    		var _formE_ID = _formE.attr('id');
-				    		console.log(_formE_ID);
 				    		$(_formE).stop().each(function(e) {$(this).val(dataValue);});
 					    	$(_formE).find('option').each(function() {
 					    		if ($(this).attr('value') == dataValue) {
