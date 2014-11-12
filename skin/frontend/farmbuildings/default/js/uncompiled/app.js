@@ -68,8 +68,8 @@ jQuery.noConflict();
 	var is_chrome = browser.indexOf('chrome') > -1;
 	var is_explorer = browser.indexOf('ie') > -1;
 	var is_IE11 = (is_explorer ? (parseInt(browser.split(' ')[1]) >= 11 ? true : false) : false);
-	var is_IE10Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 11 ? true : false) : false);
-	var is_IE9Below = (!is_IE11 ? (parseInt(browser.split(' ')[1]) < 10 ? true : false) : false);
+	var is_IE10Below = (!is_IE11 && is_explorer ? (parseInt(browser.split(' ')[1]) < 11 ? true : false) : false);
+	var is_IE9Below = (!is_IE11 && is_explorer ? (parseInt(browser.split(' ')[1]) < 10 ? true : false) : false);
 	var is_firefox = browser.indexOf('firefox') > -1;
 	var is_safari = browser.indexOf("safari") > -1;
 	var is_Opera = browser.indexOf("presto") > -1;
@@ -502,7 +502,6 @@ jQuery.noConflict();
 	    			
 	    			var setHeight = _formObj.height[this.firstElement(_formObj.height)];
 	    			height = (setHeight < 10 ? '0'+setHeight : setHeight);
-	    			console.log(height);
 	    			
 	    		} else if(width && height && !length || width && height && length === undefined) {
 	    			length = 20;
