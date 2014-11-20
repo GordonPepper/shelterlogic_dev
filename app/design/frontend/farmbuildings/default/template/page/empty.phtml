@@ -145,10 +145,7 @@
 				                            <div class="fa fa-stop info infoStyle infoBuilderBox right">
 				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
 				                                <div class="scroll">
-				                                    <h3>Frame Style</h3><span class="name yellow">PEAK</span>
-				                                    <p>The Peak style frame originates from the classic house gable and is designed for ease of installation and storage shelter versatility.</p><span class="name yellow">ROUND</span>
-				                                    <p>Our most popular roof style, the Round design is the most effective at shedding the elements. The Round Series includes the greatest variety of width options of the SP Series, making it extremely adaptable.</p><span class="name yellow">BARN</span>
-				                                    <p>A ShelterLogic innovation, the Barn style features an overall increase in cubic storage space and more usable headroom than other frame styles.</p>
+				                                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('frame-style-info-box')->toHtml(); ?>
 				                                </div>
 				                            </div>
 
@@ -170,39 +167,13 @@
 				                            <div class="fa fa-stop info infoFabricMaterial infoBuilderBox right">
 				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
 				                                <div class="scroll">
-				                                    <table cellspacing="0" class="infoWarranty" summary="FabricMaterial Warranty Summary">
-				                                        <tr>
-				                                            <th>Fabric Material</th>
-				                                            <th>Cover</th>
-				                                            <th>Panels</th>
-				                                            <th>Frame</th>
-				                                        </tr>
-				                                        <tr>
-				                                            <td><strong>Standard PE<br>9 oz.</strong></td>
-				                                            <td>1 year</td>
-				                                            <td>1 year</td>
-				                                            <td>3 years<sup>*</sup></td>
-				                                        </tr>
-				                                        <tr>
-				                                            <td><strong>Heavy Duty PE<br>14.5 oz.</strong></td>
-				                                            <td>10 years<sup>*</sup></td>
-				                                            <td>3 years<sup>*</sup></td>
-				                                            <td>3 years<sup>*</sup></td>
-				                                        </tr>
-				                                        <tr>
-				                                            <td><strong>Ultra Duty PVC<br>21.5 oz.</strong></td>
-				                                            <td>15 years<sup>*</sup></td>
-				                                            <td>3 years<sup>*</sup></td>
-				                                            <td>3 years<sup>*</sup></td>
-				                                        </tr>
-				                                    </table><sup>* Prorated</sup>
+				                                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fabric-material-info-box')->toHtml(); ?>
 				                                </div>
 				                            </div>
 				                            <div class="fa fa-stop info infoColor infoBuilderBox right">
 				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
 				                                <div class="scroll">
-				                                    <h3>Colors</h3>
-				                                    <p>All colors of the same fabric grade will last and preform the same. Choose your color based on your visual preference.</p>
+				                                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fabric-color-info-box')->toHtml(); ?>
 				                                </div>
 				                            </div>
 				                        </div>
@@ -256,23 +227,6 @@
 				                                    </div>
 				                                </div>
 				                            </dd>
-				                            <!-- <dd class="accordion-navigation UITop nopadd">
-				                                <a class="panelnav" href="#panel2">DOOR OPENING <i class="fa fa-chevron-down right"></i></a>
-				                                <div class="content active" id="panel2">
-				                                    <div class="spacing" id="door_width">
-				                                        <span class="cap">Width</span> <span class="attribute right">-</span>
-				                                    </div>
-				                                    <div class="spacing" id="door_height">
-				                                        <span class="cap">Height</span> <span class="attribute right">-</span>
-				                                    </div>
-				                                    <div class="spacing" id="door_center_height">
-				                                        <span class="cap">Center Height</span> <span class="attribute right">N/A</span>
-				                                    </div>
-				                                    <div class="diagram spacing hide" id="diagram">
-				                                        <a data-reveal-id="diagramModal" href="#">See Diagram</a>
-				                                    </div>
-				                                </div>
-				                            </dd> -->
 				                            <dd class="accordion-navigation UIBottom UITop nopadd clearfix">
 				                                <a class="panelnav" href="#panel3"><span class="hide-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW <i class="fa fa-chevron-down right"></i></span><span class="show-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW&nbsp;RATING <i class="fa fa-chevron-down right"></i></span></a>
 				                                <div class="content active" id="panel3">
@@ -290,8 +244,7 @@
 				                                <div class="fa fa-stop infoWind info infoBuilderBox show-for-large-up left">
 				                                    <i class="UI fa fa-plus UIInfoClose rightInfo" data-func="closeInfo"></i>
 				                                    <div class="scroll">
-				                                        <img class="windAndSnow left" src="<?php echo $this->getSkinUrl('images/src/sp_wind_snow.png'); ?>"> <!-- <h3>Wind &amp; Snow</h3> -->
-				                                        <p>Wind and snow loads given are for reference only and assume a securely anchored frame according to local building codes and ordinances. These have been calculated using combined snow and wind load provisions in accordance with ASCE 7-05 based on an unoccupied, fully enclosed building. Local code requirements vary by location; Conformance to local codes is the responsibility of the purchaser.</p>
+				                                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('wind-snow-info-box')->toHtml(); ?>
 				                                    </div>
 				                                </div>
 				                            </dd>
@@ -300,8 +253,7 @@
 				                        <div class="infoWind info infoBuilderBox hide-for-large-up left">
 				                            <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
 				                            <br><br>
-		                                        <img class="windAndSnow left small" src="<?php echo $this->getSkinUrl('images/src/sp_wind_snow.png'); ?>"> <!-- <h3>Wind &amp; Snow</h3> -->
-		                                        <p>Wind and snow loads given are for reference only and assume a securely anchored frame according to local building codes and ordinances. These have been calculated using combined snow and wind load provisions in accordance with ASCE 7-05 based on an unoccupied, fully enclosed building. Local code requirements vary by location; Conformance to local codes is the responsibility of the purchaser.</p>
+		                                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('wind-snow-info-box')->toHtml(); ?>
 				                        </div>
 				                    </div>
 				                </div><!-- end elements -->
@@ -318,29 +270,11 @@
 			<!-- startmodal -->
 			<div class="reveal-modal full" data-reveal="" id="startModal">
 			    <div id="s_logo" class="STlogo dup align-center">
-					<span class="title main">
-						<span class="st-s"></span>
-						<span class="st-h"></span>
-						<span class="st-e"></span>
-						<span class="st-l"></span>
-						<span class="st-t1"></span>
-						<span class="st-e"></span>
-						<span class="st-r"></span>
-						<span class="st-t yellow"></span>
-						<span class="st-e yellow"></span>
-						<span class="st-c yellow"></span>
-						<span class="st-h no-break yellow"></span>
-					</span>
+					<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
 				</div>
 			    <div class="row">
 			        <div class="small-12 medium-10 large-8 small-centered columns">
-			            <h2 class="align-center">Build Your Own Shelter</h2>
-			            <p class="align-center hide-for-small-only">
-			                <img alt="made in usa" class="left" src="<?php echo $this->getSkinUrl('images/src/made-in.png'); ?>"> 
-			                <img alt="wind and snow rated" class="right" src="<?php echo $this->getSkinUrl('images/src/sp_wind_snow.png'); ?>">
-			                Protect what you value most with our USA-made SP Series shelters. Only certified galvanized steel is used to ensure you the quality, durable shelter you expect from ShelterTech.
-			            </p>
-			            <h4 class="align-center">CHOOSE A FRAME STYLE TO START BUILDING YOUR SHELTER</h4>
+			            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-selection-heading')->toHtml(); ?>
 			        </div>
 			    </div>
 			    <div class="row" id="startStyle">
@@ -348,26 +282,20 @@
 			            <div class="styles style peak">
 			                <img alt="Peak style frame" class="" id="start_peak" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
 			                <div class="styleText">
-			                    <span class="name">PEAK</span>
-			                    <p>The Peak style frame originates from the classic house gable and is designed for ease of installation and storage shelter versatility.</p>
-			                    <button class="UI button nomar-bottom" data-func="setStyle" data-type="Style" data-value="14">Choose Peak</button>
+			                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-peak')->toHtml(); ?>
 			                </div>
 			            </div>
 			            <div class="styles style round">
 			                <img alt="Round style fram" class="" id="start_round" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
 			                <div class="styleText">
-			                    <span class="name">ROUND</span>
-			                    <p>Our most popular roof style, the Round design is the most effective at shedding the elements &amp; includes the greatest variety of width options making it extremely adaptable.</p>
-			                    <button class="UI button nomar-bottom" data-func="setStyle" data-type="Style" data-value="13">Choose Round</button>
+			                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-round')->toHtml(); ?>
 			                </div>
 			            </div>
 
 			            <div class="styles style barn">
 			                <img alt="Barn style frame" class="" id="start_barn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
 			                <div class="styleText">
-			                    <span class="name">BARN</span>
-			                    <p>A ShelterLogic innovation, the Barn style features an overall increase in cubic storage space and more usable headroom than other frame styles.</p>
-			                    <button class="UI button nomar-bottom" data-func="setStyle" data-type="Style" data-value="12">Choose Barn</button>
+			                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-barn')->toHtml(); ?>
 			                </div>
 			            </div>
 			        </div>
@@ -375,7 +303,7 @@
 			    </div>
 			    <div class="row">
 			        <div class="small-12 medium-10 large-8 small-centered columns">
-			            <p class="made-in clearfix">Need help? Call 1-800-932-9344 or email us at <a href="mailto:sheltertech@shelterlogic.com">sheltertech@shelterlogic.com</a>.</p>
+			            <p class="made-in clearfix">Need help? Call <?php echo Mage::getStoreConfig('general/store_information/phone'); ?> or email us at <a href="mailto:<?php echo Mage::getStoreConfig('trans_email/ident_support/email'); ?>"><?php echo Mage::getStoreConfig('trans_email/ident_support/email'); ?></a>.</p>
 			        </div>
 			    </div>
 			</div>
@@ -391,23 +319,12 @@
 			    <div class="logo dup align-center hide-for-small-only" id="s_logo"></div>
 			    <div class="row">
 			        <div class="small-12 medium-10 large-8 small-centered columns">
-			            <h2>Contact us for a shipping quote.</h2>
-			            <p class="justify contactSmall">Because the building you configured <strong>exceeds 5,000 pounds</strong>, we will need to provide you with a custom shipping quote. Please complete the form below and one of our customer service representatives will be in touch with you shortly.</p>
+			            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('quote-modal-header')->toHtml(); ?>
 			        </div>
 			    </div>
 			    <div class="row">
 			        <div class="small-12 medium-10 large-8 small-centered columns">
 			            <div class="small-12 meduim-7 large-7 columns">
-			                <!-- <form>
-			                    <div class="border-right webforms">
-			                        <label>First Name <input placeholder="First Name" type="text"></label> 
-			                        <label>Last Name <input placeholder="Last Name" type="text"></label> 
-			                        <label>Email Address <input placeholder="youremail@email.com" type="text"></label> 
-			                        <label>Phone Number <input placeholder="(000) 000 - 0000" type="text"></label> 
-			                        <label>Zip Code <input placeholder="00000" type="text"></label>
-			                    </div>
-			                    <input class="button active" type="button" value="GET A SHIPPING QUOTE">
-			                </form> -->
 			                <div class="border-right webforms">
 			                <?php echo $this->getLayout()->createBlock('webforms/webforms', 'quote_webform_block', array(
 							    'webform_id' => 3,
@@ -449,7 +366,7 @@
 			                <div class="small-2 columns">OR</div>
 			                <div class="small-10 columns">
 			                    <span>Speak with a live representative</span><br>
-			                    <i class="fa fa-mobile"></i> <span class="phone">1-800-932-9334</span>
+			                    <i class="fa fa-mobile"></i> <span class="phone"><?php echo Mage::getStoreConfig('general/store_information/phone'); ?></span>
 			                </div>
 			            </div>
 			        </div>

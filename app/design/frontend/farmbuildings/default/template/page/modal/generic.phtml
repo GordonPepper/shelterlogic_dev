@@ -23,28 +23,10 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-$agreeToTerms = Mage::getModel('cms/page');
-$agreeToTerms->setStoreId(Mage::app()->getStore()->getId());
-$agreeToTerms->load('agree-to-terms-form','identifier');
-$agreeToTermshelper = Mage::helper('cms');
-$agreeToTermsprocessor = $agreeToTermshelper->getPageTemplateProcessor();
-$agreeToTermshtml = $agreeToTermsprocessor->filter($agreeToTerms->getContent());
 ?>
 <div class="reveal-modal" data-reveal="" id="cookieModal">
     <div class="STlogo dup align-center hide-for-small-only" id="c_Logo">
-    	<span class="title main">
-            <span class="st-s"></span> 
-            <span class="st-h"></span> 
-            <span class="st-e"></span> 
-            <span class="st-l"></span> 
-            <span class="st-t1"></span> 
-            <span class="st-e"></span> 
-            <span class="st-r"></span> 
-            <span class="st-t yellow"></span> 
-            <span class="st-e yellow"></span> 
-            <span class="st-c yellow"></span> 
-            <span class="st-h no-break yellow"></span>
-        </span>
+    	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
     </div>
     <div class="row">
         <p class="lead">Sorry! Cookies must be enabled...</p>
@@ -61,5 +43,5 @@ $agreeToTermshtml = $agreeToTermsprocessor->filter($agreeToTerms->getContent());
 <div class="reveal-modal full" id="ajaxModal" data-reveal></div>
 
 <div id="confirmModal" class="reveal-modal full" data-reveal>
-    <?php echo $agreeToTermshtml; ?>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('terms-agree-modal')->toHtml(); ?>
 </div>

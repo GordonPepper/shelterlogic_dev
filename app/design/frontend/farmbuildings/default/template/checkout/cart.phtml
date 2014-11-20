@@ -31,7 +31,11 @@
  * @var $this Mage_Checkout_Block_Cart
  */
 ?>
-<?php $_priceDisplay = ($this->helper('tax')->displayCartBothPrices()) ? 'display-both-prices' : 'display-single-price'; ?>
+<?php 
+    $_priceDisplay = ($this->helper('tax')->displayCartBothPrices()) ? 'display-both-prices' : 'display-single-price';
+    $_cart_sidebar_content = $this->getLayout()->createBlock('cms/block')->setBlockId('cart-sidebar-content')->toHtml();
+    $_show_CSC = ( $_cart_sidebar_content != '' && strtolower( $_cart_sidebar_content ) != 'test' ? true : false );
+?>
 <div class="cart <?php echo $_priceDisplay; ?>">
     <div class="page-title title-buttons">
         <h1><?php echo $this->__('Shopping Cart') ?></h1>
@@ -153,14 +157,16 @@
 
     <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>
     <div class="cart-forms">
-        <?php /* Extensions placeholder */ ?>
-        <?php echo $this->getChildHtml('checkout_cart_widget') ?>
-        <?php echo $this->getChildHtml('coupon') ?>
-        <?php echo $this->getChildHtml('checkout.cart.extra') ?>
-        <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+        <?php /* Extensions placeholder */ 
+            echo $this->getChildHtml('checkout_cart_widget');
+            echo $this->getChildHtml('coupon'); 
+            echo $this->getChildHtml('checkout.cart.extra');
+            if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; 
+            if ($_show_CSC) : echo '<div class="panel">'.$_cart_sidebar_content.'</div>'; endif; 
+        ?>
     </div>
     <div class="cart-totals-wrapper">
-        <div class="cart-totals">
+        <div class="cart-totals panel">
             <?php echo $this->getChildHtml('totals'); ?>
             <?php if(!$this->hasError()): ?>
             <ul class="checkout-types bottom">

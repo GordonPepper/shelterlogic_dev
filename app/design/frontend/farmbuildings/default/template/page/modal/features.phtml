@@ -33,19 +33,7 @@ $featureshtml = $featuresprocessor->filter($features->getContent());
 <div class="reveal-modal full" data-reveal="" id="featuresModal">
 	<div class="features">
 		<div id="s_logo" class="STlogo dup align-center hide-for-small-only">
-			<span class="title main">
-				<span class="st-s"></span>
-				<span class="st-h"></span>
-				<span class="st-e"></span>
-				<span class="st-l"></span>
-				<span class="st-t1"></span>
-				<span class="st-e"></span>
-				<span class="st-r"></span>
-				<span class="st-t yellow"></span>
-				<span class="st-e yellow"></span>
-				<span class="st-c yellow"></span>
-				<span class="st-h no-break yellow"></span>
-			</span>
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
 		</div>
 		<?php echo $featureshtml; ?>
 </div>

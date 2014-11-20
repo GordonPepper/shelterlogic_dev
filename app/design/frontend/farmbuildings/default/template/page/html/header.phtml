@@ -77,20 +77,7 @@
 
                     <div class="STlogo align-center main" id="mainSTlogo">
                         <a class="STlogo" href="<?php echo $this->getUrl('') ?>">
-                            <span class="title main">
-                                <span class="st-s"></span> 
-                                <span class="st-h"></span> 
-                                <span class="st-e"></span> 
-                                <span class="st-l"></span> 
-                                <span class="st-t1"></span> 
-                                <span class="st-e"></span> 
-                                <span class="st-r"></span> 
-                                <span class="st-t yellow"></span> 
-                                <span class="st-e yellow"></span> 
-                                <span class="st-c yellow"></span> 
-                                <span class="st-h yellow"></span>
-                                <span class="no-break madeText show-for-medium-up">Made in the USA</span>
-                            </span>
+                            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
                         </a>
                     </div>
 
