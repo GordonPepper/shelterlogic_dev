@@ -1484,6 +1484,16 @@ jQuery.noConflict();
 		    checkout_cart_index: {
 		    	init: function() {
 		    		$('.btn-proceed-checkout span span').prepend('<i class="fa fa-shopping-cart"></i>');
+		    		$('.product-cart-image').each(function() {
+		    			_e = $(this);
+		    			var _href = '';
+		    			_e.find('.cart-links li a').each(function() {
+		    				if($(this).text().toLowerCase() == 'edit') {
+		    					_href = $(this).attr('href');
+		    					_e.find('.product-image').attr('href',_href);
+		    				}
+		    			});
+		    		});
 		    	}
 		    },
 		    checkout_onepage_index: {
