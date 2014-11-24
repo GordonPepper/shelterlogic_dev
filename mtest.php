@@ -28,7 +28,8 @@ $allowedFunctions = array(
 	'reviewSimpleImport',
 	'productList',
 	'getConfigurableAttributes',
-	'updateProductImages'
+	'updateProductImages',
+	'mailTest'
 );
 
 $html = new HtmlOutputter();
@@ -51,6 +52,20 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	showAllowedFunctions($html);
 	exit;
 }
+
+function mailTest() {
+	global $html;
+
+	$mail = new Zend_Mail('utf-8');
+	$mail->setBodyText('This is a test');
+	$mail->setFrom('astayart@gmail.com', 'andy stayart');
+	$mail->addTo('astayart@gmail.com', 'Andrew Stayart');
+	$mail->setSubject('this is a test subject');
+	$mail->send();
+
+
+}
+
 function updateProductImages() {
 	global $html;
 	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
