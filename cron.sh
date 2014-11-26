@@ -26,3 +26,4 @@ else
         $PHP_BIN $CRONSCRIPT$MODE &
     fi
 fi
+

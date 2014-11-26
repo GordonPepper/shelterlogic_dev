@@ -29,7 +29,9 @@ $allowedFunctions = array(
 	'productList',
 	'getConfigurableAttributes',
 	'updateProductImages',
-	'mailTest'
+	'mailTest',
+	'triggerJob',
+	'inspectSysconfig'
 );
 
 $html = new HtmlOutputter();
@@ -53,6 +55,93 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function inspectSysconfig() {
+	global $html;
+	$config = Mage::getConfig()->loadModulesConfiguration('system.xml')->getNode();
+	$doc = new DOMDocument();
+	$doc->loadXML($config->asXML());
+	$xpath = new DOMXPath($doc);
+
+	$frontend_types = array();
+	$nl = $xpath->query('/config/sections/*/groups/*/fields/*/frontend_type/text()');
+	foreach($nl as $n) {
+		$frontend_types[$n->nodeValue] = $n->nodeValue;
+	}
+	foreach($frontend_types as $t) {
+		$html->para('got type: ' . $t);
+	}
+}
+
+function triggerJob() {
+	global $html;
+	$jobCode = 'americaneagle_visual';
+
+	/**
+	 * so we are going to emulate the _processJob() function
+	 * to just run our job on demand, by job_code. to do this
+	 * we need to create a schedule item and a jobConfig,
+	 * then we can run the parts of Mage_Core_Model_Observer::_processJob()
+	 * as needed.
+	 */
+
+	$schedule = Mage::getModel('cron/schedule');
+	$schedule->setJobCode($jobCode);
+	$jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
+	$defaultJobsRoot = Mage::getConfig()->getNode('default/crontab/jobs');
+
+	$jobConfig = $jobsRoot->{$schedule->getJobCode()};
+	if (!$jobConfig || !$jobConfig->run) {
+		$jobConfig = $defaultJobsRoot->{$schedule->getJobCode()};
+		if (!$jobConfig || !$jobConfig->run) {
+			$html->para('the jobConfig or jobConfig->run does not exist, exiting');
+			return;
+		}
+	}
+
+	// _processJob($schedule, $jobConfig):
+	$runConfig = $jobConfig->run;
+	$html->para(sprintf('the run config is %s', print_r($jobConfig, true)));
+
+	$errorStatus = Mage_Cron_Model_Schedule::STATUS_ERROR;
+	try {
+		if ($runConfig->model) {
+			if (!preg_match(Mage_Cron_Model_Observer::REGEX_RUN_MODEL, (string)$runConfig->model, $run)) {
+				Mage::throwException(Mage::helper('cron')->__('Invalid model/method definition, expecting "model/class::method".'));
+			}
+			if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
+				Mage::throwException(Mage::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
+			}
+			$callback = array($model, $run[2]);
+			$html->para('callback is: ');
+			$html->pre(print_r($callback, true));
+			$arguments = array($schedule);
+			$html->para('arguments are:');
+			$html->pre(print_r($arguments, true));
+		}
+		if (empty($callback)) {
+			Mage::throwException(Mage::helper('cron')->__('No callbacks found'));
+		}
+
+
+		$schedule
+			->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
+			->save();
+		$html->para('calling func');
+		call_user_func_array($callback, $arguments);
+		$html->para('called func');
+		$schedule
+			->setStatus(Mage_Cron_Model_Schedule::STATUS_SUCCESS)
+			->setFinishedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
+
+	} catch (Exception $e) {
+		$schedule->setStatus($errorStatus)
+			->setMessages($e->__toString());
+	}
+
+	$schedule->save();
+	$html->para('schedule saved');
+}
+
 function mailTest() {
 	global $html;
 
@@ -62,8 +151,6 @@ function mailTest() {
 	$mail->addTo('astayart@gmail.com', 'Andrew Stayart');
 	$mail->setSubject('this is a test subject');
 	$mail->send();
-
-
 }
 
 function updateProductImages() {
