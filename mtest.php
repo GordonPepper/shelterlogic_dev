@@ -31,7 +31,8 @@ $allowedFunctions = array(
 	'updateProductImages',
 	'mailTest',
 	'triggerJob',
-	'inspectSysconfig'
+	'inspectSysconfig',
+	'adminDump'
 );
 
 $html = new HtmlOutputter();
@@ -53,6 +54,13 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->para("allowed functions:");
 	showAllowedFunctions($html);
 	exit;
+}
+
+function adminDump() {
+	global $html;
+	$config = Mage::getConfig()->loadModulesConfiguration('adminhtml.xml')->getNode();
+	$html->para(sprintf('got a config, and it is a  %s' , get_class($config)));
+
 }
 
 function inspectSysconfig() {
@@ -112,16 +120,15 @@ function triggerJob() {
 				Mage::throwException(Mage::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
 			}
 			$callback = array($model, $run[2]);
-			$html->para('callback is: ');
+			$html->para('callback array is: ');
 			$html->pre(print_r($callback, true));
 			$arguments = array($schedule);
-			$html->para('arguments are:');
+			$html->para('arguments array is:');
 			$html->pre(print_r($arguments, true));
 		}
 		if (empty($callback)) {
 			Mage::throwException(Mage::helper('cron')->__('No callbacks found'));
 		}
-
 
 		$schedule
 			->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', time()))

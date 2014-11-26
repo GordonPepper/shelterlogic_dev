@@ -14,7 +14,16 @@
         <models>
             <americaneagle_visual>
                 <class>Americaneagle_Visual_Model</class>
+                <resourceModel>americaneagle_visual_soaplog_resource</resourceModel>
             </americaneagle_visual>
+            <americaneagle_visual_soaplog_resource>
+                <class>Americaneagle_Visual_Model_Resource</class>
+                <entities>
+                    <soaplog>
+                        <table>ae_visual_soaplog</table>
+                    </soaplog>
+                </entities>
+            </americaneagle_visual_soaplog_resource>
         </models>
         <resources>
             <americaneagle_visual_setup>
@@ -23,6 +32,12 @@
                     <class>Mage_Sales_Model_Resource_Setup</class>
                 </setup>
             </americaneagle_visual_setup>
+            <ae_visual_soaplog>
+                <setup>
+                    <module>Americaneagle_Visual</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </ae_visual_soaplog>
         </resources>
     </global>
     <crontab>
