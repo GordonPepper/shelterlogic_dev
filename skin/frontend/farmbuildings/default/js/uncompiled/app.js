@@ -1,4 +1,4 @@
-jQuery.noConflict();
+//jQuery.noConflict();
 (function( $ ) {
 	$(document).foundation({
 		reveal : {
@@ -476,100 +476,7 @@ jQuery.noConflict();
 					return;
 				},
 			},
-			getURL: function () {
-				var style 	= this.translateSku('style', _selectArray['Style']);
-				var width 	= _formObj.width[_selectArray['Width']];
-				var height 	= (_formObj.height[_selectArray['Height']] < 10 ? '0'+_formObj.height[_selectArray['Height']] : _formObj.height[_selectArray['Height']]);
-	    		var length 	= _formObj.length[_selectArray['Length']];
-	    		var color 	= (s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] !== undefined ? s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] : "$gray$");
-
-	    		if(!style || style === undefined) {
-	    			style = "a";
-	    		}
-	    		if(!width || width === undefined) {
-	    			width = "12";
-	    			switch(style.toLowerCase()) {
-	    				case 'a':
-	    				case 'b':
-	    					height = "08";
-	    					break;
-	    				case 'c':
-	    					height = "09";
-	    					break;
-	    			}
-	    			length = 20;
-	    		} else if(width && !height || width && height === undefined) {
-	    			
-	    			var setHeight = _formObj.height[this.firstElement(_formObj.height)];
-	    			height = (setHeight < 10 ? '0'+setHeight : setHeight);
-	    			
-	    		} else if(width && height && !length || width && height && length === undefined) {
-	    			length = 20;
-	    			
-	    		} 
-	    		if(!color || color === undefined) {
-	    			color = s7_colors[_formObj.fabriccolor['Gray']];
-	    		}
-
-	    		var imgWidth = (Math.floor($(window).width()*1.5) < 2000 ? Math.floor($(window).width()*1.5) : 1999);
-	    		var image_starter = 'blank_logo';
-	    		var image_vs, logo_vs, image_url, image_white = '';
-	    		
-	    		// img offset for smaller images/src
-				var img_offset = 0;
-	    		switch (true) {
-					case (length > 100):
-						//do stuff
-						length = '100';
-						img_offset = 0;
-						break;
-					case (length <= 100)&&(length > 90):
-						//do stuff
-						length = '100';
-						img_offset = '0';
-						break;
-					case (length <= 90)&&(length > 70):
-						//do stuff
-						length = '080';
-						img_offset = '-0.04';
-						break;
-					case (length <= 70)&&(length > 50):
-						//do stuff
-						length = '060';
-						img_offset = '-0.06';
-						break;
-					case (length <= 50)&&(length > 30):
-						//do stuff
-						length = '040';
-						img_offset = '-0.10';
-						break;
-					case (length <= 30):
-					default:
-						//do stuff
-						length = '020';
-						img_offset = '-0.18';
-						break;
-			    }
-			    image_vs = ('pe-'+style+'b-0'+width+'xxx'+height+'_cover'+length).toLowerCase();
-			    logo_vs = ('pe-'+style+'b-0'+width+'xxx'+height+'_logo-frm').toLowerCase();
-			    image_white = ('pe-'+style+'b-0'+width+'xxx'+height+'_white').toLowerCase();
-			    
-			    image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/'+image_starter+
-			    '?layer=1&src='+image_vs+'&'+color+'&posN='+img_offset+
-			    ',0&layer=2&src='+image_white+'&posN='+img_offset+
-			    ',0&layer=3&src='+logo_vs+'&$gray$&posN='+img_offset+
-			    ',0&layer=4&src='+s7_guy+'&posN='+img_offset+
-			    ',0&fmt=png-alpha&wid='+imgWidth+'&hei='+imgWidth;
-
-			    // console.log('?layer=1&src='+image_vs+'&'+color+'&posN='+img_offset+
-			    // ',0&layer=2&src='+image_white+'&posN='+img_offset+
-			    // ',0&layer=3&src='+logo_vs+'&$gray$&posN='+img_offset+
-			    // ',0&layer=4&src='+s7_guy+'&posN='+img_offset+
-			    // ',0&fmt=png-alpha&wid='+imgWidth+'&hei='+imgWidth);
-			    
-			    return image_url;
-
-		    },
+			
 		    buildCookie: {
 		    	shuffle: function (o){ //v1.0
 				    for(var j, x, i = o.length; i; j = 9, x = o[--i], o[i] = o[j], o[j] = x);
@@ -656,37 +563,134 @@ jQuery.noConflict();
 		    		return true;
 
 		        var _i = _b.find('img');
-		        var image_url = _local.getURL();
+		        var style 	= _local.translateSku('style', _selectArray['Style']);
+				var width 	= _formObj.width[_selectArray['Width']];
+				var height 	= (_formObj.height[_selectArray['Height']] < 10 ? '0'+_formObj.height[_selectArray['Height']] : _formObj.height[_selectArray['Height']]);
+	    		var length 	= _formObj.length[_selectArray['Length']];
+	    		var color 	= (s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] !== undefined ? s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] : "$gray$");
+
+	    		if(!style || style === undefined) {
+	    			style = "a";
+	    		}
+	    		if(!width || width === undefined) {
+	    			width = "12";
+	    			switch(style.toLowerCase()) {
+	    				case 'a':
+	    				case 'b':
+	    					height = "08";
+	    					break;
+	    				case 'c':
+	    					height = "09";
+	    					break;
+	    			}
+	    			length = 20;
+	    		} else if(width && !height || width && height === undefined) {
+	    			
+	    			var setHeight = _formObj.height[_local.firstElement(_formObj.height)];
+	    			height = (setHeight < 10 ? '0'+setHeight : setHeight);
+	    			
+	    		} else if(width && height && !length || width && height && length === undefined) {
+	    			length = 20;
+	    			
+	    		} 
+	    		if(!color || color === undefined) {
+	    			color = s7_colors[_formObj.fabriccolor['Gray']];
+	    		}
+	    		var imgRound = Math.round((Math.floor($(window).width()*1.5))/500)*500;
+	    		var imgWidth = (imgRound < 2000 ? (imgRound > 500 ? imgRound  : 500) : 1999);
+	    		var image_starter = 'blank_logo';
+	    		var image_vs, logo_vs, image_url, image_white = '';
+	    		
+	    		// img offset for smaller images/src
+				var img_offset = 0;
+	    		switch (true) {
+					case (length > 100):
+						//do stuff
+						length = '100';
+						img_offset = 0;
+						break;
+					case (length <= 100)&&(length > 90):
+						//do stuff
+						length = '100';
+						img_offset = '0';
+						break;
+					case (length <= 90)&&(length > 70):
+						//do stuff
+						length = '080';
+						img_offset = '-0.04';
+						break;
+					case (length <= 70)&&(length > 50):
+						//do stuff
+						length = '060';
+						img_offset = '-0.06';
+						break;
+					case (length <= 50)&&(length > 30):
+						//do stuff
+						length = '040';
+						img_offset = '-0.10';
+						break;
+					case (length <= 30):
+					default:
+						//do stuff
+						length = '020';
+						img_offset = '-0.18';
+						break;
+			    }
+			    image_vs = ('pe-'+style+'b-0'+width+'xxx'+height+'_cover'+length).toLowerCase();
+			    logo_vs = ('pe-'+style+'b-0'+width+'xxx'+height+'_logo-frm').toLowerCase();
+			    image_white = ('pe-'+style+'b-0'+width+'xxx'+height+'_white').toLowerCase();
+
+			    $.ajax({
+					type: "POST",
+				    url:'/image_collections/images.php',
+				    data:{
+						cover: image_vs,
+						logo: logo_vs,
+						inside: image_white,
+						color: color.replace(/\$/g ,''),
+						guy: s7_guy,
+						offset: img_offset,
+						width: imgWidth
+				    },
+				    dataType:'json',
+				    complete: function(data){
+				        if(data){
+				            //console.log(data.responseText);
+				            results = jQuery.parseJSON(data.responseText);
+				            var nImg = document.createElement('img');
+					        nImg.setAttribute('src', results.url);
+					        nImg.setAttribute('class', 'preload');
+					        $('.preload').append(nImg);
+							nImg.onload = function() {
+							    // image exists and is loaded
+							    _i.attr('src',results.url);
+							    return _local.center();
+
+							    
+							}
+							nImg.onerror = function() {
+							    // image did not load
+							    if(_formObj.style[_selectArray['Style']] === 'Peak Frame')
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    else if(_formObj.style[_selectArray['Style']] === 'Barn Frame')
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    else if(_formObj.style[_selectArray['Style']] === 'Round Frame')
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    else
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+
+							    _i.attr('src',image_url);
+							    var message = 'Failed to load image: '+image_url;
+							    //scriptError.report(message, true);
+							    return _local.center();
+							}
+				        }else{
+				            console.log('Error: '+ response.error);
+				        }
+				    }
+				});
+
 		        
-		        
-
-		        var nImg = document.createElement('img');
-		        nImg.setAttribute('src', image_url);
-		        nImg.setAttribute('class', 'preload');
-		        $('.preload').append(nImg);
-				nImg.onload = function() {
-				    // image exists and is loaded
-				    _i.attr('src',image_url);
-				    return _local.center();
-
-				    
-				}
-				nImg.onerror = function() {
-				    // image did not load
-				    if(_formObj.style[_selectArray['Style']] === 'Peak Frame')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
-				    else if(_formObj.style[_selectArray['Style']] === 'Barn Frame')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
-				    else if(_formObj.style[_selectArray['Style']] === 'Round Frame')
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
-				    else
-				    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
-
-				    _i.attr('src',image_url);
-				    var message = 'Failed to load image: '+image_url;
-				    //scriptError.report(message, true);
-				    return _local.center();
-				}
 		    },
 		    uiLoad: {
 		    	getLoadNDoor: function () {

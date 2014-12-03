@@ -24,6 +24,8 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		$collection = $model->getCollection();
 		foreach($collection as $log) {
 			$log->setLogData('bulk update');
+			$log->setCode('test_code');
+			$log->setMessage('this is the message');
 			$log->save();
 		}
 	}

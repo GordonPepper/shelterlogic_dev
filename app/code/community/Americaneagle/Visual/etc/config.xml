@@ -48,4 +48,11 @@
             </americaneagle_visual>
         </jobs>
     </crontab>
+    <default>
+        <aevisual>
+            <general>
+                <soaplog>1</soaplog>
+            </general>
+        </aevisual>
+    </default>
 </config>

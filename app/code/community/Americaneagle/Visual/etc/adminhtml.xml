@@ -20,4 +20,15 @@
             </admin>
         </resources>
     </acl>
+    <menu>
+        <sales>
+            <children>
+                <visual translate="title" module="americaneagle_visual">
+                    <title>VISUAL Soap Log</title>
+                    <action>adminhtml/soaplog/index</action>
+                    <sort_order>510</sort_order>
+                </visual>
+            </children>
+        </sales>
+    </menu>
 </config>
