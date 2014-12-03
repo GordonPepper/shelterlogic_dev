@@ -1,6 +1,0 @@
-[submodule "skin/frontend/farmbuildings/default/js/plugins/masking"]
-	path = skin/frontend/farmbuildings/default/js/plugins/masking
-	url = git@github.com:bielefeldt/jquery.inputmask.git
-[submodule "image_collections"]
-	path = image_collections
-	url = git@bitbucket.org:shelterlogic/image_collections.git
