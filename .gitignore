@@ -28,4 +28,4 @@ skin/frontend/farmbuildings/default/HTC/
 includes/*
 media/wysiwyg/*
 var/package/tmp/*
-image_collections/images
+image_collections/images/*
