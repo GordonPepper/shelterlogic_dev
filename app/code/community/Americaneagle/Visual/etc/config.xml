@@ -6,6 +6,11 @@
         </Americaneagle_Visual>
     </modules>
     <global>
+        <blocks>
+            <americaneagle_visual>
+                <class>Americaneagle_Visual_Block</class>
+            </americaneagle_visual>
+        </blocks>
         <helpers>
             <americaneagle_visual>
                 <class>Americaneagle_Visual_Helper</class>
@@ -55,4 +60,25 @@
             </general>
         </aevisual>
     </default>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Americaneagle_Visual after="Mage_Adminhtml">Americaneagle_Visual_Adminhtml</Americaneagle_Visual>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <americaneagle_visual>
+                    <file>americaneagle/visual.xml</file>
+                </americaneagle_visual>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
+

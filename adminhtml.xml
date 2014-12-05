@@ -601,6 +601,11 @@
             </classes_product>
           </children>
         </tax>
+        <visual translate="title" module="americaneagle_visual">
+          <title>VISUAL Soap Log</title>
+          <action>adminhtml/soaplog/index</action>
+          <sort_order>510</sort_order>
+        </visual>
         <enterprise_giftwrapping translate="title" module="enterprise_giftwrapping">
           <title>Gift Wrapping</title>
           <action>adminhtml/giftwrapping</action>
@@ -1118,10 +1123,14 @@
                   <cataloginventory translate="title" module="cataloginventory">
                     <title>Inventory Section</title>
                   </cataloginventory>
-                  <aevisual translate="title" module="americaneagle_visual">
+                  <shipping translate="title" module="shipping">
                     <title>Shipping Settings Section</title>
                     <sort_order>0</sort_order>
-                  </aevisual>
+                  </shipping>
+                  <carriers translate="title" module="shipping">
+                    <title>Shipping Methods Section</title>
+                    <sort_order>0</sort_order>
+                  </carriers>
                   <promo translate="title" module="salesrule">
                     <title>Promo Section</title>
                     <sort_order>10</sort_order>
@@ -1172,6 +1181,10 @@
                   <persistent translate="title" module="persistent">
                     <title>Persistent Shopping Cart</title>
                   </persistent>
+                  <aevisual translate="title" module="americaneagle_visual">
+                    <title>Shipping Settings Section</title>
+                    <sort_order>0</sort_order>
+                  </aevisual>
                   <index_management translate="title" module="enterprise_index">
                     <title>Index Management</title>
                   </index_management>

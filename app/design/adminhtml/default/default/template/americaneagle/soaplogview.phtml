@@ -1,0 +1,47 @@
+<?php
+$log = $this->getSoapLogRow();
+?>
+<div class="content-header">
+	<table cellspacing="0">
+		<tr>
+			<td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+			<td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+		</tr>
+	</table>
+</div>
+<div class="entry-edit">
+	<div class="entry-edit">
+		<div class="entry-edit-head">
+			<h4 class="icon-head head-edit-form"><?php echo $this->__('Log Entry') ?></h4>
+		</div>
+		<div id="log_details_fieldset" class="log-details">
+			<table cellspacing="0" class="log-info table">
+				<col width="25%" />
+				<col />
+				<tbody>
+				<tr>
+					<th><?php echo $this->__('Soap Log ID'); ?></th>
+					<td><?php echo $log->getSoaplogId(); ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $this->__('Code') ?></th>
+					<td><?php echo $log->getCode() ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $this->__('Created at') ?></th>
+					<td><?php echo $log->getDatetime() ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $this->__('Message') ?></th>
+					<td><?php echo $log->getMessage() ?></td>
+				</tr>
+				<tr>
+					<th><?php echo $this->__('Data') ?></th>
+					<td><?php echo $log->getLogData() ?></td>
+				</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>

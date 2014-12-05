@@ -11496,6 +11496,7 @@ T: {{var telephone}}
             <api2 before="Mage_Adminhtml">Mage_Api2_Adminhtml</api2>
             <currencysymbol>Mage_CurrencySymbol_Adminhtml</currencysymbol>
             <xmlconnect before="Mage_Adminhtml">Mage_XmlConnect_Adminhtml</xmlconnect>
+            <Americaneagle_Visual after="Mage_Adminhtml">Americaneagle_Visual</Americaneagle_Visual>
             <enterprise_customer before="Mage_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
             <enterprise_catalogevent before="Mage_Adminhtml">Enterprise_CatalogEvent_Adminhtml</enterprise_catalogevent>
             <Enterprise_UrlRewrite before="Mage_Adminhtml">Enterprise_UrlRewrite_Adminhtml</Enterprise_UrlRewrite>
@@ -17439,6 +17440,9 @@ T: {{var telephone}}
         <mage_xmlconnect>
           <file>xmlconnect.xml</file>
         </mage_xmlconnect>
+        <americaneagle_visual>
+          <file>americaneagle/visual.xml</file>
+        </americaneagle_visual>
         <morecc>
           <file>morecc.xml</file>
         </morecc>
@@ -18441,7 +18445,23 @@ Watertown CT, 06795</address>
         </header>
         <footer translate="copyright" module="page">
           <copyright>&amp;copy; 2014 ShelterLogic&#xAE; Corp.. All Rights Reserved.</copyright>
-          <absolute_footer/>
+          <absolute_footer>&lt;script type="text/javascript"&gt;&#xD;
+adroll_adv_id = "PF5GQDY4SVA5FPB3EJJ626";&#xD;
+adroll_pix_id = "EFAX3B67JBF6JKZQVA2XIS";&#xD;
+(function () {&#xD;
+var oldonload = window.onload;&#xD;
+window.onload = function(){&#xD;
+   __adroll_loaded=true;&#xD;
+   var scr = document.createElement("script");&#xD;
+   var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");&#xD;
+   scr.setAttribute('async', 'true');&#xD;
+   scr.type = "text/javascript";&#xD;
+   scr.src = host + "/j/roundtrip.js";&#xD;
+   ((document.getElementsByTagName('head') || [null])[0] ||&#xD;
+    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);&#xD;
+   if(oldonload){oldonload()}};&#xD;
+}());&#xD;
+&lt;/script&gt;</absolute_footer>
         </footer>
         <theme>
           <default>default</default>
