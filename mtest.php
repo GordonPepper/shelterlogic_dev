@@ -32,7 +32,8 @@ $allowedFunctions = array(
 	'mailTest',
 	'triggerJob',
 	'inspectSysconfig',
-	'adminDump'
+	'adminDump',
+	'visualTesting'
 );
 
 $html = new HtmlOutputter();
@@ -54,6 +55,47 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->para("allowed functions:");
 	showAllowedFunctions($html);
 	exit;
+}
+
+function visualTesting() {
+	global $html;
+	/** @var Americaneagle_Visual_Helper_Data $helper */
+	$helper = Mage::helper('americaneagle_visual');
+
+	$options = array();
+	if($helper->getSoaplogEnable()){
+		$options['trace'] = 1;
+	}
+	$options['soap_version'] = SOAP_1_2;
+//	$client = new SoapClient($helper->getServiceHost() . 'SalesOrderService.asmx?wsdl', $options);
+//	$html->startList();
+//	foreach($client->__getFunctions() as $func) {
+//		preg_match('/^(.*?)\s+(.*?)\((.*?)\)$/',$func, $m);
+//		$html->listItem("{$m[1]} <b>{$m[2]}</b> ( {$m[3]} )");
+//	}
+//	$html->endList();
+
+	$client = new SoapClient($helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
+	$header = new SoapHeader('http://tempuri.org/', 'Header', array(
+		'Key' => $helper->getServiceKey(),
+		'UserName' => '',
+		'Password' => '',
+		'ExternalRefGroup' => ''
+	));
+	$client->__setSoapHeaders($header);
+	try {
+		$res = $client->SearchCustomer(array('data' => array('Customers' => array('Customer' => array('CustomerID' => 'FBWebOrder')))));
+
+	} catch (Exception $e) {
+		$html->para('got exception: ' . $e->getMessage());
+	}
+	$html->para('the request was: ');
+	$xml = new DOMDocument();
+	$xml->loadXML($client->__getLastRequest());
+	$xml->preserveWhiteSpace = false;
+	$xml->formatOutput = true;
+
+	$html->pre(print_r(htmlentities($xml->saveXML()), true));
 }
 
 function adminDump() {
@@ -226,6 +268,7 @@ function updateProductImages() {
 	}
 
 }
+
 function getConfigurableAttributes($product = null)
 {
 	global $html;
@@ -270,8 +313,6 @@ function getConfigurableAttributes($product = null)
 	Varien_Profiler::stop('CONFIGURABLE:'.__METHOD__);
 	return $this->getProduct($product)->getData($this->_configurableAttributes);
 }
-
-
 
 function wfKeyGen() {
 	global $html;
@@ -700,9 +741,11 @@ function trimImportFile() {
 
 	$html->para('should be done');
 }
+
 function is_empty($val) {
 	return empty($val);
 }
+
 class CsvReader {
 	private $fileName;
 	private $handle;
@@ -768,7 +811,6 @@ class CsvReader {
 		}
 	}
 }
-
 
 class CsvWriter {
 	private $finalDestinationPath;

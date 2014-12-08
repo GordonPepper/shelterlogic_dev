@@ -12,7 +12,7 @@ class Americaneagle_Visual_Block_Adminhtml_Soaplog_Grid extends Mage_Adminhtml_B
 	{
 		parent::__construct();
 		$this->setId('ae_soaplog_grid');
-		$this->setUseAjax(true);
+		//$this->setUseAjax(true);
 		$this->setDefaultSort('datetime');
 		$this->setDefaultDir('DESC');
 		$this->setSaveParametersInSession(true);
