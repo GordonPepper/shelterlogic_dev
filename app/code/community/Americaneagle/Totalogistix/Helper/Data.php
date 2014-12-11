@@ -29,6 +29,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 		$client->setParameterPost('date', $this->getShipDate());
 		$client->setParameterPost('czip', $request->getDestPostcode());
 		$client->setParameterPost('items', $xItems->asXML());
+		$client->setParameterPost('profile', $this->getProfile());
 
 		Mage::log("TOTALogistix: Posting Accessorial: " . $this->getAccessorial());
 		Mage::log("TOTALogistix: Posting XML: " . $xItems->asXML());
@@ -57,6 +58,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 		return $sheets;
 	}
 
+	private function getProfile() {
+		return Mage::getStoreConfig('carriers/totalogistix/profile');
+	}
 	private function getAccessorial() {
 		$vals = explode(',', Mage::getStoreConfig('carriers/totalogistix/accessorial'));
 		if ($this->req->getIsResidential() == 1) {

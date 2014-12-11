@@ -67,24 +67,32 @@ function visualTesting() {
 		$options['trace'] = 1;
 	}
 	$options['soap_version'] = SOAP_1_2;
-//	$client = new SoapClient($helper->getServiceHost() . 'SalesOrderService.asmx?wsdl', $options);
+
+//	$client = new SoapClient($helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
 //	$html->startList();
 //	foreach($client->__getFunctions() as $func) {
 //		preg_match('/^(.*?)\s+(.*?)\((.*?)\)$/',$func, $m);
 //		$html->listItem("{$m[1]} <b>{$m[2]}</b> ( {$m[3]} )");
 //	}
 //	$html->endList();
+//
+//	return;
 
 	$client = new SoapClient($helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
 	$header = new SoapHeader('http://tempuri.org/', 'Header', array(
-		'Key' => $helper->getServiceKey(),
-		'UserName' => '',
-		'Password' => '',
-		'ExternalRefGroup' => ''
-	));
+		'Key' => $helper->getServiceKey()));
 	$client->__setSoapHeaders($header);
 	try {
-		$res = $client->SearchCustomer(array('data' => array('Customers' => array('Customer' => array('CustomerID' => 'FBWebOrder')))));
+		$res = $client->SearchCustomer(
+			array(
+				'data' => array(
+					'Customers' => array(
+						'Customer' => array(
+							'CustomerID' => 'FBWebOrder')
+					)
+				)
+			)
+		);
 
 	} catch (Exception $e) {
 		$html->para('got exception: ' . $e->getMessage());
@@ -96,6 +104,13 @@ function visualTesting() {
 	$xml->formatOutput = true;
 
 	$html->pre(print_r(htmlentities($xml->saveXML()), true));
+
+	$html->para('the response was');
+	$r = new DOMDocument();
+	$r->preserveWhiteSpace = false;
+	$r->formatOutput = true;
+	$r->loadXML($client->__getLastResponse());
+	$html->pre(htmlentities($r->saveXML()));
 }
 
 function adminDump() {

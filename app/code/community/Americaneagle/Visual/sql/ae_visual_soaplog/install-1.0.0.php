@@ -32,7 +32,8 @@ $table->addColumn('datetime', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
 	'default' => Varien_Db_Ddl_Table::TIMESTAMP_INIT
 ), 'Timestamp');
 $table->addColumn('message', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(), 'Special notes for the log entry');
-$table->addColumn('log_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Bulk data for the entry, i.e. the soap envelope');
+$table->addColumn('request_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Request data for the entry, i.e. the soap envelope');
+$table->addColumn('response_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Response data for the entry');
 $table->setComment('Table for logging interaction with VISUAL');
 
 $name = $table->getName();
