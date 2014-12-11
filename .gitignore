@@ -1,8 +1,7 @@
 # Created by .gitignore support plugin (hsz.mobi)
-var/cache/**/*
+var/cache/*
 var/full_page_cache/*
-var/session/**/*
-var/session/*
+var/session
 var/log/*
 var/locks
 var/report/*
@@ -16,7 +15,7 @@ mergedconfig.xml
 mtest.php
 media/catalog/*
 media/tmp/*
-media/catalog/product/cache/**/*
+media/catalog/product/cache/*
 media/js/*
 media/css/*.css
 errors/local.xml

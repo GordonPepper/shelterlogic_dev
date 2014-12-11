@@ -27,3 +27,5 @@
 <script src="<?php echo $this->getSkinUrl('js/app.min.js'); ?>"></script>
 
 <!-- <script src="<?php echo $this->getSkinUrl('js/uncompiled/app.js'); ?>"></script> -->
+
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-scripts')->toHtml(); ?>

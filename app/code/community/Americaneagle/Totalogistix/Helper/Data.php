@@ -29,11 +29,12 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 		$client->setParameterPost('date', $this->getShipDate());
 		$client->setParameterPost('czip', $request->getDestPostcode());
 		$client->setParameterPost('items', $xItems->asXML());
+		$client->setParameterPost('profile', $this->getProfile());
 
-		Mage::log("TOTALogistix: Posting Accessorial: " . $this->getAccessorial());
-		Mage::log("TOTALogistix: Posting XML: " . $xItems->asXML());
 
 		$response = $client->request('POST');
+		Mage::log("TOTALogistix: PostBody: " . $client->getLastRequest());
+
 		$xml = simplexml_load_string($response->getBody());
 		$status = $xml->xpath('/Response')[0]->{"Status"};
 		Mage::log('TOTALogistix: received status: ' . $status->asXML());
@@ -75,6 +76,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 		return $d->toString('MM/dd/YYYY');    //	$client->setParameterGet('date', '10/10/2014');
 	}
 
+	private function getProfile() {
+		return Mage::getStoreConfig('carriers/totalogistix/profile');
+	}
 	private function getAccessId() {
 		return Mage::getStoreConfig('carriers/totalogistix/access_id');
 	}
