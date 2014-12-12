@@ -48,13 +48,42 @@
                             <show_in_default>1</show_in_default>
                             <comment>Host and root path only. Do not add "ServiceNameService.asmx", do end with '/'</comment>
                         </service_host>
-                        <service_key>
+                        <service_key translate="label">
                             <label>Service Key</label>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
                             <comment>Provided by service provider</comment>
                         </service_key>
-
+                        <external_ref_group translate="label">
+                            <label>External Ref Group</label>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </external_ref_group>
+                        <currency_id translate="label">
+                            <label>Currency Id</label>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </currency_id>
+                        <terms_id translate="label">
+                            <label>Terms ID</label>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </terms_id>
+                        <entity_id translate="label">
+                            <label>Entity ID</label>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </entity_id>
+                        <site_id translate="label">
+                            <label>Site ID</label>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </site_id>
+                        <part_id translate="label">
+                            <label>Part ID</label>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </part_id>
                     </fields>
                 </general>
             </groups>

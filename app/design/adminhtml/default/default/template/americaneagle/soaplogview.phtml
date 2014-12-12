@@ -1,4 +1,5 @@
 <?php
+/** @var Americaneagle_Visual_Model_Soaplog $log */
 $log = $this->getSoapLogRow();
 ?>
 <div class="content-header">
@@ -33,11 +34,15 @@ $log = $this->getSoapLogRow();
 				</tr>
 				<tr>
 					<th><?php echo $this->__('Message') ?></th>
-					<td><?php echo $log->getMessage() ?></td>
+					<td><pre><?php echo $log->getMessage() ?></pre></td>
 				</tr>
 				<tr>
-					<th><?php echo $this->__('Data') ?></th>
-					<td><?php echo $log->getLogData() ?></td>
+					<th><?php echo $this->__('Request') ?></th>
+					<td><pre style="border:1px solid black;"><?php echo $log->getFormattedRequestData() ?></pre></td>
+				</tr>
+				<tr>
+					<th><?php echo $this->__('Response') ?></th>
+					<td><pre style="border:1px solid black;"><?php echo $log->getFormattedResponseData() ?></pre></td>
 				</tr>
 				</tbody>
 			</table>

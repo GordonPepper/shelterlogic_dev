@@ -33,7 +33,8 @@ $allowedFunctions = array(
 	'triggerJob',
 	'inspectSysconfig',
 	'adminDump',
-	'visualTesting'
+	'visualTesting',
+	'getOrdersWithFlag'
 );
 
 $html = new HtmlOutputter();
@@ -111,6 +112,30 @@ function visualTesting() {
 	$r->formatOutput = true;
 	$r->loadXML($client->__getLastResponse());
 	$html->pre(htmlentities($r->saveXML()));
+}
+
+function getOrdersWithFlag() {
+	global $html;
+	$collection = Mage::getModel('sales/order')->getCollection();
+	$collection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
+	$html->para(sprintf('found %d orders', $collection->count()));
+
+	foreach($collection as $order) {
+		//$html->para(sprintf('order is a %s', get_class($order)));
+		/** @var Mage_Sales_Model_Order_Address $address */
+		$address = $order->getShippingAddress();
+		$html->pre(sprintf("name: %s\n addr1: %s\n addr2: %s\ncity: %s State: %s Zip: %s country: %s",
+			$address->getName(),
+			$address->getStreet1(),
+			$address->getStreet2(),
+			$address->getCity(),
+			$address->getRegionCode(),
+			$address->getPostcode(),
+			$address->getCountry()
+		));
+		//$html->para(sprintf('address is a %s', get_class($address)));
+	}
+
 }
 
 function adminDump() {

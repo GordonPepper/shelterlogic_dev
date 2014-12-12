@@ -12,4 +12,22 @@ class Americaneagle_Visual_Model_Soaplog extends Mage_Core_Model_Abstract {
 		$this->_init('americaneagle_visual/soaplog');
 	}
 
+
+	public function getFormattedRequestData() {
+
+		$dom = new DOMDocument();
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		$dom->loadXML($this->getRequestData());
+		return htmlentities($dom->saveXML());
+	}
+	public function getFormattedResponseData() {
+
+		$dom = new DOMDocument();
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		$dom->loadXML($this->getResponseData());
+		return htmlentities($dom->saveXML());
+	}
+
 } 

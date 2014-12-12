@@ -10,10 +10,12 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->addAttribute('order', 'ae_sent_to_visual', array(
-	'type' => 'int',
+	'type' => 'smallint',
 	'input' => 'boolean',
 	'label' => 'Sent to VISUAL',
-	'global' => 1
+	'global' => 1,
+	'unsigned'  => true,
+    'default'   => '0',
 ));
 
 /* Sample Code
