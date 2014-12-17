@@ -62,3 +62,15 @@
 <div class="buttons-set">
     <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl("sp-series-shelter.html") ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
 </div>
+
+<!-- conversion value and order id -->
+<?php 
+    $order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+    $total = $order->getGrandTotal();
+?>
+
+<script>
+    var ORDERID = "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>";
+    var CONVERSIONVALUE =  <?php echo $total; ?>;
+    //console.log(ORDERID + " - " + CONVERSIONVALUE);
+</script>

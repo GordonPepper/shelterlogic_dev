@@ -122,8 +122,8 @@
 							</div>
 						</div>
 						<div class="hidden_fields">
-							<input type="hidden" id="shipping:is_residential" class="validate-select required-entry validation-failed" value="Yes" />
-							<input type="hidden" id="shipping:is_limited_access" class="validate-select required-entry validation-failed" value="no" />
+							<input type="hidden" id="shipping:is_residential" name="shipping[is_residential]" class="validate-select required-entry validation-failed" value="1" />
+							<input type="hidden" id="shipping:is_limited_access" name="shipping[is_limited_access]" class="validate-select required-entry validation-failed" value="0" />
 						</div>
 						<!-- <div class="field">
 							<label for="shipping:is_residential" class="required"><em>*</em><?php // echo $this->__('Residential Address') ?></label>

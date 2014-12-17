@@ -1286,11 +1286,16 @@
 		            	}
 		            	$('dl.accordion').stop().data('options', 'multi_expand:true;toggleable: true');
 		            }
+		            if (isMobile.any()) {
+		            	var cartCompresor = 2.4;
+		            } else {
+		            	var cartCompresor = 1.1;
+		            }
 		            $("#mainAccordion .panelnav, #mobileAccordion .panelnav").stop().fitText(1.2, { minFontSize: '6px', maxFontSize: '17px' });
 					$("#productTitle, #calcPrice").stop().fitText(1, { minFontSize: '6px', maxFontSize: '25px' });
-					$("#shortDesc").stop().fitText(1.1, { minFontSize: '4px', maxFontSize: '20px' });
-					$("#addToCart").stop().fitText(1.1, { minFontSize: '10px', maxFontSize: '25px' });
-					$("#build_FabricColor button").stop().fitText(1.1, { minFontSize: '10px', maxFontSize: '25px' });
+					$("#shortDesc").stop().fitText(cartCompresor, { minFontSize: '4px', maxFontSize: '20px' });
+					$("#addToCart").stop().fitText(cartCompresor, { minFontSize: '10px', maxFontSize: '25px' });
+					$("#build_FabricColor button").stop().fitText(cartCompresor, { minFontSize: '10px', maxFontSize: '25px' });
 	    		return;
 		    },
 		    infoVisible: function () {
