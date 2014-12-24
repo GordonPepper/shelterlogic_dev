@@ -32,6 +32,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			$line = 1;
 			/** @var Mage_Sales_Model_Order_Item $item */
 			foreach($order->getAllItems() as $item) {
+				if($item->getProductType() == 'simple' && $item->getParentItem() != null)
+					continue;
 				$lines[] = array(
 						'LineNo' =>  $line,
 						'QTY' => $item->getQtyOrdered(),
@@ -39,8 +41,10 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 						'UnitPrice' => $item->getPrice(),
 						'LineDescription' => $item->getSku(),
 						'LineStatus' => 'A',
-						'AutoAllocateInventory' => 0
-
+						'AutoAllocateInventory' => 0,
+						'CreateNewWorkOrder' => 1,
+						'FreightCost' => $order->getShippingAmount(),
+						'WarehouseID' => $this->helper->getWarehouseId()
 				);
 				$line++;
 			}
@@ -66,6 +70,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 							'ContactEmail' => $billingAddress->getEmail(),
 							'SiteID' => $this->helper->getSiteId(),
 							'CurrencyID' => $this->helper->getCurrencyId(),
+							'CustomerPurchaseOrderID' => $order->getPayment()->getCcTransId(),
 							'Lines' => array(
 								'CustomerOrderLine' => $lines
 							)
@@ -109,6 +114,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 					'Name' => $address->getName(),
 					'Address1' => $address->getStreet1(),
 					'Address2' => $address->getStreet2(),
+					'Address3' => $address->getTelephone(),
 					'City' => $address->getCity(),
 					'State' => $address->getRegionCode(),
 					'ZipCode' => $address->getPostcode(),
@@ -154,6 +160,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 								'CustomerName' => $cid,
 								'CurrencyID' => $this->helper->getCurrencyId(),
 								'TermsID' => $this->helper->getTermsId(),
+								'SalesRepID' => $this->helper->getSalesRepId(),
+								'TerritoryID' => $this->helper->getTerritoryId(),
 								'Entities' => array(
 									'CustomerEntity' => array(
 										'EntityID' => $this->helper->getEntityId()

@@ -84,6 +84,21 @@
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                         </part_id>
+                        <sales_rep_id translate="label">
+                            <label>Sales Rep ID</label>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </sales_rep_id>
+                        <territory_id translate="label">
+                            <label>Territory ID</label>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </territory_id>
+                        <warehouse_id>
+                            <label>Warehouse ID</label>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </warehouse_id>
                     </fields>
                 </general>
             </groups>

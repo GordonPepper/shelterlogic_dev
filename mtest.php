@@ -34,18 +34,19 @@ $allowedFunctions = array(
 	'inspectSysconfig',
 	'adminDump',
 	'visualTesting',
-	'getOrdersWithFlag'
+	'getOrdersWithFlag',
+	'getCimValuesDecrypt'
 );
 
 $html = new HtmlOutputter();
-$html->startHtml()->startBody();
+$html->startHtml()->startHead("M-TEST")->startBody();
 $html->para('<a href="/mtest.php">home</a>');
 
 if (isset($f) && in_array($f, $allowedFunctions)) {
 	try {
 		$html->para("executing function: " . $f);
 		call_user_func($f);
-
+		$html->endBody()->endHtml();
 	} catch (Exception $e) {
 		$html->para("failed to run function $f");
 		$html->para($e->getMessage());
@@ -55,7 +56,18 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->para( "mtest php is designed to take an arg 'f' and execute a designated function");
 	$html->para("allowed functions:");
 	showAllowedFunctions($html);
+	$html->endBody()->endHtml();
 	exit;
+}
+
+function getCimValuesDecrypt() {
+	global $html;
+	$encrypted = Mage::getStoreConfig('payment/acimpro/api_key');
+	$decrypted = Mage::helper('core')->decrypt($encrypted);
+	$html->para(sprintf('encrypted value: %s, decrypted value: %s', $encrypted, $decrypted));
+	$encrypted = Mage::getStoreConfig('payment/acimpro/transaction_key');
+	$decrypted = Mage::helper('core')->decrypt($encrypted);
+	$html->para(sprintf('encrypted value: %s, decrypted value: %s', $encrypted, $decrypted));
 }
 
 function visualTesting() {
@@ -909,11 +921,13 @@ class HtmlOutputter {
 
 	}
 	public function startHtml() {
-		echo "<html>\n";
+		echo "<!DOCTYPE html>\n<html>\n";
 		return $this;
 	}
-	public function startHead() {
+	public function startHead($title=null) {
 		echo "<head>\n";
+		if($title)
+			echo "<title>$title</title>\n";
 		return $this;
 	}
 	public function endHead() {

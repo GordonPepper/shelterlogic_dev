@@ -57,6 +57,9 @@
         <aevisual>
             <general>
                 <soaplog>1</soaplog>
+                <sales_rep_id>HOUSE</sales_rep_id>
+                <territory>WEB</territory>
+                <warehouse_id>SHELTERLOGIC</warehouse_id>
             </general>
         </aevisual>
     </default>
