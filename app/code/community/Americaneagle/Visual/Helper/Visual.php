@@ -44,7 +44,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 						'AutoAllocateInventory' => 0,
 						'CreateNewWorkOrder' => 1,
 						'FreightCost' => $order->getShippingAmount(),
-						'WarehouseID' => $this->helper->getWarehouseId()
+						'WarehouseID' => $this->helper->getWarehouseId(),
+						'ProductCode' => $item->getProductCode()
 				);
 				$line++;
 			}
@@ -57,6 +58,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 					'UseIndependentTransactions' => 0,
 					'Orders' => array(
 						'CustomerOrderHeader' => array(
+							'CustomerOrderID' => $order->getIncrementId(),
 							'OrderDate' => date('c', strtotime($order->getCreatedAt())),
 							'CustomerID' => $this->helper->getCustomerId(),
 							'DesiredShipDate' => date('c', strtotime($this->helper->getLeadTimeDate($order->getCreatedAt()))),
@@ -71,6 +73,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 							'SiteID' => $this->helper->getSiteId(),
 							'CurrencyID' => $this->helper->getCurrencyId(),
 							'CustomerPurchaseOrderID' => $order->getPayment()->getCcTransId(),
+							'FOB' => $this->helper->getFob(),
 							'Lines' => array(
 								'CustomerOrderLine' => $lines
 							)

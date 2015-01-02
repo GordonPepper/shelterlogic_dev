@@ -94,6 +94,12 @@
                             <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
                         </territory_id>
+                        <fob>
+                            <label>FOB ID</label>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </fob>
+
                         <warehouse_id>
                             <label>Warehouse ID</label>
                             <sort_order>230</sort_order>
