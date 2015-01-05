@@ -79,6 +79,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 	private function getProfile() {
 		return Mage::getStoreConfig('carriers/totalogistix/profile');
 	}
+
 	private function getAccessId() {
 		return Mage::getStoreConfig('carriers/totalogistix/access_id');
 	}
