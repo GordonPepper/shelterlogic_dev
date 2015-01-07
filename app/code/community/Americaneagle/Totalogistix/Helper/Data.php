@@ -52,6 +52,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 			$ps->setCarrier((string)$price->{'Carrier'});
 			$ps->setChargeAmount((string)$price->{'ChargeAmount'});
 			$ps->setCarrierName((string)$price->{'CarrierName'});
+			$ps->setErpShipCode((string)$price->{'ErpShipCode'});
 			$sheets[] = $ps;
 		}
 

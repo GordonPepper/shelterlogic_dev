@@ -21,6 +21,7 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_SALES_REP_ID = 'aevisual/general/sales_rep_id';
 	const CONFIG_TERRITORY_ID = 'aevisual/general/territory_id';
 	const CONFIG_WAREHOUSE_ID = 'aevisual/general/warehouse_id';
+	const CONFIG_FOB = 'aevisual/general/fob';
 
 	public function getLeadTimeDate($d){
 		$lead = Mage::getStoreConfig('carriers/totalogistix/lead_time');
@@ -67,6 +68,16 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 	public function getWarehouseId() {
 		return Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID);
+	}
+	public function getFob(){
+		return Mage::getStoreConfig(self::CONFIG_FOB);
+	}
+	public function stripCarrierCode($code) {
+		$parts = explode('_', $code);
+		if(count($parts) > 1) {
+			array_shift($parts);
+		}
+		return implode('_', $parts);
 	}
 
 }

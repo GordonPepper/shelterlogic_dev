@@ -99,7 +99,6 @@
                             <sort_order>240</sort_order>
                             <show_in_default>1</show_in_default>
                         </fob>
-
                         <warehouse_id>
                             <label>Warehouse ID</label>
                             <sort_order>230</sort_order>

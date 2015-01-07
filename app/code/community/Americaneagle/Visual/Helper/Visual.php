@@ -31,23 +31,25 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			$lines = array();
 			$line = 1;
 			/** @var Mage_Sales_Model_Order_Item $item */
-			foreach($order->getAllItems() as $item) {
-				if($item->getProductType() == 'simple' && $item->getParentItem() != null)
+			foreach ($order->getAllItems() as $item) {
+				if ($item->getProductType() == 'simple' && $item->getParentItem() != null) {
 					continue;
+				}
 				$lines[] = array(
-						'LineNo' =>  $line,
-						'QTY' => $item->getQtyOrdered(),
-						'PartID' => $this->helper->getPartId(),
-						'UnitPrice' => $item->getPrice(),
-						'LineDescription' => $item->getSku(),
-						'LineStatus' => 'A',
-						'AutoAllocateInventory' => 0,
-						'CreateNewWorkOrder' => 1,
-						'FreightCost' => $order->getShippingAmount(),
-						'WarehouseID' => $this->helper->getWarehouseId(),
-						'ProductCode' => $item->getProductCode()
+					'LineNo' => $line,
+					'QTY' => $item->getQtyOrdered(),
+					'PartID' => $this->helper->getPartId(),
+					'UnitPrice' => $item->getPrice(),
+					'LineDescription' => $item->getSku(),
+					'LineStatus' => 'A',
+					'AutoAllocateInventory' => 0,
+					'CreateNewWorkOrder' => 1,
+					'FreightCost' => $order->getShippingAmount(),
+					'WarehouseID' => $this->helper->getWarehouseId(),
+					'ProductCode' => current($item->getChildrenItems())->getProduct()->getProductCode()
 				);
 				$line++;
+
 			}
 
 			/** @var Mage_Sales_Model_Order_Address $billingAddress */
@@ -61,11 +63,11 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 							'CustomerOrderID' => $order->getIncrementId(),
 							'OrderDate' => date('c', strtotime($order->getCreatedAt())),
 							'CustomerID' => $this->helper->getCustomerId(),
-							'DesiredShipDate' => date('c', strtotime($this->helper->getLeadTimeDate($order->getCreatedAt()))),
+							'DesiredShipDate' => date('c', $this->helper->getLeadTimeDate($order->getCreatedAt())),
 							'ShipToId' => $sid,
 							'Status' => 'F',
 							'ShipVIA' => 'LTL',
-							'CarrierID' => $order->getShippingMethod(),
+							'CarrierID' => $this->helper->stripCarrierCode($order->getShippingMethod()),
 							'ContactFirstName' => $billingAddress->getFirstname(),
 							'ContactLastName' => $billingAddress->getLastname(),
 							'ContactPhoneNumber' => $billingAddress->getTelephone(),

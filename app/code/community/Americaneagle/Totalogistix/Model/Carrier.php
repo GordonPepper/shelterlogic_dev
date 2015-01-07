@@ -40,7 +40,7 @@ class Americaneagle_Totalogistix_Model_Carrier
 			$rate = Mage::getModel('shipping/rate_result_method');
 			$rate->setCarrier($this->_code);
 			$rate->setCarrierTitle($this->getConfigData('title'));
-			$rate->setMethod($price->getCarrier());
+			$rate->setMethod($price->getErpShipCode());
 			$rate->setMethodTitle($price->getCarrierName());
 			$rate->setPrice($price->getChargeAmount());
 			$result->append($rate);
