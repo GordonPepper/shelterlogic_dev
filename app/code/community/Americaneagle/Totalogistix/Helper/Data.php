@@ -52,12 +52,16 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 			$ps->setCarrier((string)$price->{'Carrier'});
 			$ps->setChargeAmount((string)$price->{'ChargeAmount'});
 			$ps->setCarrierName((string)$price->{'CarrierName'});
+			$ps->setErpShipCode((string)$price->{'ErpShipCode'});
 			$sheets[] = $ps;
 		}
 
 		return $sheets;
 	}
 
+	private function getProfile() {
+		return Mage::getStoreConfig('carriers/totalogistix/profile');
+	}
 	private function getAccessorial() {
 		$vals = explode(',', Mage::getStoreConfig('carriers/totalogistix/accessorial'));
 		if ($this->req->getIsResidential() == 1) {
