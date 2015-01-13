@@ -38,9 +38,9 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 				$lines[] = array(
 					'LineNo' => $line,
 					'QTY' => $item->getQtyOrdered(),
-					'PartID' => $this->helper->getPartId(),
+					'PartID' => $item->getSku(),
 					'UnitPrice' => $item->getPrice(),
-					'LineDescription' => $item->getSku(),
+					'LineDescription' => $item->getName(),
 					'LineStatus' => 'A',
 					'AutoAllocateInventory' => 0,
 					'CreateNewWorkOrder' => 1,
