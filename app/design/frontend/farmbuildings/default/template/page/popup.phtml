@@ -29,7 +29,6 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-
 <!DOCTYPE html>
 
 <!--[if lt IE 7 ]> <html lang="en" id="top" class="no-js ie6"> <![endif]-->
@@ -43,16 +42,20 @@
     <?php echo $this->getChildHtml('head') ?>
     <?php $baseUrl = $this->getBaseUrl() ; ?>
     <script type="text/javascript"> function getBaseUrl() { return '<?php echo $this->getSkinUrl(''); ?>'; } </script>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-scripts')->toHtml(); ?>
 </head>
 <body class="page-popup<?php echo $this->getBodyClass()?$this->getBodyClass() : ''?>">
-<div>
-    <?php echo $this->getChildHtml('after_body_start') ?>
-    <?php echo $this->getChildHtml('content') ?>
-</div>
-<?php echo $this->getChildHtml('modal_includes') ?>
-	
-    <?php echo $this->getChildHtml('before_body_end') ?>
+	<?php echo $this->getChildHtml('updatebrowser_includes') ?>
+	<div class="modern">
+		<div>
+		    <?php echo $this->getChildHtml('after_body_start') ?>
+		    <?php echo $this->getChildHtml('content') ?>
+		</div>
+		<?php echo $this->getChildHtml('modal_includes') ?>
+		
+	    <?php echo $this->getChildHtml('before_body_end') ?>
 
-    <?php echo $this->getAbsoluteFooter() ?>
+	    <?php echo $this->getAbsoluteFooter() ?>
+	</div>
 </body>
 </html>

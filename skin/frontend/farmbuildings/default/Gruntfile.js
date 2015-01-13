@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = function(grunt) {
   grunt.initConfig({
     //pkg: grunt.file.readJSON('package.json'),
@@ -19,10 +17,11 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
-          outputStyle: 'uncompressed'
+          outputStyle: 'compressed'
         },
         files: {
-          'css/app.css': 'scss/app.scss'
+          'css/app.css': 'scss/app.scss',
+          'css/ie.css': 'scss/ie.scss'
         }        
       }
     },
@@ -37,26 +36,22 @@ module.exports = function(grunt) {
           // COMPONENTS
           'js/components.min.js': [
             // 'bower_components/modernizr/modernizr.js',
-            // 'bower_components/jquery/dist/jquery.js',
             'bower_components/jquery-placeholder/jquery.placeholder.js',
             'bower_components/jquery.cookie/jquery.cookie.js',
             'bower_components/respond/src/respond.js',
             //'bower_components/selectivizr/selectivizr.js',
             'bower_components/foundation/js/foundation.js',
+            'bower_components/foundation/js/foundation/foundation.offcanvas.js',
             'bower_components/FitText/jquery.fittext.js',
-            //'bower_components/SlabText/js/jquery.slabtext.js',
             //'bower_components/jquery-hashchange/jquery.ba-hashchange.js',
-            //'bower_components/jquery.scrollTo/jquery.scrollTo.js',
             'bower_components/source-web-files/js/custom/detect.browser.js',
-            //'bower_components/source-web-files/js/custom/mobile.onchange.js',
-            //'bower_components/source-web-files/js/custom/center.center.js',
             'bower_components/source-web-files/js/custom/make.square.js',
             'bower_components/source-web-files/js/custom/make.windowHeight.js',
-            'bower_components/source-web-files/js/custom/smart.resize.js',
+            // 'bower_components/source-web-files/js/custom/smart.resize.js',
             'bower_components/underscore/underscore.js'
           ],
           'js/jquery.min.js': [
-            'bower_components/jquery/dist/jquery.min.js'
+            'bower_components/jquery/dist/jquery.js'
           ],
           // MAIN SCRIPTS...
           'js/app.min.js': [

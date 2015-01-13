@@ -20,6 +20,12 @@
                     <product_view_type_configurable>Americaneagle_Farmbuildings_Block_Product_View_Configurable</product_view_type_configurable>
                 </rewrite>
             </catalog>
+            <checkout>
+                <rewrite>
+                    <onepage>Americaneagle_Farmbuildings_Block_Checkout_Onepage</onepage>
+                    <!--<cart_item_renderer_configurable>Americaneagle_Farmbuildings_Block_Checkout_Renderer</cart_item_renderer_configurable>-->
+                </rewrite>
+            </checkout>
         </blocks>
         <models>
             <americaneagle_farmbuildings>
@@ -46,6 +52,13 @@
                     <frontName>fbconfig</frontName>
                 </args>
             </fbconfig>
+            <checkout>
+                <args>
+                    <modules>
+                        <americaneagle_farmbuildings before="Mage_Checkout">Americaneagle_Farmbuildings_Checkout</americaneagle_farmbuildings>
+                    </modules>
+                </args>
+            </checkout>
         </routers>
     </frontend>
 </config>

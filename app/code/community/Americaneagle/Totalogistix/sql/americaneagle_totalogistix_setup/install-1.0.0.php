@@ -22,4 +22,19 @@ Mage::getSingleton('eav/config')
 		'adminhtml_customer_address'
 	))
 	->save();
+$installer->addAttribute('customer_address', 'is_limited_access', array(
+	'type' => 'static',
+	'input' => 'boolean',
+	'label' => 'Limited Access',
+	'global' => 1
+));
+Mage::getSingleton('eav/config')
+	->getAttribute('customer_address', 'is_limited_access')
+	->setData('used_in_forms', array(
+		'customer_register_address',
+		'customer_address_edit',
+		'adminhtml_customer_address'
+	))
+	->save();
+
 $installer->endSetup();

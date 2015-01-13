@@ -29,10 +29,11 @@
 	<div class="defaultfooter">
 		<?php echo $this->getChildHtml() ?>
 	</div>
-    <img alt="ShelterLogic" src="<?php echo $this->getSkinUrl('images/src/logo.png'); ?>"> 
-    <span class="copyright"><?php echo $this->getCopyright() ?></span> 
-    <span class="termsPrivacy">
+	<span class="termsPrivacy hide-for-medium-down">
         <a data-reveal-id="termsModal" href="#terms">Terms &amp; Conditions</a>
         <a data-reveal-id="privacyModal" href="#privacy">Privacy Policy</a>
     </span>
+    <img alt="ShelterLogic" src="<?php echo $this->getSkinUrl('images/src/logo.png'); ?>"> 
+    <span class="copyright hide-for-medium-down"><?php echo $this->getCopyright() ?></span> 
+    
 </div>

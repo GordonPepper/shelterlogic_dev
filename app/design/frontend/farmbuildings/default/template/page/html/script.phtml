@@ -21,10 +21,14 @@
  * @category    design
  * @package     rwd_default
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @license     http://www.magentocommerce.com/license/enterprise-edition 
  */
 ?>
-<script src="<?php echo $this->getSkinUrl('js/app.min.js'); ?>"></script>
+<?php if($_SERVER['SERVER_NAME'] == 'mag.farmbuildings.com' || $_SERVER['SERVER_NAME'] == 'farmbuildings-design.idevdesign.net') {
+	$jsFile = $this->getSkinUrl('js/uncompiled/app.js');
+} else {
+	$jsFile = $this->getSkinUrl('js/app.min.js');
+} ?>
+<script src="<?php echo $jsFile; ?>"></script>
 
-<!-- <script src="<?php echo $this->getSkinUrl('js/uncompiled/doors.load.object.js'); ?>"></script>
-<script src="<?php echo $this->getSkinUrl('js/uncompiled/app.js'); ?>"></script> -->
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-scripts')->toHtml(); ?>

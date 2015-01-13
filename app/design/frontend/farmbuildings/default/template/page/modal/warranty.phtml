@@ -23,85 +23,19 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+$warranty = Mage::getModel('cms/page');
+$warranty->setStoreId(Mage::app()->getStore()->getId());
+$warranty->load('sp-warranty','identifier');
+$warrantyhelper = Mage::helper('cms');
+$warrantyprocessor = $warrantyhelper->getPageTemplateProcessor();
+$warrantyhtml = $warrantyprocessor->filter($warranty->getContent());
 ?>
 <div class="reveal-modal full" data-reveal="" id="warrantyModal">
 	<div class="warranty">
 	<div id="s_logo" class="STlogo dup align-center hide-for-small-only">
-		<span class="title main">
-			<span class="st-s"></span>
-			<span class="st-h"></span>
-			<span class="st-e"></span>
-			<span class="st-l"></span>
-			<span class="st-t1"></span>
-			<span class="st-e"></span>
-			<span class="st-r"></span>
-			<span class="st-t yellow"></span>
-			<span class="st-e yellow"></span>
-			<span class="st-c yellow"></span>
-			<span class="st-h no-break yellow"></span>
-		</span>
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
 	</div>
-	<div class="row">
-	  <div class="small-12 medium-10 large-8 small-centered columns">
-	    <h2>Cover &amp; Warranty Options</h2>
-	    <p class="justify contactSmall">Fire-rated*, tear resistant, UV-treated, waterproof fabric holds up against the worst weather and provides years of protection.</p>
-	  </div>
-	</div>
-	<div class="row">
-	  <div class="small-12 medium-10 large-8 small-centered columns">
-	  	<h5 class="yellow">Cover Options</h5>
-	  	<div class="color">
-	  		<div class="button btnColor textCenter makeSquare" data-value="GY"><span class="centerCenter">Gray</span></div>
-	  		<div class="button btnColor textCenter makeSquare" data-value="GN"><span class="centerCenter">Green</span></div>
-	  		<div class="button btnColor textCenter makeSquare" data-value="HG"><span class="centerCenter">Hunter<br>Green</span></div>
-	  		<div class="button btnColor textCenter makeSquare" data-value="TN"><span class="centerCenter">Tan</span></div>
-	  		<div class="button btnColor textCenter makeSquare" data-value="WE"><span class="centerCenter">White</span></div>
-	  		<div class="button btnColor textCenter makeSquare" data-value="CR"><span class="centerCenter">Clear</span></div>
-	  		<div class="button btnColor textCenter makeSquare" data-value="BN"><span class="centerCenter">Brown</span></div>
-	  	</div>
-	  </div>
-	</div>
-	<div class="row">
-	  <div class="small-12 medium-10 large-8 small-centered columns">
-	  	<table role="grid" class="warrantyTable" summary="Fabric Warranty Summary" cellspacing="0">
-		  <tr>
-		    <th>Fabric</th>
-		    <th>Cover</th>
-		    <th>Panels</th>
-		    <th>Frame</th>
-		  </tr>
-		  <tr>
-		    <td>
-		    	<h3>Standard PE 9 oz.</h3>
-		    	<p>Gray, Green, Tan, White, Translucent, Brown</p>
-		    </td>
-		    <td>1 Year</td>
-		    <td>1 Year</td>
-		    <td>3 Years<br>Prorated</td>
-		  </tr>
-		  <tr>
-		    <td>
-		    	<h3>Heavy Duty PE 14.5 oz.<sup>*</sup></h3>
-		    	<p>Gray, Green, Tan, White, Brown</p>
-		    </td>
-		    <td>10 Year<br>Prorated</td>
-		    <td>3 Year<br>Prorated</td>
-		    <td>3 Years<br>Prorated</td>
-		  </tr>
-		  <tr>
-		    <td>
-		    	<h3>Ultra Duty 21.5 oz.<sup>*</sup></h3>
-		    	<p>Hunter Green, White</p>
-		    </td>
-		    <td>15 Year<br>Prorated</td>
-		    <td>3 Year<br>Prorated</td>
-		    <td>3 Years<br>Prorated</td>
-		  </tr>
-		</table>
-		<p class="warrantyLegal">All fabric weight calculations are in oz. per m<sup>2</sup>.<br>
-		<sup>*</sup>Fire rated FR fabric CPAI 84 Section 6 and NFPA 701 compliant.
-	  </div>
-	</div>
+	<?php echo $warrantyhtml; ?>
 </div>
 <a class="close-reveal-modal">&#215;</a>
 

@@ -29,7 +29,6 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-
 <!DOCTYPE html>
 
 <!--[if lt IE 7 ]> <html lang="en" id="top" class="no-js ie6"> <![endif]-->
@@ -43,382 +42,348 @@
     <?php echo $this->getChildHtml('head') ?>
     <?php $baseUrl = $this->getBaseUrl() ; ?>
     <script type="text/javascript"> function getBaseUrl() { return '<?php echo $this->getSkinUrl(''); ?>'; } </script>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-scripts')->toHtml(); ?>
 </head>
 <body class="page-empty <?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
-    <?php echo $this->getChildHtml('after_body_start') ?>
-    <div class="off-canvas-wrap docs-wrap" data-offcanvas="">
-		<div class="inner-wrap winH">
-		    <i class="fa fa-circle-o-notch fa-spin" id="loader"></i>
+	<?php echo $this->getChildHtml('updatebrowser_includes') ?>
+	<div class="modern">
+	    <?php echo $this->getChildHtml('after_body_start') ?>
+	    <div id="cofiguratorMain">
+		    <div class="off-canvas-wrap" data-offcanvas>
+				<div class="inner-wrap winH">
+				    <i class="fa fa-circle-o-notch fa-spin" id="loader"></i>
 
-		    <?php echo $this->getChildHtml('header') ?>
-			<section class="main-section">
-		        <div class="row" id="mainUIElements">
-		            <div class="large-12 columns winH">
-		                <!-- add elements div here -->
-		                <div class="elements leftSide">
-		                    <div class="UITop">
-		                        <div class="mobileColumn">
-		                            <span id="productTitle">SP&nbsp;SERIES</span> <span id="shortDesc">GALVANIZED&nbsp;BUILDINGS</span>
-		                        </div>
-		                        <div class="mobileColumn">
-		                            <span class="calcPrice"></span>
-		                        </div>
-		                        <div class="mobileColumn">
-		                            <button class="UI button nomar-bottom expand disabled" data-func="addToCart" id="addToCart">ADD TO CART</button>
-		                        </div>
-		                    </div>
-		                    <div class="UIBottom">
-		                        <div class="UIBuilderContainer highlight">
-		                            <div class="row" id="quickNav"></div>
+				    <?php echo $this->getChildHtml('header') ?>
+					<section class="main-section">
+				        <div class="row" id="mainUIElements">
+				            <div class="large-12 columns winH">
+				            	
+				                <!-- add elements div here -->
+				                <div class="elements leftSide">
+				                    <div class="UITop">
+				                        <div class="mobileColumn">
+				                            <span id="productTitle">SP&nbsp;SERIES</span> <span id="shortDesc">GALVANIZED&nbsp;BUILDINGS</span>
+				                        </div>
+				                        <div class="mobileColumn">
+				                            <span class="calcPrice"></span>
+				                        </div>
+				                        <div class="mobileColumn">
+				                            <button class="UI button nomar-bottom expand disabled" data-func="addToCart" id="addToCart">ADD TO CART</button>
+				                        </div>
+				                    </div>
+				                    <div class="step show-for-medium-up">&nbsp;</div>
+				                    <div class="UIBottom">
+				                        <div class="UIBuilderContainer highlight">
+				                            <div class="row hide" id="quickNav"></div>
 
-		                            <div class="UIBuilderNav clearfix">
-		                                    <span class="left UI fa fa-chevron-left prev" ></span> <span class="right UI fa fa-chevron-right next" ></span>
-		                            </div>
+				                            <div class="UIBuilderNav clearfix">
+				                                    <span class="left" >
+				                                    	<i class="UI fa fa-chevron-left prev" data-func="toggleQuickNav" ></i>
+				                                    </span>
+				                                    <span class="right" >
+				                                    	<i class="UI fa fa-chevron-right next" data-func="whichChoice" ></i>
+				                                    </span>
+				                            </div>
 
-		                            <ul id="UIList">
-		                                <li class="UISection clear" id="chooseStyle">
-		                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a frame <i class="showInfo UI fa fa-info-circle hide-for-large-up" data-func="getInfo" data-infoid="infoStyle"></i></span>
-		                                    <div class="buttonContainer" id="build_Style"></div>
-		                                    <div class="spacing align-right show-for-large-up showInfo" >
-		                                        <i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoStyle"></i>
-		                                    </div>
-		                                </li>
-		                                <li class="UISection" id="chooseWidth">
-		                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a width <i class="showInfo UI fa fa-info-circle hide" data-func="getInfo" data-infoid="infoWidth"></i></span> 
-		                                    <select class="UI UI-Option" data-func="setAttr" data-type="Width" id="builderWidth" name="builderWidth"></select>
-		                                    <div class="spacing align-right hide showInfo" >
-		                                        <i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoWidth"></i>
-		                                    </div>
-		                                </li>
+				                            <ul id="UIList">
+				                                <li class="UISection clear" id="chooseStyle">
+				                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Frame <i class="showInfo UI fa fa-info-circle hide-for-large-up" data-func="getInfo" data-infoid="infoStyle"></i></span>
+				                                    <div class="buttonContainer" id="build_Style"></div>
+				                                    <div class="spacing align-right show-for-large-up showInfo" >
+				                                        <i class="showInfo UI fa fa-info-circle show-for-large-up" data-func="getInfo" data-infoid="infoStyle"></i>
+				                                    </div>
+				                                </li>
+				                                <li class="UISection" id="chooseWidth">
+				                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Width <!-- <i class="showInfo UI fa fa-info-circle hide" data-func="getInfo" data-infoid="infoWidth"></i> --></span> 
+				                                    <select class="UI UI-Option" data-func="setAttr" data-type="Width" id="builderWidth" name="builderWidth"></select>
+				                                    <!-- <div class="spacing align-right hide showInfo" >
+				                                        <i class="showInfo UI fa fa-info-circle show-for-large-up" data-func="getInfo" data-infoid="infoWidth"></i>
+				                                    </div> -->
+				                                </li>
 
-		                                <li class="UISection" id="chooseHeight">
-		                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a height <i class="showInfo UI fa fa-info-circle hide" data-func="getInfo" data-infoid="infoHeight"></i></span> 
-		                                    <select class="UI UI-Option" data-func="setAttr" data-type="Height" id="builderHeight" name="builderHeight"></select>
-		                                    <div class="spacing align-right hide showInfo" >
-		                                        <i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoHeight"></i>
-		                                    </div>
-		                                </li>
+				                                <li class="UISection" id="chooseHeight">
+				                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Height <!-- <i class="showInfo UI fa fa-info-circle hide" data-func="getInfo" data-infoid="infoHeight"></i> --></span> 
+				                                    <select class="UI UI-Option" data-func="setAttr" data-type="Height" id="builderHeight" name="builderHeight"></select>
+				                                    <!-- <div class="spacing align-right hide showInfo" >
+				                                        <i class="showInfo UI fa fa-info-circle show-for-large-up" data-func="getInfo" data-infoid="infoHeight"></i>
+				                                    </div> -->
+				                                </li>
 
-		                                <li class="UISection" id="chooseLength">
-		                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Length <i class="showInfo UI fa fa-info-circle hide" data-func="getInfo" data-infoid="infoLength"></i></span>
-		                                    <select class="UI UI-Option" data-func="setAttr" data-type="Length" id="builderLength" name="builderLength"></select>
-		                                    <div class="spacing align-right hide showInfo" >
-		                                        <i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoLength"></i>
-		                                    </div>
-		                                </li>
+				                                <li class="UISection" id="chooseLength">
+				                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Length <!-- <i class="showInfo UI fa fa-info-circle hide" data-func="getInfo" data-infoid="infoLength"></i> --></span>
+				                                    <select class="UI UI-Option" data-func="setAttr" data-type="Length" id="builderLength" name="builderLength"></select>
+				                                    <!-- <div class="spacing align-right hide showInfo" >
+				                                        <i class="showInfo UI fa fa-info-circle show-for-large-up" data-func="getInfo" data-infoid="infoLength"></i>
+				                                    </div> -->
+				                                </li>
 
-		                                <li class="UISection" id="chooseFabricMaterial">
-		                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Material <i class="showInfo UI fa fa-info-circle hide-for-large-up" data-func="getInfo" data-infoid="infoFabricMaterial"></i></span>
-		                                    <div class="buttonContainer" id="build_FabricMaterial"></div>
-		                                    <div class="spacing align-right show-for-large-up showInfo" >
-		                                        <i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoFabricMaterial"></i>
-		                                    </div>
-		                                </li>
+				                                <li class="UISection" id="chooseFabricMaterial">
+				                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Material <i class="showInfo UI fa fa-info-circle hide-for-large-up" data-func="getInfo" data-infoid="infoFabricMaterial"></i></span>
+				                                    <div class="buttonContainer" id="build_FabricMaterial"></div>
+				                                    <div class="spacing align-right show-for-large-up showInfo" >
+				                                        <i class="showInfo UI fa fa-info-circle show-for-large-up" data-func="getInfo" data-infoid="infoFabricMaterial"></i>
+				                                    </div>
+				                                </li>
 
-		                                <li class="UISection" id="chooseFabricColor">
-		                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a color <i class="showInfo UI fa fa-info-circle hide-for-large-up" data-func="getInfo" data-infoid="infoColor"></i></span>
-		                                    <div class="buttonContainer" id="build_FabricColor">
-		                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare" data-func="setAttr" data-type="Color" data-value="GY">Gray <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
-		                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="GN">Green <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
-		                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="TN">Tan <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
-		                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="WE">White <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
-		                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="CR">Clear <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
-		                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="BN">Brown <i class="fa fa-check centerVertical centerHorizontal"></i></button>
-		                                    </div>
-		                                    <div class="spacing align-right show-for-large-up showInfo" >
-		                                        <i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoColor"></i>
-		                                    </div>
-		                                </li>
-		                            </ul>
-		                        </div>
-		                        <div class="show-for-large-up" id="infoMain">
-		                            <div class="fa fa-stop info infoStyle infoBuilderBox right">
-		                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                                <div class="scroll">
-		                                    <h3>Frame Style</h3><span class="name yellow">PEAK</span>
-		                                    <p>The Peak style frame originates from the classic house gable and is designed for ease of installation and storage shelter versatility.</p><span class="name yellow">ROUND</span>
-		                                    <p>Our most popular roof style, the Round design is the most effective at shedding the elements. The Round Series includes the greatest variety of width options of the SP Series, making it extremely adaptable.</p><span class="name yellow">BARN</span>
-		                                    <p>A ShelterLogic innovation, the Barn style features an overall increase in cubic storage space and more usable headroom than other frame styles.</p>
-		                                </div>
-		                            </div>
+				                                <li class="UISection" id="chooseFabricColor">
+				                                    <span class="UI UISectionTitle" data-func="toggleQuickNav">Choose a Color <i class="showInfo UI fa fa-info-circle hide-for-large-up" data-func="getInfo" data-infoid="infoColor"></i></span>
+				                                    <div class="buttonContainer" id="build_FabricColor">
+				                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare" data-func="setAttr" data-type="Color" data-value="GY">Gray <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
+				                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="GN">Green <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
+				                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="TN">Tan <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
+				                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="WE">White <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
+				                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="CR">Clear <i class="fa fa-check centerVertical centerHorizontal"></i></button> 
+				                                        <button class="UI UI-Option button expand box-shadow textCenter makeSquare disable" data-func="setAttr" data-type="Color" data-value="BN">Brown <i class="fa fa-check centerVertical centerHorizontal"></i></button>
+				                                    </div>
+				                                    <div class="spacing align-right show-for-large-up showInfo" >
+				                                        <i class="showInfo UI fa fa-info-circle show-for-large-up" data-func="getInfo" data-infoid="infoColor"></i>
+				                                    </div>
+				                                </li>
+				                            </ul>
+				                        </div>
+				                        <div class="show-for-large-up" id="infoMain">
+				                            <div class="fa fa-stop info infoStyle infoBuilderBox right">
+				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                                <div class="scroll">
+				                                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('frame-style-info-box')->toHtml(); ?>
+				                                </div>
+				                            </div>
 
-		                            <div class="fa fa-stop info infoWidth infoBuilderBox right">
-		                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                                <div class="scroll"></div>
-		                            </div>
+				                            <div class="fa fa-stop info infoWidth infoBuilderBox right">
+				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                                <div class="scroll"></div>
+				                            </div>
 
-		                            <div class="fa fa-stop info infoHeight infoBuilderBox right">
-		                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                                <div class="scroll"></div>
-		                            </div>
+				                            <div class="fa fa-stop info infoHeight infoBuilderBox right">
+				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                                <div class="scroll"></div>
+				                            </div>
 
-		                            <div class="fa fa-stop info infoLength infoBuilderBox right">
-		                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                                <div class="scroll"></div>
-		                            </div>
+				                            <div class="fa fa-stop info infoLength infoBuilderBox right">
+				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                                <div class="scroll"></div>
+				                            </div>
 
-		                            <div class="fa fa-stop info infoFabricMaterial infoBuilderBox right">
-		                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                                <div class="scroll">
-		                                    <table cellspacing="0" class="infoWarranty" summary="FabricMaterial Warranty Summary">
-		                                        <tr>
-		                                            <th>FabricMaterial</th>
-		                                            <th>Cover</th>
-		                                            <th>Panels</th>
-		                                            <th>Frame</th>
-		                                        </tr>
-		                                        <tr>
-		                                            <td><strong>Standard PE<br>9 oz.</strong></td>
-		                                            <td>1/yr</td>
-		                                            <td>1/yr</td>
-		                                            <td>3/yr<sup>*</sup></td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td><strong>Heavy Duty PE<br>14.5 oz.</strong></td>
-		                                            <td>10/yr<sup>*</sup></td>
-		                                            <td>3/yr<sup>*</sup></td>
-		                                            <td>3/yr<sup>*</sup></td>
-		                                        </tr>
-		                                        <tr>
-		                                            <td><strong>Ultra Duty PVC<br>21.5 oz.</strong></td>
-		                                            <td>15/yr<sup>*</sup></td>
-		                                            <td>3/yr<sup>*</sup></td>
-		                                            <td>3/yr<sup>*</sup></td>
-		                                        </tr>
-		                                    </table><sup>* Prorated</sup>
-		                                </div>
-		                            </div>
-		                            <div class="fa fa-stop info infoColor infoBuilderBox right">
-		                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                                <div class="scroll">
-		                                    <h3>Colors</h3>
-		                                    <p>All colors of the same fabric grade will last and preform the same. Choose your color based on your visual preference.</p>
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </div><a class="UI startOver show-for-large-up" data-func="startOver" href="#startOver">Start Over</a>
-		                    <div class="hide-for-large-up" id="mobileInfoMain"></div>
-		                </div>
-		                <div class="elements rightSide">
-		                    <div>
-		                        <dl class="accordion show-for-large-up" data-accordion="" data-options="multi_expand:true;toggleable: true" id="mainAccordion">
-		                            <dd class="accordion-navigation UITop nopadd" id="detailsAccordion">
-		                                <a class="panelnav" href="#panel1">SPECIFICATIONS <i class="fa fa-chevron-down right"></i></a>
-		                                <div class="content active" id="panel1">
-		                                    <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
-		                                    <div class="spacing" id="StyleSelected">
-		                                        <span class="cap">Frame</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="WidthSelected">
-		                                        <span class="cap">Width</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="HeightSelected">
-		                                        <span class="cap">Height</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="LengthSelected">
-		                                        <span class="cap">Length</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="FabricMaterialSelected">
-		                                        <span class="cap">Material</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="FabricColorSelected">
-		                                        <span class="cap">color</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                </div>
-		                            </dd>
-		                            <dd class="accordion-navigation UITop nopadd">
-		                                <a class="panelnav" href="#panel2">DOOR OPENING <i class="fa fa-chevron-down right"></i></a>
-		                                <div class="content active" id="panel2">
-		                                    <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
-		                                    <div class="spacing" id="door_width">
-		                                        <span class="cap">Width</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="door_height">
-		                                        <span class="cap">Height</span> <span class="attribute right">-</span>
-		                                    </div>
-		                                    <div class="spacing" id="door_center_height">
-		                                        <span class="cap">Center Height</span> <span class="attribute right">N/A</span>
-		                                    </div>
-		                                    <div class="diagram spacing hide" id="diagram">
-		                                        <a data-reveal-id="diagramModal" href="#">See Diagram</a>
-		                                    </div>
-		                                </div>
-		                            </dd>
-		                            <dd class="accordion-navigation UIBottom UITop nopadd clearfix">
-		                                <a class="panelnav" href="#panel3"><span class="hide-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW <i class="fa fa-chevron-down right"></i></span><span class="show-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW&nbsp;RATING <i class="fa fa-chevron-down right"></i></span></a>
-		                                <div class="content active" id="panel3">
-		                                    <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
-		                                    <div class="spacing" id="wind_load">
-		                                        <span class="cap">Wind Speed</span> <span class="attribute right">N/A</span>
-		                                    </div>
-		                                    <div class="spacing" id="snow_load">
-		                                        <span class="cap">Snow Load</span> <span class="attribute right">N/A</span>
-		                                    </div>
-		                                    <div class="spacing showInfo UI fa fa-info-circle" ></div>
-		                                </div>
-		                                <div class="fa fa-stop infoWind info infoBuilderBox show-for-large-up left">
-		                                    <i class="UI fa fa-plus UIInfoClose rightInfo" data-func="closeInfo"></i>
-		                                    <div class="scroll">
-		                                        <img class="windAndSnow left" src="<?php echo $this->getSkinUrl('images/src/sp_wind_snow.png'); ?>"> <!-- <h3>Wind &amp; Snow</h3> -->
-		                                        <p>Wind and snow loads given are for reference only and assume a securely anchored frame according to local building codes and ordinances. These have been calculated using combined snow and wind load provisions in accordance with ASCE 7-05 based on an unoccupied, fully enclosed building. Local code requirements vary by location; Conformance to local codes is the responsibility of the purchaser.</p>
-		                                    </div>
-		                                </div>
-		                            </dd>
-		                        </dl>
-		                        <dl class="accordion hide-for-large-up" data-accordion="" data-options="multi_expand:false;toggleable: true" id="mobileAccordion"></dl>
-		                        <div class="infoWind info infoBuilderBox hide-for-large-up left">
-		                            <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
-		                            <h3>test</h3>
-		                            <p>Lorem ipsum dolor sit amet.</p>
-		                        </div>
-		                    </div>
-		                </div><!-- end elements -->
-		            </div>
-		        </div>
-		        <?php echo $this->getChildHtml('footer') ?>
-		    </section><!-- close the off-canvas menu -->
-		    <a class="exit-off-canvas"></a>
+				                            <div class="fa fa-stop info infoFabricMaterial infoBuilderBox right">
+				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                                <div class="scroll">
+				                                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fabric-material-info-box')->toHtml(); ?>
+				                                </div>
+				                            </div>
+				                            <div class="fa fa-stop info infoColor infoBuilderBox right">
+				                                <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                                <div class="scroll">
+				                                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fabric-color-info-box')->toHtml(); ?>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </div><a class="UI startOver show-for-large-up" data-func="startOver" href="#startOver">Start Over</a>
+				                    <div class="hide-for-large-up" id="mobileInfoMain"></div>
+				                </div>
+				                <div class="elements rightSide">
+				                    <div>
+				                        <dl class="accordion show-for-large-up" data-accordion="" data-options="multi_expand:true;toggleable: true" id="mainAccordion">
+				                            <dd class="accordion-navigation UITop nopadd" id="detailsAccordion">
+				                                <a class="panelnav" href="#panel1">SPECIFICATIONS <i class="fa fa-chevron-down right"></i></a>
+				                                <div class="content active" id="panel1">
+				                                    <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
+				                                    <div class="spacing" id="StyleSelected">
+				                                        <span class="cap">Frame</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="WidthSelected">
+				                                        <span class="cap">Width</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="HeightSelected">
+				                                        <span class="cap">Height</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="LengthSelected">
+				                                        <span class="cap">Length</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="FabricMaterialSelected">
+				                                        <span class="cap">Material</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="FabricColorSelected">
+				                                        <span class="cap">color</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                </div>
+				                            </dd>
+				                            <dd class="accordion-navigation UITop nopadd">
+				                                <a class="panelnav" href="#panel2">DOOR OPENING <i class="fa fa-chevron-down right"></i></a>
+				                                <div class="content active" id="panel2">
+				                                    <div class="spacing" id="zipper_width_at_bottom">
+				                                        <span class="cap">Bottom Width</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="zipper_width_at_top">
+				                                        <span class="cap">Top Width</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="side_zipper_height">
+				                                        <span class="cap">Side Height</span> <span class="attribute right">-</span>
+				                                    </div>
+				                                    <div class="spacing" id="middle_zipper_height">
+				                                        <span class="cap">Center Height</span> <span class="attribute right">N/A</span>
+				                                    </div>
+				                                    <div class="diagram spacing hide" id="diagram">
+				                                        <a data-reveal-id="diagramModal" href="#">See Diagram</a>
+				                                    </div>
+				                                </div>
+				                            </dd>
+				                            <dd class="accordion-navigation UIBottom UITop nopadd clearfix">
+				                                <a class="panelnav" href="#panel3"><span class="hide-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW <i class="fa fa-chevron-down right"></i></span><span class="show-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW&nbsp;RATING <i class="fa fa-chevron-down right"></i></span></a>
+				                                <div class="content active" id="panel3">
+				                                    <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
+				                                    <div class="spacing" id="wind_speed_rating">
+				                                        <span class="cap">Wind Speed</span> <span class="right"> -mph*</span> <span class="attribute right">N/A</span>
+				                                    </div>
+				                                    <div class="spacing" id="snow_load_rating">
+				                                        <span class="cap">Snow Load</span> <span class="right"> -psf*</span> <span class="attribute right">N/A</span>
+				                                    </div>
+				                                    <div class="spacing" >
+				                                    	<i class="showInfo UI fa fa-info-circle" data-func="getInfo" data-infoid="infoWind"></i>
+				                                    </div>
+				                                </div>
+				                                <div class="fa fa-stop infoWind info infoBuilderBox show-for-large-up left">
+				                                    <i class="UI fa fa-plus UIInfoClose rightInfo" data-func="closeInfo"></i>
+				                                    <div class="scroll">
+				                                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('wind-snow-info-box')->toHtml(); ?>
+				                                    </div>
+				                                </div>
+				                            </dd>
+				                        </dl>
+				                        <dl class="accordion hide-for-large-up" data-accordion="" data-options="multi_expand:false;toggleable: true" id="mobileAccordion"></dl>
+				                        <div class="infoWind info infoBuilderBox hide-for-large-up left">
+				                            <i class="UI fa fa-plus UIInfoClose" data-func="closeInfo"></i>
+				                            <br><br>
+		                                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('wind-snow-info-box')->toHtml(); ?>
+				                        </div>
+				                    </div>
+				                </div><!-- end elements -->
+				            </div>
+				        </div>
+				        <?php echo $this->getChildHtml('footer') ?>
+				    </section><!-- close the off-canvas menu -->
+				    <a class="exit-off-canvas"></a>
+				</div>
+			</div>
+			<div class="winHW" id="building"><img alt="" class="centerCenter" src="http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?fmt=png-alpha"></div>
+
+			<div class="preload"></div>
+			<!-- startmodal -->
+			<div class="reveal-modal full" data-reveal="" id="startModal">
+			    <div id="s_logo" class="STlogo dup align-center">
+					<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
+				</div>
+			    <div class="row">
+			        <div class="small-12 medium-10 large-8 small-centered columns">
+			            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-selection-heading')->toHtml(); ?>
+			        </div>
+			    </div>
+			    <div class="row" id="startStyle">
+			        <div class="styleImages show-for-large-up">
+			            <div class="styles style peak">
+			                <img alt="Peak style frame" class="" id="start_peak" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
+			                <div class="styleText">
+			                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-peak')->toHtml(); ?>
+			                </div>
+			            </div>
+			            <div class="styles style round">
+			                <img alt="Round style fram" class="" id="start_round" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
+			                <div class="styleText">
+			                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-round')->toHtml(); ?>
+			                </div>
+			            </div>
+
+			            <div class="styles style barn">
+			                <img alt="Barn style frame" class="" id="start_barn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
+			                <div class="styleText">
+			                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-style-barn')->toHtml(); ?>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="buttonContainer hide-for-large-up" id="build_Style"></div>
+			    </div>
+			    <div class="row">
+			        <div class="small-12 medium-10 large-8 small-centered columns">
+			            <p class="made-in clearfix">Need help? Call <?php echo Mage::getStoreConfig('general/store_information/phone'); ?> or email us at <a href="mailto:<?php echo Mage::getStoreConfig('trans_email/ident_support/email'); ?>"><?php echo Mage::getStoreConfig('trans_email/ident_support/email'); ?></a>.</p>
+			        </div>
+			    </div>
+			</div>
+			<!-- diagram modal -->
+			<div class="reveal-modal full" data-reveal="" id="diagramModal">
+			    <div class="logo dup align-center hide-for-small-only" id="d_Logo"></div>
+			    <a class="close-reveal-modal">&#215;</a> 
+			    <img alt="" id="theDiagram" src="">
+			</div>
+
+			<!-- quote modal -->
+			<div class="reveal-modal full" data-reveal="" id="quoteModal">
+			    <div class="logo dup align-center hide-for-small-only" id="s_logo"></div>
+			    <div class="row">
+			        <div class="small-12 medium-10 large-8 small-centered columns">
+			            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('quote-modal-header')->toHtml(); ?>
+			        </div>
+			    </div>
+			    <div class="row">
+			        <div class="small-12 medium-10 large-8 small-centered columns">
+			            <div class="small-12 meduim-7 large-7 columns">
+			                <div class="border-right webforms">
+			                <?php echo $this->getLayout()->createBlock('webforms/webforms', 'quote_webform_block', array(
+							    'webform_id' => 3,
+							    'template' => 'webforms/default.phtml',
+							))->toHtml(); ?>
+							</div>
+			            </div>
+
+			            <div class="small-12 meduim-5 large-5 columns" id="infoTable">
+			                <dl class="accordion show-for-large-up" data-accordion="" data-options="multi_expand:false;toggleable: false" id="quoteAccordion">
+			                    <dd class="accordion-navigation UITop nopadd" id="detailsAccordion">
+			                        <a class="panelnav" href="#panel1">Order Summary <i class="fa fa-chevron-down right"></i></a>
+			                        <div class="content active" id="panel1">
+			                            <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
+			                            <div class="spacing" id="StyleSelected">
+			                                <span class="cap">Frame</span> <span class="attribute right">-</span>
+			                            </div>
+			                            <div class="spacing" id="WidthSelected">
+			                                <span class="cap">Width</span> <span class="attribute right">-</span>
+			                            </div>
+			                            <div class="spacing" id="HeightSelected">
+			                                <span class="cap">Height</span> <span class="attribute right">-</span>
+			                            </div>
+			                            <div class="spacing" id="LengthSelected">
+			                                <span class="cap">Length</span> <span class="attribute right">-</span>
+			                            </div>
+			                            <div class="spacing" id="FabricMaterialSelected">
+			                                <span class="cap">Fabric Material</span> <span class="attribute right">-</span>
+			                            </div>
+			                            <div class="spacing" id="FabricColorSelected">
+			                                <span class="cap">Color</span> <span class="attribute right">-</span>
+			                            </div>
+			                        </div>
+			                    </dd>
+			                </dl>
+			                <div class="align-right totals">
+			                    <span class="subtotal">Subtotal</span><span class="calcPrice">$0.00</span>
+			                </div>
+			                <div class="small-2 columns">OR</div>
+			                <div class="small-10 columns">
+			                    <span>Speak with a live representative</span><br>
+			                    <i class="fa fa-mobile"></i> <span class="phone"><?php echo Mage::getStoreConfig('general/store_information/phone'); ?></span>
+			                </div>
+			            </div>
+			        </div>
+			    </div><a class="close-reveal-modal">&#215;</a>
+			</div>
 		</div>
-	</div>
-    <div class="form">
-    	<a class="button tiny alert" href="#" id="showForm">show form</a>
-    	<?php echo $this->getChildHtml('content') ?>
-    </div>
-    <div class="winHW" id="building"><img alt="" class="centerCenter" src="http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?fmt=png-alpha"></div>
-
-	<div class="preload"></div>
-
-	<!-- startmodal -->
-	<div class="reveal-modal full" data-reveal="" id="startModal">
-	    <div class="logo dup align-center hide-for-small-only" id="s_logo"></div>
-	    <div class="row">
-	        <div class="small-12 medium-10 large-8 small-centered columns">
-	            <h2 class="align-center">Build your own shelter</h2>
-	            <p class="align-center hide-for-small-only">
-	                <img alt="made in usa" class="left" src="<?php echo $this->getSkinUrl('images/src/made-in.png'); ?>"> 
-	                <img alt="wind and snow rated" class="right" src="<?php echo $this->getSkinUrl('images/src/sp_wind_snow.png'); ?>">
-	                Protect what you value most with our USA-made SP Series shelters. Only certified galvanized steel is used to ensure you the quality, durable shelter you expect from ShelterTech.
-	            </p>
-	            <h4 class="align-center">CHOOSE A FRAME STYLE TO START BUILDING YOUR SHELTER</h4>
-	        </div>
+		
+	    <div class="form">
+	    	<a class="button tiny alert" href="#" id="showForm">show form</a>
+	    	<?php echo $this->getChildHtml('content') ?>
 	    </div>
-	    <div class="row" id="startStyle">
-	        <div class="show-for-large-up">
-	            <div class="styles style peak">
-	                <img alt="Peak style frame" class="" id="start_peak" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
-	                <div class="styleText">
-	                    <span class="name">PEAK</span>
-	                    <p>The Peak style frame originates from the classic house gable and is designed for ease of installation and storage shelter versatility.</p>
-	                    <button class="UI button nomar-bottom" data-func="setStyle" data-type="Style" data-value="14">Choose Peak</button>
-	                </div>
-	            </div>
-	            <div class="styles style round">
-	                <img alt="Round style fram" class="" id="start_round" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
-	                <div class="styleText">
-	                    <span class="name">ROUND</span>
-	                    <p>Our most popular roof style, the Round design is the most effective at shedding the elements. The Round Series includes the greatest variety of width options of the SP Series, making it extremely adaptable.</p>
-	                    <button class="UI button nomar-bottom" data-func="setStyle" data-type="Style" data-value="13">Choose Round</button>
-	                </div>
-	            </div>
+		
+		<?php echo $this->getChildHtml('modal_includes') ?>
+		
+	    <?php echo $this->getChildHtml('before_body_end') ?>
 
-	            <div class="styles style barn">
-	                <img alt="Barn style frame" class="" id="start_barn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjAAAAGQAQMAAACKy8hfAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAADJJREFUeNrtwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAG27wAAHjW3aTAAAAAElFTkSuQmCC">
-	                <div class="styleText">
-	                    <span class="name">BARN</span>
-	                    <p>A ShelterLogic innovation, the Barn style features an overall increase in cubic storage space and more usable headroom than other frame styles.</p>
-	                    <button class="UI button nomar-bottom" data-func="setStyle" data-type="Style" data-value="12">Choose Barn</button>
-	                </div>
-	            </div>
-	        </div>
-	        <div class="buttonContainer hide-for-large-up" id="build_Style"></div>
-	    </div>
-	    <div class="row">
-	        <div class="small-12 medium-10 large-8 small-centered columns">
-	            <p class="made-in clearfix">Need help? Call 1-800-932-9344 or email us at sheltertech@shelterlogic.com.</p>
-	        </div>
-	    </div>
+	    <?php echo $this->getAbsoluteFooter() ?>
 	</div>
-	<!-- diagram modal -->
-	<div class="reveal-modal full" data-reveal="" id="diagramModal">
-	    <div class="logo dup align-center hide-for-small-only" id="d_Logo"></div>
-	    <a class="close-reveal-modal">&#215;</a> 
-	    <img alt="" id="theDiagram" src="">
-	</div>
-
-	<!-- quote modal -->
-	<div class="reveal-modal full" data-reveal="" id="quoteModal">
-	    <div class="logo dup align-center hide-for-small-only" id="s_logo"></div>
-	    <div class="row">
-	        <div class="small-12 medium-10 large-8 small-centered columns">
-	            <h2>Contact us for a shipping quote.</h2>
-	            <p class="justify contactSmall">Because the building you configured <strong>exceeds 5,000 pounds</strong>, we will need to provide you with a custom shipping quote. Please complete the form below and one of our customer service representatives will be in touch with you shortly.</p>
-	        </div>
-	    </div>
-	    <div class="row">
-	        <div class="small-12 medium-10 large-8 small-centered columns">
-	            <div class="small-12 meduim-7 large-7 columns">
-	                <!-- <form>
-	                    <div class="border-right webforms">
-	                        <label>First Name <input placeholder="First Name" type="text"></label> 
-	                        <label>Last Name <input placeholder="Last Name" type="text"></label> 
-	                        <label>Email Address <input placeholder="youremail@email.com" type="text"></label> 
-	                        <label>Phone Number <input placeholder="(000) 000 - 0000" type="text"></label> 
-	                        <label>Zip Code <input placeholder="00000" type="text"></label>
-	                    </div>
-	                    <input class="button active" type="button" value="GET A SHIPPING QUOTE">
-	                </form> -->
-	                <div class="border-right webforms">
-	                <?php echo $this->getLayout()->createBlock('webforms/webforms', 'quote_webform_block', array(
-					    'webform_id' => 2,
-					    'template' => 'webforms/default.phtml',
-					))->toHtml(); ?>
-					</div>
-	            </div>
-
-	            <div class="small-12 meduim-5 large-5 columns" id="infoTable">
-	                <dl class="accordion show-for-large-up" data-accordion="" data-options="multi_expand:false;toggleable: false" id="quoteAccordion">
-	                    <dd class="accordion-navigation UITop nopadd" id="detailsAccordion">
-	                        <a class="panelnav" href="#panel1">Order Summary <i class="fa fa-chevron-down right"></i></a>
-	                        <div class="content active" id="panel1">
-	                            <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
-	                            <div class="spacing" id="StyleSelected">
-	                                <span class="cap">Frame</span> <span class="attribute right">-</span>
-	                            </div>
-	                            <div class="spacing" id="WidthSelected">
-	                                <span class="cap">Width</span> <span class="attribute right">-</span>
-	                            </div>
-	                            <div class="spacing" id="HeightSelected">
-	                                <span class="cap">Height</span> <span class="attribute right">-</span>
-	                            </div>
-	                            <div class="spacing" id="LengthSelected">
-	                                <span class="cap">Length</span> <span class="attribute right">-</span>
-	                            </div>
-	                            <div class="spacing" id="FabricMaterialSelected">
-	                                <span class="cap">FabricMaterial</span> <span class="attribute right">-</span>
-	                            </div>
-	                            <div class="spacing" id="ColorSelected">
-	                                <span class="cap">color</span> <span class="attribute right">-</span>
-	                            </div>
-	                        </div>
-	                    </dd>
-	                </dl>
-	                <div class="align-right totals">
-	                    <span class="subtotal">Subtotal</span><span class="calcPrice">$0.00</span>
-	                </div>
-	                <div class="small-2 columns">OR</div>
-	                <div class="small-10 columns">
-	                    <span>Speak with a live representative</span><br>
-	                    <i class="fa fa-mobile"></i> <span class="phone">1-800-932-9334</span>
-	                </div>
-	            </div>
-	        </div>
-	    </div><a class="close-reveal-modal">&#215;</a>
-	</div>
-	
-	<?php echo $this->getChildHtml('modal_includes') ?>
-	
-    <?php echo $this->getChildHtml('before_body_end') ?>
-
-    <?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>

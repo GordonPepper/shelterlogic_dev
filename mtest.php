@@ -11,7 +11,7 @@ ini_set('display_errors', true);
 
 require 'app/Mage.php';
 Mage::setIsDeveloperMode(true);
-
+Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /** @var Mage $app */
 $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
@@ -27,18 +27,26 @@ $allowedFunctions = array(
 	'getProductAttributes',
 	'reviewSimpleImport',
 	'productList',
-	'getConfigurableAttributes'
+	'getConfigurableAttributes',
+	'updateProductImages',
+	'mailTest',
+	'triggerJob',
+	'inspectSysconfig',
+	'adminDump',
+	'visualTesting',
+	'getOrdersWithFlag',
+	'getCimValuesDecrypt'
 );
 
 $html = new HtmlOutputter();
-$html->startHtml()->startBody();
+$html->startHtml()->startHead("M-TEST")->startBody();
 $html->para('<a href="/mtest.php">home</a>');
 
 if (isset($f) && in_array($f, $allowedFunctions)) {
 	try {
 		$html->para("executing function: " . $f);
 		call_user_func($f);
-
+		$html->endBody()->endHtml();
 	} catch (Exception $e) {
 		$html->para("failed to run function $f");
 		$html->para($e->getMessage());
@@ -48,7 +56,269 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->para( "mtest php is designed to take an arg 'f' and execute a designated function");
 	$html->para("allowed functions:");
 	showAllowedFunctions($html);
+	$html->endBody()->endHtml();
 	exit;
+}
+
+function getCimValuesDecrypt() {
+	global $html;
+	$encrypted = Mage::getStoreConfig('payment/acimpro/api_key');
+	$decrypted = Mage::helper('core')->decrypt($encrypted);
+	$html->para(sprintf('encrypted value: %s, decrypted value: %s', $encrypted, $decrypted));
+	$encrypted = Mage::getStoreConfig('payment/acimpro/transaction_key');
+	$decrypted = Mage::helper('core')->decrypt($encrypted);
+	$html->para(sprintf('encrypted value: %s, decrypted value: %s', $encrypted, $decrypted));
+}
+
+function visualTesting() {
+	global $html;
+	/** @var Americaneagle_Visual_Helper_Data $helper */
+	$helper = Mage::helper('americaneagle_visual');
+
+	$options = array();
+	if($helper->getSoaplogEnable()){
+		$options['trace'] = 1;
+	}
+	$options['soap_version'] = SOAP_1_2;
+
+//	$client = new SoapClient($helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
+//	$html->startList();
+//	foreach($client->__getFunctions() as $func) {
+//		preg_match('/^(.*?)\s+(.*?)\((.*?)\)$/',$func, $m);
+//		$html->listItem("{$m[1]} <b>{$m[2]}</b> ( {$m[3]} )");
+//	}
+//	$html->endList();
+//
+//	return;
+
+	$client = new SoapClient($helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
+	$header = new SoapHeader('http://tempuri.org/', 'Header', array(
+		'Key' => $helper->getServiceKey()));
+	$client->__setSoapHeaders($header);
+	try {
+		$res = $client->SearchCustomer(
+			array(
+				'data' => array(
+					'Customers' => array(
+						'Customer' => array(
+							'CustomerID' => 'FBWebOrder')
+					)
+				)
+			)
+		);
+
+	} catch (Exception $e) {
+		$html->para('got exception: ' . $e->getMessage());
+	}
+	$html->para('the request was: ');
+	$xml = new DOMDocument();
+	$xml->loadXML($client->__getLastRequest());
+	$xml->preserveWhiteSpace = false;
+	$xml->formatOutput = true;
+
+	$html->pre(print_r(htmlentities($xml->saveXML()), true));
+
+	$html->para('the response was');
+	$r = new DOMDocument();
+	$r->preserveWhiteSpace = false;
+	$r->formatOutput = true;
+	$r->loadXML($client->__getLastResponse());
+	$html->pre(htmlentities($r->saveXML()));
+}
+
+function getOrdersWithFlag() {
+	global $html;
+	$collection = Mage::getModel('sales/order')->getCollection();
+	$collection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
+	$html->para(sprintf('found %d orders', $collection->count()));
+
+	foreach($collection as $order) {
+		//$html->para(sprintf('order is a %s', get_class($order)));
+		/** @var Mage_Sales_Model_Order_Address $address */
+		$address = $order->getShippingAddress();
+		$html->pre(sprintf("name: %s\n addr1: %s\n addr2: %s\ncity: %s State: %s Zip: %s country: %s",
+			$address->getName(),
+			$address->getStreet1(),
+			$address->getStreet2(),
+			$address->getCity(),
+			$address->getRegionCode(),
+			$address->getPostcode(),
+			$address->getCountry()
+		));
+		//$html->para(sprintf('address is a %s', get_class($address)));
+	}
+
+}
+
+function adminDump() {
+	global $html;
+	$config = Mage::getConfig()->loadModulesConfiguration('adminhtml.xml')->getNode();
+	$html->para(sprintf('got a config, and it is a  %s' , get_class($config)));
+
+}
+
+function inspectSysconfig() {
+	global $html;
+	$config = Mage::getConfig()->loadModulesConfiguration('system.xml')->getNode();
+	$doc = new DOMDocument();
+	$doc->loadXML($config->asXML());
+	$xpath = new DOMXPath($doc);
+
+	$frontend_types = array();
+	$nl = $xpath->query('/config/sections/*/groups/*/fields/*/frontend_type/text()');
+	foreach($nl as $n) {
+		$frontend_types[$n->nodeValue] = $n->nodeValue;
+	}
+	foreach($frontend_types as $t) {
+		$html->para('got type: ' . $t);
+	}
+}
+
+function triggerJob() {
+	global $html;
+	$jobCode = 'americaneagle_visual';
+
+	/**
+	 * so we are going to emulate the _processJob() function
+	 * to just run our job on demand, by job_code. to do this
+	 * we need to create a schedule item and a jobConfig,
+	 * then we can run the parts of Mage_Core_Model_Observer::_processJob()
+	 * as needed.
+	 */
+
+	$schedule = Mage::getModel('cron/schedule');
+	$schedule->setJobCode($jobCode);
+	$jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
+	$defaultJobsRoot = Mage::getConfig()->getNode('default/crontab/jobs');
+
+	$jobConfig = $jobsRoot->{$schedule->getJobCode()};
+	if (!$jobConfig || !$jobConfig->run) {
+		$jobConfig = $defaultJobsRoot->{$schedule->getJobCode()};
+		if (!$jobConfig || !$jobConfig->run) {
+			$html->para('the jobConfig or jobConfig->run does not exist, exiting');
+			return;
+		}
+	}
+
+	// _processJob($schedule, $jobConfig):
+	$runConfig = $jobConfig->run;
+	$html->para(sprintf('the run config is %s', print_r($jobConfig, true)));
+
+	$errorStatus = Mage_Cron_Model_Schedule::STATUS_ERROR;
+	try {
+		if ($runConfig->model) {
+			if (!preg_match(Mage_Cron_Model_Observer::REGEX_RUN_MODEL, (string)$runConfig->model, $run)) {
+				Mage::throwException(Mage::helper('cron')->__('Invalid model/method definition, expecting "model/class::method".'));
+			}
+			if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
+				Mage::throwException(Mage::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
+			}
+			$callback = array($model, $run[2]);
+			$html->para('callback array is: ');
+			$html->pre(print_r($callback, true));
+			$arguments = array($schedule);
+			$html->para('arguments array is:');
+			$html->pre(print_r($arguments, true));
+		}
+		if (empty($callback)) {
+			Mage::throwException(Mage::helper('cron')->__('No callbacks found'));
+		}
+
+		$schedule
+			->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
+			->save();
+		$html->para('calling func');
+		call_user_func_array($callback, $arguments);
+		$html->para('called func');
+		$schedule
+			->setStatus(Mage_Cron_Model_Schedule::STATUS_SUCCESS)
+			->setFinishedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
+
+	} catch (Exception $e) {
+		$schedule->setStatus($errorStatus)
+			->setMessages($e->__toString());
+	}
+
+	$schedule->save();
+	$html->para('schedule saved');
+}
+
+function mailTest() {
+	global $html;
+
+	$mail = new Zend_Mail('utf-8');
+	$mail->setBodyText('This is a test');
+	$mail->setFrom('astayart@gmail.com', 'andy stayart');
+	$mail->addTo('astayart@gmail.com', 'Andrew Stayart');
+	$mail->setSubject('this is a test subject');
+	$mail->send();
+}
+
+function updateProductImages() {
+	global $html;
+	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
+	$collection = Mage::getModel('catalog/product')->getCollection();
+
+	$collection->addAttributeToSelect(array('style','width','height'));
+	$collection->addAttributeToFilter('type_id', 'simple');
+	$collection->addAttributeToFilter('attribute_set_id','10');
+	//$collection->getSelect()->limit(1);
+
+	$html->para('got item count: ' . $collection->count());
+	$sid = Mage::app()
+		->getWebsite()
+		->getDefaultGroup()
+		->getDefaultStoreId();
+	foreach ($collection as $p) {
+		$style = $p->getResource()->getAttribute('style')->getFrontend()->getValue($p);
+		$width = $p->getResource()->getAttribute('width')->getFrontend()->getValue($p);
+		$height = $p->getResource()->getAttribute('height')->getFrontend()->getValue($p);
+		$smap = array(
+			'Round' => 'RD',
+			'Peak' => 'PK',
+			'Barn' => 'BN'
+		);
+		$pmap = array(
+			'RD' => 'R',
+			'PK' => 'P',
+			'BN' => 'B'
+		);
+		$style = $smap[$style];
+		$importDir = Mage::getBaseDir('media') . DS . 'import';
+		$filepath = sprintf("%s/%s/%s_%sx%s.png", $importDir, $style, $pmap[$style], $width, $height);
+		$html->para(sprintf("going to update sku: %s, filepath: %s", $p->getSku(), $filepath));
+
+		if(file_exists($filepath)){
+			try{
+				$p->addImageToMediaGallery($filepath, 'thumbnail', false );
+				$p->addImageToMediaGallery($filepath, 'image', false);
+				$p->addImageToMediaGallery($filepath, 'small_image', false);
+				$p->setUrlKey(false);
+				$p->save();
+			} catch (Exception $e) {
+				$html->para('fatal exception: ' . $e->getMessage());
+			}
+		}
+
+	}
+	return;
+
+	$html->code($collection->getSelect()->__toString());
+	$html->para('found product count: ' . $collection->count());
+	$items = $collection->getItems();
+	/** @var Mage_Catalog_Model_Product $firstItem */
+	$firstItem = current($items);
+	$attributeSetModel = Mage::getModel("eav/entity_attribute_set");
+	$attributeSetModel->load($firstItem->getAttributeSetId());
+	$attributeSetName  = $attributeSetModel->getAttributeSetName();
+	$html->para('item sku: ' . $firstItem->getSku());
+	$html->para('item type: ' . $attributeSetName);
+
+	foreach($firstItem->getAttributes() as $att) {
+		if($att->getIsConfigurable() == 1)
+			$html->para('found config attribute: ' . $att->getName());
+	}
+
 }
 
 function getConfigurableAttributes($product = null)
@@ -95,8 +365,6 @@ function getConfigurableAttributes($product = null)
 	Varien_Profiler::stop('CONFIGURABLE:'.__METHOD__);
 	return $this->getProduct($product)->getData($this->_configurableAttributes);
 }
-
-
 
 function wfKeyGen() {
 	global $html;
@@ -525,9 +793,11 @@ function trimImportFile() {
 
 	$html->para('should be done');
 }
+
 function is_empty($val) {
 	return empty($val);
 }
+
 class CsvReader {
 	private $fileName;
 	private $handle;
@@ -594,7 +864,6 @@ class CsvReader {
 	}
 }
 
-
 class CsvWriter {
 	private $finalDestinationPath;
 	private $outputFile;
@@ -652,11 +921,13 @@ class HtmlOutputter {
 
 	}
 	public function startHtml() {
-		echo "<html>\n";
+		echo "<!DOCTYPE html>\n<html>\n";
 		return $this;
 	}
-	public function startHead() {
+	public function startHead($title=null) {
 		echo "<head>\n";
+		if($title)
+			echo "<title>$title</title>\n";
 		return $this;
 	}
 	public function endHead() {

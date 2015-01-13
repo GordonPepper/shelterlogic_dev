@@ -13,6 +13,7 @@ class Americaneagle_Totalogistix_Model_Quote_Address extends Mage_Sales_Model_Qu
 		$request = Mage::getModel('shipping/rate_request');
 
 		$request->setIsResidential($this->getIsResidential());
+		$request->setIsLimitedAccess($this->getIsLimitedAccess());
 
 		$request->setAllItems($item ? array($item) : $this->getAllItems());
 		$request->setDestCountryId($this->getCountryId());

@@ -26,25 +26,22 @@
 ?>
 <div class="reveal-modal" data-reveal="" id="cookieModal">
     <div class="STlogo dup align-center hide-for-small-only" id="c_Logo">
-    	<span class="title main">
-            <span class="st-s"></span> 
-            <span class="st-h"></span> 
-            <span class="st-e"></span> 
-            <span class="st-l"></span> 
-            <span class="st-t1"></span> 
-            <span class="st-e"></span> 
-            <span class="st-r"></span> 
-            <span class="st-t yellow"></span> 
-            <span class="st-e yellow"></span> 
-            <span class="st-c yellow"></span> 
-            <span class="st-h no-break yellow"></span>
-        </span>
+    	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
     </div>
-    <p class="lead">Sorry! Cookies must be enabled...</p>
+    <div class="row">
+        <p class="lead">Sorry! Cookies must be enabled...</p>
+    </div>
 </div>
 
 <div class="reveal-modal" data-reveal="" id="landscapeModal">
-    <h2>Your screen is too small!</h2>
-    <p class="lead">You should switch to portrait, then we will let you continue.</p>
+    <div class="row">
+        <h2>Your screen is too small!</h2>
+        <p class="lead">You should switch to portrait, then we will let you continue.</p>
+    </div>
+    <a class="close-reveal-modal">&#215;</a>
 </div>
-<div class="reveal-modal full" data-reveal="" id="ajaxModal"></div>
+<div class="reveal-modal full" id="ajaxModal" data-reveal></div>
+
+<div id="confirmModal" class="reveal-modal full" data-reveal>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('terms-agree-modal')->toHtml(); ?>
+</div>

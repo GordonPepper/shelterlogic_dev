@@ -1,8 +1,7 @@
 # Created by .gitignore support plugin (hsz.mobi)
-var/cache/**/*
+var/cache/*
 var/full_page_cache/*
-var/session/**/*
-var/session/*
+var/session
 var/log/*
 var/locks
 var/report/*
@@ -11,10 +10,21 @@ var/import/*
 var/importexport/*
 var/export/*
 var/tmp/
+var/raveinfosys/*
 mergedconfig.xml
 mtest.php
-media/catalog/product/cache/**/*
+media/catalog/*
+media/tmp/*
+media/catalog/product/cache/*
 media/js/*
 media/css/*.css
 errors/local.xml
 .idea
+.DS_Store
+app/code/local/Americaneagle/Farmbuildings/Block/Checkout/Renderer.php
+downloader
+skin/frontend/farmbuildings/default/HTC/
+includes/*
+media/wysiwyg/*
+var/package/tmp/*
+image_collections/images/*

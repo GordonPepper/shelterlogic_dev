@@ -23,88 +23,19 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+$features = Mage::getModel('cms/page');
+$features->setStoreId(Mage::app()->getStore()->getId());
+$features->load('sp-features','identifier');
+$featureshelper = Mage::helper('cms');
+$featuresprocessor = $featureshelper->getPageTemplateProcessor();
+$featureshtml = $featuresprocessor->filter($features->getContent());
 ?>
 <div class="reveal-modal full" data-reveal="" id="featuresModal">
 	<div class="features">
-	<div id="s_logo" class="STlogo dup align-center hide-for-small-only">
-		<span class="title main">
-			<span class="st-s"></span>
-			<span class="st-h"></span>
-			<span class="st-e"></span>
-			<span class="st-l"></span>
-			<span class="st-t1"></span>
-			<span class="st-e"></span>
-			<span class="st-r"></span>
-			<span class="st-t yellow"></span>
-			<span class="st-e yellow"></span>
-			<span class="st-c yellow"></span>
-			<span class="st-h no-break yellow"></span>
-		</span>
-	</div>
-	<div class="row">
-	  <div class="ssmall-12 medium-10 large-8 small-centered columns">
-	    <h2>SP Series</h2>
-	    <p class="justify contactSmall">Built to order and ready to go - ShelterTech SP Series has the greatest number of size options and roof styles in its class; allowing you to design a unit for your specific application.</p>
-	  </div>
-	</div>
-	<div class="row">
-	  <div class="small-12 medium-10 large-8 small-centered columns features_set">
-	  	<h5 class="yellow">Features</h5>
-  		<div class="row">
-		  	<div class="small-3 columns">
-		  		<img src="<?php echo $this->getSkinUrl('images/src/features/galv-steel.jpg') ?>" alt="Galvinized Steel">
-		  	</div>
-		  	<div class="small-9 columns">
-			    <h3>U.S. Certified Galvanized Steel</h3>
-			    <p class="contactSmall">Triple-coated rust and corrosion-proofing leaves no exposed raw steel and makes frames ultra durable.</p>
-			</div>
+		<div id="s_logo" class="STlogo dup align-center hide-for-small-only">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
 		</div>
-		<div class="row">
-		  	<div class="small-3 columns">
-		  		<img src="<?php echo $this->getSkinUrl('images/src/features/ratchettite.jpg') ?>" alt="Galvinized Steel">
-		  	</div>
-		  	<div class="small-9 columns">
-			    <h3>RATCHET-TITE<sup>&trade;</sup> TENSIONING</h3>
-			    <p class="contactSmall">High strength ratchet and heavy duty steel ratchet hook with webbing ensures a tight and secure cover.</p>
-			</div>
-		</div>
-		<div class="row">
-		  	<div class="small-3 columns">
-		  		<img src="<?php echo $this->getSkinUrl('images/src/features/shelterlock.jpg') ?>" alt="Galvinized Steel">
-		  	</div>
-		  	<div class="small-9 columns">
-			    <h3>Shelterlock<sup>&trade;</sup> stabilzers</h3>
-			    <p class="contactSmall">Patented ShelterLock<sup>&trade;</sup> stablizers add rock-solid strength and stability to the frame.</p>
-			</div>
-		</div>
-		<div class="row">
-		  	<div class="small-3 columns">
-		  		<img src="<?php echo $this->getSkinUrl('images/src/features/uv-fabric.jpg') ?>" alt="Galvinized Steel">
-		  	</div>
-		  	<div class="small-9 columns">
-			    <h3>UV Treated Fabric</h3>
-			    <p class="contactSmall">Commercial grade polyethylene woven fabric is UV treated inside and out. Ultra Duty PVC is also available.</p>
-			</div>
-		</div>
-		<div class="row">
-		  	<div class="small-3 columns">
-		  		<img src="<?php echo $this->getSkinUrl('images/src/features/pivoting-foot.jpg') ?>" alt="Galvinized Steel">
-		  	</div>
-		  	<div class="small-9 columns">
-			    <h3>Universal Foot Plate</h3>
-			    <p class="contactSmall">Our universal foot plate is included with every SP Series building. The innovative design allows for easy installation on any foundation and surface.</p>
-			</div>
-		</div>
-		<div class="row">
-		  	<div class="small-3 columns">
-		  		<img src="<?php echo $this->getSkinUrl('images/src/features/easyhook.jpg') ?>" alt="Galvinized Steel">
-		  	</div>
-		  	<div class="small-9 columns">
-			    <h3>EASY HOOK<sup>&reg;</sup> ANCHORS</h3>
-			    <p class="contactSmall">Easy Hook<sup>&reg;</sup> anchors (2 per rib) are included with every SP Series building and are designed for quick, secure anchoring in any soil condition.</p>
-			</div>
-		</div>
-	</div>
+		<?php echo $featureshtml; ?>
 </div>
 <a class="close-reveal-modal">&#215;</a>
 </div>

@@ -1,11 +1,10 @@
 {
   "name": "foundation-libsass-template",
   "dependencies": {
-    "foundation"		: "zurb/bower-foundation",
+    "jquery"			: "~2.1.1"
     "modernizr" 		: "",
 	"respond"			: "~1.4.2",
 	"selectivizr"		: "",
-	"jquery-base64"		: "https://github.com/carlo/jquery-base64.git",
 	"Font-Awesome"		: "",
 	"pace"				: "",
 	"FitText"			: "https://github.com/davatron5000/FitText.js.git",

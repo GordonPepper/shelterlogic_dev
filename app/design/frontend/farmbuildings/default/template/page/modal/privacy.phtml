@@ -23,59 +23,19 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+$privacy = Mage::getModel('cms/page');
+$privacy->setStoreId(Mage::app()->getStore()->getId());
+$privacy->load('privacy-policy-cookie-restriction-mode','identifier');
+$privacyhelper = Mage::helper('cms');
+$privacyprocessor = $privacyhelper->getPageTemplateProcessor();
+$privacyhtml = $privacyprocessor->filter($privacy->getContent());
 ?>
 <div class="reveal-modal full" data-reveal="" id="privacyModal">
 	<div class="features">
 	<div id="s_logo" class="STlogo dup align-center hide-for-small-only">
-		<span class="title main">
-			<span class="st-s"></span>
-			<span class="st-h"></span>
-			<span class="st-e"></span>
-			<span class="st-l"></span>
-			<span class="st-t1"></span>
-			<span class="st-e"></span>
-			<span class="st-r"></span>
-			<span class="st-t yellow"></span>
-			<span class="st-e yellow"></span>
-			<span class="st-c yellow"></span>
-			<span class="st-h no-break yellow"></span>
-		</span>
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
 	</div>
-	<div class="row">
-	  <div class="small-12 medium-10 large-8 small-centered columns">
-	    <h2>Privacy Policy</h2>
-	  </div>
-	</div>
-	<div class="row terms">
-	  <div class="small-12 medium-10 large-8 small-centered columns">
-	  	<h5 class="yellow">What Information Do We Collect?</h5>
-	  	<p class="justify contactSmall">We collect information from you when you register on our site, place an order, subscribe to our newsletter, respond to a survey or fill out a form. </p>
-
-		<p class="justify contactSmall">When ordering or registering on our site, as appropriate, you may be asked to enter your: name, e-mail address, mailing address, phone number or credit card information. You may, however, visit our site anonymously.</p>
-
-		<p class="justify contactSmall">Google, as a third party vendor, uses cookies to serve ads on your site. Google's use of the DART cookie enables it to serve ads to your users based on their visit to your sites and other sites on the Internet. Users may opt out of the use of the DART cookie by visiting the Google ad and content network privacy policy.</p>
-
-	  	<h5 class="yellow">What Do We Use Your Information For?</h5>
-	  	<p class="justify contactSmall">Any of the information we collect from you may be used in one of the following ways:</p>
-	  	<h6 class="white">To Personalize Your Experiance</h5>
-	  	<p class="justify contactSmall">Your information helps us to better respond to your individual needs.</p>
-
-		<h6 class="white">To improve our website </h5>
-		<p class="justify contactSmall">We continually strive to improve our website offerings based on the information and feedback we receive from you.</p>
-
-		<h6 class="white">To improve customer service </h5>
-		<p class="justify contactSmall">Your information helps us to more effectively respond to your customer service requests and support needs)</p>
-		<h6 class="white">To process transactions</h5>
-		<p class="justify contactSmall">Your information, whether public or private, will not be sold, exchanged, transferred, or given to any other company for any reason whatsoever, without your consent, other than for the express purpose of delivering the purchased product or service requested.</p>
-		<h6 class="white">To administer a contest, promotion, survey or other site feature</h5>
-		<h6 class="white">To send periodic emails</h5>
-		<p class="justify contactSmall">The email address you provide for order processing, will only be used to send you information and updates pertaining to your order.If you decide to opt-in to our mailing list, you will receive emails that may include company news, updates, related product or service information, etc.</p>
-
-		<p class="justify contactSmall">Note: If at any time you would like to unsubscribe from receiving future emails, we include detailed unsubscribe instructions at the bottom of each email.</p>
-		
-	  </div>
-	</div>
-	
+	<?php echo $privacyhtml; ?>
 </div>
 <a class="close-reveal-modal">&#215;</a>
 </div>

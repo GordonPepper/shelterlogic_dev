@@ -1,41 +1,4 @@
 <?php
-//class AeAttribute {
-//	public $id;
-//	public $code;
-//	public $options;
-//	public function __construct($i, $v) {
-//		$this->id = $i;
-//		$this->code = $v;
-//		$this->options = array();
-//	}
-//	public function getOption($id) {
-//		foreach ($this->options as $opt) {
-//			if($opt->id == $id) {
-//				return $opt;
-//			}
-//		}
-//		return false;
-//	}
-//}
-//class AeOption {
-//	public $id;
-//	public $val;
-//	public $pos;
-//	public $children;
-//	public function __construct($i, $v, $p) {
-//		$this->id = $i;
-//		$this->val = $v;
-//		$this->pos = $p;
-//		$this->children = array();
-//	}
-//	public function getChild($id) {
-//		foreach ($this->children as $child){
-//			if ($child->id == $id)
-//				return $child;
-//		}
-//		return false;
-//	}
-//}
 
 class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract {
 
@@ -57,15 +20,6 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$from = $select->from(
 			array('e' => $conn->getTableName('catalog_product_entity')),
 			$fields
-//			array(
-//				'id' => 'e.entity_id',
-//				'style' => 'at_style.value',
-//				'fabric_material' => 'at_fabric_material.value',
-//				'fabric_color' => 'at_fabric_color.value',
-//				'length' => 'at_length.value',
-//				'width' => 'at_width.value',
-//				'height' => 'at_height.value'
-//			)
 		);
 		$from->joinInner(
 			array('link_table' => $conn->getTableName('catalog_product_super_link')),
@@ -91,7 +45,6 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			);
 		}
 		$from->where(implode(' AND ', $where));
-//		Mage::log(sprintf('created select: %s', $select->__toString()));
 		$labelMap = $this->getAttributeLabelMap($attmap);
 		$tree = array();
 		foreach($conn->fetchAll($select) as $row){
@@ -130,7 +83,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $select */
 		$select = $conn->select();
 		/** @var Varien_Db_Select $from */
-		$from = $select->from(
+		$select->from(
 			array('eao' => $conn->getTableName('eav_attribute_option')),
 			array('option_id' => 'eao.option_id',
 				'val' => 'eaov.value',
@@ -148,71 +101,65 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		return $map;
 	}
 
-	public function first_getAttributeTree($configprod){
-		//$product = $this->getProduct();
-		//return "{product name is: {$product->getName()}";
-		/**
-		 * Ok, so the plan here is to pull a attribute "tree" out of the cache
-		 * for this product. we want this as cached data because we are going
-		 * to call this via async javascript to get each level of options.
-		 * After the final selection, we return the product ID that matches
-		 * the select options. we can use the original configurator as a road
-		 * map, but we don't need all the product id's, just the attribute id
-		 * mapping. So we define our tree to have count($allowedAttributes)
-		 * levels, The "key" of each node is the attributes value id, the
-		 * "value" of each node is an AeAttribute as defined at the bottom
-		 * of this file
-		 */
-		$allowedProducts = $configprod->getAllowProducts();
-		/** @var Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $allowedAttributes */
-		$allowedAttributes = $configprod->getAllowAttributes();
-
-		$attsArray = $allowedAttributes->getItems();
-		$tree = new AeOption('0', 'root', 0);
-
-		Varien_Profiler::start('FARMBUILDINGS_BUILD_TREE:'.__METHOD__);
-		foreach ($allowedProducts as $product) {
-			$option = $tree;
-			foreach($attsArray as $att) {
-				$childAtt = $option->getChild($att->getAttributeId());
-				if($childAtt === false){
-					$childAtt = new AeAttribute($att->getAttributeId(), $att->getProductAttribute()->getAttributeCode());
-					$option->children[] = $childAtt;
-				}
-
-				$id = $product->getData($att->getProductAttribute()->getAttributeCode());
-				$childOpt = $childAtt->getOption($id);
-				if($childOpt === false) {
-					$childOpt = new AeOption($id, $configprod->getLabelById($id, $att->getPrices()), $configprod->getPositionById($id, $att->getPrices()));
-					$childAtt->options[] = $childOpt;
-				}
-				$option = &$childOpt;
-			}
-		}
-		Varien_Profiler::stop('FARMBUILDINGS_BUILD_TREE:'.__METHOD__);
-
-		file_put_contents('/tmp/treeout.json', json_encode($tree, JSON_PRETTY_PRINT));
-		file_put_contents('/tmp/treeout.php', serialize($tree));
-		return $tree;
-	}
-
 	public function getTree($pid) {
 		$cache = Mage::app()->getCache();
-		$option = $cache->getOption('automatic_serialization');
 		$key = 'attributeTree' . $pid;
-		$cache->setOption('automatic_serialization', true);
 
 		$tree = $cache->load($key);
 
 		if($tree === false) {
 			$product = Mage::getModel('catalog/product')->load($pid);
-			//Mage::logException("oops, tree does not exist! must build new tree");
 			$tree = $this->getAttributeTree($product);
-
-			$cache->save($tree, $key);
+			$cache->save(serialize($tree), $key);
+			return $tree;
+		} else {
+			return unserialize($tree);
 		}
-		$cache->setOption('automatic_serialization', $option); // must reset the option
-		return $tree;
+	}
+
+	public function getAdditionalData($pid, $spid) {
+		$product = Mage::getModel('catalog/product')->load($pid);
+		$sproduct = Mage::getModel('catalog/product')->load($spid);
+		$additional = array();
+		foreach($this->getSpAttributes($sproduct) as $adds) {
+			$additional[$adds['code']] = $product->getData($adds['code']);
+		}
+		$vals = array(
+			'price' => $product->getPrice(),
+			'sku' => $product->getSku(),
+			'weight' => $product->getWeight(),
+			'attribs' => $additional
+		);
+
+		return $vals;
+	}
+	public function getSpAttributes($product)
+	{
+		$data = array();
+		$attributes = $product->getAttributes();
+		foreach ($attributes as $attribute) {
+//            if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
+			if ($attribute->getIsVisibleOnFront()) {
+				$value = $attribute->getFrontend()->getValue($product);
+
+				if (!$product->hasData($attribute->getAttributeCode())) {
+					$value = Mage::helper('catalog')->__('N/A');
+				} elseif ((string)$value == '') {
+					$value = Mage::helper('catalog')->__('No');
+				} elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
+					$value = Mage::app()->getStore()->convertPrice($value, true);
+				}
+
+				if (is_string($value) && strlen($value)) {
+					$data[$attribute->getAttributeCode()] = array(
+						'label' => $attribute->getStoreLabel(),
+						'value' => $value,
+						'code'  => $attribute->getAttributeCode()
+					);
+				}
+			}
+		}
+		return $data;
 	}
 
 }

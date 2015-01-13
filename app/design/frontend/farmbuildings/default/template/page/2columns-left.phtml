@@ -29,7 +29,6 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-
 <!DOCTYPE html>
 
 <!--[if lt IE 7 ]> <html lang="en" id="top" class="no-js ie6"> <![endif]-->
@@ -43,45 +42,49 @@
     <?php echo $this->getChildHtml('head') ?>
     <?php $baseUrl = $this->getBaseUrl() ; ?>
     <script type="text/javascript"> function getBaseUrl() { return '<?php echo $this->getSkinUrl(''); ?>'; } </script>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-scripts')->toHtml(); ?>
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
-<?php echo $this->getChildHtml('after_body_start') ?>
-<div class="off-canvas-wrap docs-wrap" data-offcanvas="">
-    <div class="inner-wrap">
-        <i class="fa fa-circle-o-notch fa-spin" id="loader"></i>
-        <?php echo $this->getChildHtml('header') ?>
-        <section class="main-section">
-            <div class="wrapper">
-                <?php echo $this->getChildHtml('global_notices') ?>
-                <div class="page">
-                    <div class="main-container col2-left-layout">
-                        <div class="main">
-                            <?php echo $this->getChildHtml('breadcrumbs') ?>
-                            <?php // This left_first block will display above the main content on smaller viewports ?>
-                            <?php if ($_leftContent = $this->getChildHtml('left_first')): ?>
-                            <div class="col-left sidebar col-left-first"><?php echo $_leftContent;   ?></div>
-                            <?php endif; ?>
-                            <div class="col-main">
-                                <?php echo $this->getChildHtml('global_messages') ?>
-                                <?php echo $this->getChildHtml('content') ?>
+<?php echo $this->getChildHtml('updatebrowser_includes') ?>
+    <div class="modern">
+        <?php echo $this->getChildHtml('after_body_start') ?>
+        <div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+            <div class="inner-wrap">
+                <i class="fa fa-circle-o-notch fa-spin" id="loader"></i>
+                <?php echo $this->getChildHtml('header') ?>
+                <section class="main-section">
+                    <div class="wrapper">
+                        <?php echo $this->getChildHtml('global_notices') ?>
+                        <div class="page">
+                            <div class="main-container col2-left-layout">
+                                <div class="main">
+                                    <?php echo $this->getChildHtml('breadcrumbs') ?>
+                                    <?php // This left_first block will display above the main content on smaller viewports ?>
+                                    <?php if ($_leftContent = $this->getChildHtml('left_first')): ?>
+                                    <div class="col-left sidebar col-left-first"><?php echo $_leftContent;   ?></div>
+                                    <?php endif; ?>
+                                    <div class="col-main">
+                                        <?php echo $this->getChildHtml('global_messages') ?>
+                                        <?php echo $this->getChildHtml('content') ?>
+                                    </div>
+                                    <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+                                </div>
                             </div>
-                            <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
+                            <?php echo $this->getChildHtml('footer_before') ?>
+                            <?php echo $this->getChildHtml('footer') ?>
+                            <?php echo $this->getChildHtml('global_cookie_notice') ?>
                         </div>
                     </div>
-                    <?php echo $this->getChildHtml('footer_before') ?>
-                    <?php echo $this->getChildHtml('footer') ?>
-                    <?php echo $this->getChildHtml('global_cookie_notice') ?>
-                </div>
+                </section><!-- close the off-canvas menu -->
+                <a class="exit-off-canvas"></a>
             </div>
-        </section><!-- close the off-canvas menu -->
-        <a class="exit-off-canvas"></a>
+        </div>
+
+        <?php echo $this->getChildHtml('modal_includes') ?>
+        
+        <?php echo $this->getChildHtml('before_body_end') ?>
+
+        <?php echo $this->getAbsoluteFooter() ?>
     </div>
-</div>
-
-<?php echo $this->getChildHtml('modal_includes') ?>
-    
-    <?php echo $this->getChildHtml('before_body_end') ?>
-
-    <?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>

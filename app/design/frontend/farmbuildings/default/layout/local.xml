@@ -3,31 +3,78 @@
     <checkout_cart_index>
         <remove name="checkout.cart.shipping"/>
     </checkout_cart_index>
-
     <catalog_product_view translate="label">
         <reference name="head">
             <action method="addJs">
                 <script>farmbuildings/configurable.js</script>
             </action>
             <action method="removeItem">
-                <type>foojs</type>
+                <type>js</type>
                 <name>varien/configurable.js</name>
             </action>
         </reference>
+    </catalog_product_view>
+    <checkout_cart_index>
         <reference name="content">
-            <reference name="product.info">
-                <block type="webforms/webforms" name="my_block_name" template="webforms/default.phtml">
-                    <action method="setData">
-                        <key>webform_id</key>
-                        <value>3</value>
-                    </action>
-                    <action method="addToParentGroup"><group>detailed_info</group></action>
-                    <action method="setTitle" translate="value"><value>Request A Quote</value></action>
-                </block>
+            <reference name="checkout.cart">
+                <remove name="checkout.cart.coupon"/>
+                <remove name="checkout.cart.giftcardaccount" />
+                <remove name="checkout.options" />
             </reference>
         </reference>
-    </catalog_product_view>
+    </checkout_cart_index>
+    <checkout_onepage_paymentmethod>
+        <remove name="checkout.onepage.payment.methods.additional" />
+    </checkout_onepage_paymentmethod>
     <default>
         <remove name="product.info.configurable.extra"></remove>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>webforms/form.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>webforms/results.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <js>webforms/logic.js</js>
+            </action>
+            <action method="addJs">
+                <js>webforms/multistep.js</js>
+            </action>
+            <action method="addCss">
+                <stylesheet>webforms/stars.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <js>webforms/stars.js</js>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-blue.css</name>
+            </action>
+            <action method="addJs">
+                <js>calendar/calendar.js</js>
+            </action>
+            <action method="addJs">
+                <js>calendar/calendar-setup.js</js>
+            </action>
+            <action method="addJs">
+                <js>prototype/window.js</js>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/alphacube.css</name>
+            </action>
+            <action method="addJs">
+                <js>tiny_mce/tiny_mce.js</js>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+            <block type="core/template" name="tiny_mce.init" template="webforms/scripts/tiny_mce.phtml"/>
+        </reference>
     </default>
 </layout>
