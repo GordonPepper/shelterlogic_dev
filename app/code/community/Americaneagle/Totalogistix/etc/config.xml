@@ -25,6 +25,11 @@
                     <quote_address>Americaneagle_Totalogistix_Model_Quote_Address</quote_address>
                 </rewrite>
             </sales>
+            <directory_resource>
+                <rewrite>
+                    <region_collection>Americaneagle_Totalogistix_Model_Region_Collection</region_collection>
+                </rewrite>
+            </directory_resource>
         </models>
         <resources>
             <americaneagle_totalogistix_setup>

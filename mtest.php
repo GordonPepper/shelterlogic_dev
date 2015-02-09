@@ -11,12 +11,13 @@ ini_set('display_errors', true);
 
 require 'app/Mage.php';
 Mage::setIsDeveloperMode(true);
-Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+//Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /** @var Mage $app */
 $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+	'countryRegion',
 	'totaLogistixSampleCall',
 	'fb_getItemList',
 	'getNextConfig',
@@ -58,6 +59,23 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	showAllowedFunctions($html);
 	$html->endBody()->endHtml();
 	exit;
+}
+
+function countryRegion() {
+	global $html;
+	/** @var Mage_Directory_Helper_Data $dhelper */
+	$dhelper = Mage::helper('directory');
+	$storeId =  Mage::app()->getWebsite()->getDefaultGroup()->getDefaultStoreId();
+	/** @var Mage_Directory_Model_Resource_Country_Collection $coll */
+	$coll = $dhelper->getCountryCollection();
+	$html->para('got coll: its a ' . get_class($coll));
+	$coll->loadByStore($storeId);
+	$html->para('found  country, its a ' . get_class($coll->getFirstItem()));
+
+	/** @var Mage_Directory_Model_Country $country */
+	$country = $coll->getFirstItem();
+	$locale = Mage::app()->getLocale()->getLocaleCode();
+	$html->para('using locale: ' . $locale);
 }
 
 function getCimValuesDecrypt() {
