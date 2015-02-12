@@ -50,8 +50,10 @@ $autoloader->addOverride('model', 'Mage_Core_Model_Cache', 'Extendware_EWCacheBa
 
 // unregister autoloaders (Varien_Autoloader will be added back later by varien code)
 $functions = spl_autoload_functions();
-foreach ($functions as $function) {
-	spl_autoload_unregister($function);
+if (is_array($functions) === true) { // done due hhvm bug
+	foreach ($functions as $function) {
+		spl_autoload_unregister($function);
+	}
 }
 
 // regster our auto loader as the first autoloader
@@ -180,6 +182,12 @@ function __ewDisableModule($module) {
 }
 
 function __ewDependencyCheck() {
+	if (@file_exists(BP . DS . 'app' . DS . 'code' . DS . 'local' . DS . 'Extendware' . DS . 'EWCore' . DS . 'Model' . DS . 'Autoload.php') === false) {
+		if (@class_exists('Extendware_EWCore_Model_Autoload') === false) {
+			die(sprintf('Cannot load file %s/app/code/local/Extendware/EWCore/Model/Autoload.php. Please ensure all files have been uploaded. If all files have been uploaded, then your hosting company is deleting files without your permission. <br/><br/>To resolve please login to your extendware.com account and re-download the software. When you redownload the software ensure that you select the PHP version as <b>PHP 5.3 - 5.6 (ic)</b>. Re-uploading all the files from the "ic" package type should resolve this.', BP));
+		}
+	}
+	
 	if (function_exists('ioncube_license_properties') === false) {
 		$flagFile = DS . 'var' . DS . 'extendware' . DS . 'system' . DS . 'encoded.flag';
 		if (@filesize($flagFile) > 0) {

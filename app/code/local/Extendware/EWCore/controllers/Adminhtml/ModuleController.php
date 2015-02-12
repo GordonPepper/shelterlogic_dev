@@ -159,6 +159,9 @@ class Extendware_EWCore_Adminhtml_ModuleController extends Extendware_EWCore_Con
         Mage::app()->reinitStores();
             
 		$this->_getSession()->addSuccess($this->__('There were %s config items deleted', $count));
+		if ($moduleSummary->getIdentifier() == 'Extendware_EWPageCache') {
+			return $this->_redirect('extendware_ewpagecache/adminhtml_config/autoConfigureCallback');
+		}
 		$configureUrl = $moduleSummary->getModule()->getConfigureUrl();
 		if ($configureUrl) {
 			$this->_redirect($configureUrl);
@@ -192,6 +195,7 @@ class Extendware_EWCore_Adminhtml_ModuleController extends Extendware_EWCore_Con
 			if ($status === true) {
 				$configTools->enableModule($moduleSummary->getIdentifier());
 			} else $configTools->disableModule($moduleSummary->getIdentifier());
+			Mage::app()->cleanCache();
 			$didUpdate = true;
 		} catch (Exception $e) {
 			$errors['update_error'] = 'Could not update module status. Please ensure config files are writeable and look in Extendware -> System -> Logs -> Logs in <u>ewcore.log</u> for more detailed information.';

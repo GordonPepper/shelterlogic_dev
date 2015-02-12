@@ -1,9 +1,1 @@
-function confirmSetLocationWithLoadingMask(message, url){
-    if( confirm(message) ) {
-        setLocation(url);
-	if ($('loading-mask')) {
-		$('loading-mask').show()
-	}
-    }
-    return false;
-}
+function confirmSetLocationWithLoadingMask(a,b){confirm(a)&&(setLocation(b),$("loading-mask")&&$("loading-mask").show());return!1};

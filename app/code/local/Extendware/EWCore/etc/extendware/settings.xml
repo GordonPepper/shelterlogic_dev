@@ -456,7 +456,7 @@
 						                        </enabled>
 						                    </fields>
 						                </violation_disabling>
-						                <preemptive_expiration_disabling translate="label comment ewhelp" module="ewcore">
+						                <!-- <preemptive_expiration_disabling translate="label comment ewhelp" module="ewcore">
 						                    <label>Preemptively Disable Expiring Extensions</label>
 						                    <frontend_type>text</frontend_type>
 						                    <sort_order>400</sort_order>
@@ -493,7 +493,7 @@
 						                            <comment><![CDATA[Number of hours before expiration that extension is preemptively disabled. Please account for how often cronjobs are run.]]></comment>
 						                        </num_hours>
 						                    </fields>
-						                </preemptive_expiration_disabling>
+						                </preemptive_expiration_disabling> -->
 						            </groups>
 						        </ewcore_licensing>
 						        <ewcore_developer translate="label comment ewhelp" module="ewcore">
