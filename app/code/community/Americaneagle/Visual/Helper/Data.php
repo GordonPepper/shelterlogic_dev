@@ -9,7 +9,6 @@
 class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_ENABLED = 'aevisual/general/enabled';
 	const CONFIG_SERVICE_PATH = 'aevisual/general/service_host';
-	const CONFIG_SOAPLOG_ENABLE = 'aevisual/general/soaplog_enable';
 	const CONFIG_SERVICE_KEY = 'aevisual/general/service_key';
 	const CONFIG_EXTERNAL_REF_GROUP = 'aevisual/general/external_ref_group';
 	const CONFIG_CURRENCY_ID = 'aevisual/general/currency_id';
@@ -23,6 +22,14 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_WAREHOUSE_ID = 'aevisual/general/warehouse_id';
 	const CONFIG_FOB = 'aevisual/general/fob';
 
+	const CONFIG_SOAPLOG_ENABLE = 'aevisual/logging/soaplog_enable';
+	const CONFIG_SOAPLOG_TTL = 'aevisual/logging/soaplog_ttl';
+
+	public function getSoaplogTtl() {
+		return Mage::getStoreConfig(self::CONFIG_SOAPLOG_TTL);
+	}
+
+	/* This call should not be in this helper. consider moving */
 	public function getLeadTimeDate($d){
 		$lead = Mage::getStoreConfig('carriers/totalogistix/lead_time');
 		return strtotime("$d + $lead days");

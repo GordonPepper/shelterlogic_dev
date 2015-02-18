@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Visual>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Americaneagle_Visual>
     </modules>
     <global>
@@ -48,19 +48,26 @@
     <crontab>
         <jobs>
             <americaneagle_visual>
-                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
                 <run><model>americaneagle_visual/observer::pushOrders</model></run>
             </americaneagle_visual>
+            <ae_soaplog_clean>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/observer::cleanSoaplog</model></run>
+            </ae_soaplog_clean>
         </jobs>
     </crontab>
     <default>
         <aevisual>
             <general>
-                <soaplog>1</soaplog>
                 <sales_rep_id>HOUSE</sales_rep_id>
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
             </general>
+            <logging>
+                <soaplog>1</soaplog>
+                <soaplog_ttl>0</soaplog_ttl>
+            </logging>
         </aevisual>
     </default>
     <admin>

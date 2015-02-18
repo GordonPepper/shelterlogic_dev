@@ -220,7 +220,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			$this->soapLog($client, 'CustomerService:SearchCustomer', sprintf('Search for %s', $cid));
 			return $res;
 		} catch (Exception $e) {
-			$this->soapLogException($client, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
 		}
 
 		return null;
@@ -235,6 +235,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 		}
 		$log = Mage::getModel('americaneagle_visual/soaplog');
 		$log->setCode($code);
+		//$log->setDatetime('2014-09-01 16:22:22');
 		$log->setMessage($message);
 		$log->setRequestData($client->__getLastRequest());
 		$log->setResponseData($client->__getLastResponse());

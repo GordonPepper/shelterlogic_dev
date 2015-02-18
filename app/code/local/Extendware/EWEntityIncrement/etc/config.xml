@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Extendware_EWEntityIncrement>
-			<version>2.3.2</version>
+			<version>2.3.4</version>
 			<extendware>
 	            <copyright_holder>extendware</copyright_holder>
 	            <configure_url>extendware_ewentityincrement/adminhtml_config/index</configure_url>

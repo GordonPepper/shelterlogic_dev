@@ -10,6 +10,15 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 	/** @var  Americaneagle_Visual_Helper_Visual vhelper */
 	private $vhelper;
 
+	public function cleanSoaplog(Mage_Cron_Model_Schedule $observer) {
+		$ttl = Mage::getStoreConfig('aevisual/logging/soaplog_ttl');
+		$helper = Mage::helper('americaneagle_visual');
+		if($ttl == 0 || $helper->getSoaplogEnable() == 0)
+			return $this;
+
+
+
+	}
 	public function pushOrders(Mage_Cron_Model_Schedule $observer) {
 		$this->vhelper = Mage::helper('americaneagle_visual/visual');
 		/**
@@ -28,6 +37,7 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			Mage::log('AE Visual: No orders to push');
 			return;
 		}
+		Mage::log('AE Visual: There are orders to push');
 
 		$customerId = Mage::getStoreConfig('aevisual/general/customer_id');
 
