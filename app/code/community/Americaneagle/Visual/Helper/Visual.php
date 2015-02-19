@@ -90,7 +90,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			return $res;
 
 		} catch (Exception $e) {
-			$this->soapLogException($client, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
+			throw $e;
 		}
 
 	}
@@ -133,7 +134,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			return $res;
 
 		} catch (Exception $e) {
-			$this->soapLogException($client, 'CustomerService:AddNewAddress', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:AddNewAddress', sprintf('Exception: %s', $e->getMessage()));
+			throw $e;
 		}
 
 	}
@@ -186,7 +188,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			return $res;
 
 		} catch (Exception $e) {
-			$this->soapLogException($client, 'CustomerService:CreateCustomer', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:CreateCustomer', sprintf('Exception: %s', $e->getMessage()));
+			throw $e;
 		}
 	}
 
@@ -221,6 +224,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 			return $res;
 		} catch (Exception $e) {
 			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
+			throw $e;
 		}
 
 		return null;
@@ -235,7 +239,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 		}
 		$log = Mage::getModel('americaneagle_visual/soaplog');
 		$log->setCode($code);
-		//$log->setDatetime('2014-09-01 16:22:22');
+		$log->setDatetime(Varien_Date::now());
 		$log->setMessage($message);
 		$log->setRequestData($client->__getLastRequest());
 		$log->setResponseData($client->__getLastResponse());
@@ -243,6 +247,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 	}
 
 	public function soapLogException($client, $code, $message) {
+
 		if (!isset($this->helper)) {
 			$this->helper = Mage::helper('americaneagle_visual');
 		}
@@ -251,6 +256,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 		}
 		$log = Mage::getModel('americaneagle_visual/soaplog');
 		$log->setCode($code);
+		$log->setDatetime(Varien_Date::now());
 		$log->setMessage($message);
 		if (isset($client)) {
 			$log->setRequestData($client->__getLastRequest());

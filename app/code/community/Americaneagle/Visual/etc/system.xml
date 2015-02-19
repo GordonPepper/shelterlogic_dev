@@ -115,10 +115,10 @@
                             <show_in_store>1</show_in_store>
                         </soaplog_enable>
                         <soaplog_ttl translate="label">
-                            <label>Record lifespan</label>
+                            <label>Save Log, Days</label>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
-                            <comment>Number of days to maintain log history (0=forever)</comment>
+                            <comment>Number of days to keep logs (0=forever)</comment>
                         </soaplog_ttl>
                     </fields>
                 </logging>

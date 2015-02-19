@@ -7,7 +7,9 @@
  */
 
 header("Content-Type: text/html");
-ini_set('display_errors', true);
+//ini_set('display_errors', true);
+error_reporting(E_ALL | E_STRICT);
+
 
 require 'app/Mage.php';
 Mage::setIsDeveloperMode(true);
@@ -17,6 +19,7 @@ $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+	'quickTest',
 	'extendwareDecrypt',
 	'countryRegion',
 	'totaLogistixSampleCall',
@@ -60,6 +63,24 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	showAllowedFunctions($html);
 	$html->endBody()->endHtml();
 	exit;
+}
+
+
+function 	quickTest() {
+	global $html;
+	$html->para('generic stub, put whatever you like here.');
+
+	$helper = Mage::helper('americaneagle_visual');
+	$options = array();
+	$options['trace'] = 1;
+	$options['soap_version'] = SOAP_1_2;
+	try {
+		$client = new SoapClient($helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
+
+	} catch (Exception $e) {
+		$html->para('got exception');
+	}
+
 }
 
 function extendwareDecrypt(){

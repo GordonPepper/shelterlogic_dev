@@ -13,10 +13,13 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 	public function cleanSoaplog(Mage_Cron_Model_Schedule $observer) {
 		$ttl = Mage::getStoreConfig('aevisual/logging/soaplog_ttl');
 		$helper = Mage::helper('americaneagle_visual');
-		if($ttl == 0 || $helper->getSoaplogEnable() == 0)
+
+		if($helper->getSoaplogEnable() == 0)
 			return $this;
 
-
+		/** @var Americaneagle_Visual_Model_Soaplog $sl */
+		$sl = Mage::getModel('americaneagle_visual/soaplog');//->cleanSoaplog($ttl);
+		$sl->getResource()->cleanSoaplog($ttl);
 
 	}
 	public function pushOrders(Mage_Cron_Model_Schedule $observer) {
@@ -42,6 +45,8 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		$customerId = Mage::getStoreConfig('aevisual/general/customer_id');
 
 		$resp = $this->vhelper->getVisualCustomerById($customerId);
+		if(empty($resp))
+			return; // helper logs exception
 		$vCustomer = null;
 
 		if(isset($resp->SearchCustomerResult->Customers->Customer) && $resp->SearchCustomerResult->Customers->Customer->CustomerID == $customerId) {
@@ -49,7 +54,7 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		} else {
 			$resp = $this->vhelper->createVisualCustomerId($customerId);
 			if(!isset($resp->CreateCustomerResult->Customers->Customer) && $vCustomer->CreateCustomerResult->Customers->Customer->CustomerID != $customerId) {
-				Mage::logException("Unable to created customer $customerId in VISUAL");
+				Mage::logException(new Exception("Unable to create customer $customerId in VISUAL"));
 			}
 			$vCustomer = $resp->CreateCustomerResult->Customers->Customer;
 		}
