@@ -1867,5 +1867,5 @@ var WindowUtilities = {
     objBody.removeChild(tmpObj);
     return size;
   }  
-}
+};
 
