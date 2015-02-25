@@ -125,6 +125,7 @@
                             <label>Failure Notification Email</label>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
+                            <comment>Separate multiple addresses with a comma</comment>
                         </pushfail_email>
                     </fields>
                 </logging>

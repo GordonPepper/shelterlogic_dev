@@ -97,15 +97,15 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		}
 		if($max == 10 || $max == 75 || ($max % 200) == 0){
 			$email = Mage::getStoreConfig('aevisual/logging/pushfail_email');
+			$f_name = Mage::getStoreConfig('trans_email/ident_general/name');
+			$f_email = Mage::getStoreConfig('trans_email/ident_general/email');
 			if($email) {
-				Mage::log("email is valid: $email, max:  $max");
-				$res = mail(
+				mail(
 					$email,
 					'Order push to VISUAL failure notice',
-					"NOTICE: The following orders have failed to push to VISUAL:\r\n" . implode("\r\n", $fails),
-					"From: $email"
+					"NOTICE: The following orders have failed to push to VISUAL:\r\n" . implode("\r\n", $fails) . "\r\n\r\nPlease review the VISUAL Soap log for more information.",
+					"From: $f_name <$f_email>"
 				);
-				Mage::log("php mail returned: $res" );
 			}
 		}
 	}
