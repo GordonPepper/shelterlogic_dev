@@ -18,6 +18,14 @@ $installer->addAttribute('order', 'ae_sent_to_visual', array(
     'default'   => '0',
 ));
 
+$installer->addAttribute('order', 'ae_visual_push_attempt', array(
+	'type' => 'int',
+	'input' => 'text',
+	'label' => 'Push Attempts',
+	'global' => 1,
+	'unsigned' => true,
+	'default' => '0'
+));
 /* Sample Code
 $installer->addAttribute('customer_address', 'is_residential', array(
 	'type' => 'static',

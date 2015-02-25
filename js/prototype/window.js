@@ -1589,7 +1589,7 @@ var Dialog = {
     if (win.cancelCallback)
       win.cancelCallback(win);
   }
-}
+};
 /*
   Based on Lightbox JS: Fullsize Image Overlays 
   by Lokesh Dhakar - http://www.huddletogether.com

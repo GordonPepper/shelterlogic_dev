@@ -119,7 +119,13 @@
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <comment>Number of days to keep logs (0=forever)</comment>
+                            <depends><soaplog_enable>1</soaplog_enable></depends>
                         </soaplog_ttl>
+                        <pushfail_email translate="label">
+                            <label>Failure Notification Email</label>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </pushfail_email>
                     </fields>
                 </logging>
             </groups>

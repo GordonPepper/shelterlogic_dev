@@ -91,7 +91,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 
 		} catch (Exception $e) {
 			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
-			throw $e;
+			//throw $e;
+			return false;
 		}
 
 	}
@@ -135,7 +136,8 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 
 		} catch (Exception $e) {
 			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:AddNewAddress', sprintf('Exception: %s', $e->getMessage()));
-			throw $e;
+			//throw $e;
+			return false;
 		}
 
 	}
