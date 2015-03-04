@@ -1,0 +1,21 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: magentouser
+ * Date: 3/3/15
+ * Time: 3:07 PM
+ */
+?>
+
+<div id="order_visual_block">
+<h2>Well, Made it here...</h2>
+<p>I am a <?php echo get_class($this); ?></p>
+	<p>My order number is <?php echo $this->getOrder()->getIncrementId(); ?></p>
+	<p>My VISUAL push status is <?php echo $this->getOrder()->getAeSentToVisual() ? 'sent' : 'not sent'; ?></p>
+	<?php if ($this->getOrder()->getAeSentToVisual()): ?>
+	<p>Order sent to VISUAL after <?php echo $this->getOrder()->getAeVisualPushAttempt() ?> tries</p>
+	<?php else: ?>
+	<p>Order transmission has failed <?php echo $this->getOrder()->getAeVisualPushAttempt() ?> times</p>
+	<?php endif; ?>
+	<?php echo $this->getChildHtml('submit_button') ?>
+</div>

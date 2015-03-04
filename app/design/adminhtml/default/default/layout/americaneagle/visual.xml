@@ -12,5 +12,17 @@
                    template="americaneagle/soaplogview.phtml"/>
         </reference>
     </adminhtml_soaplog_view>
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>order_visual</name>
+                <block>americaneagle_visual/adminhtml_sales_order_view_tab_visual</block>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+    <adminhtml_sales_order_editvisual>
+        <block type="americaneagle_visual/adminhtml_sales_order_view_visual" name="visual_status" template="americaneagle/vstatus.phtml" output="toHtml"/>
+    </adminhtml_sales_order_editvisual>
+
 </layout>
 
