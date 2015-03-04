@@ -12,14 +12,28 @@ class Americaneagle_Visual_Block_Adminhtml_Sales_Order_View_Tab_Visual
 
 	protected function _prepareLayout()
 	{
-		$onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
-		$button = $this->getLayout()->createBlock('adminhtml/widget_button')
-			->setData(array(
-				'label'   => Mage::helper('sales')->__('Submit Comment'),
-				'class'   => 'save',
-				'onclick' => $onclick
-			));
-		$this->setChild('submit_button', $button);
+//		$onclick = "submitAndReloadArea($('order_visual_block').parentNode, '".$this->getSubmitUrl()."')";
+//		$button = $this->getLayout()->createBlock('adminhtml/widget_button')
+//			->setData(array(
+//				'label'   => Mage::helper('sales')->__('Submit Comment'),
+//				'class'   => 'save',
+//				'onclick' => $onclick
+//			));
+//		$this->setChild('submit_button', $button);
+
+		$clearButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+			'label' => Mage::helper('sales')->__('Clear Sent Flag'),
+			'class' => 'save',
+			'onclick' => "submitAndReloadArea($('order_visual_block').parentNode, '".$this->getSubmitUrl(0)."')"
+		));
+		$this->setChild('submit_clear_button', $clearButton);
+
+		$setButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+			'label' => Mage::helper('sales')->__('Set Sent Flag'),
+			'class' => 'save',
+			'onclick' => "submitAndReloadArea($('order_visual_block').parentNode, '".$this->getSubmitUrl(1)."')"
+		));
+		$this->setChild('submit_set_button', $setButton);
 		return parent::_prepareLayout();
 	}
 
@@ -73,9 +87,12 @@ class Americaneagle_Visual_Block_Adminhtml_Sales_Order_View_Tab_Visual
 		parent::_construct();
 		$this->setTemplate('americaneagle/vstatus.phtml');
 	}
-	public function getSubmitUrl()
+	public function getSubmitUrl($flag)
 	{
-		return $this->getUrl('*/sales_visual/setStatus', array('order_id'=>$this->getOrder()->getId()));
+		return $this->getUrl('*/sales_visual/setStatus', array(
+			'order_id'=>$this->getOrder()->getId(),
+			'flag' => $flag)
+		);
 	}
 
 }

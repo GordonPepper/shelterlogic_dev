@@ -5,17 +5,24 @@
  * Date: 3/3/15
  * Time: 3:07 PM
  */
+$incrementId = $this->getOrder()->getIncrementId();
+$status = $this->getOrder()->getAeSentToVisual();
+$attempts = $this->getOrder()->getAeVisualPushAttempt();
 ?>
 
 <div id="order_visual_block">
-<h2>Well, Made it here...</h2>
-<p>I am a <?php echo get_class($this); ?></p>
-	<p>My order number is <?php echo $this->getOrder()->getIncrementId(); ?></p>
-	<p>My VISUAL push status is <?php echo $this->getOrder()->getAeSentToVisual() ? 'sent' : 'not sent'; ?></p>
-	<?php if ($this->getOrder()->getAeSentToVisual()): ?>
-	<p>Order sent to VISUAL after <?php echo $this->getOrder()->getAeVisualPushAttempt() ?> tries</p>
+	<h2>Order ID <?php echo $incrementId ?> has push status: <strong><?php echo $status == '1' ? 'SENT' : 'NOT SENT'; ?></strong></h2>
+
+	<?php if($status == '1'): ?>
+	<p>You may change the status to not sent, and the system will attempt to
+	push the order to the VISUAL system, However if the order has already been
+	accepted, the VISUAL system will report an exception.</p>
+	<p><?php echo $this->getChildHtml('submit_clear_button') ?></p>
 	<?php else: ?>
-	<p>Order transmission has failed <?php echo $this->getOrder()->getAeVisualPushAttempt() ?> times</p>
+	<p>You may mark this order as already sent to prevent the system from making further
+	attempts to push this order. You may need to do this if the order was transferred
+	manually.</p>
+	<p><?php echo $this->getChildHtml('submit_set_button') ?></p>
 	<?php endif; ?>
-	<?php echo $this->getChildHtml('submit_button') ?>
+
 </div>
