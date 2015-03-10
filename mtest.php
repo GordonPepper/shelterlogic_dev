@@ -19,6 +19,7 @@ $app = Mage::app();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+	'decryptACIMConfig',
 	'quickTest',
 	'extendwareDecrypt',
 	'countryRegion',
@@ -65,6 +66,13 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function decryptACIMConfig(){
+	global $html;
+	$apikey = (string) Mage::getStoreConfig('payment/acimpro/api_key');
+	$transkey = (string) Mage::getStoreConfig('payment/acimpro/transaction_key');
+	$html->para(sprintf('got  api key: %s', $apikey));
+	$html->para(sprintf('got  trans key: %s', $transkey));
+}
 
 function 	quickTest() {
 	global $html;
