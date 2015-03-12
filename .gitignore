@@ -29,3 +29,4 @@ media/wysiwyg/*
 var/package/tmp/*
 image_collections/images/*
 var/extendware/*
+app/code/local/Extendware/*

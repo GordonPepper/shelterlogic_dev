@@ -95,7 +95,7 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			if($count > 1)
 				$fails[] = $order->getIncrementId();
 		}
-		if($max == 10 || $max == 75 || ($max % 200) == 0){
+		if($max == 10 || $max == 75 || ($max > 0 && ($max % 200) == 0)){
 			$email = Mage::getStoreConfig('aevisual/logging/pushfail_email');
 			$f_name = Mage::getStoreConfig('trans_email/ident_general/name');
 			$f_email = Mage::getStoreConfig('trans_email/ident_general/email');
