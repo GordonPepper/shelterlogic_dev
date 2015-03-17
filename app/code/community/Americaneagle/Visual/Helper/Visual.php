@@ -65,7 +65,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 							'CustomerID' => $this->helper->getCustomerId(),
 							'DesiredShipDate' => date('c', $this->helper->getLeadTimeDate($order->getCreatedAt())),
 							'ShipToId' => $sid,
-							'Status' => 'F',
+							'Status' => 'R',
 							'ShipVIA' => 'LTL',
 							'CarrierID' => $this->helper->stripCarrierCode($order->getShippingMethod()),
 							'ContactFirstName' => $billingAddress->getFirstname(),
@@ -76,6 +76,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 							'CurrencyID' => $this->helper->getCurrencyId(),
 							'CustomerPurchaseOrderID' => $order->getPayment()->getCcTransId(),
 							'FOB' => $this->helper->getFob(),
+							'TerritoryID' => $this->helper->getTerritoryId(),
 							'Lines' => array(
 								'CustomerOrderLine' => $lines
 							)
