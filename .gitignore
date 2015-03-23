@@ -11,6 +11,8 @@ var/importexport/*
 var/export/*
 var/tmp/
 var/raveinfosys/*
+var/extendware/*
+var/connect/*
 mergedconfig.xml
 mtest.php
 media/catalog/*

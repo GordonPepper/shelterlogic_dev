@@ -60,9 +60,17 @@
     <default>
         <aevisual>
             <general>
+                <enabled>0</enabled>
+                <service_host>https://slvisual.shelterlogicdirect.com/derp/</service_host>
+                <external_ref_group>FB</external_ref_group>
+                <currency_id>USD</currency_id>
+                <terms_id>CREDIT CARD</terms_id>
+                <entity_id>100</entity_id>
+                <site_id>100</site_id>
                 <sales_rep_id>HOUSE</sales_rep_id>
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
+                <fob>WATERTOWN</fob>
             </general>
             <logging>
                 <soaplog>1</soaplog>

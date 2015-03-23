@@ -26,6 +26,13 @@ $installer->addAttribute('order', 'ae_visual_push_attempt', array(
 	'unsigned' => true,
 	'default' => '0'
 ));
+
+$collection = Mage::getModel('sales/order')->getCollection();
+foreach($collection as $order) {
+	$order->setAeSentToVisual(1);
+	$order->save();
+}
+
 /* Sample Code
 $installer->addAttribute('customer_address', 'is_residential', array(
 	'type' => 'static',
