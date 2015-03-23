@@ -70,11 +70,11 @@
                             <sort_order>190</sort_order>
                             <show_in_default>1</show_in_default>
                         </site_id>
-                        <part_id translate="label">
-                            <label>Part ID</label>
-                            <sort_order>200</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </part_id>
+                        <!--<part_id translate="label">-->
+                            <!--<label>Part ID</label>-->
+                            <!--<sort_order>200</sort_order>-->
+                            <!--<show_in_default>1</show_in_default>-->
+                        <!--</part_id>-->
                         <sales_rep_id translate="label">
                             <label>Sales Rep ID</label>
                             <sort_order>210</sort_order>

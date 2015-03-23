@@ -23,6 +23,9 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 
 	}
 	public function pushOrders(Mage_Cron_Model_Schedule $observer) {
+		if(Mage::helper('americaneagle_visual')->getEnabled() == 0) {
+			return $this;
+		}
 		$this->vhelper = Mage::helper('americaneagle_visual/visual');
 		/**
 		 * so the pattern is

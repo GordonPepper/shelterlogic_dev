@@ -48,11 +48,11 @@
     <crontab>
         <jobs>
             <americaneagle_visual>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
                 <run><model>americaneagle_visual/observer::pushOrders</model></run>
             </americaneagle_visual>
             <ae_soaplog_clean>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
                 <run><model>americaneagle_visual/observer::cleanSoaplog</model></run>
             </ae_soaplog_clean>
         </jobs>
@@ -60,9 +60,17 @@
     <default>
         <aevisual>
             <general>
+                <enabled>0</enabled>
+                <service_host>https://slvisual.shelterlogicdirect.com/derp/</service_host>
+                <external_ref_group>FB</external_ref_group>
+                <currency_id>USD</currency_id>
+                <terms_id>CREDIT CARD</terms_id>
+                <entity_id>100</entity_id>
+                <site_id>100</site_id>
                 <sales_rep_id>HOUSE</sales_rep_id>
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
+                <fob>WATERTOWN</fob>
             </general>
             <logging>
                 <soaplog>1</soaplog>
