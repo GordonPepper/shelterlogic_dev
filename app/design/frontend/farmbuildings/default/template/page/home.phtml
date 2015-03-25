@@ -46,11 +46,34 @@
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 <?php echo $this->getChildHtml('updatebrowser_includes') ?>
-    <div>
+    <div class="modern">
         <?php echo $this->getChildHtml('after_body_start') ?>
-        <?php echo $this->getChildHtml('global_messages') ?>
-        <?php echo $this->getChildHtml('content') ?>
+        <div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+            <div class="inner-wrap">
+                <i class="fa fa-circle-o-notch fa-spin" id="loader"></i>
+                <?php echo $this->getChildHtml('header') ?>
+                <section class="main-section">
+                    <div class="wrapper">
+                        <?php echo $this->getChildHtml('global_notices') ?>
+                        <div class="page">
+                            
+                                        <?php echo $this->getChildHtml('global_messages') ?>
+                                        <?php echo $this->getChildHtml('content') ?>
+                                    
+                            <?php echo $this->getChildHtml('footer_before') ?>
+                            <?php echo $this->getChildHtml('footer') ?>
+                            <?php echo $this->getChildHtml('global_cookie_notice') ?>
+                        </div>
+                    </div>
+                </section><!-- close the off-canvas menu -->
+                <a class="exit-off-canvas"></a>
+            </div>
+        </div>
+
+        <?php echo $this->getChildHtml('modal_includes') ?>
+        
         <?php echo $this->getChildHtml('before_body_end') ?>
+
         <?php echo $this->getAbsoluteFooter() ?>
     </div>
 </body>

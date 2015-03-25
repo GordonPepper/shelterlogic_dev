@@ -72,5 +72,7 @@
 <script>
     var ORDERID = "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>";
     var CONVERSIONVALUE =  <?php echo $total; ?>;
-    //console.log(ORDERID + " - " + CONVERSIONVALUE);
 </script>
+<!-- .end order confirmation inclusion -->
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('conversion-pixels')->toHtml(); ?>
+<!-- .end order confirmation inclusion -->

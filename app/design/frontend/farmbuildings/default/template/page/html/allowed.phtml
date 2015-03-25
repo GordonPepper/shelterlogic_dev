@@ -21,10 +21,21 @@
  * @category    design
  * @package     rwd_default
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition 
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
 
-<script src="<?php echo $this->getSkinUrl('js/app.min.js'); ?>"></script>
+<script>
+    <?php
+        $countryList = Mage::getModel('directory/country')->getResourceCollection()->loadByStore()->toOptionArray(true);
+        echo "var allowed_countries = ".json_encode($countryList).";";
+        
+        foreach ($countryList as $key => $value) {
+            if($value['value'] != "") {
+                $regionCollection = Mage::getModel('directory/region_api')->items($value['value']);
+                echo "var allowed_reg_".$value['value']."=".json_encode($regionCollection).";";
+            }
+        }
+    ?>
 
-<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-scripts')->toHtml(); ?>
+</script>

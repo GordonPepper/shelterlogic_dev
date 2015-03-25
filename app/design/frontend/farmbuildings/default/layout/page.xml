@@ -86,6 +86,14 @@
                 <block type="core/text" name="head.viewport">
                     <action method="setText"><text><![CDATA[<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes">]]>&#10;</text></action>
                 </block>
+                <!-- set geoIP script api -->
+                <block type="core/text" name="maxmind">
+                    <action method="setText"><text><![CDATA[<script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js"></script>]]></text></action>
+                </block>
+                <block type="core/text_list" name="header_includes" as="header_includes" translate="label">
+                    <label>Header Includes</label>
+                    <block type="core/template" name="allowed_counties" as ="allowed_counties" template="page/html/allowed.phtml" />
+                </block>
             </block>
 
             <block type="core/text_list" name="after_body_start" as="after_body_start" translate="label">
