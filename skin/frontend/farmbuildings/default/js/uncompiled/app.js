@@ -1734,7 +1734,7 @@
 		    		var form_set = false;
 		    		function confirmExit() {
 		    				$('#sendModal').foundation('reveal','open');
-					        return "You did not save, do you want to do it now?";
+					        return checkoutAlert;
 
 					}
 					var cart = $('#cart-sidebar li'), cart_items = cart.length;
