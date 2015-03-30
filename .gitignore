@@ -30,5 +30,6 @@ includes/*
 media/wysiwyg/*
 var/package/tmp/*
 image_collections/images/*
-var/extendware/*
 app/code/local/Extendware/*
+skin/frontend/farmbuildings/default/bower_components/
+skin/frontend/farmbuildings/default/node_modules/
