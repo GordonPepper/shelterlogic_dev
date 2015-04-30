@@ -45,3 +45,33 @@
 <div id="confirmModal" class="reveal-modal full" data-reveal>
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('terms-agree-modal')->toHtml(); ?>
 </div>
+<div class="reveal-modal full" data-reveal="" id="sendModal">
+        <div class="logo dup align-center hide-for-small-only" id="s_logo"></div>
+        <div class="row">
+            <div class="small-12 medium-10 large-8 small-centered columns">
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('navigate-away-modal')->toHtml(); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12 medium-10 large-8 small-centered columns">
+                <div class="small-12 meduim-7 large-7 columns">
+                    <div class="border-right webforms">
+                    <?php echo $this->getLayout()->createBlock('webforms/webforms', 'quote_webform_block', array(
+                        'webform_id' => 4,
+                        'template' => 'webforms/default.phtml',
+                    ))->toHtml(); ?>
+                    </div>
+                </div>
+
+                <div class="small-12 meduim-5 large-5 columns" id="infoTable">
+                    
+                    <div class="small-2 columns">OR</div>
+                    <div class="small-10 columns">
+                        <span>Speak with a live representative</span><br>
+                        <i class="fa fa-mobile"></i> <span class="phone"><?php echo Mage::getStoreConfig('general/store_information/phone'); ?></span>
+                    </div>
+                </div>
+            </div>
+        </div><a class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

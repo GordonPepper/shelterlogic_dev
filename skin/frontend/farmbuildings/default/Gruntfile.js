@@ -30,10 +30,12 @@ module.exports = function(grunt) {
         options: {
           sourceMap: false,
           sourceMapIncludeSources: false,
-          sourceMapName: 'js/app.sourceMap.map'
+          sourceMapName: 'js/app.sourceMap.map',
+          beautify: true,
+          mangle: false,
         },
         files: {
-          // COMPONENTS
+          // top from page.xml
           'js/components.min.js': [
             // 'bower_components/modernizr/modernizr.js',
             'bower_components/jquery-placeholder/jquery.placeholder.js',
@@ -48,19 +50,21 @@ module.exports = function(grunt) {
             'bower_components/source-web-files/js/custom/make.square.js',
             'bower_components/source-web-files/js/custom/make.windowHeight.js',
             // 'bower_components/source-web-files/js/custom/smart.resize.js',
-            'bower_components/underscore/underscore.js'
+            'bower_components/underscore/underscore.js',
+            'bower_components/angular/angular.js',
+            'bower_components/isMobile/isMobile.js',
+            //'bower_components/lz-string/libs/lz-string.js',
+            'bower_components/angular-foundation/dist/mm-foundation-tpls-0.5.1.js'
           ],
           'js/jquery.min.js': [
             'bower_components/jquery/dist/jquery.js'
           ],
           // MAIN SCRIPTS...
           'js/app.min.js': [
-            //'js/plugins/*.js',
-            'js/uncompiled/doors.load.object.js',
+            'js/plugins/*.js',
             'js/uncompiled/app.js',
           ],
           'js/pace.min.js': [
-            //'js/uncompiled/pace.config.js',
             'bower_components/pace/pace.js',
             // error pace is not defined, comment out below
           ],

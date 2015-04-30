@@ -7,18 +7,29 @@
  */
 
 header("Content-Type: text/html");
-//ini_set('display_errors', true);
-error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', true);
+//error_reporting(E_ALL | E_STRICT);
 
 
 require 'app/Mage.php';
-Mage::setIsDeveloperMode(true);
+//Mage::setIsDeveloperMode(true);
 //Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /** @var Mage $app */
 $app = Mage::app();
+class databaseTester extends Mage_Core_Model_Resource {
+	public function __construct(){
+	}
+	public function getDesignConnection($config) {
+		return $this->_newConnection('pdo_mysql', $config);
+	}
+}
+
+$factory = new databaseTester();
+
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+	'configCompare',
 	'decryptACIMConfig',
 	'quickTest',
 	'extendwareDecrypt',
@@ -45,6 +56,7 @@ $allowedFunctions = array(
 );
 
 $html = new HtmlOutputter();
+
 $html->startHtml()->startHead("M-TEST")->startBody();
 $html->para('<a href="/mtest.php">home</a>');
 
@@ -73,6 +85,135 @@ function decryptACIMConfig(){
 	$html->para(sprintf('got  api key: %s', $apikey));
 	$html->para(sprintf('got  trans key: %s', $transkey));
 }
+
+
+function configCompare() {
+	global $html, $factory;
+
+	$dbDesign = $factory->getDesignConnection(array(
+		'host' => 'cl-mgnto-4vap02',
+		'username' => 'farm-ent',
+		'password' => 'DB2#JBk%',
+		'dbname' => 'farmbuildings',
+		'initStatements' => 'SET NAMES utf8',
+		'model' => 'mysql4'
+	));
+
+	$sth = $dbDesign->query("select CONCAT(scope_id, '_', path) AS jpath, value
+from core_config_data
+where path not like 'ewcore_licensing%' and path not like 'advanced/modules_disable_output%'
+order by path, scope_id");
+	$sth->execute();
+	$drows = $sth->fetchAll();
+
+	$dbUpdate = $factory->getDesignConnection(array(
+		'host' => 'cl-mgnto-4vap02',
+		'username' => 'farmb-iis-121',
+		'password' => 'hj#4f1uywe',
+		'dbname' => 'farmbuildings_updates',
+		'initStatements' => 'SET NAMES utf8',
+		'model' => 'mysql4'
+	));
+
+	$sth = $dbUpdate->query("select CONCAT(scope_id, '_', path) AS jpath, value
+from core_config_data
+where path not like 'ewcore_licensing%' and path not like 'advanced/modules_disable_output%'
+order by path, scope");
+	$sth->execute();
+	$urows = $sth->fetchAll();
+
+	/* merge alg yet again... design on the left, updates on the right */
+	$left = 0;
+	$right = 0;
+	$cfg = array();
+	while ($left < count($drows) && $right < count($urows)) {
+		$cmp = strcmp($drows[$left]['jpath'], $urows[$right]['jpath']);
+		if($drows[$left]['jpath'] == 'web/default/cms_home_page' || $urows[$right]['jpath'] == 'web/default/cms_no_cookies'){
+			$debug = 1;
+		}
+
+		if($cmp < 0){
+			// so this means on design not updates
+//			$dfg[$drows[$left]['path']]['design'] = $drows[$left]['value'];
+//			$dfg[$drows[$left]['path']]['updates'] = '__NOT_SET__';
+			$cfg[] = array(
+				'path' => $drows[$left]['jpath'],
+				'dpath' => $drows[$left]['jpath'],
+				'upath' => $urows[$right]['jpath'],
+				'dvalue' => $drows[$left]['value'],
+				'uvalue' => $urows[$right]['value']
+				);
+			//$html->para(sprintf('config item %s on design, not updates. value: "%s"', $drows[$left]['path'], substr($drows[$left]['value'], 0, 45)));
+			$left++;
+		} elseif ($cmp > 0){
+//			$dfg[$urows[$right]['path']]['design'] = '__NOT_SET__';
+//			$dfg[$urows[$right]['path']]['updates'] = $urows[$right]['value'];
+			$cfg[] = array(
+				'path' => $urows[$right]['jpath'],
+				'dpath' => $drows[$left]['jpath'],
+				'upath' => $urows[$right]['jpath'],
+				'dvalue' => $drows[$left]['value'],
+				'uvalue' => $urows[$right]['value']
+			);
+
+			//$html->para(sprintf('config item %s on updates, not design. value:" %s"', $urows[$right]['path'], substr($urows[$right]['value'], 0, 45)));
+			$right++;
+		} else {
+			// same, so compare values
+			$vcmp = strcmp($drows[$left]['value'], $urows[$right]['value']);
+			if($vcmp != 0){
+//				$dfg[$drows[$left]['path']]['design'] = $drows[$left]['value'];
+//				$dfg[$urows[$right]['path']]['updates'] = $urows[$right]['value'];
+				$cfg[] = array(
+					'path' => $urows[$right]['jpath'],
+					'dpath' => $drows[$left]['jpath'],
+					'upath' => $urows[$right]['jpath'],
+					'dvalue' => $drows[$left]['value'],
+					'uvalue' => $urows[$right]['value']
+				);
+			}
+			$left++;
+			$right++;
+		}
+	}
+
+	//finally we close out the remaining side:
+	while($left < count($drows)) {
+		// only drows remain
+//		$dfg[$drows[$left]['path']]['design'] = $drows[$left]['value'];
+//		$dfg[$drows[$left]['path']]['updates'] = '__NOT_SET__';
+		$cfg[] = array(
+			'path' => $drows[$left]['jpath'],
+			'dpath' => $drows[$left]['jpath'],
+			'upath' => $urows[$right]['jpath'],
+			'dvalue' => $drows[$left]['value'],
+			'uvalue' => $urows[$right]['value']
+		);
+		$left++;
+	}
+	while($right < count($urows)) {
+		// only urows remain
+//		$dfg[$urows[$right]['path']]['design'] = '__NOT_SET__';
+//		$dfg[$urows[$right]['path']]['updates'] = $urows[$right]['value'];
+		$cfg[] = array(
+			'path' => $urows[$right]['jpath'],
+			'dpath' => $drows[$left]['jpath'],
+			'upath' => $urows[$right]['jpath'],
+			'dvalue' => $drows[$left]['value'],
+			'uvalue' => $urows[$right]['value']
+		);
+		$right++;
+	}
+
+	// now for a table of diffs:
+	$html->startTable(array('path', 'dpath', 'upath', 'dvalue', 'uvalue'));
+	foreach($cfg as $vals) {
+		$html->tableRow($vals);
+	}
+	$html->endTable();
+
+}
+
 
 function 	quickTest() {
 	global $html;
@@ -545,10 +686,10 @@ function totaLogistixSampleCall() {
 	$html->pre(htmlentities($items));
 
 	$client->setUri("https://www.mytlx.com/services/TLXShelterLogicLTLRates.aspx");
-	$client->setParameterGet('szip', '60618');
+	$client->setParameterGet('szip', '06795');
 	$client->setParameterGet('czip', '01535');
-	$client->setParameterGet('date', '10/10/2014');
-	$client->setParameterGet('service', '');
+	$client->setParameterGet('date', '05/03/2015');
+	$client->setParameterGet('service', 'LFT,NFY');
 	$client->setParameterGet('AccessID', 'BE8DB0A8-90C5-4DAD-8476-008941B7382F');
 	$client->setParameterGet('items', $items);
 
@@ -583,8 +724,8 @@ function totaLogistixSampleCall() {
 
 function tl_getItemList(){
 	$items = array(
-		array('class' => '55', 'weight' => '640'),
-		array('class' => '50', 'weight' => '140')
+		array('class' => '70', 'weight' => '640'),
+		array('class' => '70', 'weight' => '140')
 	);
 	$xml = "<Items>";
 	foreach($items as $item) {
@@ -1044,5 +1185,23 @@ class HtmlOutputter {
 	public function listItem($content) {
 		echo '<li>' . $content . "</li>\n";
 		return $this;
+	}
+	public function startTable($header) {
+		echo '<table border="1">', "\n";
+		echo '<tr>', "\n";
+		foreach ($header as $h) {
+			echo '<th>', $h, '</th>';
+		}
+		echo '</tr>', "\n";
+	}
+	public function endTable() {
+		echo '</table>', "\n";
+	}
+	public function tableRow($data){
+		echo '<tr>', "\n";
+		foreach($data as $d) {
+			echo '<td>', htmlentities(substr($d, 0, 50)), '</td>', "\n";
+		}
+		echo '</tr>', "\n";
 	}
 }

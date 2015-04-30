@@ -41,37 +41,19 @@
                         </div>
 
                         <?php echo $this->getChildHtml('currency_switcher') ?>
-                       <!--  <a href="#header-nav" class="skip-link skip-nav">
-                            <span class="icon"></span>
-                            <span class="label"><?php // echo $this->__('Menu'); ?></span>
-                        </a> -->
-
-                        <!-- <a href="#header-search" class="skip-link skip-search">
-                            <span class="icon"></span>
-                            <span class="label"><?php // echo $this->__('Search'); ?></span>
-                        </a> -->
-
-                        <a href="#header-account" class="skip-link skip-account">
-                            <span class="icon"></span>
-                            <span class="label"><?php echo $this->__('Account'); ?></span>
-                        </a>
-
-                        <!-- Cart -->
-
-                        <div class="header-minicart">
-                            <?php echo $this->getChildHtml('minicart_head'); ?>
-                        </div>
-
-                        <!-- Search -->
-
-                        <!-- <div id="header-search" class="skip-content">
-                            <?php // echo $this->getChildHtml('topSearch') ?>
-                        </div> -->
-
+                        
+                        <a data-reveal-id="contactModal" href="#contact" class="help">Help</a>
+                        <a class="fa fa-shopping-cart" id="mycart" href="#"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a>
                         <!-- Account -->
-
+                        <!-- <a href="#header-account" class="skip-link skip-account fa fa-user"></a> -->
+                        
+                        
                         <div id="header-account" class="skip-content">
                             <?php echo $this->getChildHtml('topLinks') ?>
+                        </div>
+                        <!-- Cart -->
+                        <div class="header-minicart">
+                            <?php echo $this->getChildHtml('minicart_head'); ?>
                         </div>
                     </div>
 
@@ -83,19 +65,15 @@
 
                     
             </div>
+            
     </section>
-    
-    <section class="right-icons">
-        <a class="fa fa-shopping-cart" href="<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>"><span><?php echo Mage::helper('checkout/cart')->getItemsCount(); ?></span></a>
-        <a data-reveal-id="contactModal" href="#contact" class="help">Help</a>
-    </section>
-</nav><!-- Off Canvas Menu -->
 
+</nav><!-- Off Canvas Menu -->
 <aside class="left-off-canvas-menu">
     <!-- whatever you want goes here -->
     <?php echo $this->getChildHtml('topMenu') ?>
     <ul class="off-canvas-list">
-        <li><a href="/">Build Your Shelter</a></li>
+        <li><a href="/sp-shelter/sp-series-shelter.html">Build Your Shelter</a></li>
 
         <li><a data-reveal-id="featuresModal" href="#features">Features</a></li>
 

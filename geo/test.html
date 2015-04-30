@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>My Site</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="//favicon.ico" type="image/x-icon" sizes="16x16">
+        <!--[if lt IE 9]>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+        <![endif]-->
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="http://underscorejs.org/underscore.js"></script>
+    </head>
+    <body>
+        <div id"test"></div>
+        <script>
+            $.ajax({
+                type: "POST",
+                url:'/',
+                data:{
+                    key: "98836:k4FKoWiSreou"
+                },
+                dataType:'json',
+                complete: function(data){
+                    if(data){
+                        console.log(data);
+                        results = jQuery.parseJSON(data.responseText);
+                        console.log(results.success);
+                        
+                        
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

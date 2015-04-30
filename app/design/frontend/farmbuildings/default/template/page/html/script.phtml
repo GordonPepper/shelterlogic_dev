@@ -24,11 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition 
  */
 ?>
-<?php if($_SERVER['SERVER_NAME'] == 'mag.farmbuildings.com' || $_SERVER['SERVER_NAME'] == 'farmbuildings-design.idevdesign.net') {
-	$jsFile = $this->getSkinUrl('js/uncompiled/app.js');
-} else {
-	$jsFile = $this->getSkinUrl('js/app.min.js');
-} ?>
-<script src="<?php echo $jsFile; ?>"></script>
+
+<script src="<?php echo $this->getSkinUrl('js/app.min.js'); ?>"></script>
 
 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer-scripts')->toHtml(); ?>
