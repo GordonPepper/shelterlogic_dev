@@ -1731,11 +1731,14 @@
 		    },
 		    checkout_onepage_index: {
 		    	init: function () {
+
 		    		var form_set = false;
+		    		function form_is_set(i) {
+		    			var form_set = i;
+		    		}
 		    		function confirmExit() {
 		    				$('#sendModal').foundation('reveal','open');
 					        return checkoutAlert;
-
 					}
 					var cart = $('#cart-sidebar li'), cart_items = cart.length;
 					cart.each(function(){
@@ -1780,7 +1783,8 @@
 						}
 					}, 100);
 						
-						
+					 $('.validate-phoneStrict').inputmask("mask", {"mask": "(999) 999-9999"});
+
 					if(is_IE10Below) {
 						$("#checkoutSteps").bind("DOMSubtreeModified", formOnChanged);
 					} else {
@@ -1800,17 +1804,15 @@
 						});
 					}
 						
+					window.onbeforeunload = confirmExit;
+
 					$('body').delegate('#confirmOrder','click',function(e) {
 						e.preventDefault();
 						e.stopPropagation();
 						$('[data-reveal]').foundation('reveal','close');
-						var form_set = true;
-		    			review.save();	
+		    			window.onbeforeunload = true;
+		    			return review.save();
 					});
-
-					if ( !form_set ) {
-						window.onbeforeunload = confirmExit;
-					}
 					
 		    	}
 		    }

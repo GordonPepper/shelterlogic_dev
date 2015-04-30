@@ -61,12 +61,10 @@ module.exports = function(grunt) {
           ],
           // MAIN SCRIPTS...
           'js/app.min.js': [
-            //'js/plugins/*.js',
-            //'js/uncompiled/doors.load.object.js',
+            'js/plugins/*.js',
             'js/uncompiled/app.js',
           ],
           'js/pace.min.js': [
-            //'js/uncompiled/pace.config.js',
             'bower_components/pace/pace.js',
             // error pace is not defined, comment out below
           ],
