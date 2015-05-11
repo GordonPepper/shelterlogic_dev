@@ -2634,6 +2634,9 @@ body {
 	}            	              
 	.bg-yellow {
 		background-color:$shelter-yellow;
+		&#calltoaction {
+			.button:hover { background-color: $shelter-blue;}
+		}
 	}
 	.bg-drk-grey {
 		background-color:$shelter-grey;
