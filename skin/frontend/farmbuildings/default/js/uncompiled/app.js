@@ -245,7 +245,7 @@
 	var is_firefox = browser.indexOf('firefox') > -1;
 	var is_safari = browser.indexOf("safari") > -1;
 	var is_Opera = browser.indexOf("presto") > -1;
-	var device_type = (isMobile.any ? "mobile" : "desktop");
+	var device_type = (isMobile.any() ? "mobile" : "desktop");
 	setTimeout(function() {
 		$('body').addClass( device_type + ' op_10 ' + browser.split(' ')[0] );
 	},500);
@@ -1174,8 +1174,8 @@
 			    		// local function to fire form with selected value
 			    		
 			    		// if our ui is a select field
-			    		if (is_select && is_explorer && !is_safari && !isMobile.any) {
-			    			//console.log('is_select && is_explorer && !is_safari && !isMobile.any');
+			    		if (is_select && is_explorer && !is_safari && !isMobile.any()) {
+			    			//console.log('is_select && is_explorer && !is_safari && !isMobile.any()');
 			    			if (simple) {
 			    				//console.log('is simple');
 			    				_go(select.val());
@@ -1189,13 +1189,13 @@
 				    				return _NS.loading(true);
 				    			}); 
 				    		}
-			    		} else if (is_select && is_safari && !isMobile.any) {
-			    			//console.log('is_select && is_safari && !isMobile.any');
+			    		} else if (is_select && is_safari && !isMobile.any()) {
+			    			//console.log('is_select && is_safari && !isMobile.any()');
 			    			_go(select.val());	
 			    			return _NS.loading(true);
 
-			    		} else if (is_select && !is_safari && !isMobile.any) {
-			    			//console.log('is_select && !is_safari && !isMobile.any');
+			    		} else if (is_select && !is_safari && !isMobile.any()) {
+			    			//console.log('is_select && !is_safari && !isMobile.any()');
 			    			if (simple) {
 			    				//console.log('simple');
 			    				_go(select.val());
@@ -1210,8 +1210,8 @@
 				    			}); 
 			    			}
 			    			
-			    		} else if (is_select && isMobile.any) {
-			    			//console.log('is_select && isMobile.any');
+			    		} else if (is_select && isMobile.any()) {
+			    			//console.log('is_select && isMobile.any()');
 			    			select.on('blur', function(e){ 
 			    				// call go with value
 			    				_go($(this).val()); 
@@ -1393,9 +1393,9 @@
 								break;
 						}
 						
-						if (isMobile.any && $(window).height() < 459 && landscape) {
+						if (isMobile.any() && $(window).height() < 459 && landscape) {
 							_landscapeMod.foundation('reveal', 'open');
-						} else if (isMobile.any && $(window).height() > 459 && !landscape && fired) {
+						} else if (isMobile.any() && $(window).height() > 459 && !landscape && fired) {
 							//farmBuilding.init.refresh();
 						}
 					}
@@ -1426,7 +1426,7 @@
 			    	});
 			    	_NS.uiEvent.checkOrientation(f);
 			    	// added initializers
-		            if (isMobile.any || $(window).width() <= 1025) {
+		            if (isMobile.any() || $(window).width() <= 1025) {
 		            	$('.accordion-navigation .content').stop().removeClass('active');
 		            	$('dl.accordion').stop().data('options', 'multi_expand:false;toggleable: true');
 		            } else {
@@ -1435,7 +1435,7 @@
 		            	}
 		            	$('dl.accordion').stop().data('options', 'multi_expand:true;toggleable: true');
 		            }
-		            if (isMobile.any) {
+		            if (isMobile.any()) {
 		            	var cartCompresor = 2.4;
 		            } else {
 		            	var cartCompresor = 1.1;
@@ -1588,12 +1588,17 @@
 		    		// geo reference functions
 		    		var geo = _NS.geo.reference();
 		    		$(window).scroll(function(e){
-					  var _sp = $(window).scrollTop();
-					  if(_sp > 300) {
-					  	_.debounce($("#calltoaction").stop().slideDown(), 500);
-					  } else {
-					  	_.debounce($("#calltoaction").stop().slideUp(), 500);
-					  }
+		    			if (_bod.hasClass('checkout-onepage-index') || _bod.hasClass('checkout-cart-index')) {
+		    				return false;
+		    			} else {
+							var _sp = $(window).scrollTop();
+							if(_sp > 300) {
+								_.debounce($("#calltoaction").stop().slideDown(), 500);
+							} else {
+								_.debounce($("#calltoaction").stop().slideUp(), 500);
+							}
+							return true;
+						}
 					});
 		    		if (_local.isConfigurable()) {
 						/*
@@ -1679,8 +1684,8 @@
 		            	var modal = $(this);
 		            	modal.find('iframe').attr('src','').attr('data-src','');
 		            });
-		            //console.log(isMobile.any);
-		    		if (hash && !isMobile.any || hash && $(window).width() < 1000){
+		            //console.log(isMobile.any());
+		    		if (hash && !isMobile.any() || hash && $(window).width() < 1000){
 				    	if (hash.indexOf("simpleform") >= 0) {
 				    		_showForm.trigger('click');
 				    		

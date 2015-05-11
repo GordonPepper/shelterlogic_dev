@@ -54,7 +54,8 @@ module.exports = function(grunt) {
             'bower_components/angular/angular.js',
             'bower_components/isMobile/isMobile.js',
             //'bower_components/lz-string/libs/lz-string.js',
-            'bower_components/angular-foundation/dist/mm-foundation-tpls-0.5.1.js'
+            'bower_components/angular-foundation/dist/mm-foundation-tpls-0.6.0.js',
+            'bower_components/angular-foundation/dist/mm-foundation-0.6.0.js'
           ],
           'js/jquery.min.js': [
             'bower_components/jquery/dist/jquery.js'
