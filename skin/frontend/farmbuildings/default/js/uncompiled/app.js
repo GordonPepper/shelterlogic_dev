@@ -305,7 +305,7 @@
 	var s7_guy1 = 'xx-xx-000xxx00_charact1';
 	var s7_guy2 = 'xx-xx-000xxx00_charact2';
 	var s7_guy3 = 'xx-xx-000xxx00_charact3';
-	var s7_guy = (hash.indexOf('charact1') >= 0 ? 'xx-xx-000xxx00_charact1' : 'xx-xx-000xxx00_charact3');
+	var s7_guy = (hash.indexOf('charact1') >= 0 ? 'xx-xx-000xxx00_charact1' : 'xx-xx-000xxx00_charact3-1');
 	
 
 	
@@ -669,12 +669,12 @@
 		    	if(_lastSelection == "FabricMaterial")
 		    		return true;
 
-		        var _i = _b.find('img');
+		        var _i = _b.find('img#render');
 		        var style 	= _local.translateSku('style', _selectArray['Style']);
 				var width 	= _formObj.width[_selectArray['Width']];
 				var height 	= (_formObj.height[_selectArray['Height']] < 10 ? '0'+_formObj.height[_selectArray['Height']] : _formObj.height[_selectArray['Height']]);
 	    		var length 	= _formObj.length[_selectArray['Length']];
-	    		var color 	= (s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] !== undefined ? s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] : "$gray$");
+	    		var color 	= (s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] !== undefined ? s7_colors[_formObj.fabriccolor[_selectArray['FabricColor']]] : "$white$");
 
 	    		if(!style || style === undefined) {
 	    			style = "a";
@@ -701,7 +701,7 @@
 	    			
 	    		} 
 	    		if(!color || color === undefined) {
-	    			color = s7_colors[_formObj.fabriccolor['Gray']];
+	    			color = s7_colors[_formObj.fabriccolor['White']];
 	    		}
 	    		var imgRound = Math.round((Math.floor($(window).width()*1.5))/500)*500;
 	    		var imgWidth = (imgRound < 2000 ? (imgRound > 500 ? imgRound  : 500) : 1999);
@@ -746,7 +746,7 @@
 			    image_vs = ('pe-'+style+'b-0'+width+'xxx'+height+'_cover'+length).toLowerCase();
 			    logo_vs = ('pe-'+style+'b-0'+width+'xxx'+height+'_logo-frm').toLowerCase();
 			    image_white = ('pe-'+style+'b-0'+width+'xxx'+height+'_white').toLowerCase();
-			    
+
 			    $.ajax({
 					type: "POST",
 				    url:'/image_collections/images.php',
@@ -770,6 +770,7 @@
 							nImg.onload = function() {
 							    // image exists and is loaded
 							    _i.attr('src',results.url);
+							    _NS.loading(false);
 							    return _local.center();
 
 							    
@@ -777,15 +778,16 @@
 							nImg.onerror = function() {
 							    // image did not load
 							    if(_formObj.style[_selectArray['Style']] === 'Peak Frame')
-							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$white$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 							    else if(_formObj.style[_selectArray['Style']] === 'Barn Frame')
-							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-cb-012xxx09_cover020&$white$&posN=-0.18,0&layer=2&src=pe-cb-012xxx09_white&posN=-0.18,0&layer=3&src=pe-cb-012xxx09_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 							    else if(_formObj.style[_selectArray['Style']] === 'Round Frame')
-							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-bb-012xxx08_cover020&$white$&posN=-0.18,0&layer=2&src=pe-bb-012xxx08_white&posN=-0.18,0&layer=3&src=pe-bb-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 							    else
-							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$gray$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
+							    	image_url = 'http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?layer=1&src=pe-ab-012xxx08_cover020&$white$&posN=-0.18,0&layer=2&src=pe-ab-012xxx08_white&posN=-0.18,0&layer=3&src=pe-ab-012xxx08_logo-frm&$gray$&posN=-0.18,0&layer=4&src=xx-xx-000xxx00_charact3&posN=-0.18,0&fmt=png-alpha&wid=1999&hei=1999';
 
 							    _i.attr('src',image_url);
+							    _NS.loading(false);
 							    var message = 'Failed to load image: '+image_url;
 							    //scriptError.report(message, true);
 							    return _local.center();
@@ -795,7 +797,8 @@
 				        }
 				    }
 				});
-				return (_selectArray['Style'].indexOf('hoose') >= 0 ? "" : $('#img_'+_selectArray['Style']).trigger('click'));
+				var shift = (_selectArray['Style'].indexOf('hoose') >= 0 ? "" : $('#img_'+_selectArray['Style']).trigger('click'));
+				return true;
 		    },
 		    reset_selectArray: function (_dt_) {
 				switch(_dt_) {
@@ -856,7 +859,19 @@
 		    		
 					_product_attr_spec.each(function() {
 						var _id = $(this).data('attribute-id');
-						$('#'+_id+' .attribute').text($(this).text());
+						var _text = $(this).text();
+						if(_id == 'vendor_url') {
+							if(_text.toLowerCase() == 'no')
+								$('#'+_id).stop().slideUp();
+							else
+								$('#'+_id).stop().slideDown();
+
+							$('#'+_id).attr('href',_text);
+						} else {
+							$('#'+_id+' .attribute').text(_text);
+						}
+
+						
 					});
 
 		    		return ImageExist();
@@ -1481,7 +1496,7 @@
 		    loading: function(start) {
 		    	var _unLoad = function(start) {
 		    		_bod.removeClass('loading');
-		    		_b.find('img').removeClass('op_0');
+		    		_b.find('img#render').removeClass('op_0');
 	        		$('.elements .timer').removeClass('show');
 	        		$('.elements').removeClass('op_5');
 	        		$('#loader').removeClass('loading');
@@ -1489,13 +1504,14 @@
 	        	}
 	    		if(start) {
 		    		_bod.addClass('loading');
-		    		_b.find('img').addClass('op_0');
+		    		_b.find('img#render').addClass('op_0');
 	        		$('.elements .timer').addClass('show');
 	        		$('.elements').addClass('op_5');
 	        		$('#loader').addClass('loading');
 		    	} else {
-		    		if(loadingTimer) clearTimeout(loadingTimer);
-		    		loadingTimer = setTimeout( _unLoad, 1000);
+		    		// if(loadingTimer) clearTimeout(loadingTimer);
+		    		// loadingTimer = setTimeout( _unLoad, 1000);
+		    		_unLoad();
 		    	}
 		    	return true;
 			},
@@ -1544,7 +1560,7 @@
 				         
 				    });
 				    
-		            _NS.imageUrl();
+		            
 		            _NS.uiLoad.getFormAndSetUI();
 		            
 		            
@@ -1554,7 +1570,7 @@
 
 		            _NS.infoVisible();
 		            _NS.uiLoad.setPrice();
-		            return _NS.loading(false);
+		            return _NS.imageUrl();
 		        	
 		        },
 		        loader: function() {

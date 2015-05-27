@@ -78,6 +78,7 @@ if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
 
 umask(0);
 
+//var_dump($_SERVER['MAGE_RUN_CODE']);
 /* Store or website code */
 $mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
 
