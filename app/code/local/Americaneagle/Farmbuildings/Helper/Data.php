@@ -29,6 +29,14 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$where[] = 'link_table.parent_id = ' . $product->getId();
 		$where[] = "((e.required_options != '1') OR (e.required_options IS NULL))";
 
+		$from->joinInner(
+			array('at_status' => $conn->getTableName('catalog_product_entity_int')),
+			"at_status.entity_id = e.entity_id AND at_status.attribute_id = '96' AND at_status.store_id = 0",
+			array());
+		/** @var Mage_Catalog_Model_Product_Status $mStatus */
+		$mStatus = Mage::getSingleton('catalog/product_status');
+		$where[] = 'at_status.value = ' . $mStatus::STATUS_ENABLED;
+
 		$attmap = array();
 		foreach($atts as $att) {
 			$alias = 'at_' . $att->getProductAttribute()->getAttributeCode();
