@@ -666,8 +666,10 @@
 		    	}
 		    },
 		    imageUrl: function () {
-		    	if(_lastSelection == "FabricMaterial")
+		    	if(_lastSelection == "FabricMaterial") {
+		    		_NS.loading(false);
 		    		return true;
+		    	}
 
 		        var _i = _b.find('img#render');
 		        var style 	= _local.translateSku('style', _selectArray['Style']);
@@ -1500,6 +1502,7 @@
 	        		$('.elements .timer').removeClass('show');
 	        		$('.elements').removeClass('op_5');
 	        		$('#loader').removeClass('loading');
+	        		console.log('in unload');
 	        		delete farmBuilding;
 	        	}
 	    		if(start) {
@@ -1508,6 +1511,7 @@
 	        		$('.elements .timer').addClass('show');
 	        		$('.elements').addClass('op_5');
 	        		$('#loader').addClass('loading');
+	        		console.log('in start')
 		    	} else {
 		    		// if(loadingTimer) clearTimeout(loadingTimer);
 		    		// loadingTimer = setTimeout( _unLoad, 1000);
