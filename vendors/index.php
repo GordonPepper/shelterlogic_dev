@@ -42,6 +42,9 @@ error_reporting(E_ALL | E_STRICT);
 /**
  * Compilation includes configuration file
  */
+
+define('WEBSITE_DIR', basename(__DIR__));
+chdir('../');
 define('MAGENTO_ROOT', getcwd());
 
 $compilerConfig = MAGENTO_ROOT . '/includes/config.php';
@@ -80,9 +83,9 @@ umask(0);
 
 //var_dump($_SERVER['MAGE_RUN_CODE']);
 /* Store or website code */
-$mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
+$mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : 'vendors';
 
 /* Run store or run website */
-$mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store';
+$mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'website';
 
 Mage::run($mageRunCode, $mageRunType);

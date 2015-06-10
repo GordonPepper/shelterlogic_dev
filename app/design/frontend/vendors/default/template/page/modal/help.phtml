@@ -24,25 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div id="notifier">
-	<div data-alert class="alert-box hide" id="geo_notify">
-	  <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('geo-alert')->toHtml(); ?>
-	  <a href="#" class="close">&times;</a>
-	</div>
-	<div data-alert class="alert-box bg-yellow" id="calltoaction" style="display:none;">
-	  <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('call-to-action')->toHtml(); ?>
-	  <a href="#" class="close">&times;</a>
-	</div>
-</div>
-<div id="footer">
-	<div class="defaultfooter">
-		<?php echo $this->getChildHtml() ?>
-	</div>
-	<span class="termsPrivacy hide-for-medium-down">
-        <a data-reveal-id="termsModal" href="#terms">Terms &amp; Conditions</a>
-        <a data-reveal-id="privacyModal" href="#privacy">Privacy Policy</a>
-    </span>
-    <img alt="ShelterLogic" src="<?php echo $this->getSkinUrl('images/src/logo-wht-sml.png'); ?>"> 
-    <span class="copyright hide-for-medium-down"><?php echo $this->getCopyright() ?></span> 
-    
+<div class="reveal-modal full" data-reveal="" id="helpModal">
+	<h2>Help. I have it.</h2>
+	<p class="lead">Your couch.  It is mine.</p>
+	<p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
+	<a class="close-reveal-modal">&#215;</a>
 </div>

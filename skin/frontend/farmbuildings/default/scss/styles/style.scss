@@ -1338,7 +1338,7 @@ body {
 			&.loading {
 				//display: none;
 			}
-			img {
+			img#render {
 				@include simple-transition(all,500ms);
 				height:auto;
 				position:absolute;
@@ -1352,6 +1352,14 @@ body {
 					top:50%;left:50%;
 				}
 			}
+			img.vehicle {
+				width: 42%;
+				height: auto;
+				position: absolute;
+				bottom: -24%;
+				left: -7%;
+				z-index: 0;
+			}
 			
 		}
 	}
@@ -1362,12 +1370,12 @@ body {
 			overflow: hidden;
 			width:100%;
 			@include simple-transition(all,1000ms);
-			&.loading {
+			&.loading, .op_0 {
 				//display: none;
 				@include simple-transition(all,1000ms);
 				@include new_opacity(.0);
 			}
-			img {
+			img#render {
 				@include simple-transition(all,1000ms);
 				height:auto;
 				position:absolute;
@@ -1385,7 +1393,7 @@ body {
 	}
 	@for $i from 0 through 20 {
 		&.Length_#{$i} {
-			#building img {
+			#building img#render {
 				max-width:125%;
 				width: 113%;					
 			}
@@ -1393,7 +1401,7 @@ body {
 	}
 	@for $i from 21 through 39 {
 		&.Length_#{$i} {
-			#building img {
+			#building img#render {
 				max-width:125%;
 				width: 113%;					
 			}
@@ -1401,7 +1409,7 @@ body {
 	}
 	@for $i from 40 through 59 {
 		&.Length_#{$i} {
-			#building img {
+			#building img#render {
 				max-width:115%;
 				width: 103%;					
 			}
@@ -1409,7 +1417,7 @@ body {
 	}
 	@for $i from 60 through 79 {
 		&.Length_#{$i} {
-			#building img {
+			#building img#render {
 				max-width:105%;
 				width: 93%;
 			}
@@ -1417,7 +1425,7 @@ body {
 	}
 	@for $i from 80 through 100 {
 		&.Length_#{$i} {
-			#building img {
+			#building img#render {
 				max-width:95%;
 				width: 83%;
 			}
@@ -1426,7 +1434,7 @@ body {
 	@media #{$large-up} {
 		@for $i from 0 through 20 {
 			&.Length_#{$i} {
-				#building img {
+				#building img#render {
 					max-width:100%;
 					width: 100%;					
 				}
@@ -1434,7 +1442,7 @@ body {
 		}
 		@for $i from 21 through 39 {
 			&.Length_#{$i} {
-				#building img {
+				#building img#render {
 					max-width:90%;
 					width: 90%;					
 				}
@@ -1442,7 +1450,7 @@ body {
 		}
 		@for $i from 40 through 59 {
 			&.Length_#{$i} {
-				#building img {
+				#building img#render {
 					max-width:80%;
 					width: 80%;					
 				}
@@ -1450,7 +1458,7 @@ body {
 		}
 		@for $i from 60 through 79 {
 			&.Length_#{$i} {
-				#building img {
+				#building img#render {
 					max-width:70%;
 					width: 70%;
 				}
@@ -1458,7 +1466,7 @@ body {
 		}
 		@for $i from 80 through 100 {
 			&.Length_#{$i} {
-				#building img {
+				#building img#render {
 					max-width:60%;
 					width: 60%;
 				}
@@ -2634,6 +2642,9 @@ body {
 	}            	              
 	.bg-yellow {
 		background-color:$shelter-yellow;
+		&#calltoaction {
+			.button:hover { background-color: $shelter-blue;}
+		}
 	}
 	.bg-drk-grey {
 		background-color:$shelter-grey;

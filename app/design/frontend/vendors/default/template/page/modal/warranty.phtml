@@ -23,26 +23,20 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+$warranty = Mage::getModel('cms/page');
+$warranty->setStoreId(Mage::app()->getStore()->getId());
+$warranty->load('sp-warranty','identifier');
+$warrantyhelper = Mage::helper('cms');
+$warrantyprocessor = $warrantyhelper->getPageTemplateProcessor();
+$warrantyhtml = $warrantyprocessor->filter($warranty->getContent());
 ?>
-<div id="notifier">
-	<div data-alert class="alert-box hide" id="geo_notify">
-	  <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('geo-alert')->toHtml(); ?>
-	  <a href="#" class="close">&times;</a>
+<div class="reveal-modal full" data-reveal="" id="warrantyModal">
+	<div class="warranty">
+	<div id="s_logo" class="STlogo dup align-center hide-for-small-only">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('website-logo')->toHtml(); ?>
 	</div>
-	<div data-alert class="alert-box bg-yellow" id="calltoaction" style="display:none;">
-	  <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('call-to-action')->toHtml(); ?>
-	  <a href="#" class="close">&times;</a>
-	</div>
+	<?php echo $warrantyhtml; ?>
 </div>
-<div id="footer">
-	<div class="defaultfooter">
-		<?php echo $this->getChildHtml() ?>
-	</div>
-	<span class="termsPrivacy hide-for-medium-down">
-        <a data-reveal-id="termsModal" href="#terms">Terms &amp; Conditions</a>
-        <a data-reveal-id="privacyModal" href="#privacy">Privacy Policy</a>
-    </span>
-    <img alt="ShelterLogic" src="<?php echo $this->getSkinUrl('images/src/logo-wht-sml.png'); ?>"> 
-    <span class="copyright hide-for-medium-down"><?php echo $this->getCopyright() ?></span> 
-    
+<a class="close-reveal-modal">&#215;</a>
+
 </div>

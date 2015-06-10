@@ -33,3 +33,11 @@ image_collections/images/*
 app/code/local/Extendware/*
 skin/frontend/farmbuildings/default/bower_components/
 skin/frontend/farmbuildings/default/node_modules/
+app/code/local/Varien/Autoload.php
+app/design/adminhtml/default/default/template/extendware/**
+app/etc/modules/Extendware_EWEntityIncrement.xml
+app/locale/en_US/extendware/**
+js/extendware/**
+lib/extendware/**
+shell/extendware/**
+skin/frontend/base/default/extendware/**

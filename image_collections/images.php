@@ -117,8 +117,17 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
 	        
 	        if(file_exists($this->local)) {
 	        	// echo "true";
-	        	$this->data->url = $this->imagesURI.$this->data->save_as;
-	        	$this->_return($this->data);
+	        	$localdate = new DateTime(date ("F d Y H:i:s.", filemtime($this->local)));
+				$currentdate = new DateTime(date ("F d Y H:i:s."));
+				$interval = $localdate->diff($currentdate);
+				if(intval($interval->format('%a')) > 30) {
+					unlink($this->local);
+					$this->_get();
+				} else {
+					$this->data->url = $this->imagesURI.$this->data->save_as;
+	        		$this->_return($this->data);
+				}
+	        	
 	        } else {
 	        	$this->_get();
 	        }

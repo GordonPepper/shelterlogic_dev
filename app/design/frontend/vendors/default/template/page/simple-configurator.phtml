@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * Magento Enterprise Edition
  *
@@ -46,7 +46,7 @@
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header-scripts')->toHtml(); ?>
 
 </head>
-<body class="page-configurator <?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
+<body class="page-configurator <?php echo $this->getBodyClass()?$this->getBodyClass():''; echo ' code-'.Mage::app()->getStore()->getCode().' website-'.WEBSITE_DIR; ?>">
     <?php echo $this->getChildHtml('updatebrowser_includes') ?>
     <div class="modern">
         <?php echo $this->getChildHtml('after_body_start') ?>
@@ -62,7 +62,6 @@
                             <div class="large-12 columns winH">
                                 <div class="winHW" id="building">
                                     <img id="render" alt="" class="centerCenter" src="http://s7d2.scene7.com/is/image/ShelterLogic/blank_logo?fmt=png-alpha">
-                                    <!-- <img id="ford" alt="" class="vehicle" src="<?php echo $this->getSkinUrl('images/src/f150.png'); ?>"> -->
                                 </div>
                                 <!-- add elements div here -->
                                 
@@ -85,25 +84,25 @@
                                         <div class="mobileColumn">
                                             <span id="productTitle">SP&nbsp;SERIES</span> <span id="shortDesc">GALVANIZED&nbsp;BUILDINGS</span>
                                         </div>
-                                        <div class="mobileColumn">
+                                        <div class="mobileColumn hide">
                                             <span class="calcPrice"></span>
                                         </div>
                                         <div class="mobileColumn">
-                                            <button class="UI button nomar-bottom expand disabled" data-func="addToCart" id="addToCart">ADD TO CART</button>
+                                            <a class="UI button nomar-bottom expand attribute" id="vendor_url" style="display:none;" target="_blank">View Product</a>
                                         </div>
                                     </div>
                                     <!-- <div class="step show-for-medium-up">&nbsp;</div> -->
-                                    <div id="step-progress" class="radius progress success large-12 show-for-medium-up">
+                                    <!-- <div id="step-progress" class="radius progress success large-12 show-for-medium-up">
                                         <span class="meter main"></span>
-                                    </div>
+                                    </div> -->
                                     <div class="UIBottom">
-                                        <div class="form" id="simpleUI">
+                                        <div class="form show" id="simpleUI">
                                             <?php echo $this->getChildHtml('content') ?>
                                             <div class="spacing text-center show-for-large-up showInfo" >
                                                 <a href="#" class="showInfo UI show-for-large-up" data-func="getInfo" data-infoid="infoAll">More Info</a>
                                             </div>
                                         </div>
-                                        <div class="UIBuilderContainer show" id="fancyUI"> <!-- add a class "highlight" to the UIBuilderContainer if you would like it to blink when chouces are made -->
+                                        <div class="UIBuilderContainer hide" id="fancyUI"> <!-- add a class "highlight" to the UIBuilderContainer if you would like it to blink when chouces are made -->
                                             <div class="row" id="quickNav"></div>
 
                                             <div class="UIBuilderNav clearfix">
@@ -215,7 +214,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><div class="show-for-large-up text-center padd-top-10"><a class="UI startOver no-edit" data-func="startOver" href="#startOver">Start Over</a> <span class="no-edit">/</span> <a class="startOver" href="#simpleform" id="showForm">Short Form</a></div>
+                                    </div>
+                                    <div class="show-for-large-up text-center padd-top-10">
+                                    	<a class="UI startOver no-edit" data-func="startOver" href="#startOver">Start Over</a> 
+                                    	<!-- <span class="no-edit">/</span> 
+                                    	<a class="startOver" href="#simpleform" id="showForm">Short Form</a> -->
+                                    </div>
                                     <div class="hide-for-large-up" id="mobileInfoMain"></div>
                                 </div>
                                 <div class="elements rightSide">
@@ -224,7 +228,7 @@
                                         <dl class="accordion show-for-large-up" data-accordion="" data-options="multi_expand:true;toggleable: true" id="mainAccordion">
                                             <dd class="accordion-navigation UITop nopadd" id="detailsAccordion">
                                                 <a class="panelnav" href="#panel1">SPECIFICATIONS <i class="fa fa-chevron-down right"></i></a>
-                                                <div class="content active" id="panel1">
+                                                <div class="content" id="panel1">
                                                     <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
                                                     <div class="spacing" id="StyleSelected">
                                                         <span class="cap">Frame</span> <span class="attribute right">-</span>
@@ -248,7 +252,7 @@
                                             </dd>
                                             <dd class="accordion-navigation UITop nopadd">
                                                 <a class="panelnav" href="#panel2">DOOR OPENING <i class="fa fa-chevron-down right"></i></a>
-                                                <div class="content active" id="panel2">
+                                                <div class="content" id="panel2">
                                                     <div class="spacing" id="zipper_width_at_bottom">
                                                         <span class="cap">Bottom Width</span> <span class="attribute right">-</span>
                                                     </div>
@@ -268,7 +272,7 @@
                                             </dd>
                                             <dd class="accordion-navigation UIBottom UITop nopadd clearfix">
                                                 <a class="panelnav" href="#panel3"><span class="hide-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW <i class="fa fa-chevron-down right"></i></span><span class="show-for-large-up">WIND&nbsp;&amp;&nbsp;SNOW&nbsp;RATING <i class="fa fa-chevron-down right"></i></span></a>
-                                                <div class="content active" id="panel3">
+                                                <div class="content" id="panel3">
                                                     <!-- <i class="fa fa-arrow-up hide-for-large-up UI" data-func="closeAccordion"></i> -->
                                                     <div class="spacing" id="wind_speed_rating">
                                                         <span class="cap">Wind Speed</span> <span class="right"> -mph*</span> <span class="attribute right">N/A</span>
