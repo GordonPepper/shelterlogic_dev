@@ -45,16 +45,16 @@
                     <password><![CDATA[hj#4f1uywe]]></password>
                     <dbname><![CDATA[farmbuildings_updates]]></dbname> -->
 
-                    <!--<host><![CDATA[cl-mgnto-4vap02]]></host>-->
-                    <!--<username><![CDATA[farm-ent]]></username>-->
-                    <!--<password><![CDATA[DB2#JBk%]]></password>-->
-                    <!--<dbname><![CDATA[farmbuildings]]></dbname>-->
+                    <host><![CDATA[cl-mgnto-4vap02]]></host>
+                    <username><![CDATA[farm-ent]]></username>
+                    <password><![CDATA[DB2#JBk%]]></password>
+                    <dbname><![CDATA[farmbuildings]]></dbname>
                     
                     <!-- SL Local settings -->
-                    <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[root]]></username>
-                    <password><![CDATA[root]]></password>
-                    <dbname><![CDATA[magento_dev2]]></dbname>
+                    <!--<host><![CDATA[localhost]]></host>-->
+                    <!--<username><![CDATA[root]]></username>-->
+                    <!--<password><![CDATA[root]]></password>-->
+                    <!--<dbname><![CDATA[magento_dev2]]></dbname>-->
 
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
