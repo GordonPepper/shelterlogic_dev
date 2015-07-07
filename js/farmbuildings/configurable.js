@@ -14,9 +14,9 @@ aeProduct.Config.prototype = {
         var self = this;
         if(this.config.hasOwnProperty('reconfigure') && this.config.reconfigure == "true") {
             var attributeId = '';
-            for(i = 0; i < this.settings.length; i++ ) {
+            for(var i = 0; i < this.settings.length; i++ ) {
                 attributeId = this.settings[i].id.replace(/[a-z]*/, '');
-                for(j = 0; j < this.config.attributes[attributeId].length; j++) {
+                for(var j = 0; j < this.config.attributes[attributeId].length; j++) {
                     var newOption = new Option(this.config.attributes[attributeId][j]['val'], this.config.attributes[attributeId][j]['id']);
                     if(this.config.attributes[attributeId][j].selected == 1) {
                         newOption.selected = true;
@@ -88,21 +88,27 @@ aeProduct.Config.prototype = {
 
     updateSelectors: function(nextOptions) {
         var disable = false;
-        this.settings.each(function(selector) {
+        this.settings.each(function(selector, idx) {
             selector.disabled = disable;
             if(disable || selector.id == 'attribute' + nextOptions.attributeid) {
-                for(i = selector.options.length; i > 1; i--) {
+                for(var i = selector.options.length; i > 1; i--) {
                     selector.remove(i-1);
                 }
             }
             if (selector.id == 'attribute' + nextOptions.attributeid) {
-                for(i=0; i<nextOptions.options.length; ++i ) {
+                for(var i = 0; i < nextOptions.options.length; ++i ) {
                     selector.options[i+1] = new Option(nextOptions.options[i]['val'], nextOptions.options[i]['id']);
                     if(typeof nextOptions.options[i].pid !== "undefined"){
                         selector.options[i+1].writeAttribute('data-pid', nextOptions.options[i].pid);
                     }
+                    if(idx != 0 && i == 0){
+                        selector.options[i+1].writeAttribute('selected', 'selected');
+                    }
                 }
                 disable = true;
+                //if(idx != 0) {
+                //    selector.options[1].selected = true;
+                //}
             }
         }.bind(this));
     },
