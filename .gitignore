@@ -24,7 +24,7 @@ errors/local.xml
 .idea
 .DS_Store
 app/code/local/Americaneagle/Farmbuildings/Block/Checkout/Renderer.php
-downloader
+#downloader
 skin/frontend/farmbuildings/default/HTC/
 includes/*
 media/wysiwyg/*
