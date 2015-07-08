@@ -33,11 +33,13 @@ image_collections/images/*
 app/code/local/Extendware/*
 skin/frontend/farmbuildings/default/bower_components/
 skin/frontend/farmbuildings/default/node_modules/
-app/code/local/Varien/Autoload.php
-app/design/adminhtml/default/default/template/extendware/**
-app/etc/modules/Extendware_EWEntityIncrement.xml
-app/locale/en_US/extendware/**
-js/extendware/**
-lib/extendware/**
-shell/extendware/**
-skin/frontend/base/default/extendware/**
+# unfortunately, we need to track these files otherwise new devs cannot pull down a
+# working instance of the project
+#app/code/local/Varien/Autoload.php
+#app/design/adminhtml/default/default/template/extendware/**
+#app/etc/modules/Extendware_EWEntityIncrement.xml
+#app/locale/en_US/extendware/**
+#js/extendware/**
+#lib/extendware/**
+#shell/extendware/**
+#skin/frontend/base/default/extendware/**
