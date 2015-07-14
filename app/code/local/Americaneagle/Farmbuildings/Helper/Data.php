@@ -6,6 +6,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $conn */
 		$conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+		$sid = $product->getStoreId();
 
 		/** @var Magento_Db_Adapter_Pdo_Mysql $select */
 		$select = $conn->select();
@@ -30,12 +31,18 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$where[] = "((e.required_options != '1') OR (e.required_options IS NULL))";
 
 		$from->joinInner(
+			array('at_status_default' => $conn->getTableName('catalog_product_entity_int')),
+			'at_status_default.entity_id = e.entity_id AND at_status_default.attribute_id = 96 AND at_status_default.store_id = 0',
+			array()
+		);
+
+		$from->joinLeft(
 			array('at_status' => $conn->getTableName('catalog_product_entity_int')),
-			"at_status.entity_id = e.entity_id AND at_status.attribute_id = '96' AND at_status.store_id = 0",
+			"at_status.entity_id = e.entity_id AND at_status.attribute_id = 96 AND at_status.store_id = $sid",
 			array());
 		/** @var Mage_Catalog_Model_Product_Status $mStatus */
 		$mStatus = Mage::getSingleton('catalog/product_status');
-		$where[] = 'at_status.value = ' . $mStatus::STATUS_ENABLED;
+		$where[] = 'COALESCE(at_status.value, at_status_default.value) = ' . $mStatus::STATUS_ENABLED;
 
 		$attmap = array();
 		foreach($atts as $att) {
@@ -53,6 +60,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			);
 		}
 		$from->where(implode(' AND ', $where));
+//		file_put_contents('/tmp/full_select.sql', $select->__toString());
 		$labelMap = $this->getAttributeLabelMap($attmap);
 		$tree = array();
 		foreach($conn->fetchAll($select) as $row){
@@ -111,10 +119,9 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 	public function getTree($pid) {
 		$cache = Mage::app()->getCache();
-		$key = 'attributeTree' . $pid;
+		$key = 'attributeTree_' . $pid . '_' . Mage::app()->getStore()->getId();
 
 		$tree = $cache->load($key);
-
 		if($tree === false) {
 			$product = Mage::getModel('catalog/product')->load($pid);
 			$tree = $this->getAttributeTree($product);

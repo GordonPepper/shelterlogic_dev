@@ -72,7 +72,7 @@ class Americaneagle_Farmbuildings_IndexController
 			 * button, instead of changing the dropdown, the next choice will have
 			 * the appropriate option set available.
 			 */
-			if(true) {
+			if(false) {
 				$defaultOpts = array();
 
 				$tree = $tree[$keys[0]]['options'][$nextOpts[0]['id']]['children'];

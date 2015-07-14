@@ -102,7 +102,8 @@ aeProduct.Config.prototype = {
                         selector.options[i+1].writeAttribute('data-pid', nextOptions.options[i].pid);
                     }
                     if(idx != 0 && i == 0){
-                        selector.options[i+1].writeAttribute('selected', 'selected');
+                        // This line will cause the next option to default to the first item
+                        //selector.options[i+1].writeAttribute('selected', 'selected');
                     }
                 }
                 disable = true;
