@@ -216,3 +216,7 @@
 SetEnv MAGE_IS_DEVELOPER_MODE 1
 SetEnvIf Referer /vendors MAGE_RUN_CODE=vendors
 SetEnvIf Referer /vendors MAGE_RUN_TYPE=website
+
+SetEnvIf Host ^shelterlogic\.com\.local MAGE_RUN_CODE=shelterlogic
+SetEnvIf Host ^shelterlogic\.com\.local MAGE_RUN_TYPE=website
+
