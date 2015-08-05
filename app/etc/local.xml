@@ -49,7 +49,7 @@
                     <username><![CDATA[farm-ent]]></username>
                     <password><![CDATA[DB2#JBk%]]></password>
                     <dbname><![CDATA[farmbuildings]]></dbname>
-                    
+
                     <!-- SL Local settings -->
                     <!--<host><![CDATA[localhost]]></host>-->
                     <!--<username><![CDATA[root]]></username>-->
@@ -75,4 +75,26 @@
             </adminhtml>
         </routers>
     </admin>
+    <!--<stores>-->
+        <default>
+            <web>
+                <unsecure>
+                    <base_url>http://farmbuildings.com.local/</base_url>
+                </unsecure>
+                <secure>
+                    <base_url>http://farmbuildings.com.local/</base_url>
+                </secure>
+            </web>
+        </default>
+        <!--<admin>-->
+            <!--<web>-->
+                <!--<unsecure>-->
+                    <!--<base_url>http://farmbuildings.com.local/</base_url>-->
+                <!--</unsecure>-->
+                <!--<secure>-->
+                    <!--<base_url>http://farmbuildings.com.local/</base_url>-->
+                <!--</secure>-->
+            <!--</web>-->
+        <!--</admin>-->
+    <!--</stores>-->
 </config>
