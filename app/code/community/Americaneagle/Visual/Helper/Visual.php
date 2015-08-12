@@ -64,7 +64,7 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 							'OrderDate' => date('c', strtotime($order->getCreatedAt())),
 							'CustomerID' => $this->helper->getCustomerId(),
 							'DesiredShipDate' => date('c', $this->helper->getLeadTimeDate($order->getCreatedAt())),
-							'ShipToId' => $sid,
+							'ShipToID' => $sid,
 							'Status' => 'R',
 							'ShipVIA' => 'LTL',
 							'CarrierID' => $this->helper->stripCarrierCode($order->getShippingMethod()),
