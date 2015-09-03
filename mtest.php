@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+	'processImport',
 	'toggleBaseUrl',
 	'configCompare',
 	'decryptACIMConfig',
@@ -80,6 +81,7 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->endBody()->endHtml();
 	exit;
 }
+
 
 function toggleBaseUrl() {
 	global $html, $app;
@@ -1049,6 +1051,36 @@ function trimImportFile() {
 function is_empty($val) {
 	return empty($val);
 }
+
+function processImport() {
+	global $html;
+	$filename = __DIR__ . '/var/import/productprices.csv';
+	$html->para(sprintf('found filename: %s', $filename));
+
+	$import = new CsvReader($filename, ',', true);
+
+	while($import->nextRow()){
+		$sku = $import->item('sku');
+		$price = $import->item('price');
+		/** @var Mage_Catalog_Model_Resource_Product_Collection $products */
+		$products = Mage::getModel('catalog/product')->getCollection();
+		$products->addAttributeToFilter('sku', array('eq',$sku));
+		$products->addAttributeToSelect('price');
+
+		/** @var Mage_Catalog_Model_Product $p */
+		echo sprintf('getting product with sku %s. ', $sku);
+		$p = $products->getFirstItem();
+		echo sprintf('price is %f, setting to %f. ', $p->getPrice(), $price);
+		$p->setPrice('$price');
+		$p->save();
+		echo sprintf('product saved.\n');
+
+		$html->para(sprintf('im a %s', get_class($products)));
+
+	}
+
+}
+
 
 class CsvReader {
 	private $fileName;
