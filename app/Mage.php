@@ -896,13 +896,13 @@ final class Mage
             }
 
             print $e->getMessage() . "\n\n";
-            print $e->getTraceAsString();
+            print getExceptionTraceAsString($e);
             print '</pre>';
         } else {
 
             $reportData = array(
                 !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
-                $e->getTraceAsString()
+                getExceptionTraceAsString($e)
             );
 
             // retrieve server data

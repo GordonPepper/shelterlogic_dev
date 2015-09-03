@@ -1,0 +1,24 @@
+$pocztapolska:#ff0000;
+$sercegarbatego:40px;
+
+.pocztapolska {background-color:$pocztapolska; font-size:$sercegarbatego;}
+
+@mixin box-sizing($boxSize) {
+	-webkit-box-sizing:$boxSize; 
+	-moz-box-sizing:$boxSize; 
+	box-sizing:$boxSize;
+}
+
+.pocztapolska {
+	@include box-sizing(border-box);
+}
+
+a {
+	color:#0000ff;
+	&:hover {
+		color:#ff0000;
+	}
+	&:focus {
+		color:#00ff00;
+	}
+}

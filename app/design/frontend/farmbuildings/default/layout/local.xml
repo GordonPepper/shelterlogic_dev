@@ -93,5 +93,4 @@
         <template>page/home.phtml</template>
         <layout_handle>home_layout</layout_handle>
     </page_home_layout>
-
 </layout>
