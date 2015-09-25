@@ -1,0 +1,65 @@
+<div class="department-listing-all">
+    <!--
+    <div class="department-listing-image"><img src="/skin/frontend/allanjcoleman/default/images/department_listing-banner.jpg" alt="Diagnostics/Locating" />
+        <div class="department-listing-image-content">
+            <div class="department-listing-image-text">
+                <h3>Industry Standard</h3>
+                <p>RIDGID<sup>&reg;</sup> SeeSnake<sup>&reg;</sup> and SeekTech<sup>&reg;</sup> diagnostics, inspection and locating tools are the industry standard for ruggedness, pushability and ease of use.</p>
+            </div>
+        </div>
+    </div>
+    -->
+    <div class="category-products">
+        <ul class="products-grid">
+            <?php
+            /** @var Mage_Catalog_Block_Navigation $this */
+            //$_categories=$this->getCurrentChildCategories();
+            $collection = Mage::getModel('catalog/category')->getCollection();
+            $collection->addAttributeToSelect('url_key')
+                ->addAttributeToSelect('name')
+                ->addAttributeToSelect('is_anchor')
+                ->addAttributeToSelect('image')
+                ->addAttributeToFilter('is_active', 1)
+                ->addIdFilter($this->getCurrentCategory()->getChildren())
+                ->setOrder('position', 'ASC')
+                ->joinUrlRewrite()
+                ->load();
+
+
+            if($collection->count()):
+                $categorycount = 0;
+                foreach ($collection as $_category):
+                    if($_category->getIsActive()):
+                        $cur_category=Mage::getModel('catalog/category')->load($_category->getId());
+                        $layer = Mage::getSingleton('catalog/layer');
+                        $layer->setCurrentCategory($cur_category);
+                        $catName = $this->getCurrentCategory()->getName();
+                        if ($categorycount == 0){
+                            $class = "first";
+                        }
+                        elseif ($categorycount == 3){
+                            $class = "last";
+                        }
+                        else{
+                            $class = "";
+                        }
+                        ?>
+                        <li class="item <?=$class?>">
+                            <h2><a href="<?php echo $_category->getURL() ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>"><?php echo $this->htmlEscape($_category->getName()) ?></a></h2>
+                            <div class="dept-list-image"><div class="dept-list-image-in"><a href="<?php echo $_category->getURL() ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>"><img src="<?php echo $_category->getImageUrl() ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" /></a></div></div>
+                        </li>
+                    <?php
+                    endif;
+                    if($categorycount == 3){
+                        $categorycount = 0;
+                        echo "</ul>\n\n<ul class=\"products-grid\">";
+                    }
+                    else{
+                        $categorycount++;
+                    }
+                endforeach;
+            endif;
+            ?>
+        </ul>
+        </div>
+</div>
