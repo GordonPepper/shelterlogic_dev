@@ -15,7 +15,7 @@
  * @copyright   Copyright (c) 2014 Typoglyphic Studios
  * @license     http://www.typoglyphic.com 
  */
-
+date_default_timezone_set('America/New_York');
 if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { die("Direct Access Is Not Allowed"); }
 
 	// Scene 7 Ajax for images
