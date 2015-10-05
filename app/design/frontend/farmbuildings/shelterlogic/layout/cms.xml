@@ -32,19 +32,26 @@ Default layout, loads most of the pages
 
     <default>
         <reference name="footer">
-            <block type="cms/block" name="cms_footer_links" before="footer_links">
+            <block type="cms/block" name="cms_footer_links_1">
                 <!--
                     The content of this block is taken from the database by its block_id.
                     You can manage it in admin CMS -> Static Blocks
                 -->
-                <action method="setBlockId"><block_id>footer_links_company</block_id></action>
+                <action method="setBlockId"><block_id>shelterlogic_footer_about</block_id></action>
             </block>
-            <block type="cms/block" name="cms_footer_links_sm" after="footer_links2">
+            <block type="cms/block" name="cms_footer_links_2">
                 <!--
                     The content of this block is taken from the database by its block_id.
                     You can manage it in admin CMS -> Static Blocks
                 -->
-                <action method="setBlockId"><block_id>footer_links_sm</block_id></action>
+                <action method="setBlockId"><block_id>shelterlogic_footer_blog</block_id></action>
+            </block>
+            <block type="cms/block" name="cms_footer_links_3">
+                <!--
+                    The content of this block is taken from the database by its block_id.
+                    You can manage it in admin CMS -> Static Blocks
+                -->
+                <action method="setBlockId"><block_id>shelterlogic_footer_customer</block_id></action>
             </block>
         </reference>
     </default>

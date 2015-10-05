@@ -29,6 +29,7 @@
             if($collection->count()):
                 $categorycount = 0;
                 foreach ($collection as $_category):
+
                     if($_category->getIsActive()):
                         $cur_category=Mage::getModel('catalog/category')->load($_category->getId());
                         $layer = Mage::getSingleton('catalog/layer');

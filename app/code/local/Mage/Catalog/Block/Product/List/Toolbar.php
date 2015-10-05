@@ -742,7 +742,8 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
                 $this->_memorizeParam('limit_page', $limit);
             }
         } else {
-            $limit = Mage::getSingleton('catalog/session')->getLimitPage();
+//            $limit = Mage::getSingleton('catalog/session')->getLimitPage();
+            $limit = 'all';
         }
         if (!$limit || !isset($limits[$limit])) {
             $limit = $defaultLimit;

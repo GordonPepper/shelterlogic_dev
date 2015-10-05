@@ -45,8 +45,22 @@
                         }
                         ?>
                         <li class="item <?=$class?>">
-                            <h2><a href="<?php echo $_category->getURL() ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>"><?php echo $this->htmlEscape($_category->getName()) ?></a></h2>
-                            <div class="dept-list-image"><div class="dept-list-image-in"><a href="<?php echo $_category->getURL() ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>"><img src="<?php echo $_category->getImageUrl() ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" /></a></div></div>
+                            <a href="<?php echo $_category->getURL() ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>">
+                                <div class="dept-list-image"><div class="dept-list-image-in"><img src="<?php echo $_category->getImageUrl() ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" /></div></div>
+                                <div class="dept-list-cmla">
+                                    <div class="dept-list-value">
+                                        <div class="mod">
+                                            $37.99
+                                        </div>
+                                    </div>
+                                    <div class="dept-list-name">
+                                        <div class="mod">
+                                            <h2><?php echo $this->htmlEscape($_category->getName()) ?></h2>
+                                            <div class="tlc">Top Level Category</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </li>
                     <?php
                     endif;

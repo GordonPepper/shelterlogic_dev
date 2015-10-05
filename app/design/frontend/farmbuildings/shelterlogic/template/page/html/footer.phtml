@@ -27,6 +27,13 @@
 <div class="footer-container">
     <div class="footer">
         <?php echo $this->getChildHtml() ?>
-        <address class="copyright"><?php echo $this->getCopyright() ?></address>
     </div>
 </div>
+<div class="footer-bottom-container"><div class="footer-bottom clearfix"><address class="footer-copyright"><?php echo $this->getCopyright() ?></address>
+<script type="text/javascript">
+$j(function(){
+    $j("#back-to-top")["on"]({click:function(e){e["preventDefault"]();$j("html,body")["animate"]({scrollTop:0},"fast");}});
+});
+</script>
+<div class="footer-top"><a id="back-to-top" href="#">Back To Top</a></div>
+</div></div>
