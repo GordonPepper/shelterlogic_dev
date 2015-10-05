@@ -85,8 +85,10 @@
 @include bp(min-width, $bp-medium + 1) {
 
     #header-nav {
-        display: block; /* Force visibility */
-        border-bottom: 1px solid $c-module-border-light;
+        display: inline-block;
+        margin-left:20px;
+        margin-top:20px;
+        vertical-align:middle;
     }
 
 }
@@ -98,7 +100,6 @@
 @include bp(min-width, $bp-medium + 1) {
     .nav-primary {
         display: block;
-        margin-top: 15px;
     }
 
 }
@@ -114,7 +115,8 @@ $nav-primary-height: 30px;
         text-decoration: none;
         position: relative;
         display: block;
-        color: $c-text;
+        color: $c-gray;
+        font-size: 13px;
         line-height: $nav-primary-height;
         font-family: $f-stack-special;
     }
@@ -200,7 +202,7 @@ $nav-primary-height: 30px;
     .nav-primary {
 
         a.level0 {
-            padding: 0 25px;
+            padding: 0 10px;
         }
 
         li.level0,
@@ -214,7 +216,7 @@ $nav-primary-height: 30px;
 
         a:hover,
         li:hover > a {
-            color: $c-action;
+            color: $c-orange;
         }
 
         .menu-active,

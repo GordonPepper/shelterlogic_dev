@@ -31,9 +31,11 @@
  * @see Mage_Directory_Block_Currency
  */
 ?>
+
 <?php if($this->getCurrencyCount()>1): ?>
-<div class="currency-switcher">
-    <label for="select-currency"><?php echo $this->__('Your Currency:') ?></label>
+<div class="currency-switcher hdr-select-tool hlc-item">
+    <div class="cmlla"></div>
+    <label class="visuallyHidden" for="select-currency"><?php echo $this->__('Your Currency:') ?></label>
     <select id="select-currency" name="currency" title="<?php echo $this->__('Your Currency') ?>" onchange="setLocation(this.value)">
         <?php foreach ($this->getCurrencies() as $_code => $_name): ?>
         <option value="<?php echo $this->getSwitchCurrencyUrl($_code) ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?>>
@@ -43,3 +45,16 @@
     </select>
 </div>
 <?php endif; ?>
+
+<div class="currency-switcher hdr-select-tool hlc-item">
+    <div class="cmlla"></div>
+    <label class="visuallyHidden" class="visuallyHidden" for="select-currency">Your Currency</label>
+    <select name="currency" title="Your Currency" onchange="setLocation(this.value)">
+        <option value="USD"s>USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CHF">CHF</option>
+        <option value="PLN">PLN</option>
+    </select>
+</div>

@@ -30,20 +30,20 @@
 @include bp(min-width, $bp-medium + 1) {
 
     .page-header {
-        max-width: $max-container-width;
-        margin: 0 auto;
-        padding: 0 $trim;
+        max-width:$max-container-width;
+        margin:0 auto;
+        padding:0 $trim;
     }
 
     .page-header-container {
-        position: relative;
+        position:relative;
     }
 
 }
 
 .header-language-container,
 .page-header {
-    font-family: $f-stack-special;
+    font-family:$f-stack-special;
 }
 
 /* ============================================ *
@@ -51,14 +51,13 @@
  * ============================================ */
 
 .header-language-background {
-    padding: $gap;
-    background-color: $c-action;
-    text-transform: uppercase;
+    padding:$gap;
+    text-transform:uppercase;
 
     .header-language-container {
-        max-width: $max-content-width;
-        margin-left: auto;
-        margin-right: auto;
+        max-width:$max-content-width;
+        margin-left:auto;
+        margin-right:auto;
     }
 
     &:after {
@@ -67,48 +66,48 @@
 
     .form-language,
     .currency-switcher {
-        float: left;
-        margin-right: $gap;
+        float:left;
+        margin-right:$gap;
     }
 
     .welcome-msg {
-        float: right;
+        float:right;
     }
 }
 
 .page-header-container .store-language-container {
-    float: right;
-    max-width: 35%;
-    padding: 13px 15px 10px 10px;
+    float:right;
+    max-width:35%;
+    padding:13px 15px 10px 10px;
 
     label {
-        display: none;
+        display:none;
     }
     select {
-        max-width: 100%;
+        max-width:100%;
     }
 }
 
 @include bp(max-width, $bp-xsmall) {
     .page-header-container .store-language-container {
-        padding-top: 8px;
+        padding-top:8px;
 
         select {
             // Setting this font-size will causing zooming on iOs devices, but it keeps header more tidy
-            font-size: $f-size-xs;
+            font-size:$f-size-xs;
         }
     }
 }
 
 .header-language-background,
 .header-language-background a {
-    color: $c-text-white;
+    color:$c-text-white;
 }
 
 @include bp(max-width, $bp-medium) {
 
     .header-language-background {
-        display: none;
+        display:none;
     }
 
 }
@@ -118,57 +117,29 @@
  * ============================================ */
 
 .logo {
-    display: block;
-    float: left;
-    width: 65%;
-    min-width: 100px;
-    min-height: 44px;
-    text-align: center;
-    padding: $gap;
-
+    display:inline-block;
+    vertical-align:middle;
     img {
-        max-width: 100%;
-    }
-
-    .small {
-        display: block;
-    }
-    .large {
-        display: none;
+        margin:0 auto;
+        max-width:100%;
     }
 }
 
-.logo:hover {
-    opacity: 0.8;
+@include bp(max-width, $bp-medium) {
+    float:none;
 }
 
 // ---------------------------------------------
-
-@include bp(min-width, $bp-medium + 1) {
-
-    .logo {
-        max-width: 300px;
-        min-height: 90px;
-
-        .small {
-            display: none;
-        }
-        .large {
-            display: block;
-        }
-    }
-
-}
 
 /* ============================================ *
  * Skip Links
  * ============================================ */
 
 .skip-links {
-    clear: both;
-    overflow: hidden;
-    border-top: 1px solid #EDEDED;
-    border-bottom: 1px solid #EDEDED;
+    clear:both;
+    overflow:hidden;
+    border-top:1px solid #EDEDED;
+    border-bottom:1px solid #EDEDED;
 }
 
 // ---------------------------------------------
@@ -176,7 +147,7 @@
 @include bp(min-width, $bp-medium + 1) {
 
     .skip-links {
-        border: 0;
+        border:0;
     }
 
 }
@@ -186,22 +157,22 @@
  */
 
 .skip-link {
-    position: relative;
-    float: left;
-    width: 20%;
-    height: 44px;
-    background: #FFFFFF;
-    color: $c-text;
-    line-height: 42px;
-    text-align: center;
+    position:relative;
+    float:left;
+    width:20%;
+    height:44px;
+    background:#FFFFFF;
+    color:$c-text;
+    line-height:42px;
+    text-align:center;
 }
 
 a.skip-link {
-    text-decoration: none;
+    text-decoration:none;
 }
 
 .skip-link:not(.skip-active):hover {
-    opacity: 0.8;
+    opacity:0.8;
 }
 
 // ---------------------------------------------
@@ -209,11 +180,11 @@ a.skip-link {
 @include bp(max-width, $bp-medium) {
 
     .skip-link {
-        border-right: 1px solid #EDEDED;
+        border-right:1px solid #EDEDED;
     }
 
     .skip-link:last-child {
-        border-right: 0;
+        border-right:0;
     }
 
 }
@@ -223,7 +194,7 @@ a.skip-link {
 @include bp(min-width, 500px) {
 
     .skip-link {
-        width: 25%;
+        width:25%;
     }
 
 }
@@ -234,12 +205,12 @@ a.skip-link {
 @include bp(max-width, $bp-medium) {
 
     .skip-link.skip-active {
-        background: #EDEDED;
-        color: inherit;
+        background:#EDEDED;
+        color:inherit;
     }
 
     .skip-link.skip-active span {
-        color: inherit;
+        color:inherit;
     }
 
 }
@@ -249,21 +220,21 @@ a.skip-link {
  */
 
 .skip-link .icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
+    display:inline-block;
+    width:30px;
+    height:30px;
+    vertical-align:middle;
 }
 
 .skip-link.skip-nav .icon,
 .skip-link.skip-cart:not(.no-count) .icon {
-    margin-right: 3px;
+    margin-right:3px;
 }
 
 @include bp(min-width, 500px) {
 
     .skip-link .icon {
-        margin-right: 3px;
+        margin-right:3px;
     }
 
 }
@@ -273,7 +244,7 @@ a.skip-link {
  */
 
 .skip-link .label {
-    display: none;
+    display:none;
 }
 
 // ---------------------------------------------
@@ -281,7 +252,7 @@ a.skip-link {
 @include bp(min-width, 500px) {
 
     .skip-link .label {
-        display: inline;
+        display:inline;
     }
 
 }
@@ -291,12 +262,12 @@ a.skip-link {
  * ============================================ */
 
 .skip-content {
-    display: none;
+    display:none;
 }
 
 .skip-content.skip-active {
-    display: block;
-    background: #EDEDED;
+    display:block;
+    background:#EDEDED;
 }
 
 /* ============================================ *
@@ -309,23 +280,23 @@ a.skip-link {
 
     #header-account li a,
     .nav-primary a.level0 {
-        padding: 0 15px 0 25px;
-        border-bottom: 1px solid $c-module-border;
-        text-align: left;
-        color: $c-text;
-        text-transform: uppercase;
-        line-height: 30px;
+        padding:0 10px;
+        border-bottom:1px solid $c-module-border;
+        text-align:left;
+        color:$c-text;
+        text-transform:uppercase;
+        line-height:30px;
     }
 
     #header-account li:last-child a,
     .nav-primary li.level0:last-child a.level0 {
-        border-bottom: 0;
+        border-bottom:0;
     }
 
     .no-touch #header-account a:hover,
     .no-touch .nav-primary a:hover {
-        background-color: $c-module-background;
-        text-decoration: none;
+        background-color:$c-module-background;
+        text-decoration:none;
     }
 
 }

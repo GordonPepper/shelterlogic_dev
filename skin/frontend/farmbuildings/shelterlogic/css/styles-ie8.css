@@ -3182,7 +3182,6 @@ body {
  * ============================================ */
 .header-language-background {
   padding: 10px;
-  background-color: #3399cc;
   text-transform: uppercase;
 }
 .header-language-background .header-language-container {
@@ -3225,37 +3224,12 @@ body {
  * Logo
  * ============================================ */
 .logo {
-  display: block;
-  float: left;
-  width: 65%;
-  min-width: 100px;
-  min-height: 44px;
-  text-align: center;
-  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .logo img {
+  margin: 0 auto;
   max-width: 100%;
-}
-.logo .small {
-  display: block;
-}
-.logo .large {
-  display: none;
-}
-
-.logo:hover {
-  opacity: 0.8;
-}
-
-.logo {
-  max-width: 300px;
-  min-height: 90px;
-}
-.logo .small {
-  display: none;
-}
-.logo .large {
-  display: block;
 }
 
 /* ============================================ *
@@ -3403,9 +3377,10 @@ a.skip-link {
  * Nav - Skip Content
  * ============================================ */
 #header-nav {
-  display: block;
-  /* Force visibility */
-  border-bottom: 1px solid #ededed;
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: 20px;
+  vertical-align: middle;
 }
 
 /* ============================================ *
@@ -3413,7 +3388,6 @@ a.skip-link {
  * ============================================ */
 .nav-primary {
   display: block;
-  margin-top: 15px;
 }
 
 /* ============================================ *
@@ -3423,7 +3397,8 @@ a.skip-link {
   text-decoration: none;
   position: relative;
   display: block;
-  color: #636363;
+  color: #666666;
+  font-size: 13px;
   line-height: 30px;
   font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
 }
@@ -3457,7 +3432,7 @@ a.skip-link {
   /* Level 1+ */
 }
 .nav-primary a.level0 {
-  padding: 0 25px;
+  padding: 0 10px;
 }
 .nav-primary li.level0,
 .nav-primary a.level0 {
@@ -3468,7 +3443,7 @@ a.skip-link {
 }
 .nav-primary a:hover,
 .nav-primary li:hover > a {
-  color: #3399cc;
+  color: #f0b310;
 }
 .nav-primary .menu-active,
 .nav-primary li.level0:hover {
@@ -4197,6 +4172,18 @@ p.product-name a:hover {
   text-decoration: none;
 }
 
+.dept-list-image-in img {
+  display: block;
+  width: 275px;
+  max-width: 100%;
+  height: 196px;
+}
+
+.category-image img {
+  width: 200%;
+  max-width: 200%;
+}
+
 .products-grid .product-name,
 .products-list .product-name {
   text-transform: uppercase;
@@ -4839,7 +4826,7 @@ p.product-name a:hover {
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     rwd_default
+ * @package     rwd_defaultz
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */

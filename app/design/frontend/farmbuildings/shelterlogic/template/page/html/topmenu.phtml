@@ -32,11 +32,12 @@
  */
 ?>
 <?php $_menu = $this->getHtml('level-top') ?>
-
 <?php if($_menu): ?>
     <nav id="nav">
         <ol class="nav-primary">
+            <li class="level0"><a class="level0" href="/">Home</a></li>
             <?php echo $_menu ?>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_navigation_links')->toHtml() ?>
         </ol>
     </nav>
 <?php endif ?>
