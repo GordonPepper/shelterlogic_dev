@@ -63,7 +63,7 @@ $allowedFunctions = array(
 $html = new HtmlOutputter();
 
 $html->startHtml()->startHead("M-TEST")->startBody();
-$html->para('<a href="/mtest.php">home</a>');
+$html->para('<a href="/mtest.php">home</a>');mtest.php
 
 if (isset($f) && in_array($f, $allowedFunctions)) {
 	try {
