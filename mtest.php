@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+	'fillUrlKey',
 	'processImport',
 	'toggleBaseUrl',
 	'configCompare',
@@ -62,7 +63,7 @@ $allowedFunctions = array(
 $html = new HtmlOutputter();
 
 $html->startHtml()->startHead("M-TEST")->startBody();
-$html->para('<a href="/mtest.php">home</a>');
+$html->para('<a href="/mtest.php">home</a>');mtest.php
 
 if (isset($f) && in_array($f, $allowedFunctions)) {
 	try {
@@ -82,6 +83,26 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function fillUrlKey() {
+	global $html;
+	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
+	$collection = Mage::getModel('catalog/product')->getCollection();
+    //$collection->addWebsiteFilter(0);
+	$collection->addAttributeToFilter('url_key', array('null' => true), 'left');
+	$collection->addAttributeToSelect('name');
+	//$collection->setPageSize(200);
+	$found = 0;
+    /** @var Mage_Catalog_Model_Product $product */
+    foreach ($collection as $product) {
+		//$html->para(sprintf('product without urlkey: %d, named: %s', $product->getId(), $product->getName()));
+        //$html->para(sprintf('i am a %s', get_class($product)));
+        $product->setDataChanges(true);
+        $product->save();
+		$found++;
+	}
+
+	$html->para(sprintf('i changed %d items with no url key', $found));
+}
 
 function toggleBaseUrl() {
 	global $html, $app;
