@@ -9,31 +9,35 @@
         </div>
     </div>
     -->
+
     <div class="category-products">
         <ul class="products-grid">
             <?php
             /** @var Mage_Catalog_Block_Navigation $this */
             //$_categories=$this->getCurrentChildCategories();
             $collection = Mage::getModel('catalog/category')->getCollection();
+            $current_category = Mage::getModel('catalog/layer')->getCurrentCategory();
             $collection->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('is_anchor')
                 ->addAttributeToSelect('image')
                 ->addAttributeToFilter('is_active', 1)
-                ->addIdFilter($this->getCurrentCategory()->getChildren())
+//                ->addIdFilter($this->getCurrentCategory()->getChildren())
+                ->addIdFilter($current_category->getChildren())
                 ->setOrder('position', 'ASC')
                 ->joinUrlRewrite()
                 ->load();
 
-
             if($collection->count()):
                 $categorycount = 0;
                 foreach ($collection as $_category):
+
                     if($_category->getIsActive()):
                         $cur_category=Mage::getModel('catalog/category')->load($_category->getId());
+
                         $layer = Mage::getSingleton('catalog/layer');
                         $layer->setCurrentCategory($cur_category);
-                        $catName = $this->getCurrentCategory()->getName();
+                        $catName = $current_category->getName();
                         if ($categorycount == 0){
                             $class = "first";
                         }
