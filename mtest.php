@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'categoryImages',
 	'fillUrlKey',
 	'processImport',
 	'toggleBaseUrl',
@@ -63,7 +64,7 @@ $allowedFunctions = array(
 $html = new HtmlOutputter();
 
 $html->startHtml()->startHead("M-TEST")->startBody();
-$html->para('<a href="/mtest.php">home</a>');mtest.php
+$html->para('<a href="/mtest.php">home</a>');
 
 if (isset($f) && in_array($f, $allowedFunctions)) {
 	try {
@@ -102,6 +103,26 @@ function fillUrlKey() {
 	}
 
 	$html->para(sprintf('i changed %d items with no url key', $found));
+}
+
+function categoryImages() {
+    global $html;
+
+
+    $collection = Mage::getModel('catalog/category')->getCollection();
+    /** @var Mage_Catalog_Model_Category $current_category */
+
+    $collection->addAttributeToSelect('image')
+        ->addAttributeToSelect('name')
+        ->addAttributeToFilter('is_active', 1)
+        ->addIdFilter(25);
+
+    $sid = Mage::app()->getStore()->getId();
+    $html->para('store id is ' . $sid);
+    foreach($collection as $cat) {
+        $html->para(sprintf('found catid %d, name: %s with image %s', $cat->getId(), $cat->getName(), $cat->getImage()));
+    }
+
 }
 
 function toggleBaseUrl() {

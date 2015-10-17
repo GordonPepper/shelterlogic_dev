@@ -1,18 +1,5 @@
 # Created by .gitignore support plugin (hsz.mobi)
-var/cache/*
-var/full_page_cache/*
-var/session
-var/log/*
-var/locks
-var/report/*
-var/backups/*
-var/import/*
-var/importexport/*
-var/export/*
-var/tmp/
-var/raveinfosys/*
-var/extendware/*
-var/connect/*
+var/*
 mergedconfig.xml
 mtest.php
 media/catalog/*
