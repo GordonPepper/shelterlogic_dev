@@ -45,7 +45,6 @@
                 <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
                 <input type="hidden" name="related_product" id="related-products-field" value="" />
             </div>
-
             <div class="product-img-box">
                 <div class="product-name">
                     <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
@@ -53,68 +52,130 @@
                 <?php echo $this->getChildHtml('media') ?>
             </div>
 
-            <div class="product-shop">
-                <div class="product-name">
-                    <span class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
-                </div>
 
-                <div class="price-info">
-                    <?php echo $this->getPriceHtml($_product); ?>
-                    <?php echo $this->getChildHtml('bundle_prices') ?>
-                    <?php echo $this->getTierPriceHtml() ?>
-                </div>
+            <div class="product-item-wrpr">
 
-                <div class="extra-info">
-                    <?php echo $this->getReviewsSummaryHtml($_product, 'default', false)?>
-                    <?php echo $this->getChildHtml('product_type_availability'); ?>
-                </div>
-
-                <?php echo $this->getChildHtml('alert_urls') ?>
-
-                <?php if ($_product->getShortDescription()):?>
-                    <div class="short-description">
-                        <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                <div class="product-shop">
+                    <div class="product-name">
+                        <ul class="product-item-nav">
+                            <li class="prev"><a href="#"></a></li>
+                            <li class="next"><a href="#"></a></li>
+                        </ul>
+                        <span class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
                     </div>
-                <?php endif;?>
 
+                    <div class="extra-info">
+                        <?php echo $this->getReviewsSummaryHtml($_product, 'default', true)?>
+                        <?php echo $this->getChildHtml('product_type_availability'); ?>
+                    </div>
 
+                    <div class="product-category">
+                        <ul>
+                            <li><a href="/">Shop / Sheds</a></li>
+                        </ul>
+                    </div>
 
+                    <div class="clearfix">&nbsp;</div>
 
-                <?php echo $this->getChildHtml('other');?>
+                    <div class="price-info">
+                        <?php echo $this->getPriceHtml($_product); ?>
+                        <?php echo $this->getChildHtml('bundle_prices') ?>
+                        <?php echo $this->getTierPriceHtml() ?>
+                    </div>
 
-                <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                    <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
-                <?php endif;?>
+                    <?php echo $this->getChildHtml('alert_urls') ?>
+<?php
+/*
+/*
+                    <?php if ($_product->getShortDescription()):?>
+                        <div class="short-description">
+                            <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                        </div>
+                    <?php endif;?>
+*/
+?>
 
-            </div>
+                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                    <?php endif;?>
 
-            <div class="add-to-cart-wrapper">
-                <?php echo $this->getChildHtml('product_type_data') ?>
-                <?php echo $this->getChildHtml('extrahint') ?>
+                    <div id="product-item-attr" class="product-item-attr">
+                        <ul>
+                            <li>
+                                <label for="product-item-attr-color">Choose Color</label>
+                            </li>
+                            <li>
+                                <label for="product-item-attr-size">Choose Size</label>
+                            </li>
+                        </ul>
+                    </div>
 
-                <?php if (!$this->hasOptions()):?>
-                    <div class="add-to-box">
-                        <?php if($_product->isSaleable()): ?>
-                            <?php echo $this->getChildHtml('addtocart') ?>
-                            <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-                                <span class="or"><?php echo $this->__('OR') ?></span>
-                            <?php endif; ?>
+                    <div class="add-to-cart-wrapper">
+                        <?php if (!$this->hasOptions()):?>
+                            <div class="add-to-box">
+                                <?php if($_product->isSaleable()): ?>
+                                    <?php echo $this->getChildHtml('addtocart') ?>
+                                    <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                        <span class="or"><?php echo $this->__('OR') ?></span>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php echo $this->getChildHtml('addto') ?>
+                                <?php
+/*
+                                 echo $this->getChildHtml('sharing')
+*/
+                                 ?>
+                            </div>
+                            <?php echo $this->getChildHtml('extra_buttons') ?>
+                        <?php elseif (!$_product->isSaleable()): ?>
+                            <div class="add-to-box">
+                                <?php echo $this->getChildHtml('addto') ?>
+                                <?php
+/*
+                                 echo $this->getChildHtml('sharing')
+*/
+                                 ?>
+                            </div>
                         <?php endif; ?>
-                        <?php echo $this->getChildHtml('addto') ?>
-                        <?php echo $this->getChildHtml('sharing') ?>
                     </div>
-                    <?php echo $this->getChildHtml('extra_buttons') ?>
-                <?php elseif (!$_product->isSaleable()): ?>
-                    <div class="add-to-box">
-                        <?php echo $this->getChildHtml('addto') ?>
-                        <?php echo $this->getChildHtml('sharing') ?>
-                    </div>
-                <?php endif; ?>
+                    <?php echo $this->getChildHtml('related_products') ?>
+                </div>
+                <div class="product-collateral toggle-content tabs">
+                    <?php if ($detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml')):?>
+                        <dl id="collateral-tabs" class="collateral-tabs">
+                            <?php foreach ($detailedInfoGroup as $alias => $html):?>
+                                <?php $tabTitle = $this->escapeHtml($this->getChildData($alias, 'title')); ?>
+                                <?php $reviewsCount = Mage::app()->getLayout()->createBlock('review/product_view')->getReviewsCollection()->getSize(); ?>
+                                <dt class="tab"><span><?php echo strtolower($tabTitle) == 'reviews' && $reviewsCount ? $this->__('Reviews %s', '(' . $reviewsCount . ')') : $tabTitle; ?></span></dt>
+                                <dd class="tab-container">
+                                    <div class="tab-content"><?php echo $html ?></div>
+                                </dd>
+                            <?php endforeach;?>
+                            <dt class="tab"><span>Additional Information</span></dt>
+                            <dd class="tab-container">
+                                <div class="tab-content">
+                                    <?php echo $this->getChildHtml('product_type_data') ?>
+                                    <?php echo $this->getChildHtml('extrahint') ?>
+                                    <?php echo $this->getChildHtml('other');?>
+                                </div>
+                            </dd>
+                        </dl>
+                    <?php endif; ?>
+                </div>
+                <div class="social-icons">
+                    <div class="share">Share:</div>
+                    <ul>
+                        <li><a class="fa fa-facebook" href="https://www.facebook.com/ShelterLogic1"><span class="visuallyHidden">Visit us on Facebook</span></a></li>
+                        <li><a class="fa fa-twitter" href="https://twitter.com/shelterlogic"><span class="visuallyHidden">Visit us on Twitter</span></a></li>
+                        <li><a class="fa fa-pinterest" href="https://www.pinterest.com/shelterlogic/"><span class="visuallyHidden">Visit us on Pinterest</span></a></li>
+                        <li><a class="fa fa-instagram" href=""><span class="visuallyHidden">Visit us on Instagram</span></a></li>
+                        <li><a class="fa fa-envelope" href=""><span class="visuallyHidden">Contact us via Email</span></a></li>
+                    </ul>
+                </div>
             </div>
 
-            <?php echo $this->getChildHtml('related_products') ?>
+            <div class="clearfix"></div>
 
-            <div class="clearer"></div>
             <?php if ($_product->isSaleable() && $this->hasOptions()):?>
                 <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
             <?php endif;?>
@@ -172,17 +233,380 @@
         </script>
     </div>
 
-    <div class="product-collateral toggle-content tabs">
-        <?php if ($detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml')):?>
-            <dl id="collateral-tabs" class="collateral-tabs">
-                <?php foreach ($detailedInfoGroup as $alias => $html):?>
-                    <dt class="tab"><span><?php echo $this->escapeHtml($this->getChildData($alias, 'title')) ?></span></dt>
-                    <dd class="tab-container">
-                        <div class="tab-content"><?php echo $html ?></div>
-                    </dd>
-                <?php endforeach;?>
-            </dl>
-        <?php endif; ?>
+    <div class="product-features-benefits">
+        <div class="head">
+            <div class="mod">
+                <h3>Features & Benefits</h3>
+                <p>Big Quality Features. Value Priced. Learn more about Shed-in-a-Box<sup>&reg;</sup>.</p>
+            </div>
+        </div>
+        <div class="cmlla">
+            <ul>
+                <li>
+                    <h4>HIGH GRADE STEEL FRAME</h4>
+                    <p>1-3/8 in. / 3,5 cm diameter steel construction with Premium powder coat finish resists chipping, peeling, rust and corrosion.</p>
+                </li>
+                <li>
+                    <h4>EASY SLIDE CROSS RAIL<sup>&trade;</sup></h4>
+                    <p>Best in class feature for continuous cover tightening. Locks down and squares up frame.</p>
+                </li>
+                <li>
+                    <h4>RIPSTOP TOUGH FABRIC COVER</h4>
+                    <p>7.5 oz psm triple layer woven polyethylene is heat sealed not stitched for maximum water resistance. UV treated inside, outside and in between with added fade blockers.</p>
+                </li>
+                <li>
+                    <h4>RATCHET TITE<sup>&trade;</sup> COVER TENSIONING</h4>
+                    <p>Ensures drum tight cover and door panel connection to shelter frame. Quality ratchet and web strap components keep cover tight and neat looking.</p>
+                </li>
+                <li>
+                    <h4>SHELTERLOCK<sup>&reg;</sup> 3X STEEL STABILIZERS</h4>
+                    <p>Patented ShelterLock<sup>&reg;</sup> 3X Steel Stabilizers ensure rock solid stability. Delivers a stable, more durable shelter.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="flex-block">
+
+        <div class="product-related-accessories">
+
+            <h2><span>Related Accessories</span></h2>
+
+            <div class="category-products">
+
+                <ul class="products-grid">
+
+                    <li class="item last">
+                        <a href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors" title="ShelterAuger 15&quot; Earth Anchors">
+                            <div class="category-products-image"><img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/s/h/shelter-auger-15-earth-anchors-default_.png" alt="ShelterAuger 15&quot; Earth Anchors" /></div>
+                            <div class="product-info clearfix">
+                                <div class="product-west">
+                                    <h2 class="product-name">ShelterAuger 15&quot; Earth Anchors</h2>
+                                    <div class="product-category">Accessories</div>
+                                </div>
+                                <div class="product-east">
+                                    <div class="price-box">
+                                        <p class="special-price">
+                                        <span class="price-label">Special Price</span>
+                                        <span class="price">$9.99</span>
+                                        </p>
+                                        <p class="old-price">
+                                        <span class="price-label">Regular Price:</span>
+                                        <span class="price">$19.99</span>
+                                        </p>
+                                    </div>
+                                    <button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation('http://shelterlogic.com.local/checkout/cart/add/uenc/aHR0cDovL3NoZWx0ZXJsb2dpYy5jb20ubG9jYWwvcHJvZHVjdHMvYW5jaG9ycy9zdWItY2F0ZWdvcnktYS8,/product/41353/form_key/seYCwNQobzswbgeB/')"><span><span>Add to Cart</span></span></button>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="item last">
+                        <a href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+                            <div class="category-products-image"><img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" /></div>
+                            <div class="product-info clearfix">
+                                <div class="product-west">
+                                    <h2 class="product-name">ShelterAuger 15&quot; Earth Anchors</h2>
+                                    <div class="product-category">Accessories</div>
+                                </div>
+                                <div class="product-east">
+                                    <div class="price-box">
+                                        <span class="regular-price">
+                                        <span class="price">$19.99</span></span>
+                                    </div>
+                                    <button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation('http://shelterlogic.com.local/checkout/cart/add/uenc/aHR0cDovL3NoZWx0ZXJsb2dpYy5jb20ubG9jYWwvcHJvZHVjdHMvYW5jaG9ycy9zdWItY2F0ZWdvcnktYS8,/product/41371/form_key/seYCwNQobzswbgeB/')"><span><span>Add to Cart</span></span></button>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="item last">
+                        <a href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+                            <div class="category-products-image"><img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" /></div>
+                            <div class="product-info clearfix">
+                                <div class="product-west">
+                                    <h2 class="product-name">ShelterAuger 15&quot; Earth Anchors</h2>
+                                    <div class="product-category">Accessories</div>
+                                </div>
+                                <div class="product-east">
+                                    <div class="price-box">
+                                        <span class="regular-price">
+                                        <span class="price">$19.99</span></span>
+                                    </div>
+                                    <button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation('http://shelterlogic.com.local/checkout/cart/add/uenc/aHR0cDovL3NoZWx0ZXJsb2dpYy5jb20ubG9jYWwvcHJvZHVjdHMvYW5jaG9ycy9zdWItY2F0ZWdvcnktYS8,/product/41371/form_key/seYCwNQobzswbgeB/')"><span><span>Add to Cart</span></span></button>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="item last">
+                        <a href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-30-earth-anchors" title="ShelterAuger 30&quot; Earth Anchors">
+                            <div class="category-products-image"><img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10075_600x600_01.jpg" alt="ShelterAuger 30&quot; Earth Anchors" /></div>
+                            <div class="product-info clearfix">
+                                <div class="product-west">
+                                    <h2 class="product-name">ShelterAuger 30&quot; Earth Anchors</h2>
+                                    <div class="product-category">Accessories</div>
+                                </div>
+                                <div class="product-east">
+                                    <div class="price-box">
+                                        <span class="regular-price">
+                                        <span class="price">$19.99</span></span>
+                                    </div>
+                                    <button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation('http://shelterlogic.com.local/checkout/cart/add/uenc/aHR0cDovL3NoZWx0ZXJsb2dpYy5jb20ubG9jYWwvcHJvZHVjdHMvYW5jaG9ycy9zdWItY2F0ZWdvcnktYS8,/product/41354/form_key/seYCwNQobzswbgeB/')"><span><span>Add to Cart</span></span></button>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+		<div class="product-recommended-items">
+
+			<ul class="col-grid clearfix">
+
+				<li>
+
+					<h3><span>Best Sellers</span></h3>
+
+					<ul>
+						<li>
+							<a class="clearfix" href="/" title="">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/s/h/shelter-auger-15-earth-anchors-default_.png" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<p class="special-price">
+											<span class="price-label">Special Price</span>
+											<span class="price">$9.99</span>
+										</p>
+										<p class="old-price">
+											<span class="price-label">Regular Price:</span>
+											<span class="price">$19.99</span>
+										</p>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="/" title="">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/s/h/shelter-auger-15-earth-anchors-default_.png" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<p class="special-price">
+											<span class="price-label">Special Price</span>
+											<span class="price">$9.99</span>
+										</p>
+										<p class="old-price">
+											<span class="price-label">Regular Price:</span>
+											<span class="price">$19.99</span>
+										</p>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="/" title="">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/s/h/shelter-auger-15-earth-anchors-default_.png" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<p class="special-price">
+											<span class="price-label">Special Price</span>
+											<span class="price">$9.99</span>
+										</p>
+										<p class="old-price">
+											<span class="price-label">Regular Price:</span>
+											<span class="price">$19.99</span>
+										</p>
+									</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+
+				</li>
+
+				<li>
+
+					<h3><span>What's New</span></h3>
+
+					<ul>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<li>
+
+					<h3><span>On Clearance</span></h3>
+
+					<ul>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-15-earth-anchors-3-1-1-1-1-1-1" title="ShelterAuger 15&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10073_600x600_01_3_1_1_1_1_1_1.jpg" alt="ShelterAuger 15&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 15&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<li>
+
+					<h3><span>Featured</span></h3>
+
+					<ul>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-30-earth-anchors" title="ShelterAuger 30&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10075_600x600_01.jpg" alt="ShelterAuger 30&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 30&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-30-earth-anchors" title="ShelterAuger 30&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10075_600x600_01.jpg" alt="ShelterAuger 30&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 30&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="clearfix" href="http://shelterlogic.com.local/products/anchors/sub-category-a/shelterauger-30-earth-anchors" title="ShelterAuger 30&quot; Earth Anchors">
+								<div class="product-west">
+	        							<img src="http://shelterlogic.com.local/media/catalog/product/cache/7/small_image/260x260/9df78eab33525d08d6e5fb8d27136e95/1/0/10075_600x600_01.jpg" alt="ShelterAuger 30&quot; Earth Anchors" />
+								</div>
+								<div class="product-east">
+									<h4 class="product-name">ShelterAuger 30&quot; Earth Anchors</h4>
+									<div class="price-box">
+										<span class="regular-price">
+											<span class="price">$19.99</span>
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+
+		</div>
+
     </div>
 
     <?php echo $this->getChildHtml('upsell_products') ?>
