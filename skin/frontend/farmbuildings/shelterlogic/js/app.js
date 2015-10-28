@@ -271,6 +271,7 @@ $j(document).ready(function () {
 
     // In order to display the language switcher next to the logo, we are moving the content at different viewports,
     // rather than having duplicate markup or changing the design
+/*
     enquire.register('(max-width: ' + bp.medium + 'px)', {
         match: function () {
             $j('.page-header-container .store-language-container').prepend($j('.form-language'));
@@ -279,7 +280,7 @@ $j(document).ready(function () {
             $j('.header-language-container .store-language-container').prepend($j('.form-language'));
         }
     });
-
+*/
     // ==============================================
     // Enquire JS
     // ==============================================
@@ -524,7 +525,6 @@ $j(document).ready(function () {
         });
     }
 
-
     // ==============================================
     // Checkout Cart - events
     // ==============================================
@@ -534,6 +534,48 @@ $j(document).ready(function () {
             $j(this).siblings('button').fadeIn();
         });
     }
+
+    // ==============================================
+    // Store Item Details
+    // ==============================================
+    var qtyWrapper="#qty-wrapper",
+    qtyItems=[".qty-dec",".qty-inc"],
+    qtyCounter=true,
+    qtyCounterFN=function(b,o){
+        $j(o).on({click:function(e){
+            e.preventDefault();
+        }});
+        if (b) {
+            $j(o).on({
+                click:function(e){$j("#qty").val(function(i,v){return(++v);});}
+            });
+        } else {
+            $j(o).on({
+                click:function(e){$j("#qty").val(function(i,v){return((--v>0)?v:1);});}
+            });
+        }
+    }
+    $j(".qty",qtyWrapper).on({
+        change:function(i,v){
+            $j(this).val(function(i,v){return(((isNaN(v))||v<1)?1:v);});
+        }
+    });
+    $j(qtyItems,qtyWrapper).each(
+        function(i,v){
+            if(i>0){qtyCounterFN(true,v);}else{qtyCounterFN(false,v);}
+        }
+    );
+
+    // ==============================================
+    // Header Search Control
+    // ==============================================
+
+    var hdrSearch="#header-search";
+    $j("label",hdrSearch).on({
+  //      click:function(e){
+//            $j(".input-box",hdrSearch).toggle();
+    //    }
+    });
 
     // ==============================================
     // Product Listing - Align action buttons/links
@@ -725,7 +767,6 @@ var ProductMediaManager = {
                 ProductMediaManager.zoomEnabled = false;
             }
         });
-
         //resizing the window causes problems with zoom -- reinitialize
         $j(window).on('delayed-resize', function(e, resizeEvent) {
             ProductMediaManager.destroyZoom();
