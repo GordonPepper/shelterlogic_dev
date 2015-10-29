@@ -1,23 +1,19 @@
 # Created by .gitignore support plugin (hsz.mobi)
-var/*
-mergedconfig.xml
-mtest.php
-media/catalog/*
-media/tmp/*
-media/catalog/product/cache/*
-media/js/*
-media/css/*.css
-errors/local.xml
+/var
+/mtest.php
+/media
+/app/etc/local.xml
+/app/etc/composer.lock
+/app/etc/vendor
+/.htaccess
+
 .idea
 .DS_Store
-app/code/local/Americaneagle/Farmbuildings/Block/Checkout/Renderer.php
-#downloader
-skin/frontend/farmbuildings/default/HTC/
-includes/*
-media/wysiwyg/*
-var/package/tmp/*
-image_collections/images/*
-app/code/local/Extendware/*
+
+#skin/frontend/farmbuildings/default/HTC/
+/includes
+/image_collections/images/*
+#app/code/local/Extendware/*
 skin/frontend/farmbuildings/default/bower_components/
 skin/frontend/farmbuildings/default/node_modules/
 # unfortunately, we need to track these files otherwise new devs cannot pull down a
