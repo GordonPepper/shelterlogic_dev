@@ -125,12 +125,6 @@
 ############################################
 ## uncomment next line to enable light API calls processing
 
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteRule ^(.*)/$ /$1 [L,R=301]
-
-############################################
-## uncomment next line to enable light API calls processing
-
 #    RewriteRule ^api/([a-z][0-9a-z_]+)/?$ api.php?type=$1 [QSA,L]
 
 ############################################
@@ -213,6 +207,7 @@
 ## http://developer.yahoo.com/performance/rules.html#etags
 
     #FileETag none
-SetEnv MAGE_IS_DEVELOPER_MODE 1
+#SetEnv MAGE_IS_DEVELOPER_MODE 1
 SetEnvIf Referer /vendors MAGE_RUN_CODE=vendors
 SetEnvIf Referer /vendors MAGE_RUN_TYPE=website
+

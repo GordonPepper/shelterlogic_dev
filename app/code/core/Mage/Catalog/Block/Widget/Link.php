@@ -65,7 +65,7 @@ class Mage_Catalog_Block_Widget_Link
     public function getHref()
     {
         if (!$this->_href) {
-            
+
             if($this->hasStoreId()) {
                 $store = Mage::app()->getStore($this->getStoreId());
             } else {
@@ -75,9 +75,22 @@ class Mage_Catalog_Block_Widget_Link
             /* @var $store Mage_Core_Model_Store */
             $href = "";
             if ($this->getData('id_path')) {
-                /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
-                $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
-                $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
+                $idPath = explode('/', $this->_getData('id_path'));
+
+                if (isset($idPath[0]) && isset($idPath[1]) && $idPath[0] == 'product') {
+
+                    /** @var $helper Mage_Catalog_Helper_Product */
+                    $helper = $this->_getFactory()->getHelper('catalog/product');
+
+                    $product = Mage::getModel('catalog/product')->load($idPath[1]);
+                    return $product->getUrl();
+
+                } else {
+                    /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
+                    $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
+                    $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
+                }
+
                 if (!$href) {
                     return false;
                 }
