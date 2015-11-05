@@ -17,6 +17,8 @@ skin/frontend/farmbuildings/default/bower_components/
 skin/frontend/farmbuildings/default/node_modules/
 skin/frontend/farmbuildings/default/HTC/
 
+/app/code/local/Extendware/EWEntityIncrement/var/extendware/system/serials/Extendware_EWEntityIncrement.serialized
+/app/code/local/Extendware/EWEntityIncrement/var/extendware/system/licenses/Extendware_EWEntityIncrement.serialized
 # unfortunately, we need to track these files otherwise new devs cannot pull down a
 # working instance of the project
 #app/code/local/Varien/Autoload.php

@@ -1,0 +1,21 @@
+{
+  "require": {
+    "magento-hackathon/magento-composer-installer": "3.0.5",
+    "americaneagle/ldap": "dev-master",
+    "aoepeople/aoe_scheduler": "1.0.*"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://packages.firegento.com"
+    },
+    {
+      "type": "vcs",
+      "url": "https://gitlab.idevdesign.net/magento/americaneagle-ldap.git"
+    }
+  ],
+  "extra": {
+    "magento-root-dir": "../../",
+    "magento-deploystrategy": "copy"
+  }
+}
