@@ -31,9 +31,9 @@
 <div class="header-language-background">
     <div id="hlc" class="header-language-container">
         <ul class="hdr-icons">
-            <li class="fb"><a target="_blank" href="http://www.facebook.com/">Visit us on Facebook</a></li>
-            <li class="tt"><a target="_blank" href="http://www.twitter.com/">Visit us on Twitter</a></li>
-            <li class="yt"><a target="_blank" href="http://www.youtube.com/">Visit us on Youtube</a></li>
+            <li class="fb"><a class="fa fa-facebook" target="_blank" href="http://www.facebook.com/"><span class="visuallyHidden">Visit us on Facebook</span></a></li>
+            <li class="tt"><a class="fa fa-twitter" target="_blank" href="http://www.twitter.com/"><span class="visuallyHidden">Visit us on Twitter<span></a></li>
+            <li class="yt"><a class="fa fa-youtube-play" target="_blank" href="http://www.youtube.com/"><span class="visuallyHidden">Visit us on Youtube<span></a></li>
         </ul>
         <div class="store-language-container hlc-item">
             <?php echo $this->getChildHtml('store_language') ?>
@@ -66,12 +66,6 @@ $j(".hdr-select-tool",hdrSelectTool).each(function(){
             <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
         </a>
 
-        <!-- Navigation -->
-
-        <div id="header-nav" class="skip-content">
-            <?php echo $this->getChildHtml('topMenu') ?>
-        </div>
-
         <?php // In order for the language switcher to display next to logo on smaller viewports, it will be moved here.
               // See app.js for details ?>
         <div class="store-language-container"></div>
@@ -79,14 +73,10 @@ $j(".hdr-select-tool",hdrSelectTool).each(function(){
         <!-- Skip Links -->
 
         <div class="skip-links">
+
             <a href="#header-nav" class="skip-link skip-nav">
                 <span class="icon"></span>
-                <span class="label"><?php echo $this->__('Menu'); ?></span>
-            </a>
-
-            <a href="#header-search" class="skip-link skip-search">
-                <span class="icon"></span>
-                <span class="label"><?php echo $this->__('Search'); ?></span>
+                <span class="label visuallyHidden"><?php echo $this->__('Menu'); ?></span>
             </a>
 
             <a href="#header-account" class="skip-link skip-account">
@@ -108,7 +98,10 @@ $j(".hdr-select-tool",hdrSelectTool).each(function(){
 
         </div>
 
-
+        <!-- Navigation -->
+        <div id="header-nav" class="skip-content">
+            <?php echo $this->getChildHtml('topMenu') ?>
+        </div>
 
         <!-- Account -->
 
