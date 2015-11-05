@@ -104,7 +104,9 @@ $j(document).ready(function () {
 
         // Hide all stubs
         skipLinks.removeClass('skip-active');
-        skipContents.removeClass('skip-active');
+        skipContents.fadeOut(1000,function(){
+            $j(this).removeClass('skip-active');
+        });
 
         // Toggle stubs
         if (isSkipContentOpen) {

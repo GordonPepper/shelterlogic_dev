@@ -33,9 +33,21 @@
 ?>
 <?php if($this->canShowBlock()): ?>
 <div class="block block-layered-nav<?php if (!$this->getLayer()->getState()->getFilters()): ?> block-layered-nav--no-filters<?php endif; ?>">
+<?php/*
     <div class="block-title">
-        <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+        <strong><span>echo $this->__('Shop By')</span></strong>
     </div>
+*/?>
+    <dl class="narrow-by-list-top">
+        <dd>
+            <ol>
+                <li><a href="/">New</a></li>
+                <li><a href="/">Top sellers</a></li>
+                <li><a href="/">Coming Soon</a></li>
+            </ol>
+        </dd>
+    </dl>
+
     <div class="block-content toggle-content">
         <?php echo $this->getStateHtml() ?>
         <?php if ($this->getLayer()->getState()->getFilters()): ?>
@@ -47,7 +59,7 @@
                 <?php $_filters = $this->getFilters() ?>
                 <?php foreach ($_filters as $_filter): ?>
                 <?php if($_filter->getItemsCount()): ?>
-                    <dt><?php echo $this->__($_filter->getName()) ?></dt>
+                    <dt><span><?php echo $this->__($_filter->getName()) ?></span></dt>
                     <dd><?php echo $_filter->getHtml() ?></dd>
                 <?php endif; ?>
                 <?php endforeach; ?>

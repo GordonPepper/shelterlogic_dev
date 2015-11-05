@@ -60,13 +60,15 @@
     </div>
 <?php endif; ?>
 
-        <code>Begin: Static HTML Block</code>
-            <div class="page-title category-title">
-                <h1>Featured Product</h1>
-            </div>
-        <code>End: Static HTML Block</code>
+<!--
+<div class="page-title category-title">
+    <h1>Featured Product</h1>
+</div>
+//-->
 
-<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('catalog/navigation/subcategory_listing.phtml')->toHtml(); ?>
+<?php
+// echo $this->getLayout()->createBlock('core/template')->setTemplate('catalog/navigation/subcategory_listing.phtml')->toHtml();
+?>
 
 <?php if($this->isContentMode()): ?>
     <?php echo $this->getCmsBlockHtml() ?>

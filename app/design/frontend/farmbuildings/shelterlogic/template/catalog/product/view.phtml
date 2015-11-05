@@ -37,6 +37,7 @@
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="clear">&nsp;</div>
 <div class="product-view">
     <div class="product-essential">
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -45,100 +46,100 @@
                 <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
                 <input type="hidden" name="related_product" id="related-products-field" value="" />
             </div>
-            <div class="product-img-box">
-                <div class="product-name">
-                    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-                </div>
+            <div class="product-img-box clearfix">
                 <?php echo $this->getChildHtml('media') ?>
             </div>
 
 
             <div class="product-item-wrpr">
 
-                <div class="product-shop">
-                    <div class="product-name">
-                        <ul class="product-item-nav">
-                            <li class="prev"><a href="#"></a></li>
-                            <li class="next"><a href="#"></a></li>
-                        </ul>
-                        <span class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
-                    </div>
+                <div class="product-shop-wrpr">
+                    <div class="product-shop">
+                        <div class="mod">
+                            <div class="product-name">
+                                <ul class="product-item-nav">
+                                    <li class="prev"><a href="#"></a></li>
+                                    <li class="next"><a href="#"></a></li>
+                                </ul>
+                                <h1 class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                            </div>
 
-                    <div class="extra-info">
-                        <?php echo $this->getReviewsSummaryHtml($_product, 'default', true)?>
-                        <?php echo $this->getChildHtml('product_type_availability'); ?>
-                    </div>
+                            <div class="extra-info">
+                                <?php echo $this->getReviewsSummaryHtml($_product, 'default', true)?>
+                                <?php echo $this->getChildHtml('product_type_availability'); ?>
+                            </div>
 
-                    <div class="product-category">
-                        <ul>
-                            <li><a href="/">Shop / Sheds</a></li>
-                        </ul>
-                    </div>
+                            <div class="product-category">
+                                <ul>
+                                    <li><a href="/">Shop / Sheds</a></li>
+                                </ul>
+                            </div>
 
-                    <div class="clearfix">&nbsp;</div>
+                            <div class="clear">&nbsp;</div>
 
-                    <div class="price-info">
-                        <?php echo $this->getPriceHtml($_product); ?>
-                        <?php echo $this->getChildHtml('bundle_prices') ?>
-                        <?php echo $this->getTierPriceHtml() ?>
-                    </div>
+                            <div class="price-info">
+                                <?php echo $this->getPriceHtml($_product); ?>
+                                <?php echo $this->getChildHtml('bundle_prices') ?>
+                                <?php echo $this->getTierPriceHtml() ?>
+                            </div>
 
-                    <?php echo $this->getChildHtml('alert_urls') ?>
-<?php
-/*
-/*
-                    <?php if ($_product->getShortDescription()):?>
-                        <div class="short-description">
-                            <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
-                        </div>
-                    <?php endif;?>
-*/
-?>
+                            <?php echo $this->getChildHtml('alert_urls') ?>
+        <?php
+        /*
+                            if ($_product->getShortDescription()):
+                                <div class="short-description">
+                                    <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                                </div>
+                            endif;
+        */
+        ?>
 
-                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
-                    <?php endif;?>
+                            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                            <?php endif;?>
 
-                    <div id="product-item-attr" class="product-item-attr">
-                        <ul>
-                            <li>
-                                <label for="product-item-attr-color">Choose Color</label>
-                            </li>
-                            <li>
-                                <label for="product-item-attr-size">Choose Size</label>
-                            </li>
-                        </ul>
-                    </div>
+                            <div id="product-item-attr" class="product-item-attr">
+                                <ul>
+                                    <li>
+                                        <label for="product-item-attr-color">Choose Color</label>
+                                    </li>
+                                    <li>
+                                        <label for="product-item-attr-size">Choose Size</label>
+                                    </li>
+                                </ul>
+                            </div>
 
-                    <div class="add-to-cart-wrapper">
-                        <?php if (!$this->hasOptions()):?>
-                            <div class="add-to-box">
-                                <?php if($_product->isSaleable()): ?>
-                                    <?php echo $this->getChildHtml('addtocart') ?>
-                                    <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-                                        <span class="or"><?php echo $this->__('OR') ?></span>
-                                    <?php endif; ?>
+                            <div class="add-to-cart-wrapper">
+                                <?php if (!$this->hasOptions()):?>
+                                    <div class="add-to-box">
+                                        <?php if($_product->isSaleable()): ?>
+                                            <?php echo $this->getChildHtml('addtocart') ?>
+                                            <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                                <span class="or"><?php echo $this->__('OR') ?></span>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                        <?php echo $this->getChildHtml('addto') ?>
+                                        <?php
+        /*
+                                         echo $this->getChildHtml('sharing')
+        */
+                                         ?>
+                                    </div>
+                                    <?php echo $this->getChildHtml('extra_buttons') ?>
+                                <?php elseif (!$_product->isSaleable()): ?>
+                                    <div class="add-to-box">
+                                        <?php echo $this->getChildHtml('addto') ?>
+                                        <?php
+        /*
+                                         echo $this->getChildHtml('sharing')
+        */
+                                         ?>
+                                    </div>
                                 <?php endif; ?>
-                                <?php echo $this->getChildHtml('addto') ?>
-                                <?php
-/*
-                                 echo $this->getChildHtml('sharing')
-*/
-                                 ?>
                             </div>
-                            <?php echo $this->getChildHtml('extra_buttons') ?>
-                        <?php elseif (!$_product->isSaleable()): ?>
-                            <div class="add-to-box">
-                                <?php echo $this->getChildHtml('addto') ?>
-                                <?php
-/*
-                                 echo $this->getChildHtml('sharing')
-*/
-                                 ?>
-                            </div>
-                        <?php endif; ?>
+                            <?php echo $this->getChildHtml('related_products') ?>
+                        </div>
                     </div>
-                    <?php echo $this->getChildHtml('related_products') ?>
                 </div>
                 <div class="product-collateral toggle-content tabs">
                     <?php if ($detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml')):?>
