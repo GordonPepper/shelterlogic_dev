@@ -39,7 +39,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
     protected $_minMaxCache = array();
 
     /**
-     * Return price of the     fied product
+     * Return price of the specified product
      *
      * @param Mage_Catalog_Model_Product $product
      * @return float
