@@ -343,7 +343,7 @@
                 </div>
                 <div class="row">
                     <div class="small-12 medium-10 large-8 small-centered columns">
-                        <p class="made-in clearfix">Need help? Call <span class="phone"><?php echo Mage::getStoreConfig('general/store_information/phone'); ?></span> or email us at <a href="mailto:<?php echo Mage::getStoreConfig('trans_email/ident_support/email'); ?>"><?php echo Mage::getStoreConfig('trans_email/ident_support/email'); ?></a>.</p>
+                        <p class="made-in clearfix"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('start-need-help')->toHtml(); ?></p>
                     </div>
                 </div>
             </div>
