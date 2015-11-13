@@ -26,6 +26,7 @@
 /**
  * @var Mage_Page_Block_Html_Header $this
  */
+$accountUrl = Mage::helper('customer')->getAccountUrl();
 ?>
 
 <div class="header-language-background">
@@ -40,7 +41,7 @@
         </div>
         <?php echo $this->getChildHtml('currency_switcher') ?>
         <div class="header-wishlist hlc-item"><a href="/">Wishlist</a></div>
-        <div class="header-login hlc-item"><a href="/">Login</a></div>
+        <div class="header-login hlc-item"><a href="<?php echo $accountUrl; ?>">Login</a></div>
     </div>
 </div>
 
