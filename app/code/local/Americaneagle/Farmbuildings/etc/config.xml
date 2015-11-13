@@ -26,6 +26,11 @@
                     <!--<cart_item_renderer_configurable>Americaneagle_Farmbuildings_Block_Checkout_Renderer</cart_item_renderer_configurable>-->
                 </rewrite>
             </checkout>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tab_super_config>Americaneagle_Farmbuildings_Block_Adminhtml_Config</catalog_product_edit_tab_super_config>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <models>
             <americaneagle_farmbuildings>
