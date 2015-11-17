@@ -51,14 +51,8 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
 </td>
 <td class="product-cart-info">
     <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item') ?>" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item') ?></a>
-    <h2 class="product-name"><a
-            href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
+        <h2 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
     </h2>
-
-    <div class="product-cart-sku">
-        <span class="label"><?php echo $this->__('SKU'); ?>:</span> <?php echo $this->escapeHtml($_item->getSku()); ?>
-    </div>
-
     <?php if ($_options = $this->getOptionList()): ?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
