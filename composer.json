@@ -3,7 +3,8 @@
     "magento-hackathon/magento-composer-installer": "3.0.5",
     "americaneagle/ldap": "dev-master",
     "aoepeople/aoe_scheduler": "1.2.2",
-    "wsdl2phpgenerator/wsdl2phpgenerator": "3.*"
+    "wsdl2phpgenerator/wsdl2phpgenerator": "3.*",
+    "connect20/gaboli_warehouse": "1.2.0"
   },
   "repositories": [
     {
