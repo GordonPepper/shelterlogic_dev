@@ -4930,8 +4930,8 @@ p.product-name a:hover {
 .products-grid h2,
 .products-grid h3 {display:block; margin:0; padding:0; color:#f0b310; font-size:13px; line-height:16px; text-align:left; height:32px; overflow:hidden;}
 
-.category-products.sub-categories li a {background-color:#333333;}
-.category-products .products-grid h4 {display:block; position:relative; margin:0; padding:20px 20px 34px 20px; font-family:oswald; font-size:18px; line-height:20px; color:#ffffff;}
+.category-products.sub-categories li a {min-height:115px;}
+.category-products .products-grid h4 {display:block; position:absolute; left:0; right:0; top:auto; bottom:0; height:auto; z-index:1; margin:0; padding:20px 20px 34px 20px; font-family:oswald; font-size:18px; line-height:20px; color:#ffffff;}
 .category-products .products-grid h4:after {content:""; display:block; position:relative; left:0; right:0; top:auto; bottom:-12px; border-bottom:1px solid #ffffff;}
 
 .category-products .products-grid li > a::before {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25);}
