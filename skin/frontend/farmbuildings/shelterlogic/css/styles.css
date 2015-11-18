@@ -1724,6 +1724,8 @@ a.button:hover {
   padding:15px;
 }
 
+.page-header {padding-left:15px; padding-left:15px;}
+
 .main-container,
 .footer-container .footer {display:block; margin:0 auto; max-width:1260px;}
 
@@ -1737,6 +1739,7 @@ a.button:hover {
 }
 
 @media only screen and (min-width:480px) {
+    .page-header {padding-left:30px; padding-left:30px;}
   .main-container {padding:0 30px 30px 30px;}
   .footer-container {padding:30px 10px 40px 10px;}
 }
@@ -2017,8 +2020,11 @@ a.button:hover {
 /* -------------------------------------------- *
  * Messages
  */
+
 .messages {
-  margin-bottom:10px;
+  display:block;
+  margin:10px 0;
+  -webkit-box-shadow:0px 2px 2px 0px rgba(0,0,0,0.1); -moz-box-shadow:  0px 2px 2px 0px rgba(0,0,0,0.1) box-shadow:  0px 2px 2px 0px rgba(0,0,0,0.1);
 }
 
 .messages li li {
@@ -4839,7 +4845,7 @@ h3.product-name a,
 h4.product-name a,
 h5.product-name a,
 p.product-name a {
-  color:#636363;
+
 }
 h2.product-name a:hover,
 h3.product-name a:hover,
@@ -4847,7 +4853,7 @@ h4.product-name a:hover,
 h5.product-name a:hover,
 p.product-name a:hover {
   color:#f0b310;
-  text-decoration:none;
+  text-decoration:underline;
 }
 
 .dept-list-image {background-color:#ffffff;}
@@ -5962,6 +5968,10 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
     .product-related-accessories .products-grid {padding:0 10px;}
     .product-related-accessories .products-grid > li {display:block; float:none; width:100%; margin:0 0 20px 0;}
     .product-related-accessories .products-grid .product-info {height:auto; padding-bottom:0;}
+    .cart .checkout-types {margin:25px 0;}
+    .cart .shopping-cart-column .checkout-types,
+    .cart .shopping-cart-column .page-title,
+    .cart .shopping-cart-column .section-title {margin:15px 0;}
 }
 
 @media only screen and (max-width:850px) {
@@ -7035,10 +7045,12 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 /* ============================================ *
  * Checkout - Layout
  * ============================================ */
-.cart-table {
-  float:left;
-  width:60%;
-}
+
+.shopping-cart-column {width:60%; float:left;}
+
+.cart-forms {margin-bottom:25px;}
+
+.cart {display:block; margin:25px 0;}
 
 .cart-forms,
 .cart-totals-wrapper,
@@ -7053,9 +7065,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .cart-forms .discount,
 .cart-forms .giftcard,
 .cart-forms .shipping {
-  padding:10px;
-  background-color:#f4f4f4;
-  border:1px solid #cccccc;
+  display:block;
 }
 
 .cart-table,
@@ -7063,7 +7073,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .cart-forms .discount,
 .cart-forms .giftcard,
 .cart-forms .shipping {
-  margin-bottom:20px;
+  margin-bottom:30px;
 }
 
 .display-both-prices .cart-table {
@@ -7103,10 +7113,12 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   .display-single-price .crosssell {
     padding-left:10px;
   }
+  .shopping-cart-column,
   .display-single-price .cart-forms,
   .display-single-price .cart-totals-wrapper,
   .display-single-price .crosssell {
-    width:50%;
+    float:none;
+    width:100%;
   }
   .display-single-price .crosssell {
     clear:right;
@@ -7134,20 +7146,20 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 /* ============================================ *
  * Checkout - Cart
  * ============================================ */
-.cart .page-title {
-  margin-bottom:15px;
-  border-bottom:1px solid #ededed;
-}
+
+.cart .page-title,
+.cart .section-title {display:block; margin:0 0 25px 0; border-bottom:1px solid #f0f0f0;}
+.cart .page-title h1,
+.cart .section-title h3 {display:inline-block; position:relative; margin:0; border-bottom:none;}
+.cart .page-title h1::after,
+.cart .section-title h3::after {content:""; position:absolute; left:0; right:0; bottom:-1px; border-bottom:1px solid #f0b310;}
+
+.cart .section-title h3 {padding-bottom:15px;}
+
 .cart .page-title::after {
   content:'';
   display:table;
   clear:both;
-}
-.cart .page-title h1 {
-  float:left;
-  border-bottom:none;
-  margin-bottom:6px;
-  margin-right:10px;
 }
 
 .checkout-types {
@@ -7227,7 +7239,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .cart-table td,
 .cart-table tbody td {
   border-bottom:none;
-  vertical-align:top;
+  vertical-align:middle;
 }
 .cart-table h2 {
   color:#636363;
@@ -7242,7 +7254,8 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
 }
 .cart-table .product-cart-info,
-.cart-table .product-cart-actions {
+.cart-table .product-cart-actions,
+.cart-table .shopping-cart-desc-head {
   padding-left:15px;
 }
 .cart-table tr {
@@ -7262,6 +7275,10 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   text-transform:uppercase;
   font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
 }
+
+.cart-table .product-cart-remove {cursor:pointer; text-align:center; vertical-align:middle;s}
+.cart-table .product-cart-remove a.fa-times {color:#333333; text-decoration:none;}
+
 .cart-table .product-cart-image .cart-links,
 .cart-table .product-cart-info .btn-remove,
 .cart-table .product-cart-actions .button {
@@ -7289,10 +7306,6 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 }
 .cart-table .btn-empty {
   float:left;
-}
-.cart-table .product-cart-total,
-.cart-table .product-cart-price {
-  text-align:center;
 }
 .cart-table .cart-tax-total {
   position:relative;
@@ -7618,9 +7631,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
     width:100%;
   }
 }
-.cart .cart-totals {
-  text-align:right;
-}
+
 .cart .cart-totals::after {
   content:'';
   display:table;
@@ -7649,8 +7660,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   border-bottom:1px solid #E6E6E6;
 }
 .cart .cart-totals table tfoot td {
-  font-size:24px;
-  padding:2px 5px;
+  padding:2px 0;
   vertical-align:top;
 }
 .cart .cart-totals table tfoot strong span,
@@ -7661,11 +7671,6 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   font-weight:400;
 }
 
-@media only screen and (max-width:600px) {
-  .cart-totals {
-    text-align:right;
-  }
-}
 @media only screen and (max-width:770px) {
   .cart .cart-totals table tfoot td {
     font-size:18px;
@@ -10180,7 +10185,15 @@ div.paypal-logo span > img {
   #wishlist-table th.customer-wishlist-item-image {
     display:none;
   }
+  .cart-table tbody {text-align:center;}
+  .cart-table tbody tr td {display:block !important; width:100% !important; float:none !important; text-align:center;}
+  .cart-table tbody tr td.product-cart-image .product-image img {display:block; margin:0 auto; max-width:75% !important;}
+  .cart-table .product-cart-remove .fa-times:before {display:inline-block; vertical-align:middle;}
+  .cart-table .product-cart-remove .fa-times:after {content:"REMOVE"; display:inline-block; margin-left:5px; vertical-align:middle; position:relative; font-family:oswald;}
+  .cart-table td.product-cart-price,
+  .cart-table td.product-cart-actions {text-align:center;}
 }
+
 @media only screen and (max-width:479px) {
   #wishlist-table tr {
     position:relative;
@@ -11110,10 +11123,10 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 
 .page-header-wrpr {display:block; position:relative; margin:0; padding:10px 0; border-width:1px; border-style:solid none; border-color:#f0f0f0; z-index:1; -webkit-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1);}
 
-.product-category-banner-mod {display:block; margin:0 auto; width:1400px; max-width:100%; height:auto;}
+.product-category-banner-mod {display:block; margin:0 auto; max-width:100%; height:auto;}
 .product-category-banner {display:block; position:relative; overflow:hidden;}
 .product-category-banner .image {display:block;}
-.product-category-banner .image img {display:block; margin:0 auto; max-width:100%; height:auto;}
+.product-category-banner .image img {display:block; margin:0 auto; width: 100%; max-width:100%; height:auto;}
 .product-category-banner .cmlla {display:block; position:relative; max-width:1200px; margin:0 auto;}
 .product-category-banner .description {display:block; position:absolute; left:0; bottom:30px; font-family:montserrat; color:#ffffff; text-shadow:0px 0px 3px #000000;}
 .product-category-banner .name {display:block; margin-bottom:2px; font-size:15px; line-height:19px; font-weight:700; letter-spacing:1px;}
@@ -11160,7 +11173,6 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 @media only screen and (max-width:770px) {
     .hdr-icons {display:none;}
     .header-language-background .header-language-container {text-align:center;}
-    .page-header-wrpr {padding:10px;}
     #header-cart.skip-active,
     #search_mini_form .input-box,
     #header-account,
