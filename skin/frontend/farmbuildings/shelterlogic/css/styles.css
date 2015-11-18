@@ -5775,10 +5775,18 @@ opacity:1;
 
 .product-view-layout {display:block;}
 .product-view-layout .product-view {display:block; position:relative;}
-.product-view-layout .product-view-banner {display:block; position:absolute; left:0; right:0; top:0; bottom:auto; margin:0; border:2px solid #ff0000;}
-.product-view-layout .product-view-banner img {display:block; margin:0 auto; width:100%; max-width:1920px; height:auto;}
+.product-view-layout .product-view-banner {display:block; position:absolute; height:390px; overflow:hidden; left:0; right:0; top:0; bottom:auto; margin:0;}
+.product-view-layout .product-view-banner img {display:block; position:relative; min-width:1400px; width:100%; height:auto; -webkit-transition:left 0.2s ease, margin-left 0.2s ease; -moz-transition:left 0.2s ease, margin-left 0.2s ease; transition:left 0.2s ease, margin-left 0.2s ease;}
 
-.product-view-layout .product-view .product-essential {display:block; padding:0 10px 30px 10px; margin:0 auto 15px auto; max-width:1260px;}
+@media (max-width:1399px) {
+    .product-view-layout .product-view-banner img {left:50%; margin-left:-700px; width:1400px;}
+}
+
+@media (min-width:1400px) {
+    .product-view-layout .product-view-banner img {left:0; margin-left:0;}
+}
+
+.product-view-layout .product-view .product-essential {display:block; position:relative; z-index:101; padding:0 10px 30px 10px; margin:0 auto 15px auto; max-width:1260px;}
 
 .product-view .product-essential .extra-info .ratings .rating-box,
 .product-view .product-essential .extra-info .ratings .amount {float:left;}
@@ -5851,7 +5859,7 @@ opacity:1;
 .product-item-wrpr .product-item-attr label {display:block; position:relative; padding:3px 30px 2px 10px; font-size:13px; font-weight:400; line-height:19px; font-family:Montserrat,Oswald,"Helvetica Neue",Verdana,Arial,sans-serif; color:#999999; text-transform:uppercase; border:1px solid #eeeeee; cursor:pointer;}
 .product-item-wrpr .product-item-attr label::after {content:"\f107"; display:block; position:absolute; right:10px; top:50%; margin-top:-9px; font-family:FontAwesome; font-size:13px; line-height:19px; color:#999999;}
 
-.product-features-benefits {display:block;}
+.product-features-benefits {display:block; position:relative; z-index:101;}
 
 .product-features-benefits .head {display:block; position:relative;  margin:0 auto 40px auto; padding:30px 10px 40px 10px; height:200px; max-height:200px; overflow:hidden; line-height:1.25em; text-align:center; font-family:montserrat; font-size:14px; color:#ffffff; letter-spacing:1px; text-transform:uppercase; background:url("../images/product-features-benefits.jpg") no-repeat center top;}
 .product-features-benefits .head::before {content:""; position:absolute; left:0; right:50%; top:auto; bottom:0; height:35px; z-index:1; background-color:transparent; border-bottom:35px solid #ffffff; border-right:35px solid transparent;}
@@ -5873,7 +5881,7 @@ opacity:1;
     .product-features-benefits .cmlla ul li {display:inline-block; vertical-align:top; position:relative; margin:25px 0; padding:0 35px; width:49%;}
 }
 
-.flex-block {display:block; padding:0 30px; margin:0 auto 15px auto; max-width:1140px; overflow:hidden;}
+.flex-block {display:block; position:relative; z-index:101; padding:0 30px; margin:0 auto 15px auto; max-width:1140px; overflow:hidden;}
 
 .product-related-accessories {display:block;}
 .product-related-accessories h2 {display:block; margin:0 0 25px 0;}
@@ -11148,7 +11156,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 .product-category-banner-mod {display:block; margin:0 auto; max-width:100%; height:auto;}
 .product-category-banner {display:block; position:relative; overflow:hidden;}
 .product-category-banner .image {display:block;}
-.product-category-banner .image img {display:block; margin:0 auto; max-width:100%; height:auto;}
+.product-category-banner .image img {display:block; margin:0 auto; width:100%: max-width:100%; height:auto;}
 .product-category-banner .cmlla {display:block; position:relative; max-width:1200px; margin:0 auto;}
 .product-category-banner .description {display:block; position:absolute; left:0; bottom:30px; font-family:montserrat; color:#ffffff; text-shadow:0px 0px 3px #000000;}
 .product-category-banner .name {display:block; margin-bottom:2px; font-size:15px; line-height:19px; font-weight:700; letter-spacing:1px;}
