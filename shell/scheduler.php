@@ -12,12 +12,28 @@ class Aoe_Scheduler_Shell_Scheduler extends Mage_Shell_Abstract
     public function run()
     {
         try {
+            $helper = Mage::helper('aoe_scheduler/compatibility'); /* @var $helper Aoe_Scheduler_Helper_Compatibility */
+            if ($helper->oldConfigXmlExists()) {
+                echo 'Looks like you have an older version of Aoe_Scheduler installed that lived in the local code pool. Please delete everything under "' .$helper->getLocalCodeDir(). '"';
+                exit(1);
+            }
             $action = $this->getArg('action');
             if (empty($action)) {
                 echo $this->usageHelp();
             } else {
                 $actionMethodName = $action . 'Action';
                 if (method_exists($this, $actionMethodName)) {
+                    // emulate index.php entry point for correct URLs generation in scheduled cronjobs
+                    Mage::register('custom_entry_point', true);
+                    // Disable use of SID in generated URLs - This is standard for cron job bootstrapping
+                    Mage::app()->setUseSessionInUrl(false);
+                    // Disable permissions masking by default - This is Magento standard, but not recommended for security reasons
+                    umask(0);
+                    // Load the global event area - This is non-standard be should be standard
+                    Mage::app()->addEventArea(Mage_Core_Model_App_Area::AREA_GLOBAL);
+                    // Load the crontab event area - This is standard for cron job bootstrapping
+                    Mage::app()->addEventArea('crontab');
+                    // Run the command
                     $this->$actionMethodName();
                 } else {
                     echo "Action $action not found!\n";
@@ -87,7 +103,7 @@ class Aoe_Scheduler_Shell_Scheduler extends Mage_Shell_Abstract
         $collection = Mage::getModel('cron/schedule')->getCollection(); /* @var $collection Mage_Cron_Model_Resource_Schedule_Collection */
 
         $collection->addFieldToFilter('job_code', $code)
-            ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_SUCCESS)
+            ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_SUCCESS)
             ->addOrder('finished_at', Varien_Data_Collection_Db::SORT_ORDER_DESC)
             ->getSelect()->limit(1);
         $schedule = $collection->getFirstItem(); /* @var $schedule Aoe_Scheduler_Model_Schedule */
@@ -184,7 +200,8 @@ class Aoe_Scheduler_Shell_Scheduler extends Mage_Shell_Abstract
         }
         $schedule->save();
 
-        echo "Status: " . $schedule->getStatus() . "\nMessages:\n" . trim($schedule->getMessages(), "\n") . "\n";
+        echo "\nStatus: " . $schedule->getStatus() . "\n";
+        echo "Messages:\n" . trim($schedule->getMessages(), "\n") . "\n";
     }
 
     /**
@@ -255,9 +272,11 @@ class Aoe_Scheduler_Shell_Scheduler extends Mage_Shell_Abstract
     {
         $scheduleManager = Mage::getModel('aoe_scheduler/scheduleManager'); /* @var $scheduleManager Aoe_Scheduler_Model_ScheduleManager */
         switch ($this->getArg('mode')) {
-            case 'future': $scheduleManager->flushSchedules();
+            case 'future':
+                $scheduleManager->flushSchedules();
                 break;
-            case 'all': $scheduleManager->deleteAll();
+            case 'all':
+                $scheduleManager->deleteAll();
                 break;
             default:
                 echo "\nInvalid mode!\n\n";
@@ -339,18 +358,20 @@ class Aoe_Scheduler_Shell_Scheduler extends Mage_Shell_Abstract
      */
     public function cronAction()
     {
-        Mage::app('admin')->setUseSessionInUrl(false);
-        umask(0);
-
         $mode = $this->getArg('mode');
         switch ($mode) {
             case 'always':
             case 'default':
-                $includeGroups = array_filter(array_map('trim', explode(',', $this->getArg('include'))));
-                $excludeGroups = array_filter(array_map('trim', explode(',', $this->getArg('exclude'))));
-                Mage::getConfig()->init()->loadEventObservers('crontab');
-                Mage::app()->addEventArea('crontab');
-                Mage::dispatchEvent($mode, array('include' => $includeGroups, 'exclude' => $excludeGroups));
+                $includeGroups = array_filter(array_map('trim', explode(',', $this->getArg('includeGroups'))));
+                $excludeGroups = array_filter(array_map('trim', explode(',', $this->getArg('excludeGroups'))));
+                $includeJobs = array_filter(array_map('trim', explode(',', $this->getArg('includeJobs'))));
+                $excludeJobs = array_filter(array_map('trim', explode(',', $this->getArg('excludeJobs'))));
+                Mage::dispatchEvent($mode, array(
+                    'include_groups' => $includeGroups,
+                    'exclude_groups' => $excludeGroups,
+                    'include_jobs' => $includeJobs,
+                    'exclude_jobs' => $excludeJobs,
+                ));
                 break;
             default:
                 echo "\nInvalid mode!\n\n";
@@ -366,7 +387,7 @@ class Aoe_Scheduler_Shell_Scheduler extends Mage_Shell_Abstract
      */
     public function cronActionHelp()
     {
-        return "--mode (always|default) [--exclude <comma separated list of groups>] [--include <comma separated list of groups>]";
+        return "--mode (always|default) [--includeJobs <comma separated list of jobs>] [--excludeJobs <comma separated list of jobs>] [--includeGroups <comma separated list of groups>] [--excludeGroups <comma separated list of groups>]";
     }
 
     protected function _applyPhpVariables()

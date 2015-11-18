@@ -94,7 +94,7 @@
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>180</sort_order>
-                            <comment><![CDATA[Cron tasks are usually not designed to run in CLI context and not in the context of the webserver. Also they could run longer than the configured maximum execution time. This is why you should rather use "scheduleNow" instead of "runNow" and let the scheduler pick up the task on the next run. However, if you know what you're doing and/or if you don't want to wait while testing and developing a cron task you can enable this feature here.]]></comment>
+                            <comment><![CDATA[Cron tasks are usually designed to run in CLI context and not in the context of the webserver. Also they could run longer than the configured maximum execution time. This is why you should rather use "scheduleNow" instead of "runNow" and let the scheduler pick up the task on the next run. However, if you know what you're doing and/or if you don't want to wait while testing and developing a cron task you can enable this feature here.]]></comment>
                             <show_in_default>1</show_in_default>
                         </enableRunNow>
 
@@ -106,6 +106,37 @@
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                         </enableJobOutputBuffer>
+
+                        <enableErrorLog translate="label">
+                            <label>Enable Error Log</label>
+                            <comment><![CDATA[If enabled AOE_Scheduler will bypass Magento's error handling and will capture the error log in a schedule specific file in var/log/cron/]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </enableErrorLog>
+
+                        <errorLevel translate="label">
+                            <label>Error Level</label>
+                            <comment><![CDATA[Error level accepted by 'error_reporting'. This needs to be the int value. Constants are not supported! Example: -1 or 32767 (E_ALL) to log everything.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <enableErrorLog>1</enableErrorLog>
+                            </depends>
+                        </errorLevel>
+
+                        <errorLogFilename translate="label">
+                            <label>Error log filename</label>
+                            <comment><![CDATA[###PID### will be replaced with the process id.<br />###ID### will be replaced with the job id.<br />###JOBCODE### will be replaced with the job code.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <depends>
+                                <enableErrorLog>1</enableErrorLog>
+                            </depends>
+                        </errorLogFilename>
 
                     </fields>
                 </cron>

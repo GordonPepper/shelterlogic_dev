@@ -39,8 +39,13 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
 {
 
     const STATUS_KILLED = 'killed';
-    const STATUS_DISAPPEARED = 'gone'; // the status field is limited to 7 characters
+    const STATUS_DISAPPEARED = 'gone';
     const STATUS_DIDNTDOANYTHING = 'nothing';
+
+    const STATUS_SKIP_LOCKED = 'locked';
+    const STATUS_SKIP_OTHERJOBRUNNING = 'other_job_running';
+
+    const STATUS_DIED = 'died'; // note that died != killed
 
     const REASON_RUNNOW_WEB = 'run_now_web';
     const REASON_SCHEDULENOW_WEB = 'schedule_now_web';
@@ -54,11 +59,20 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
     const REASON_DEPENDENCY_FAILURE = 'dependency_failure';
 
     /**
-     * Prefix of model events names
+     * Event name prefix for events that are dispatched by this class
      *
      * @var string
      */
     protected $_eventPrefix = 'aoe_scheduler_schedule';
+
+    /**
+     * Event parameter name that references this object in an event
+     *
+     * In an observer method you can use $observer->getData('schedule') or $observer->getData('data_object') to get this object
+     *
+     * @var string
+     */
+    protected $_eventObject = 'schedule';
 
     /**
      * @var Aoe_Scheduler_Model_Job
@@ -85,6 +99,13 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
      */
     protected $_redirectOutputHandlerChunkSize = 100; // bytes
 
+    /**
+     * Backup of the original error settings
+     *
+     * @var array
+     */
+    protected $errorSettingsBackup = array();
+
 
     /**
      * Initialize from job
@@ -96,7 +117,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
     {
         $this->setJobCode($job->getJobCode());
         $this->setCronExpr($job->getCronExpression());
-        $this->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING);
+        $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_PENDING);
         return $this;
     }
 
@@ -109,27 +130,29 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
      */
     public function runNow($tryLockJob = true)
     {
+        // if this schedule doesn't exist yet, create it
+        if (!$this->getCreatedAt()) {
+            $this->schedule();
+        }
+
         // lock job (see below) prevents the exact same schedule from being executed from more than one process (or server)
         // the following check will prevent multiple schedules of the same type to be run in parallel
         $processManager = Mage::getModel('aoe_scheduler/processManager'); /* @var $processManager Aoe_Scheduler_Model_ProcessManager */
         if ($processManager->isJobCodeRunning($this->getJobCode(), $this->getId())) {
+            $this->setStatus(self::STATUS_SKIP_OTHERJOBRUNNING);
             $this->log(sprintf('Job "%s" (id: %s) will not be executed because there is already another process with the same job code running. Skipping.', $this->getJobCode(), $this->getId()));
             return $this;
         }
 
-        // lock job requires the record to be saved and having status Mage_Cron_Model_Schedule::STATUS_PENDING
-        // workaround could be to do this: $this->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING)->save();
+        // lock job requires the record to be saved and having status Aoe_Scheduler_Model_Schedule::STATUS_PENDING
+        // workaround could be to do this: $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_PENDING)->save();
         $this->jobWasLocked = false;
         if ($tryLockJob && !$this->tryLockJob()) {
+            $this->setStatus(self::STATUS_SKIP_LOCKED);
             // another cron started this job intermittently, so skip it
             $this->jobWasLocked = true;
             $this->log(sprintf('Job "%s" (id: %s) is locked. Skipping.', $this->getJobCode(), $this->getId()));
             return $this;
-        }
-
-        // if this schedule doesn't exist yet, create it
-        if (!$this->getCreatedAt()) {
-            $this->schedule();
         }
 
         try {
@@ -139,16 +162,18 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
                 Mage::throwException(sprintf("Could not create job with jobCode '%s'", $this->getJobCode()));
             }
 
-            $callback = $job->getCallback();
-
             $startTime = time();
             $this
                 ->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', $startTime))
                 ->setLastSeen(strftime('%Y-%m-%d %H:%M:%S', $startTime))
-                ->setStatus(Mage_Cron_Model_Schedule::STATUS_RUNNING)
+                ->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_RUNNING)
                 ->setHost(gethostname())
                 ->setPid(getmypid())
                 ->save();
+
+            Aoe_Scheduler_Helper_GracefulDead::configure();
+
+            Mage::register('currently_running_schedule', $this);
 
             Mage::dispatchEvent('cron_' . $this->getJobCode() . '_before', array('schedule' => $this));
             Mage::dispatchEvent('cron_before', array('schedule' => $this));
@@ -159,10 +184,18 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             $this->log('Start: ' . $this->getJobCode());
 
             $this->_startBufferToMessages();
+            $this->jobErrorContext();
+
+            $callback = $job->getCallback();
+
             try {
+                // this is where the magic happens
                 $messages = call_user_func_array($callback, array($this));
+
+                $this->restoreErrorContext();
                 $this->_stopBufferToMessages();
             } catch (Exception $e) {
+                $this->restoreErrorContext();
                 $this->_stopBufferToMessages();
                 throw $e;
             }
@@ -179,8 +212,8 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             }
 
             // schedules can report an error state by returning a string that starts with "ERROR:"
-            if ((is_string($messages) && strtoupper(substr($messages, 0, 6)) == 'ERROR:') || $this->getStatus() === Mage_Cron_Model_Schedule::STATUS_ERROR) {
-                $this->setStatus(Mage_Cron_Model_Schedule::STATUS_ERROR);
+            if ((is_string($messages) && strtoupper(substr($messages, 0, 6)) == 'ERROR:') || $this->getStatus() === Aoe_Scheduler_Model_Schedule::STATUS_ERROR) {
+                $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_ERROR);
                 Mage::helper('aoe_scheduler')->sendErrorMail($this, $messages);
                 Mage::dispatchEvent('cron_' . $this->getJobCode() . '_after_error', array('schedule' => $this));
                 Mage::dispatchEvent('cron_after_error', array('schedule' => $this));
@@ -189,13 +222,13 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
                 Mage::dispatchEvent('cron_' . $this->getJobCode() . '_after_nothing', array('schedule' => $this));
                 Mage::dispatchEvent('cron_after_nothing', array('schedule' => $this));
             } else {
-                $this->setStatus(Mage_Cron_Model_Schedule::STATUS_SUCCESS);
+                $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_SUCCESS);
                 Mage::dispatchEvent('cron_' . $this->getJobCode() . '_after_success', array('schedule' => $this));
                 Mage::dispatchEvent('cron_after_success', array('schedule' => $this));
             }
 
         } catch (Exception $e) {
-            $this->setStatus(Mage_Cron_Model_Schedule::STATUS_ERROR);
+            $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_ERROR);
             $this->addMessages(PHP_EOL . '---EXCEPTION---' . PHP_EOL . $e->__toString());
             Mage::dispatchEvent('cron_' . $this->getJobCode() . '_exception', array('schedule' => $this, 'exception' => $e));
             Mage::dispatchEvent('cron_exception', array('schedule' => $this, 'exception' => $e));
@@ -207,6 +240,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
         Mage::dispatchEvent('cron_after', array('schedule' => $this));
 
         $this->save();
+        Mage::unregister('currently_running_schedule');
 
         return $this;
     }
@@ -246,7 +280,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
         if (is_null($time)) {
             $time = time();
         }
-        $this->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING)
+        $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_PENDING)
             ->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
             ->setScheduledAt(strftime('%Y-%m-%d %H:%M:00', $time))
             ->save();
@@ -295,7 +329,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
         if ($this->getExecutedAt() && ($this->getExecutedAt() != '0000-00-00 00:00:00')) {
             if ($this->getFinishedAt() && ($this->getFinishedAt() != '0000-00-00 00:00:00')) {
                 $time = strtotime($this->getFinishedAt());
-            } elseif ($this->getStatus() == Mage_Cron_Model_Schedule::STATUS_RUNNING) {
+            } elseif ($this->getStatus() == Aoe_Scheduler_Model_Schedule::STATUS_RUNNING) {
                 $time = time();
             } else {
                 // Mage::throwException('No finish time found, but the job is not running');
@@ -317,7 +351,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
      */
     public function isAlive()
     {
-        if ($this->getStatus() == Mage_Cron_Model_Schedule::STATUS_RUNNING) {
+        if ($this->getStatus() == Aoe_Scheduler_Model_Schedule::STATUS_RUNNING) {
             if (time() - strtotime($this->getLastSeen()) < 2 * 60) { // TODO: make this configurable
                 return true;
             } elseif ($this->getHost() == gethostname()) {
@@ -372,12 +406,16 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
      * Request kill
      *
      * @param int $time
+     * @param string $message
      * @return $this
      */
-    public function requestKill($time = null)
+    public function requestKill($time = null, $message = null)
     {
         if (is_null($time)) {
             $time = time();
+        }
+        if (!is_null($message)) {
+            $this->addMessages($message);
         }
         $this->setKillRequest(strftime('%Y-%m-%d %H:%M:%S', $time))
            ->save();
@@ -481,7 +519,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
 
         $collection = Mage::getModel('cron/schedule')/* @var $collection Mage_Cron_Model_Resource_Schedule_Collection */
             ->getCollection()
-            ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_PENDING)
+            ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_PENDING)
             ->addFieldToFilter('job_code', $this->getJobCode())
             ->addFieldToFilter('scheduled_at', $this->getScheduledAt());
         if ($this->getId() !== null) {
@@ -518,7 +556,7 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
         }
         $scheduleLifetime = Mage::getStoreConfig(Mage_Cron_Model_Observer::XML_PATH_SCHEDULE_LIFETIME) * 60;
         if ($time < $now - $scheduleLifetime) {
-            $this->setStatus(Mage_Cron_Model_Schedule::STATUS_MISSED);
+            $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_MISSED);
             $this->save();
             if ($throwException) {
                 Mage::throwException(Mage::helper('cron')->__('Too late for the schedule.'));
@@ -559,6 +597,68 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
         } else {
             return false;
         }
+    }
+
+    /**
+     * Switch the job error context
+     */
+    protected function jobErrorContext()
+    {
+        if (!Mage::getStoreConfigFlag('system/cron/enableErrorLog')) {
+            return;
+        }
+
+        $settings = array(
+            'error_reporting' => intval(Mage::getStoreConfig('system/cron/errorLevel')),
+            'log_errors' => true,
+            'display_errors' => true,
+            'error_log' => $this->getErrorLogFile()
+        );
+
+        restore_error_handler();
+        // (doesn't work for PHP 5.3) set_error_handler(null); // switch to PHP default error handling
+
+        if (!is_dir(dirname($settings['error_log']))) {
+            mkdir(dirname($settings['error_log']), 0775, true);
+        }
+
+        foreach ($settings as $key => $value) {
+            // backup original settings first
+            $this->errorSettingsBackup[$key] = ini_get($key);
+            // set new value
+            ini_set($key, $value);
+        }
+    }
+
+    /**
+     * Restore the original error context
+     */
+    protected function restoreErrorContext()
+    {
+        if (!Mage::getStoreConfigFlag('system/cron/enableErrorLog')) {
+            return;
+        }
+
+        restore_error_handler();
+        foreach ($this->errorSettingsBackup as $key => $value) {
+            ini_set($key, $value);
+        }
+    }
+
+    /**
+     * Get error log filename
+     *
+     * @return string
+     */
+    public function getErrorLogFile()
+    {
+        $replace = array(
+            '###PID###' => $this->getPid(),
+            '###ID###' => $this->getId(),
+            '###JOBCODE###' => $this->getJobCode()
+        );
+        $basedir = Mage::getBaseDir('log') . DS . 'cron' . DS;
+        return $basedir . str_replace(array_keys($replace), array_values($replace), Mage::getStoreConfig('system/cron/errorLogFilename'));
     }
 
     /**
@@ -716,5 +816,27 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             parent::setCronExpr($expr);
         }
         return $this;
+    }
+
+    /**
+     * Gets statuses that are currently in the scheduler table
+     *
+     * @return array
+     */
+    public function getStatuses()
+    {
+        $schedules = clone $this->getCollection()
+            ->setOrder('status', Zend_Db_Select::SQL_ASC);
+        $schedules->getSelect()
+            ->group('status')
+            ->reset(Zend_Db_Select::COLUMNS)
+            ->columns('status');
+        $statuses = $schedules->getConnection()
+            ->fetchCol($schedules->getSelect());
+        $statusArray = array();
+        foreach ($statuses as $status) {
+            $statusArray[$status] = $status;
+        }
+        return $statusArray;
     }
 }

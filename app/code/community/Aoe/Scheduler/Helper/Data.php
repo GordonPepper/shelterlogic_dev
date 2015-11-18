@@ -53,19 +53,22 @@ class Aoe_Scheduler_Helper_Data extends Mage_Core_Helper_Abstract
     public function decorateStatus($status)
     {
         switch ($status) {
-            case Mage_Cron_Model_Schedule::STATUS_SUCCESS:
+            case Aoe_Scheduler_Model_Schedule::STATUS_SUCCESS:
+            case Aoe_Scheduler_Model_Schedule::STATUS_DIDNTDOANYTHING:
                 $result = '<span class="bar-green"><span>' . $status . '</span></span>';
                 break;
-            case Mage_Cron_Model_Schedule::STATUS_PENDING:
+            case Aoe_Scheduler_Model_Schedule::STATUS_PENDING:
                 $result = '<span class="bar-lightgray"><span>' . $status . '</span></span>';
                 break;
-            case Mage_Cron_Model_Schedule::STATUS_RUNNING:
+            case Aoe_Scheduler_Model_Schedule::STATUS_RUNNING:
                 $result = '<span class="bar-yellow"><span>' . $status . '</span></span>';
                 break;
-            case Mage_Cron_Model_Schedule::STATUS_MISSED:
+            case Aoe_Scheduler_Model_Schedule::STATUS_SKIP_OTHERJOBRUNNING:
+            case Aoe_Scheduler_Model_Schedule::STATUS_SKIP_LOCKED:
+            case Aoe_Scheduler_Model_Schedule::STATUS_MISSED:
                 $result = '<span class="bar-orange"><span>' . $status . '</span></span>';
                 break;
-            case Mage_Cron_Model_Schedule::STATUS_ERROR:
+            case Aoe_Scheduler_Model_Schedule::STATUS_ERROR:
             case Aoe_Scheduler_Model_Schedule::STATUS_DISAPPEARED:
             case Aoe_Scheduler_Model_Schedule::STATUS_KILLED:
                 $result = '<span class="bar-red"><span>' . $status . '</span></span>';
@@ -134,7 +137,7 @@ class Aoe_Scheduler_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $schedules = Mage::getModel('cron/schedule')->getCollection(); /* @var $schedules Mage_Cron_Model_Mysql4_Schedule_Collection */
         $schedules->getSelect()->limit(1)->order('executed_at DESC');
-        $schedules->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_SUCCESS);
+        $schedules->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_SUCCESS);
         $schedules->addFieldToFilter('job_code', $jobCode);
         $schedules->load();
         if (count($schedules) == 0) {
@@ -288,8 +291,8 @@ class Aoe_Scheduler_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCallBack($runModel)
     {
-        if (!preg_match(Mage_Cron_Model_Observer::REGEX_RUN_MODEL, (string)$runModel, $run)) {
-            Mage::throwException(Mage::helper('cron')->__('Invalid model/method definition, expecting "model/class::method".'));
+        if (!preg_match(Mage_Cron_Model_Observer::REGEX_RUN_MODEL, (string) $runModel, $run)) {
+            Mage::throwException(Mage::helper('cron')->__('Invalid model/method definition, expecting "model/class::method", got "' . $runModel . '" instead.'));
         }
         if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
             Mage::throwException(Mage::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));

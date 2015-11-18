@@ -7,6 +7,22 @@
  */
 abstract class Aoe_Scheduler_Controller_AbstractController extends Mage_Adminhtml_Controller_Action
 {
+
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if ($this->getRequest()->getActionName() != 'error' && !$this->checkLocalCodePool()) {
+            $this->_forward('error');
+        }
+    }
+
+    public function errorAction()
+    {
+        $this->loadLayout();
+        $this->_setActiveMenu('system');
+        $this->renderLayout();
+    }
+
     /**
      * Index action
      *
@@ -23,13 +39,28 @@ abstract class Aoe_Scheduler_Controller_AbstractController extends Mage_Adminhtm
 
         // check configuration
         if (Mage::getStoreConfig('system/cron/schedule_generate_every') > Mage::getStoreConfig('system/cron/schedule_ahead_for')) {
-            $this->_getSession()->addError($this->__('Configuration problem. "Generate Schedules Every" is higher than "Schedule Ahead for". Please check your <a href="%s">configuration settings</a>.', $this->getUrl('adminhtml/system_config/edit', array('section' => 'system')) .'#system_cron'));
+            $this->_getSession()->addError($this->__('Configuration problem. "Generate Schedules Every" is higher than "Schedule Ahead for". Please check your <a href="%s">configuration settings</a>.', $this->getUrl('adminhtml/system_config/edit', array('section' => 'system')) . '#system_cron'));
         }
 
         $this->loadLayout();
 
         $this->_setActiveMenu('system');
         $this->renderLayout();
+    }
+
+    /**
+     * Aoe_Scheduler used to live in the local code pool.
+     * When newer version are installed without removing the old files Aoe_Scheduler will produce fatal errors.
+     * This is an attempt to handle this a little better.
+     */
+    protected function checkLocalCodePool()
+    {
+        $helper = Mage::helper('aoe_scheduler/compatibility'); /* @var $helper Aoe_Scheduler_Helper_Compatibility */
+        if ($helper->oldConfigXmlExists()) {
+            $this->_getSession()->addError($this->__('Looks like you have an older version of Aoe_Scheduler installed that lived in the local code pool. Please delete everything under "%s"', $helper->getLocalCodeDir()));
+            return false;
+        }
+        return true;
     }
 
     /**
