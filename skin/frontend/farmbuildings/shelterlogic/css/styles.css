@@ -5901,7 +5901,10 @@ opacity:1;
   margin-bottom:8px;
 }
 .product-view .product-shop .availability {
-  font-size:16px;
+  font-size:12px;
+  font-weight:700;
+  color:#666666;
+  padding-top:5px;
 }
 
 .product-view .product-shop .price-box .old-price,
@@ -8590,7 +8593,8 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 
 /* CUSTOM */
 .availability.out-of-stock span {
-  color:#333;
+  color:#666666;
+  margin:5px 0;
 }
 
 .product-view .add-to-cart button.out-of-stock {
