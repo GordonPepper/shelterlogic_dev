@@ -4936,8 +4936,8 @@ p.product-name a:hover {
 
 .category-products .products-grid li > a::before {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25);}
 .category-products .products-grid li > a::before {content:"\f006";}
-.category-products .products-grid li.wish-active > a::before {content:"\f005";}
-.category-products .products-grid li.onsale > a::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
+.category-products .products-grid li > a.wish-active::before {content:"\f005";}
+.category-products .products-grid li > a.onsale::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
 
 .products-grid > li {
   position:relative;
