@@ -3,8 +3,8 @@
 /mtest.php
 /media
 /app/etc/local.xml
-/app/etc/composer.lock
-/app/etc/vendor
+/composer.lock
+/vendor
 /.htaccess
 
 .idea
