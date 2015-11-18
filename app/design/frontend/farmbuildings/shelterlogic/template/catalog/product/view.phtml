@@ -39,6 +39,9 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="clear">&nsp;</div>
 <div class="product-view">
+    <div class="product-view-banner">
+        <img src="/skin/frontend/farmbuildings/shelterlogic/images/product-item-banner.jpg" alt="" />
+    </div>
     <div class="product-essential">
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <?php echo $this->getBlockHtml('formkey') ?>
@@ -49,7 +52,6 @@
             <div class="product-img-box clearfix">
                 <?php echo $this->getChildHtml('media') ?>
             </div>
-
 
             <div class="product-item-wrpr">
 
