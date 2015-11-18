@@ -4997,8 +4997,6 @@ opacity:1;
 .products-grid .product-info .product-west {
   display:block;
   padding:5px 10px;
-  float:left;
-  width:70%;
   height:60px;
   max-height:60px;
 }
