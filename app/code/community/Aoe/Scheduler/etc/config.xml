@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Aoe_Scheduler>
-            <version>1.0.1</version>
+            <version>1.2.2</version>
         </Aoe_Scheduler>
     </modules>
 
@@ -35,10 +35,12 @@
                     <schedule>Aoe_Scheduler_Model_Schedule</schedule>
                 </rewrite>
             </cron>
-
+            <cron_resource>
+                <rewrite>
+                    <schedule_collection>Aoe_Scheduler_Model_Resource_Schedule_Collection</schedule_collection>
+                </rewrite>
+            </cron_resource>
         </models>
-
-
 
         <template>
             <email>
@@ -158,6 +160,9 @@
                 <error_email_template>system_cron_error_email_template</error_email_template>
                 <logFile>cron.log</logFile>
                 <enableRunNow>0</enableRunNow>
+                <enableErrorLog>0</enableErrorLog>
+                <errorLevel>-1</errorLevel>
+                <errorLogFilename>###JOBCODE###.log</errorLogFilename>
             </cron>
         </system>
     </default>

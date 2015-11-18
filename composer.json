@@ -2,7 +2,8 @@
   "require": {
     "magento-hackathon/magento-composer-installer": "3.0.5",
     "americaneagle/ldap": "dev-master",
-    "aoepeople/aoe_scheduler": "1.0.*"
+    "aoepeople/aoe_scheduler": "1.2.2",
+    "wsdl2phpgenerator/wsdl2phpgenerator": "3.*"
   },
   "repositories": [
     {
@@ -15,7 +16,7 @@
     }
   ],
   "extra": {
-    "magento-root-dir": "../../",
+    "magento-root-dir": "./",
     "magento-deploystrategy": "copy"
   }
 }

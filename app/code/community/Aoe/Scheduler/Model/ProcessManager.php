@@ -21,7 +21,7 @@ class Aoe_Scheduler_Model_ProcessManager
     public function getAllRunningSchedules($host = null)
     {
         $collection = Mage::getModel('cron/schedule')->getCollection();
-        $collection->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_RUNNING);
+        $collection->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_RUNNING);
         if (!is_null($host)) {
             $collection->addFieldToFilter('host', $host);
         }
@@ -31,13 +31,13 @@ class Aoe_Scheduler_Model_ProcessManager
     /**
      * Get all schedules marked as to be killed
      *
-     * @param null $host
+     * @param string|null $host
      * @return object
      */
     public function getAllKillRequests($host = null)
     {
         $collection = $this->getAllRunningSchedules($host);
-        $collection->addFieldToFilter('kill_request', array('lt' => strftime('%Y-%m-%d %H:%M:00', time())));
+        $collection->addFieldToFilter('kill_request', array('lt' => strftime('%Y-%m-%d %H:%M:00', time()+60)));
         return $collection;
     }
 
@@ -52,7 +52,7 @@ class Aoe_Scheduler_Model_ProcessManager
     {
         $collection = Mage::getModel('cron/schedule')
             ->getCollection()
-            ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_RUNNING)
+            ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_RUNNING)
             ->addFieldToFilter('job_code', $jobCode);
         if (!is_null($ignoreId)) {
             $collection->addFieldToFilter('schedule_id', array('neq' => $ignoreId));
@@ -74,39 +74,42 @@ class Aoe_Scheduler_Model_ProcessManager
      */
     public function checkRunningJobs()
     {
-        $maxJobRuntime = Mage::getStoreConfig(self::XML_PATH_MAX_JOB_RUNTIME);
+        $maxJobRuntime = intval(Mage::getStoreConfig(self::XML_PATH_MAX_JOB_RUNTIME));
 
-        foreach ($this->getAllRunningSchedules(gethostname()) as $schedule) {
-            /* @var $schedule Aoe_Scheduler_Model_Schedule */
-            // checks if process is still running and updates record
-            $isAlive = $schedule->isAlive();
-
-            // checking if the job isn't running too long
-            if ($isAlive && $maxJobRuntime) {
-                if ($schedule->getDuration() > $maxJobRuntime * 60) {
-                    $schedule->requestKill();
+        if ($maxJobRuntime) {
+            foreach ($this->getAllRunningSchedules(gethostname()) as $schedule) { /* @var $schedule Aoe_Scheduler_Model_Schedule */
+                // checking if the job isn't running too long
+                if ($schedule->isAlive()) {
+                    if ($schedule->getDuration() > $maxJobRuntime * 60 && !$schedule->getKillRequest()) {
+                        $schedule->requestKill(null, 'Kill requested because job exceeded the max job runtime of ' . $maxJobRuntime . ' minutes.');
+                    }
                 }
             }
-
         }
 
         // fallback (where process cannot be checked or if one of the servers disappeared)
         // if a task wasn't seen for some time it will be marked as error
-        $maxAge = time() - Mage::getStoreConfig(self::XML_PATH_MARK_AS_ERROR) * 60;
+        $markAsErrorAfter = intval(Mage::getStoreConfig(self::XML_PATH_MARK_AS_ERROR));
+        $maxAge = time() - min($markAsErrorAfter, 5) * 60;
+        if ($markAsErrorAfter) {
+            $schedules = Mage::getModel('cron/schedule')->getCollection()/* @var $schedules Mage_Cron_Model_Resource_Schedule_Collection */
+            ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_RUNNING)
+                ->addFieldToFilter('last_seen', array('lt' => strftime('%Y-%m-%d %H:%M:00', $maxAge)))
+                ->load();
 
-        $schedules = Mage::getModel('cron/schedule')->getCollection() /* @var $schedules Mage_Cron_Model_Resource_Schedule_Collection */
-            ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_RUNNING)
-            ->addFieldToFilter('last_seen', array('lt' => strftime('%Y-%m-%d %H:%M:00', $maxAge)))
-            ->load();
-
-        foreach ($schedules as $schedule) { /* @var $schedule Aoe_Scheduler_Model_Schedule */
-            $schedule->markAsDisappeared(sprintf('Host "%s" has not been available for a while now to update the status of this task and the task is not reporting back by itself', $schedule->getHost()));
+            foreach ($schedules as $schedule) { /* @var $schedule Aoe_Scheduler_Model_Schedule */
+                // check one more time
+                if ($schedule->isAlive() !== true) {
+                    $schedule->markAsDisappeared(sprintf('Host "%s" has not been available for a while now to update the status of this task and the task is not reporting back by itself', $schedule->getHost()));
+                    $schedule->save();
+                }
+            }
         }
 
         // clean up "running"(!?) tasks that have never been seen (for whatever reason) and have been scheduled before maxAge
         // by robinfritze. @see https://github.com/AOEpeople/Aoe_Scheduler/issues/40#issuecomment-67749476
         $schedules = Mage::getModel('cron/schedule')->getCollection() /* @var $schedules Mage_Cron_Model_Resource_Schedule_Collection */
-            ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_RUNNING)
+            ->addFieldToFilter('status', Aoe_Scheduler_Model_Schedule::STATUS_RUNNING)
             ->addFieldToFilter('last_seen', array('null' => true))
             ->addFieldToFilter('host', array('null' => true))
             ->addFieldToFilter('pid', array('null' => true))
@@ -119,8 +122,6 @@ class Aoe_Scheduler_Model_ProcessManager
         }
 
     }
-
-
 
     /**
      * Process kill requests
