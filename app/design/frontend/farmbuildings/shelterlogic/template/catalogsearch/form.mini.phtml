@@ -29,10 +29,10 @@ $catalogSearchHelper =  $this->helper('catalogsearch');
 ?>
 
 <form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
-    <label for="search" href="#search-input-box" class="skip-link"><?php echo $this->__('Search:') ?></label>
+    <label for="search" href="#search-input-box" class="skip-link fa fa-search"></label>
     <div id="search-input-box" class="input-box skip-content">
         <input id="search" type="search" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text required-entry" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" placeholder="<?php echo $this->__('Search entire store here...') ?>" />
-        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button fa fa-search"></button>
     </div>
 
     <div id="search_autocomplete" class="search-autocomplete"></div>
