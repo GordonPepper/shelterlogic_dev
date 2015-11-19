@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Totalogistix>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Americaneagle_Totalogistix>
     </modules>
     <global>
@@ -51,4 +51,13 @@
             </totalogistix>
         </carriers>
     </default>
+    <adminhtml>
+        <layout>
+            <updates>
+                <totalogistix>
+                    <file>americaneagle/totalogistix.xml</file>
+                </totalogistix>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>

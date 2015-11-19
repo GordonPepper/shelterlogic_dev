@@ -4936,8 +4936,8 @@ p.product-name a:hover {
 
 .category-products .products-grid li > a::before {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25);}
 .category-products .products-grid li > a::before {content:"\f006";}
-.category-products .products-grid li.wish-active > a::before {content:"\f005";}
-.category-products .products-grid li.onsale > a::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
+.category-products .products-grid li > a.wish-active::before {content:"\f005";}
+.category-products .products-grid li > a.onsale::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
 
 .products-grid > li {
   position:relative;
@@ -4997,8 +4997,6 @@ opacity:1;
 .products-grid .product-info .product-west {
   display:block;
   padding:5px 10px;
-  float:left;
-  width:70%;
   height:60px;
   max-height:60px;
 }
@@ -11146,15 +11144,14 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 .hdr-select-tool select {position:absolute; opacity:0; left:-4px; right:0; top:0; bottom:0; margin:0; padding:4px; border:0; font-size:12px; line-height:10px; outline:none; background-color:transparent; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
 .hdr-select-tool select option {margin:0; padding:2px 4px; border:none; outline:none; background-color:transparent;}
 .hdr-select-tool .cmlla {width:auto; height:20px; padding-right:6px; font-size:12px;}
-.hdr-select-tool:hover .cmlla {text-decoration:underline;}
-.hdr-select-tool .cmlla::after {content:""; position:absolute; top:50%; margin-top:2px; right:0; width:0; height:0; border-bottom:4px solid #666666; border-left:4px solid transparent;}
+.hdr-select-tool:hover .cmlla {text-decoration:underline;}z%; margin-top:2px; right:0; width:0; height:0; border-bottom:4px solid #666666; border-left:4px solid transparent;}
 
 .page-header-wrpr {display:block; position:relative; margin:0; padding:10px 0; border-width:1px; border-style:solid none; border-color:#f0f0f0; z-index:601; -webkit-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1);}
 
 .product-category-banner-mod {display:block; margin:0 auto; max-width:100%; height:auto;}
 .product-category-banner {display:block; position:relative; overflow:hidden;}
 .product-category-banner .image {display:block;}
-.product-category-banner .image img {display:block; margin:0 auto; width:100%: max-width:100%; height:auto;}
+.product-category-banner .image img {display:block; margin:0 auto; width:100%; max-width:100%; height:auto;}
 .product-category-banner .cmlla {display:block; position:relative; max-width:1200px; margin:0 auto;}
 .product-category-banner .description {display:block; position:absolute; left:0; bottom:30px; font-family:montserrat; color:#ffffff; text-shadow:0px 0px 3px #000000;}
 .product-category-banner .name {display:block; margin-bottom:2px; font-size:15px; line-height:19px; font-weight:700; letter-spacing:1px;}
