@@ -8,11 +8,11 @@
 
 $this->startSetup();
 
-$this->addAttribute('catalog_product', 'ship_ltl', array(
+$this->addAttribute('catalog_product', 'tlx_ship_ltl', array(
     'type'              => 'varchar',
     'label'             => 'LTL Shippment',
     'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'visible'           => true,
+    'visible'           => false,
     'required'          => true,
     'is_configurable'   => false,
     'backend'           => 'catalog/product_attribute_backend_boolean',
@@ -20,21 +20,32 @@ $this->addAttribute('catalog_product', 'ship_ltl', array(
     'input'             => 'select',
     'default'           => '0'
 ));
+$this->addAttribute('catalog_product', 'tlx_ship_length', array(
+    'type'              => 'text',
+    'label'             => 'Shipping Length',
+    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'visible'           => false,
+    'required'          => false,
+    'is_configurable'   => false,
+    'default'           => '0'
+));
+$this->addAttribute('catalog_product', 'tlx_ship_width', array(
+    'type'              => 'varchar',
+    'label'             => 'Shipping Width',
+    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'visible'           => false,
+    'required'          => false,
+    'is_configurable'   => false,
+    'default'           => '0'
+));
+$this->addAttribute('catalog_product', 'tlx_ship_height', array(
+    'type'              => 'varchar',
+    'label'             => 'Shipping Height',
+    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'visible'           => false,
+    'required'          => false,
+    'is_configurable'   => false,
+    'default'           => '0'
+));
 
-
-
-//$installer->getConnection()->modifyColumn(
-//    $this->getTable('americaneagle_visual/soaplog'), 'datetime', 'DATETIME'
-//);
-//
-//
-//
-//$cfg = Mage::getModel('core/config_data')
-//    ->load('aevisual/general/soaplog_enable', 'path');
-//if($cfg->getId()) {
-//    $cfg->setPath('aevisual/logging/soaplog_enable')
-//        ->save();
-//}
-//
-//
 $this->endSetup();
