@@ -9,7 +9,9 @@
 .idea
 .DS_Store
 
-/includes
+/includes/*
+!/includes/config.php
+
 /image_collections/images/*
 
 skin/frontend/farmbuildings/default/bower_components/
