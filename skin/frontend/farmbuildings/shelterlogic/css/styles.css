@@ -3717,6 +3717,8 @@ body {
   display:block;
   padding:5px 10px;
   text-transform:uppercase;
+  position:relative;
+  z-index:901;
 }
 .header-language-background .header-language-container {
   max-width:1200px;
@@ -7200,8 +7202,8 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 }
 
 .checkout-types {
-  float:right;
-  text-align:right;
+  display:block;
+  text-align:center;
   max-width:100%;
   /* We always want this shipping method to display on its own line */
 }
@@ -10470,17 +10472,16 @@ div.paypal-logo span > img {
   position:relative;
 }
 .header-minicart .minicart-actions .checkout-button {
+  display:block;
   min-width:145px;
 }
 .header-minicart .minicart-actions .cart-link {
-  height:33px;
-  line-height:39px;
+  line-height:30px;
   text-transform:uppercase;
   display:block;
   font-size:13px;
-  left:10px;
-  bottom:17px;
-  position:absolute;
+  text-align:center;
+  margin-bottom:15px;
 }
 .header-minicart .minicart-actions .paypal-logo .paypal-or {
   line-height:1.6;
@@ -11144,7 +11145,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 .hdr-select-tool:hover .cmlla {text-decoration:underline;}
 .hdr-select-tool .cmlla::after {content:""; position:absolute; top:50%; margin-top:2px; right:0; width:0; height:0; border-bottom:4px solid #666666; border-left:4px solid transparent;}
 
-.page-header-wrpr {display:block; position:relative; margin:0; padding:10px 0; border-width:1px; border-style:solid none; border-color:#f0f0f0; z-index:1; -webkit-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1);}
+.page-header-wrpr {display:block; position:relative; z-index:901; margin:0; padding:10px 0; border-width:1px; border-style:solid none; border-color:#f0f0f0; -webkit-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1);}
 
 .product-category-banner-mod {display:block; margin:0 auto; max-width:100%; height:auto;}
 .product-category-banner {display:block; position:relative; overflow:hidden;}
