@@ -96,6 +96,16 @@
         */
         ?>
 
+<hr />
+TEST BUTTON:
+<?php $formKey = Mage::getSingleton('core/session')->getFormKey();?>
+<form action="/checkout/cart/add/product/41353" method="post">
+<input type="hidden" name="form_key" value="<?php echo $formKey; ?>" />
+<input type="text" name="qty" size="2"> QTY
+<input type="submit" value="Add to basket" />
+</form>
+<hr />
+
                             <?php if ($_product->isSaleable() && $this->hasOptions()):?>
                                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                             <?php endif;?>
