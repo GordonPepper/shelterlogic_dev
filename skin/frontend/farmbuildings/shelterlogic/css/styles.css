@@ -1316,32 +1316,25 @@ body:not(.customer-account) .block:first-child .block-title {
 .cart-table .button,
 .sidebar .actions .button,
 .button.button-secondary {
-  font-family:"open sans";
-  background:#dddddd;
-  color:#636363;
-  padding:7px 15px;
+
 }
 .cart .buttons-set .button:hover,
 .cart-table .button:hover,
 .sidebar .actions .button:hover,
 .button.button-secondary:hover {
-  background:#d0d0d0;
-  cursor:pointer;
+
 }
 .cart .buttons-set .button:active,
 .cart-table .button:active,
 .sidebar .actions .button:active,
 .button.button-secondary:active {
-  background:#c4c4c4;
-  color:#636363;
+
 }
 .cart .buttons-set .button:focus,
 .cart-table .button:focus,
 .sidebar .actions .button:focus,
 .button.button-secondary:focus {
-  color:#636363;
-  background:#c4c4c4;
-  outline:none;
+
 }
 
 /* Primary Buttons */
@@ -1398,6 +1391,9 @@ a.button2:hover {
   text-decoration:none;
 }
 
+.cart-totals-wrapper .button,
+.cart-totals-wrapper .button2 {display:block; width:100%;}
+
 /* Disabled - class for anchor, state for form elements */
 .button.disabled,
 .button:disabled {
@@ -1412,6 +1408,7 @@ a.button2:hover {
 }
 
 .button2 {
+  display:inline-block;
   border:0;
   padding:0 10px;
   margin:0;
@@ -5037,7 +5034,7 @@ opacity:1;
 
 .products-grid .product-info .product-west .ratings {display:none;}
 
-.products-grid .product-info button {display:block; position:absolute; opacity:0; left:0; right:0; top:-1px; bottom:0; padding:0; width:100%; background-color:#f0b310;
+.products-grid .product-info button {display:block; position:absolute; opacity:0; left:0; right:0; top:-1px; bottom:0; padding:0; width:100%; height:60px; background-color:#f0b310;
   -webkit-transition:opacity 0.2s ease;
   -moz-transition:opacity 0.2s ease;
   transition:opacity 0.2s ease;
@@ -7093,7 +7090,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
  * Checkout - Layout
  * ============================================ */
 
-.shopping-cart-column {width:70%; float:left;}
+.shopping-cart-column {width:75%; float:left;}
 
 .cart-forms {margin-bottom:25px;}
 
@@ -7104,7 +7101,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .crosssell {
   float:right;
   clear:right;
-  width:30%;
+  width:25%;
   padding-left:20px;
 }
 
@@ -7120,7 +7117,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .cart-forms .discount,
 .cart-forms .giftcard,
 .cart-forms .shipping {
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .display-both-prices .cart-table {
@@ -7215,6 +7212,10 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   max-width:100%;
   /* We always want this shipping method to display on its own line */
 }
+
+.cart .shopping-cart-column .checkout-types {display:none;}
+.method-giftregistry-cart-link {display:none;}
+
 .checkout-types li {
   vertical-align:top;
   margin:0 0 5px 5px;
@@ -7304,9 +7305,10 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .cart-table .shopping-cart-desc-head {
   padding-left:15px;
 }
-.cart-table tr {
-  border-bottom:1px solid #f0f0f0;
+.cart-table tr ~ tr {
+  border-top:1px solid #f0f0f0;
 }
+.cart-table tfoot {display:none;}
 .cart-table tfoot tr {
   background:none;
 }
@@ -7351,7 +7353,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   font-weight:600;
 }
 .cart-table .btn-empty {
-  float:left;
+
 }
 .cart-table .cart-tax-total {
   position:relative;
@@ -7595,7 +7597,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 }
 .shipping .buttons-set {
   border:none;
-  margin:0;
+  margin:5px 0 0 0;
   padding:0;
 }
 
