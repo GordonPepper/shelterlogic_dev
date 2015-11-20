@@ -929,7 +929,7 @@ input,
 select,
 table,
 textarea {
-  font-family:"Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans",sans-serif,arial,verdana,"helvetica neue";
   color:#636363;
   font-size:13px;
   line-height:1.5;
@@ -954,7 +954,7 @@ h1, .h1 {
   margin:0;
   margin-bottom:0.7em;
   color:#f0b310;
-  font-family:Oswald,"Helvetica Neue",Verdana,Arial,sans-serif;
+  font-family:Oswald;
   font-size:28px;
   font-weight:400;
   font-style:normal;
@@ -967,7 +967,7 @@ h2, .h2 {
   margin:0;
   margin-bottom:0.5em;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:Oswald;
   font-size:24px;
   font-weight:400;
   font-style:normal;
@@ -980,7 +980,7 @@ h3, .h3 {
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:Oswald;
   font-size:18px;
   font-weight:400;
   font-style:normal;
@@ -993,7 +993,7 @@ h4, .h4 {
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:Oswald;
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -1006,7 +1006,7 @@ h5, .h5 {
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:Oswald;
   font-size:13px;
   font-weight:bold;
   font-style:normal;
@@ -1019,7 +1019,7 @@ h6, .h6 {
   margin:0;
   margin-bottom:5px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:Oswald;
   font-size:12px;
   font-weight:bold;
   font-style:normal;
@@ -1106,7 +1106,7 @@ h6, .h6 {
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:Oswald;
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -1186,7 +1186,7 @@ body:not(.customer-account) .block:first-child .block-title {
     margin:0;
     margin-bottom:10px;
     color:#636363;
-    font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-family:Oswald;
     font-size:14px;
     font-weight:bold;
     font-style:normal;
@@ -1229,7 +1229,7 @@ body:not(.customer-account) .block:first-child .block-title {
     margin:0;
     margin-bottom:10px;
     color:#636363;
-    font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-family:Oswald;
     font-size:14px;
     font-weight:bold;
     font-style:normal;
@@ -1291,7 +1291,7 @@ body:not(.customer-account) .block:first-child .block-title {
 .block-account li,
 .block-cms-menu li {
   text-transform:uppercase;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   margin:7px 0;
 }
 .block-account li strong,
@@ -1316,7 +1316,7 @@ body:not(.customer-account) .block:first-child .block-title {
 .cart-table .button,
 .sidebar .actions .button,
 .button.button-secondary {
-  font-family:montserrat;
+  font-family:"open sans";
   background:#dddddd;
   color:#636363;
   padding:7px 15px;
@@ -1356,7 +1356,7 @@ body:not(.customer-account) .block:first-child .block-title {
   color:#999999;
   font-size:13px;
   font-weight:normal;
-  font-family:Montserrat, Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   line-height:19px;
   text-align:center;
   text-transform:uppercase;
@@ -1429,7 +1429,7 @@ a.button:hover {
   text-transform:uppercase;
   display:inline-block;
   color:#f0b310;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .button2 span:hover,
 .button2 span span:hover {
@@ -1582,7 +1582,7 @@ a.button:hover {
 .breadcrumbs li {
   float:left;
   font-size:12px;
-  font-family:Helvetica, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   text-transform:uppercase;
   color:#f0b310;
 }
@@ -1640,7 +1640,7 @@ a.button:hover {
   line-height:20px;
   width:100%;
   font-size:10px;
-  font-family:Arial, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-weight:bold;
 }
 .btn-remove:hover::after {
@@ -2000,7 +2000,7 @@ a.button:hover {
   text-align:center;
   margin:10px;
   text-transform:uppercase;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 
 /* -------------------------------------------- *
@@ -2209,7 +2209,7 @@ a.button:hover {
  * Price Box - Standard
  */
 .price-info {display:block;}
-.price-box {display:block; font-family:montserrat;}
+.price-box {display:block; font-family:"open sans";}
 .price-box p {margin-bottom:0;}
 
 .price-notice {color:#a0a0a0;}
@@ -2227,7 +2227,7 @@ a.button:hover {
 .price-box .price-label {
   color:#a0a0a0;
   white-space:nowrap;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 
 .price-box .minimal-price-link {
@@ -2309,7 +2309,7 @@ a.button:hover {
  * ============================================ */
 .item-options {
   font-size:14px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .item-options::after {
   content:'';
@@ -2543,7 +2543,7 @@ a.button:hover {
 
 .toolbar,
 .pager {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   color:#636363;
   line-height:30px;
   font-size:12px;
@@ -2992,7 +2992,7 @@ form .legend {
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:18px;
   font-weight:400;
   font-style:normal;
@@ -3029,7 +3029,7 @@ form .legend {
 label {
   display:inline-block;
   font-size:13px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-weight:600;
   -moz-user-select:none;
   -ms-user-select:none;
@@ -3195,12 +3195,7 @@ input:-moz-placeholder {
 /* -------------------------------------------- *
  * Validation
  */
-p.required,
-.validation-advice {
-  margin:5px 0 0;
-  color:red;
-  font-size:13px;
-}
+p.required, .validation-advice {margin:0; padding:5px 4px; color:red; font-size:13px;}
 
 /* ============================================ *
  * Form List
@@ -3382,7 +3377,7 @@ form .form-instructions {
 .data-table th {
   background:#f4f4f4;
   text-transform:uppercase;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   line-height:1.4;
   white-space:nowrap;
 }
@@ -3477,7 +3472,7 @@ form .form-instructions {
   .linearize-table tbody td[data-rwd-label]::before {
     content:attr(data-rwd-label) ":";
     font-size:12px;
-    font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-family:"open sans";
     padding-right:5px;
     text-transform:uppercase;
   }
@@ -3560,7 +3555,7 @@ form .form-instructions {
   .linearize-table-large tbody td[data-rwd-label]::before {
     content:attr(data-rwd-label) ":";
     font-size:12px;
-    font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-family:"open sans";
     padding-right:5px;
     text-transform:uppercase;
   }
@@ -3689,7 +3684,7 @@ body {
 }
 .header-language-container,
 .page-header {
-  font-family:Montserrat, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"Helvetica Neue", Verdana, Arial, sans-serif;
 }
 
 /* ============================================ *
@@ -3936,7 +3931,7 @@ body {
   color:#666666;
   font-size:13px;
   line-height:20px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .nav-primary li {
   position:relative;
@@ -4175,7 +4170,7 @@ body {
   padding:0 5px;
   width:300px;
   height:34px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   border:none;
 }
 
@@ -4439,7 +4434,7 @@ body {
 /* Subtotal */
 .cart-menu .subtotal {
   padding:0 15px 15px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:24px;
   line-height:1.2;
 }
@@ -4520,13 +4515,13 @@ body {
   clear:both;
   width:100%;
   padding-top:30px;
-  font-family:Montserrat, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans", "Helvetica Neue", Verdana, Arial, sans-serif;
   font-size:13px;
   line-height:1.625em;
   color:#cccccc;
 }
 
-.footer button {Montserrat, "Helvetica Neue", Verdana, Arial, sans-serif;}
+.footer button {"open sans", "Helvetica Neue", Verdana, Arial, sans-serif;}
 
 .footer .column a,
 .footer .column a:hover
@@ -4534,7 +4529,7 @@ body {
 
 .footer .column {display:block; float:left; vertical-align:top; width:25%;}
 .footer .column ~ .column {padding-right:60px;}
-.footer .column .block-title {display:block; margin-bottom:15px; font-size:12px; font-family:montserrat; color:#ffffff; text-transform:uppercase; border-bottom:1px solid #666666;}
+.footer .column .block-title {display:block; margin-bottom:15px; font-size:12px; font-family:"open sans"; color:#ffffff; text-transform:uppercase; border-bottom:1px solid #666666;}
 .footer .column .block-title span {display:inline-block; position:relative; padding-bottom:15px; bottom:-1px; border-bottom:1px solid #f0b310;}
 .footer .column .block-mod {display:block; margin:15px 0; color:#cccccc; line-height:22px;}
 .footer .column.newsletter {float:right;}
@@ -4844,7 +4839,6 @@ p.product-name {
   margin:0;
   margin-bottom:0.5em;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
   font-size:24px;
   font-weight:400;
   font-style:normal;
@@ -4852,7 +4846,6 @@ p.product-name {
   text-rendering:optimizeLegibility;
   text-transform:uppercase;
   font-size:13px;
-  font-family:"Helvetica Neue", Verdana, Arial, sans-serif;
   font-weight:normal;
   line-height:1.4;
 }
@@ -4908,8 +4901,7 @@ p.product-name a:hover {
 .products-list .product-name {
   text-transform:uppercase;
   margin-bottom:4px;
-  font-size:13px;
-  font-family:Montserrat, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-size:14px;
 }
 .products-grid .product-name a,
 .products-list .product-name a {
@@ -4931,12 +4923,17 @@ p.product-name a:hover {
 .products-grid h3 {display:block; margin:0; padding:0; color:#f0b310; font-size:13px; line-height:16px; text-align:left; height:32px; overflow:hidden;}
 
 .category-products.sub-categories li a {min-height:115px;}
-.category-products .products-grid h4 {display:block; position:absolute; left:0; right:0; top:auto; bottom:0; height:auto; z-index:1; margin:0; padding:20px 20px 34px 20px; font-family:oswald; font-size:18px; line-height:20px; color:#ffffff;}
+.category-products .products-grid h4 {display:block; position:absolute; left:0; right:0; top:auto; bottom:0; height:auto; z-index:1; margin:0; padding:20px 20px 34px 20px; font-size:18px; line-height:20px; color:#ffffff;}
 .category-products .products-grid h4:after {content:""; display:block; position:relative; left:0; right:0; top:auto; bottom:-12px; border-bottom:1px solid #ffffff;}
 
-.category-products .products-grid li > a::before {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25);}
-.category-products .products-grid li > a::before {content:"\f006";}
-.category-products .products-grid li > a.wish-active::before {content:"\f005";}
+.category-products .products-grid li > a .wishlist-toggle {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25);}
+
+.category-products .products-grid li > a .wishlist-toggle:hover {transform:scale(1.2);}
+.category-products .products-grid li > a .wishlist-toggle::before {content:"\f006";}
+.category-products .products-grid li > a .wishlist-toggle.active::before,
+.category-products .products-grid li > a .wishlist-toggle:hover::before {content:"\f005";}
+.category-products .products-grid li > a .wishlist-toggle.active:hover::before {content:"\f006";}
+
 .category-products .products-grid li > a.onsale::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
 
 .products-grid > li {
@@ -5401,7 +5398,7 @@ opacity:1;
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -5446,9 +5443,9 @@ opacity:1;
   position:relative;
   top:-1px;
   padding-bottom:0px;
-  margin:0 0 15px 0;
+  margin:0 5px 15px 5px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -5459,18 +5456,17 @@ opacity:1;
 }
 .block-layered-nav .block-content > dl > dt > span {display:inline-block; padding-bottom:15px; position:relative; top:1px; border-bottom:1px solid #f0b310;}
 .block-layered-nav .block-content > dl > dt::after {
+  display:none;
   content:'';
   position:absolute;
   width:0;
   height:0;
-  display:block;
   border-right:4px solid transparent;
   border-left:4px solid transparent;
   border-top:4px solid #f0b310;
   border-bottom:none;
-  left:10px;
-  top:50%;
-  margin-top:-3px;
+  left:7px;
+  top:7px;
 }
 
 .block-layered-nav .block-content > dl > dt:first-child {display:none;}
@@ -5485,7 +5481,7 @@ opacity:1;
 }
 .block-layered-nav dl dd ol > li > span, .block-layered-nav dl dd ol > li > a {
   display:block;
-  padding:2px 0;
+  padding:2px 5px;
   color:#666666;
   font-size:12px;
   text-transform:uppercase;
@@ -5503,6 +5499,9 @@ opacity:1;
 @media only screen and (min-width:771px) {
   .block-layered-nav .block-content > dl > dt {
     padding-left:0;
+  }
+  .block-layered-nav .block-content > dl > dt:hover {
+    color:#f0b310;
   }
   .block-layered-nav .block-content > dl > dt::after {
     display:none;
@@ -5526,15 +5525,12 @@ opacity:1;
     cursor:pointer;
 
   }
-  .block-layered-nav .block-content > dl > dt:hover {
-    color:#f0b310;
-  }
   .block-layered-nav .block-content > dl > dt::after {
+    display:none;
     content:'';
     position:absolute;
     width:0;
     height:0;
-    display:block;
     border-top:4px solid transparent;
     border-bottom:4px solid transparent;
     border-left:4px solid #f0b310;
@@ -5544,7 +5540,7 @@ opacity:1;
     border-bottom-width:1px;
   }
   .block-layered-nav .block-content > dl > dd {
-    display:none;
+    display:block;
   }
   .block-layered-nav .block-content.accordion-open > dl > dt.current {
     border-bottom-width:1px;
@@ -5634,7 +5630,7 @@ opacity:1;
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -5790,7 +5786,7 @@ opacity:1;
 .product-item-wrpr {display:block; float:right; width:50%;}
 
 .product-item-wrpr .product-name {display:block; margin:0 0 20px 0; border-bottom:1px solid #f0f0f0;}
-.product-item-wrpr .product-name h1.h1 {display:block; margin:0; position:relative; font-family:oswald; color:#333333; font-size:18px; margin-bottom:15px;}
+.product-item-wrpr .product-name h1.h1 {display:block; margin:0; position:relative; color:#333333; font-size:18px; margin-bottom:15px;}
 .product-item-wrpr .product-name h1.h1::after {content:""; position:absolute; left:0; right:0; bottom:-1px; border-bottom:1px solid #f0b310;}
 
 .product-item-wrpr .add-to-cart-wrapper {display:block;}
@@ -5807,7 +5803,7 @@ opacity:1;
 .product-item-wrpr .qty-inc {display:inline-block; vertical-align:middle; width:24px; height:24px; line-height:20px; text-align:center; font-weight:700; color:#999999; background-color:#f3f3f3; border:1px solid #eeeeee; cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none;}
 .product-item-wrpr .qty-dec {font-size:24px;}
 .product-item-wrpr .qty-inc {font-size:20px;}
-.product-item-wrpr .input-text.qty {display:inline-block; vertical-align:middle; width:32px; height:24px; line-height:24px; text-align:center; font-family:montserrat; font-size:14px; font-weight:400; color:#666666; background-color:#ffffff; border:1px solid #eeeeee; cursor:pointer;}
+.product-item-wrpr .input-text.qty {display:inline-block; vertical-align:middle; width:32px; height:24px; line-height:24px; text-align:center; font-family:"open sans"; font-size:14px; font-weight:400; color:#666666; background-color:#ffffff; border:1px solid #eeeeee; cursor:pointer;}
 
 .product-item-wrpr .add-to-cart-buttons {display:inline-block; vertical-align:middle;}
 .product-item-wrpr .add-to-cart-buttons button.button {display:block; margin-bottom:0;}
@@ -5848,12 +5844,12 @@ opacity:1;
 .product-item-wrpr .product-item-attr {display:block; margin-bottom:5px;}
 .product-item-wrpr .product-item-attr ul {display:block;}
 .product-item-wrpr .product-item-attr li {display:inline-block; vertical-align:middle;}
-.product-item-wrpr .product-item-attr label {display:block; position:relative; padding:3px 30px 2px 10px; font-size:13px; font-weight:400; line-height:19px; font-family:Montserrat,Oswald,"Helvetica Neue",Verdana,Arial,sans-serif; color:#999999; text-transform:uppercase; border:1px solid #eeeeee; cursor:pointer;}
+.product-item-wrpr .product-item-attr label {display:block; position:relative; padding:3px 30px 2px 10px; font-size:13px; font-weight:400; line-height:19px; font-family:"open sans"; color:#999999; text-transform:uppercase; border:1px solid #eeeeee; cursor:pointer;}
 .product-item-wrpr .product-item-attr label::after {content:"\f107"; display:block; position:absolute; right:10px; top:50%; margin-top:-9px; font-family:FontAwesome; font-size:13px; line-height:19px; color:#999999;}
 
 .product-features-benefits {display:block; position:relative; z-index:101;}
 
-.product-features-benefits .head {display:block; position:relative;  margin:0 auto 40px auto; padding:30px 10px 40px 10px; height:200px; max-height:200px; overflow:hidden; line-height:1.25em; text-align:center; font-family:montserrat; font-size:14px; color:#ffffff; letter-spacing:1px; text-transform:uppercase; background:url("../images/product-features-benefits.jpg") no-repeat center top;}
+.product-features-benefits .head {display:block; position:relative;  margin:0 auto 40px auto; padding:30px 10px 40px 10px; height:200px; max-height:200px; overflow:hidden; line-height:1.25em; text-align:center; font-size:14px; color:#ffffff; letter-spacing:1px; text-transform:uppercase; background:url("../images/product-features-benefits.jpg") no-repeat center top;}
 .product-features-benefits .head::before {content:""; position:absolute; left:0; right:50%; top:auto; bottom:0; height:35px; z-index:1; background-color:transparent; border-bottom:35px solid #ffffff; border-right:35px solid transparent;}
 .product-features-benefits .head::after {content:""; position:absolute; left:50%; right:0; top:auto; bottom:0; height:35px; z-index:1; background-color:transparent; border-bottom:35px solid #ffffff; border-left:35px solid transparent;}
 .product-features-benefits .mod {display:block; max-height:130px; overflow:hidden;}
@@ -5862,7 +5858,7 @@ opacity:1;
 .product-features-benefits .cmlla {display:block;}
 .product-features-benefits .cmlla ul {display:block;}
 .product-features-benefits .cmlla ul li::before {content:"\f00c"; position:absolute; left:0; top:-2px; width:24px; height:24px; font-size:24px; line-height:24px; font-family:FontAwesome; color:#9fcc61; text-align:center;}
-.product-features-benefits .cmlla h4 {display:block; margin-bottom:0; font-family:montserrat;}
+.product-features-benefits .cmlla h4 {display:block; margin-bottom:0;}
 
 @media only screen and (max-width:770px) {
     .product-features-benefits .cmlla {display:block; padding:0 10px; margin:20px auto;}
@@ -6231,7 +6227,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .product-view .add-to-links a:focus,
 .product-view .add-to-links a:active {color:#ffffff; text-decoration:none; background-color:#f0b310;}
 
-.product-view .add-to-links a span {padding-left:5px; font-family:montserrat; font-size:13px;}
+.product-view .add-to-links a span {padding-left:5px; font-family:"open sans"; font-size:13px;}
 
 .product-view .sharing-links {
   display:block;
@@ -6369,7 +6365,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
     margin:0;
     margin-bottom:10px;
     color:#636363;
-    font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-family:"open sans";
     font-size:14px;
     font-weight:bold;
     font-style:normal;
@@ -6519,7 +6515,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 
 .grouped-items-table .name-wrapper {
   color:#f0b310;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .grouped-items-table .qty-wrapper {
   padding-top:7px;
@@ -6734,7 +6730,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   margin:0;
   margin-bottom:0.5em;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:24px;
   font-weight:400;
   font-style:normal;
@@ -7258,7 +7254,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   }
 }
 .cart-table {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .cart-table th,
 .cart-table td,
@@ -7276,7 +7272,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 .cart-table tbody td {
   background-color:transparent;
   padding:10px 5px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .cart-table .product-cart-info,
 .cart-table .product-cart-actions,
@@ -7298,7 +7294,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   font-size:9px;
   padding:0 5px;
   text-transform:uppercase;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 
 .cart-table .product-cart-remove {cursor:pointer; text-align:center; vertical-align:middle;s}
@@ -7450,7 +7446,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   .cart-table td[data-rwd-label]::before {
     content:attr(data-rwd-label) ":";
     font-size:12px;
-    font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+    font-family:"open sans";
     padding-right:5px;
     text-transform:uppercase;
   }
@@ -7607,7 +7603,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   margin-top:4px;
 }
 .shipping .form-list label {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:13px;
   font-weight:400;
   text-transform:uppercase;
@@ -7626,7 +7622,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   min-width:100px;
 }
 .shipping .sp-methods label span {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-weight:bold;
   font-style:normal;
 }
@@ -7663,7 +7659,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
   clear:both;
 }
 .cart .cart-totals table {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   margin-bottom:20px;
   text-transform:uppercase;
@@ -7718,7 +7714,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 }
 #discount-coupon-form label,
 .cart .giftcard label {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   font-weight:400;
   text-align:left;
@@ -8150,7 +8146,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -8823,7 +8819,7 @@ body.customer-account .data-table {
   margin-top:5px;
 }
 body.customer-account .data-table td a {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   text-transform:uppercase;
   font-style:normal;
   font-size:13px;
@@ -8956,7 +8952,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 .dashboard .box-reviews li .details .ratings strong {
   float:left;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:13px;
   margin-right:5px;
 }
@@ -9028,7 +9024,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 
 .order-date {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   text-transform:uppercase;
 }
 
@@ -9060,7 +9056,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
 }
 .order-info-box .box-title h2 {
   font-size:14px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-weight:bold;
   line-height:1.5;
 }
@@ -9083,7 +9079,7 @@ body.customer-account .sidebar .block-reorder ol#cart-sidebar-reorder p.product-
   padding-left:15px;
 }
 .order-info-box .box-content strong {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-weight:normal;
   text-transform:uppercase;
 }
@@ -9532,7 +9528,7 @@ div.paypal-logo span > img {
   margin-bottom:0;
 }
 #customer-reviews .review-heading .pager .count-container .limiter label {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:10px;
   text-transform:uppercase;
 }
@@ -9548,7 +9544,7 @@ div.paypal-logo span > img {
   color:#636363;
 }
 #customer-reviews h3 {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   font-weight:normal;
   text-transform:uppercase;
@@ -9562,7 +9558,7 @@ div.paypal-logo span > img {
 }
 #customer-reviews .fieldset h4 {
   border-bottom:1px solid #cccccc;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   font-weight:normal;
   padding-bottom:5px;
@@ -9572,7 +9568,7 @@ div.paypal-logo span > img {
   display:none;
 }
 #customer-reviews .fieldset .form-list {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   font-weight:normal;
   margin:10px 0;
@@ -9681,7 +9677,7 @@ div.paypal-logo span > img {
  * Ratings - Global
  * ============================================ */
 .ratings-table {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   text-transform:uppercase;
 }
@@ -10017,7 +10013,7 @@ div.paypal-logo span > img {
   text-align:center;
 }
 #wishlist-table.clean-table {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   text-transform:uppercase;
   width:100%;
@@ -10030,13 +10026,13 @@ div.paypal-logo span > img {
   vertical-align:top;
 }
 #wishlist-table.clean-table thead th {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   text-transform:uppercase;
 }
 #wishlist-table .product-name {
   font-size:16px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   margin-bottom:0;
   text-transform:uppercase;
 }
@@ -10045,7 +10041,7 @@ div.paypal-logo span > img {
 }
 #wishlist-table .wishlist-sku {
   font-size:11px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   margin:5px 0;
 }
 #wishlist-table textarea {
@@ -10053,7 +10049,7 @@ div.paypal-logo span > img {
   width:100%;
   height:45px;
   font-size:11px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 #wishlist-table textarea::-webkit-input-placeholder {
   text-transform:uppercase;
@@ -10118,7 +10114,7 @@ div.paypal-logo span > img {
   width:20px;
 }
 #wishlist-table .price-box {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
 }
 #wishlist-table .price-box .price {
@@ -10372,7 +10368,7 @@ div.paypal-logo span > img {
 }
 .header-minicart .block-subtitle {
   color:#50A4CF;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:15px;
   font-weight:400;
   line-height:1.4;
@@ -10707,7 +10703,7 @@ div.paypal-logo span > img {
 .product-review .product-img-box p.label {
   border-bottom:1px solid #cccccc;
   font-size:16px;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   margin-top:20px;
   padding-bottom:10px;
   text-transform:uppercase;
@@ -10720,11 +10716,11 @@ div.paypal-logo span > img {
   color:#f0b310;
   font-size:16px;
   font-weight:600;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   padding-bottom:10px;
 }
 .product-review .ratings-table {
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
 }
 .product-review .ratings-table th {
   padding-right:10px;
@@ -10739,14 +10735,14 @@ div.paypal-logo span > img {
   border-bottom:1px solid #cccccc;
   font-size:16px;
   font-weight:400;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   margin-top:20px;
   padding:10px 0;
   text-transform:uppercase;
 }
 .product-review .ratings-description dd {
   color:#737373;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:13px;
 }
 
@@ -10868,7 +10864,7 @@ div.paypal-logo span > img {
   margin:0;
   margin-bottom:10px;
   color:#636363;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -10995,7 +10991,7 @@ div.paypal-logo span > img {
 }
 .price-box .minimal-price-link .label {
   color:#cf5050;
-  font-family:Oswald, "Helvetica Neue", Verdana, Arial, sans-serif;
+  font-family:"open sans";
   font-size:12px;
   text-transform:uppercase;
 }
@@ -11144,16 +11140,16 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 .hdr-select-tool select {position:absolute; opacity:0; left:-4px; right:0; top:0; bottom:0; margin:0; padding:4px; border:0; font-size:12px; line-height:10px; outline:none; background-color:transparent; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
 .hdr-select-tool select option {margin:0; padding:2px 4px; border:none; outline:none; background-color:transparent;}
 .hdr-select-tool .cmlla {width:auto; height:20px; padding-right:6px; font-size:12px;}
-.hdr-select-tool:hover .cmlla {text-decoration:underline;}z%; margin-top:2px; right:0; width:0; height:0; border-bottom:4px solid #666666; border-left:4px solid transparent;}
+.hdr-select-tool:hover .cmlla {text-decoration:underline; margin-top:2px; right:0; width:0; height:0; border-bottom:4px solid #666666; border-left:4px solid transparent;}
 
-.page-header-wrpr {display:block; position:relative; margin:0; padding:10px 0; border-width:1px; border-style:solid none; border-color:#f0f0f0; z-index:601; -webkit-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1);}
+.page-header-wrpr {display:block; position:relative; z-index:901; margin:0; padding:10px 0; border-width:1px; border-style:solid none; border-color:#f0f0f0; z-index:601; -webkit-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1); box-shadow:0px 2px 2px -2px rgba(0,0,0,0.1);}
 
 .product-category-banner-mod {display:block; margin:0 auto; max-width:100%; height:auto;}
 .product-category-banner {display:block; position:relative; overflow:hidden;}
 .product-category-banner .image {display:block;}
 .product-category-banner .image img {display:block; margin:0 auto; width:100%; max-width:100%; height:auto;}
 .product-category-banner .cmlla {display:block; position:relative; max-width:1200px; margin:0 auto;}
-.product-category-banner .description {display:block; position:absolute; left:0; bottom:30px; font-family:montserrat; color:#ffffff; text-shadow:0px 0px 3px #000000;}
+.product-category-banner .description {display:block; position:absolute; left:0; bottom:30px; font-family:"open sans"; color:#ffffff; text-shadow:0px 0px 3px #000000;}
 .product-category-banner .name {display:block; margin-bottom:2px; font-size:15px; line-height:19px; font-weight:700; letter-spacing:1px;}
 .product-category-banner .model {display:block; font-size:13px; line-height:17px;}
 .product-category-banner .more-info li {display:block; position:absolute; width:28px; height:28px; -webkit-border-radius:50%; -moz-border-radius:50%; border-radius:50%;}
