@@ -538,7 +538,7 @@ $j(document).ready(function () {
     // ==============================================
     // Store Item Details
     // ==============================================
-    var qtyWrapper="#qty-wrapper",
+    var qtyWrapper="#qty-wrapper-control",
     qtyItems=[".qty-dec",".qty-inc"],
     qtyCounter=true,
     qtyCounterFN=function(b,o){
