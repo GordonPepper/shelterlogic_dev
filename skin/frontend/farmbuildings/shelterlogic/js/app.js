@@ -529,11 +529,19 @@ $j(document).ready(function () {
     // Checkout Cart - events
     // ==============================================
 
+/*
     if ($j('body.checkout-cart-index').length) {
         $j('input[name^="cart"]').focus(function () {
             $j(this).siblings('button').fadeIn();
         });
     }
+*/
+
+    $j(".cart_update_trigger").on({
+        click:function(e){
+            $j("#cart_update_form").submit();
+        }
+    });
 
     // ==============================================
     // Store Item Details
