@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <config>
     <menu>
-        <gaboli_warehouse translate="title" module="gaboli_warehouse">
-            <title>Warehouse</title>
-            <sort_order>80</sort_order>
-            <action>adminhtml/warehouse</action>
-        </gaboli_warehouse>
+        <!--<gaboli_warehouse translate="title" module="gaboli_warehouse">-->
+            <!--<title>Warehouse</title>-->
+            <!--<sort_order>80</sort_order>-->
+            <!--<action>adminhtml/warehouse</action>-->
+        <!--</gaboli_warehouse>-->
         <report>
             <children>
                 <products>

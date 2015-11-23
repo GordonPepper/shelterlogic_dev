@@ -75,7 +75,7 @@ class VladimirPopov_WebForms_Model_Observer
 
         if ($parent) {
 
-            $webformsNode = $parent->children()->descend('webforms')->descend('children');
+            $webformsNode = $parent->children()->descend('thirdparty')->descend('children')->descend('webforms')->descend('children');
 
             if ($webformsNode) {
 

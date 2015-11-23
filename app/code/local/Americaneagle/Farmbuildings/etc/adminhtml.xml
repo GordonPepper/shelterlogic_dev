@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<adminhtml>
+    <menu>
+        <thirdparty module="farmbuildings">
+            <title>Extensions</title>
+            <sort_order>72</sort_order>
+            <children>
+                <cueblocks module="robots">
+                    <title>CueBlocks</title>
+                    <sort_order>71</sort_order>
+                    <children>
+                        <robots module="robots">
+                            <title>Robots</title>
+                            <children>
+                                <itemrobots module="robots">
+                                    <title>Edit Robot.txt</title>
+                                    <sort_order>0</sort_order>
+                                    <action>robots/adminhtml_robots</action>
+                                </itemrobots>
+                            </children>
+                        </robots>
+                    </children>
+                </cueblocks>
+                <gaboli_warehouse translate="title" module="gaboli_warehouse">
+                    <title>Warehouse</title>
+                    <sort_order>80</sort_order>
+                    <action>adminhtml/warehouse</action>
+                </gaboli_warehouse>
+                <webforms module="webforms">
+                    <title>Web-forms</title>
+                    <sort_order>77</sort_order>
+                    <children>
+                        <forms module="webforms">
+                            <title>Manage Forms</title>
+                            <sort_order>0</sort_order>
+                            <action>webforms/adminhtml_webforms</action>
+                        </forms>
+                        <quickresponses module="webforms">
+                            <title>Manage Quick Responses</title>
+                            <sort_order>1</sort_order>
+                            <action>webforms/adminhtml_quickresponse</action>
+                        </quickresponses>
+                    </children>
+                </webforms>
+
+            </children>
+        </thirdparty>
+    </menu>
+    </adminhtml>

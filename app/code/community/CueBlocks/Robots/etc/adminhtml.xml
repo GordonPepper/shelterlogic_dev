@@ -6,22 +6,22 @@
  -->    
 <adminhtml>
     <menu>
-        <cueblocks module="robots">
-            <title>CueBlocks</title>
-            <sort_order>71</sort_order> 
-            <children>
-                <robots module="robots">
-                    <title>Robots</title>
-                    <children>
-                        <itemrobots module="robots">
-                            <title>Edit Robot.txt</title>
-                            <sort_order>0</sort_order>
-                            <action>robots/adminhtml_robots</action>
-                        </itemrobots>
-                    </children>
-                </robots>
-            </children>
-        </cueblocks>
+        <!--<cueblocks module="robots">-->
+            <!--<title>CueBlocks</title>-->
+            <!--<sort_order>71</sort_order> -->
+            <!--<children>-->
+                <!--<robots module="robots">-->
+                    <!--<title>Robots</title>-->
+                    <!--<children>-->
+                        <!--<itemrobots module="robots">-->
+                            <!--<title>Edit Robot.txt</title>-->
+                            <!--<sort_order>0</sort_order>-->
+                            <!--<action>robots/adminhtml_robots</action>-->
+                        <!--</itemrobots>-->
+                    <!--</children>-->
+                <!--</robots>-->
+            <!--</children>-->
+        <!--</cueblocks>-->
     </menu>
     <acl>
         <resources>
