@@ -52,7 +52,7 @@
             <?php endif; ?>
         </div>
 
-        <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+        <form id="cart_update_form" action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
             <?php echo $this->getBlockHtml('formkey'); ?>
             <table id="shopping-cart-table" class="cart-table data-table">
                 <col width="1" />
@@ -71,7 +71,7 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Thumbnail') ?></span></th>
-                        <th class="shopping-cart-desc-head" rowspan="<?php echo $mergedCells; ?>">Descripion</th>
+                        <th class="shopping-cart-desc-head" rowspan="<?php echo $mergedCells; ?>">Description</th>
                         <th class="cart-price-head" colspan="<?php echo $mergedCells; ?>">
     <!--                            <div class="cart-price-placeholder">-->
                                 <span class="nobr"><?php echo $this->__('Unit Price') ?></span>
@@ -174,4 +174,12 @@
         <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     </div>
     <?php echo $this->getChildHtml('crosssell') ?>
+</div>
+
+<div class="oap-mod">
+
+    <div class="section-title"><h3>Others Also Purchased</h3></div>
+
+    <p>MODULE :: Others Also Purchased ::</p>
+
 </div>
