@@ -20,11 +20,11 @@
             <americaneagle_totalogistix>
                 <class>Americaneagle_Totalogistix_Model</class>
             </americaneagle_totalogistix>
-            <sales>
-                <rewrite>
-                    <quote_address>Americaneagle_Totalogistix_Model_Quote_Address</quote_address>
-                </rewrite>
-            </sales>
+            <!--<sales>-->
+                <!--<rewrite>-->
+                    <!--<quote_address>Americaneagle_Totalogistix_Model_Quote_Address</quote_address>-->
+                <!--</rewrite>-->
+            <!--</sales>-->
             <directory_resource>
                 <rewrite>
                     <region_collection>Americaneagle_Totalogistix_Model_Region_Collection</region_collection>
@@ -40,6 +40,18 @@
             </americaneagle_totalogistix_setup>
         </resources>
     </global>
+    <frontend>
+        <events>
+            <sales_quote_address_collect_totals_before>
+                <observers>
+                    <sales_customer_validate_vat_number>
+                        <class>americaneagle_totalogistix/observer</class>
+                        <method>beforeCollectTotals</method>
+                    </sales_customer_validate_vat_number>
+                </observers>
+            </sales_quote_address_collect_totals_before>
+        </events>
+    </frontend>
     <default>
         <carriers>
             <totalogistix>
