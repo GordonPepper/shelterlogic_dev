@@ -83,9 +83,9 @@ umask(0);
 
 //var_dump($_SERVER['MAGE_RUN_CODE']);
 /* Store or website code */
-$mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : 'slcanada';
+$mageRunCode = 'slcanada';
 
 /* Run store or run website */
-$mageRunType = isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'website';
+$mageRunType = 'website';
 
 Mage::run($mageRunCode, $mageRunType);
