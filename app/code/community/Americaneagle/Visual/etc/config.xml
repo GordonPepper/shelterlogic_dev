@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Visual>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Americaneagle_Visual>
     </modules>
     <global>
@@ -44,9 +44,27 @@
                 </setup>
             </ae_visual_soaplog>
         </resources>
+        <events>
+            <customer_login>
+                <observers>
+                    <americaneagle_visual>
+                        <class>americaneagle_visual/observer</class>
+                        <method>customerLogin</method>
+                    </americaneagle_visual>
+                </observers>
+            </customer_login>
+        </events>
     </global>
     <crontab>
         <jobs>
+            <americaneagle_visual_customersync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_customersync::run</model></run>
+            </americaneagle_visual_customersync>
+            <americaneagle_visual_ordersync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_ordersync::run</model></run>
+            </americaneagle_visual_ordersync>
             <americaneagle_visual>
                 <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
                 <run><model>americaneagle_visual/observer::pushOrders</model></run>

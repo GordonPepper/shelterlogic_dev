@@ -36,7 +36,10 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		 * 4) begin processing loop
 		 */
 
+		$farmbuildingStoreId = Mage::app()->getStore('default')->getId();
+
 		$orderCollection = Mage::getModel('sales/order')->getCollection();
+		$orderCollection->addAttributeToFilter('store_id', array('eq' => $farmbuildingStoreId));
 		$orderCollection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
 
 		if($orderCollection->count() == 0){
@@ -55,14 +58,14 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			return; // helper logs exception
 		$vCustomer = null;
 
-		if(isset($resp->SearchCustomerResult->Customers->Customer) && $resp->SearchCustomerResult->Customers->Customer->CustomerID == $customerId) {
-			$vCustomer = $resp->SearchCustomerResult->Customers->Customer;
+		if($resp->getSearchCustomerResult()->getCustomers()->getCustomer()->CustomerID == $customerId) {
+			$vCustomer = $resp->getSearchCustomerResult()->getCustomers()->getCustomer();
 		} else {
 			$resp = $this->vhelper->createVisualCustomerId($customerId);
-			if(!isset($resp->CreateCustomerResult->Customers->Customer) && $vCustomer->CreateCustomerResult->Customers->Customer->CustomerID != $customerId) {
+			if($resp->getCreateCustomerResult()->getCustomers()->getCustomer() != $customerId) {
 				Mage::logException(new Exception("Unable to create customer $customerId in VISUAL"));
 			}
-			$vCustomer = $resp->CreateCustomerResult->Customers->Customer;
+			$vCustomer = $resp->getCreateCustomerResult()->getCustomers()->getCustomer();
 		}
 
 		/** @var Mage_Sales_Model_Order $order */
@@ -72,12 +75,12 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			 * then the order
 			 */
 
-			$vAddress = $this->vhelper->addNewAddress($order->getShippingAddress())->AddNewAddressResult;
+			$vAddress = $this->vhelper->addNewAddress($order->getShippingAddress())->getAddNewAddressResult();
 			if($vAddress === false) {
 				continue;
 			}
 
-			$vOrder = $this->vhelper->addNewOrderForAddress($order, $vAddress->ShipToID);
+			$vOrder = $this->vhelper->addNewOrderForAddress($order, $vAddress->getShipToID());
 			if($vOrder === false) {
 				continue;
 			}

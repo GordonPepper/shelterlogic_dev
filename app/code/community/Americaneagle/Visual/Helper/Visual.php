@@ -6,28 +6,44 @@
  * Date: 12/12/14
  * Time: 8:19 AM
  */
+
+require_once('Americaneagle/Visual/wsdl/CustomerService/autoload.php');
+require_once('Americaneagle/Visual/wsdl/SalesOrderService/autoload.php');
+
+use Visual\CustomerService;
+use Visual\SalesOrderService;
+
 class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 	/** @var Americaneagle_Visual_Helper_Data helper */
 	private $helper;
+	/** @var Visual\CustomerService\CustomerService */
+	private $customerService;
+	/** @var Visual\CustomerService\OrderService */
+	private $orderService;
 
-	public function addNewOrderForAddress(Mage_Sales_Model_Order $order, $sid) {
+	public function __construct() {
 		if (!isset($this->helper)) {
 			$this->helper = Mage::helper('americaneagle_visual');
 		}
-		try {
-			$options = array();
-			if ($this->helper->getSoaplogEnable()) {
-				$options['trace'] = 1;
-			}
-			$options['soap_version'] = SOAP_1_2;
+		$options = array();
+		if ($this->helper->getSoaplogEnable()) {
+			$options['trace'] = 1;
+		}
+		$options['soap_version'] = SOAP_1_2;
 
-			$client = new SoapClient($this->helper->getServiceHost() . 'SalesOrderService.asmx?wsdl', $options);
-			$header = new SoapHeader('http://tempuri.org/', 'Header', array(
+		$header = new SoapHeader('http://tempuri.org/', 'Header', array(
 				'Key' => $this->helper->getServiceKey(),
-				'ExternalRefGroup' => $this->helper->getExternalRefGroup()
-			));
-			$client->__setSoapHeaders($header);
+				'ExternalRefGroup' => $this->helper->getExternalRefGroup()));
 
+		$this->customerService = new CustomerService\CustomerService($options);
+		$this->customerService->__setSoapHeaders($header);
+
+		$this->orderService = new SalesOrderService\SalesOrderService($options);
+		$this->orderService->__setSoapHeaders($header);
+	}
+
+	public function addNewOrderForAddress(Mage_Sales_Model_Order $order, $sid) {
+		try {
 			$lines = array();
 			$line = 1;
 			/** @var Mage_Sales_Model_Order_Item $item */
@@ -35,63 +51,52 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 				if ($item->getProductType() == 'simple' && $item->getParentItem() != null) {
 					continue;
 				}
-				$lines[] = array(
-					'LineNo' => $line,
-					'QTY' => $item->getQtyOrdered(),
-					'PartID' => $item->getSku(),
-					'UnitPrice' => $item->getPrice(),
-					'LineDescription' => $item->getName(),
-					'LineStatus' => 'A',
-					'AutoAllocateInventory' => 0,
-					'CreateNewWorkOrder' => 1,
-					'FreightCost' => $order->getShippingAmount(),
-					'WarehouseID' => $this->helper->getWarehouseId(),
-					'ProductCode' => current($item->getChildrenItems())->getProduct()->getProductCode()
-				);
+				$lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
+						->setLineNo($line)
+						->setPartID($item->getSku())
+						->setUnitPrice($item->getPrice())
+						->setLineDescription($item->getName())
+						->setLineStatus('A')
+						->setCreateNewWorkOrder(1)
+						->setFreightCost($order->getShippingAmount())
+						->setWarehouseID($this->helper->getWarehouseId())
+						->setProductCode(current($item->getChildrenItems())->getProduct()->getProductCode());
+				$lines[] = $lineItem;
 				$line++;
-
 			}
 
 			/** @var Mage_Sales_Model_Order_Address $billingAddress */
 			$billingAddress = $order->getBillingAddress();
-			$newOrder = array(
-				'data' => array(
-					'ReturnErrorInResponse' => 0,
-					'UseIndependentTransactions' => 0,
-					'Orders' => array(
-						'CustomerOrderHeader' => array(
-							'CustomerOrderID' => $order->getIncrementId(),
-							'OrderDate' => date('c', strtotime($order->getCreatedAt())),
-							'CustomerID' => $this->helper->getCustomerId(),
-							'DesiredShipDate' => date('c', $this->helper->getLeadTimeDate($order->getCreatedAt())),
-							'ShipToID' => $sid,
-							'Status' => 'R',
-							'ShipVIA' => 'LTL',
-							'CarrierID' => $this->helper->stripCarrierCode($order->getShippingMethod()),
-							'ContactFirstName' => $billingAddress->getFirstname(),
-							'ContactLastName' => $billingAddress->getLastname(),
-							'ContactPhoneNumber' => $billingAddress->getTelephone(),
-							'ContactEmail' => $billingAddress->getEmail(),
-							'SiteID' => $this->helper->getSiteId(),
-							'CurrencyID' => $this->helper->getCurrencyId(),
-							'CustomerPurchaseOrderID' => $order->getPayment()->getCcTransId(),
-							'FOB' => $this->helper->getFob(),
-							'TerritoryID' => $this->helper->getTerritoryId(),
-							'Lines' => array(
-								'CustomerOrderLine' => $lines
-							)
-						)
-					)
-				)
-			);
 
+			$newOrderHeader = (new \Visual\SalesOrderService\CustomerOrderHeader())
+					->setCustomerOrderID($order->getIncrementId())
+					->setOrderDate(date('c', strtotime($order->getCreatedAt())))
+					->setCustomerID($this->helper->getCustomerId())
+					->setDesiredShipDate(date('c', $this->helper->getLeadTimeDate($order->getCreatedAt())))
+					->setShipToID($sid)
+					->setStatus('R')
+					->setShipVIA('LTL')
+					->setCarrierID($this->helper->stripCarrierCode($order->getShippingMethod()))
+					->setContactFirstName($billingAddress->getFirstname())
+					->setContactLastName($billingAddress->getLastname())
+					->setContactPhoneNumber( $billingAddress->getTelephone())
+					->setContactEmail($billingAddress->getEmail())
+					->setSiteID($this->helper->getSiteId())
+					->setCurrencyID($this->helper->getCurrencyId())
+					->setCustomerPurchaseOrderID($order->getPayment()->getCcTransId())
+					->setFOB($this->helper->getFob())
+					->setTerritoryID($this->helper->getTerritoryId())
+					->setLines($lines);
 
-			$res = $client->CreateSalesOrder($newOrder);
-			$this->soapLog($client, 'CustomerService:addNewOrderForAddress', sprintf('Add New Order'));
+			$newOrderData = (new SalesOrderService\CustomerOrderData())
+					->setOrders(array($newOrderHeader));
+
+			$res = $this->orderService->CreateSalesOrder(new SalesOrderService\CreateSalesOrder($newOrderData));
+
+			$this->soapLog($this->orderService, 'CustomerService:addNewOrderForAddress', sprintf('Add New Order'));
 			return $res;
-
 		} catch (Exception $e) {
-			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($this->orderService) ? $this->orderService : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
 			//throw $e;
 			return false;
 		}
@@ -99,134 +104,101 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract {
 	}
 
 	public function addNewAddress(Mage_Sales_Model_Order_Address $address) {
-		if (!isset($this->helper)) {
-			$this->helper = Mage::helper('americaneagle_visual');
-		}
-
 		try {
-			$options = array();
-			if ($this->helper->getSoaplogEnable()) {
-				$options['trace'] = 1;
-			}
-			$options['soap_version'] = SOAP_1_2;
+			$newAddress = (new CustomerService\CustomerAddress())
+					->setName($address->getName())
+					->setAddress1($address->getStreet1())
+					->setAddress2($address->getStreet2())
+					->setAddress3($address->getStreet3())
+					->setCity($address->getCity())
+					->setState($address->getRegionCode())
+					->setZipCode($address->getPostcode())
+					->setCountry($address->getCountryId() == 'US' ? 'USA' : $address->getCountryId());
 
-			$client = new SoapClient($this->helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
-			$header = new SoapHeader('http://tempuri.org/', 'Header', array(
-				'Key' => $this->helper->getServiceKey(),
-				'ExternalRefGroup' => $this->helper->getExternalRefGroup()
-			));
-			$client->__setSoapHeaders($header);
-			$newAddress = array(
-				'customerID' => $this->helper->getCustomerId(),
-				'caData' => array(
-					'Name' => $address->getName(),
-					'Address1' => $address->getStreet1(),
-					'Address2' => $address->getStreet2(),
-					'Address3' => $address->getTelephone(),
-					'City' => $address->getCity(),
-					'State' => $address->getRegionCode(),
-					'ZipCode' => $address->getPostcode(),
-					'Country' => $address->getCountryId() == 'US' ? 'USA' : $address->getCountryId()
-				),
-				'siteFormat' => 'FLEMING'
-			);
+			$res = $this->customerService->AddNewAddress(
+					new CustomerService\AddNewAddress(
+						$this->helper->getCustomerId(),
+						$newAddress,
+						'FLEMING'));
 
-			$res = $client->AddNewAddress($newAddress);
-			$this->soapLog($client, 'CustomerService:AddNewAddress', sprintf('Add New Address %s', print_r($newAddress, true)));
+			$this->soapLog($this->customerService, 'CustomerService:AddNewAddress', sprintf('Add New Address %s', print_r($newAddress, true)));
 			return $res;
-
 		} catch (Exception $e) {
-			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:AddNewAddress', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:AddNewAddress', sprintf('Exception: %s', $e->getMessage()));
 			//throw $e;
 			return false;
 		}
-
 	}
 
 	public function createVisualCustomerId($cid) {
-		if (!isset($this->helper)) {
-			$this->helper = Mage::helper('americaneagle_visual');
-		}
-
 		try {
-			$options = array();
-			if ($this->helper->getSoaplogEnable()) {
-				$options['trace'] = 1;
-			}
-			$options['soap_version'] = SOAP_1_2;
 
-			$client = new SoapClient($this->helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
-			$header = new SoapHeader('http://tempuri.org/', 'Header', array(
-				'Key' => $this->helper->getServiceKey(),
-				'ExternalRefGroup' => $this->helper->getExternalRefGroup()
-			));
-			$client->__setSoapHeaders($header);
-			$res = $client->CreateCustomer(
-				array(
-					'data' => array(
-						'Customers' => array(
-							'Customer' => array(
-								'CustomerID' => $cid,
-								'CustomerName' => $cid,
-								'CurrencyID' => $this->helper->getCurrencyId(),
-								'TermsID' => $this->helper->getTermsId(),
-								'SalesRepID' => $this->helper->getSalesRepId(),
-								'TerritoryID' => $this->helper->getTerritoryId(),
-								'Entities' => array(
-									'CustomerEntity' => array(
-										'EntityID' => $this->helper->getEntityId()
-									)
-								),
-								'Sites' => array(
-									'CustomerSite' => array(
-										'SiteID' => $this->helper->getSiteId()
-									)
-								)
-							)
-						)
-					)
-				)
-			);
-			$this->soapLog($client, 'CustomerService:CreateCustomer', sprintf('Create Customer %s', $cid));
+			$customerEntity = (new CustomerService\CustomerEntity())
+					->setEntityID($this->helper->getEntityId());
+
+			$customerSite = (new CustomerService\CustomerSite())
+					->setSiteID($this->helper->getSiteId());
+
+			$customer = (new CustomerService\Customer())
+					->setCustomerID($cid)
+					->setCustomerName($cid)
+					->setCurrencyID($this->helper->getCurrencyId())
+					->setTermsID($this->helper->getTermsId())
+					->setSalesRepID($this->helper->getSalesRepId())
+					->setTerritoryID($this->helper->getTerritoryId())
+					->setEntities(array($customerEntity))
+					->setSites(array($customerSite));
+
+			$customerData = (new CustomerService\CustomerData())
+					->setCustomers(array($customer));
+
+			$res = $this->customerService->CreateCustomer(
+					new CustomerService\CreateCustomer($customerData));
+
+			$this->soapLog($this->customerService, 'CustomerService:CreateCustomer', sprintf('Create Customer %s', $cid));
 			return $res;
-
 		} catch (Exception $e) {
-			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:CreateCustomer', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:CreateCustomer', sprintf('Exception: %s', $e->getMessage()));
 			throw $e;
 		}
 	}
 
 	public function getVisualCustomerById($cid) {
-		if (!isset($this->helper)) {
-			$this->helper = Mage::helper('americaneagle_visual');
-		}
-
 		try {
+			$cust = (new CustomerService\Customer())
+					->setCustomerID($cid);
 
-			$options = array();
-			if ($this->helper->getSoaplogEnable()) {
-				$options['trace'] = 1;
-			}
-			$options['soap_version'] = SOAP_1_2;
+			$custData = (new CustomerService\CustomerData())
+					->setCustomers(array($cust));
 
-			$client = new SoapClient($this->helper->getServiceHost() . 'CustomerService.asmx?wsdl', $options);
-			$header = new SoapHeader('http://tempuri.org/', 'Header', array(
-				'Key' => $this->helper->getServiceKey()));
-			$client->__setSoapHeaders($header);
-			$res = $client->SearchCustomer(
-				array(
-					'data' => array(
-						'Customers' => array(
-							'Customer' => array(
-								'CustomerID' => $cid)
-						)
-					)
-				)
-			);
-			$this->soapLog($client, 'CustomerService:SearchCustomer', sprintf('Search for %s', $cid));
+			$res = $this->customerService->SearchCustomer(new CustomerService\SearchCustomer($custData));
+
+			$this->soapLog($this->customerService, 'CustomerService:SearchCustomer', sprintf('Search for %s', $cid));
 			return $res;
 		} catch (Exception $e) {
-			$this->soapLogException(isset($client) ? $client : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
+			$this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
+			throw $e;
+		}
+
+		return null;
+	}
+
+	public function getNewCustomers($keyword) {
+		try {
+			$cust = (new CustomerService\Customer())
+					->setTerritoryID('WEB')
+					->setCustomerName("{$keyword}%");
+
+			$custData = (new CustomerService\CustomerData())
+					->setCustomers(array($cust));
+
+			$req = new CustomerService\SearchCustomerLike($custData);
+
+			$res = $this->customerService->SearchCustomerLike($req);
+			$this->soapLog($this->customerService, 'CustomerService:SearchCustomerLike', sprintf('Search for %s', 'Fred%'));
+			return $res->getSearchCustomerLikeResult()->getCustomers()->getCustomer();
+		} catch (Exception $e) {
+			$this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
 			throw $e;
 		}
 

@@ -33,6 +33,14 @@ foreach($collection as $order) {
 	$order->save();
 }
 
+$installer->addAttribute('customer', 'visual_customer_id', array(
+		'type' => 'text',
+		'input' => 'text',
+		'label' => 'Visual Customer ID',
+		'global' => 1,
+		'default' => ''
+));
+
 /* Sample Code
 $installer->addAttribute('customer_address', 'is_residential', array(
 	'type' => 'static',
