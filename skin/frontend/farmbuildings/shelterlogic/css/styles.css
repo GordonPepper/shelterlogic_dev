@@ -2064,8 +2064,11 @@ a.button2:hover {
 
 .messages {
   display:block;
-  margin:10px 0;
-  -webkit-box-shadow:0px 2px 2px 0px rgba(0,0,0,0.1); -moz-box-shadow:  0px 2px 2px 0px rgba(0,0,0,0.1) box-shadow:  0px 2px 2px 0px rgba(0,0,0,0.1);
+  margin:10px auto;
+  max-width:1260px;
+  position:relative;
+  z-index:201;
+  -webkit-box-shadow:0px 2px 2px 0px rgba(0,0,0,0.1); -moz-box-shadow:0px 2px 2px 0px rgba(0,0,0,0.1) box-shadow:  0px 2px 2px 0px rgba(0,0,0,0.1);
 }
 
 .messages li li {
@@ -2080,6 +2083,8 @@ a.button2:hover {
   left:0;
   margin-top:-6px;
 }
+
+.messages .dismiss {position:absolute; right:15px; width:10px; top:50%; margin-top:-10px; line-height:20px; font-size:16px; cursor:pointer;}
 
 .messages .error-msg li {
   border-left:5px solid red;
@@ -3812,8 +3817,12 @@ body {
  * Skip Link - Icon
  */
 
-.header-minicart .skip-link {background-color:#f3f3f3; font-size:15px; width:34px; height:26px; line-height:24px; text-align:center; border:1px solid #eeeeee; -webkit-border-radius:2px; -moz-border-radius:2px; border-radius:2px;}
-.header-minicart .skip-link:before {color:#999999;}
+.header-minicart .skip-link {background-color:#f3f3f3; font-size:15px; width:34px; height:26px; line-height:24px; text-align:center; border:1px solid #eeeeee; -webkit-border-radius:2px; -moz-border-radius:2px; border-radius:2px; -webkit-transition:all 0.1s ease; -moz-transition:all 0.1s ease; transition:all 0.1s ease;}
+.header-minicart .skip-link::before {color:#999999; -webkit-transition:all 0.1s ease; -moz-transition:all 0.1s ease; transition:all 0.1s ease;}
+
+.header-minicart .skip-link:hover::before {color:#f3f3f3;}
+.header-minicart .skip-link:hover {background-color:#999999;}
+
 .skip-link .icon {
   display:inline-block;
   width:34px;
@@ -4175,8 +4184,10 @@ body {
  * Search Input
  * ============================================ */
 
-#search_mini_form label {display:block; position:relative; width:34px; height:26px; line-height:24px; font-size:14px; text-align:center; background-color:#f3f3f3; border:1px solid #eeeeee; -webkit-border-radius:2px; -moz-border-radius:2px; border-radius:2px; cursor:pointer;}
-#search_mini_form label::before {color:#999999;}
+#search_mini_form label {display:block; position:relative; width:34px; height:26px; line-height:24px; font-size:14px; text-align:center; background-color:#f3f3f3; border:1px solid #eeeeee; -webkit-border-radius:2px; -moz-border-radius:2px; border-radius:2px; cursor:pointer; -webkit-transition:all 0.1s ease; -moz-transition:all 0.1s ease; transition:all 0.1s ease;}
+#search_mini_form label:hover {background-color:#999999;}
+#search_mini_form label::before {color:#999999; -webkit-transition:all 0.1s ease; -moz-transition:all 0.1s ease; transition:all 0.1s ease;}
+#search_mini_form label:hover::before {color:#f3f3f3;}
 
 #search_mini_form label.skip-active {border-color:#cccccc;}
 
