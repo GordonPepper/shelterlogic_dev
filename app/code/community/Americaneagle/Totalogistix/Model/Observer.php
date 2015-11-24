@@ -11,8 +11,8 @@ class Americaneagle_Totalogistix_Model_Observer
     public function beforeCollectTotals(Varien_Event_Observer $observer) {
         /** @var Mage_Sales_Model_Quote_Address_Total_Collector $collector */
 
-        $collector = $observer->getQuoteAddress()->getTotalCollector();
-        $collectors = $collector->getCollectors();
+        $address = $observer->getQuoteAddress();
+
         $foo = 'bar';
     }
 }

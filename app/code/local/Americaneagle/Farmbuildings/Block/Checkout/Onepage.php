@@ -11,6 +11,9 @@ class Americaneagle_Farmbuildings_Block_Checkout_Onepage extends
 {
 	public function getSteps()
 	{
+        if(Mage::getStoreConfigFlag('checkout/options/allow_registered_checkout')){
+            return parent::getSteps();
+        }
 		$steps = array();
 		$stepCodes = $this->_getStepCodes();
 		$stepCodes = array_diff($stepCodes, array('login'));
@@ -25,9 +28,16 @@ class Americaneagle_Farmbuildings_Block_Checkout_Onepage extends
 
 		return $steps;
 	}
-	public function getActiveStep()
+
+    /**
+     * @return string
+     */
+    public function getActiveStep()
 	{
-		return 'billing';
+        if(Mage::getStoreConfigFlag('checkout/options/allow_registered_checkout')){
+            return parent::getActiveStep();
+        }
+        return 'billing';
 	}
 
 } 
