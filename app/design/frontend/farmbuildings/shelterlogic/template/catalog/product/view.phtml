@@ -130,7 +130,7 @@
                                 <?php elseif (!$_product->isSaleable()): ?>
                                     <div class="add-to-box">
                                         <?php echo $this->getChildHtml('addto') ?>
-                                        <?php
+                                     <?php
         /*
                                          echo $this->getChildHtml('sharing')
         */
@@ -164,6 +164,9 @@
                         </dl>
                     <?php endif; ?>
                 </div>
+
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic-item-social-icons')->toHtml(); ?>
+<!--
                 <div class="social-icons">
                     <div class="share">Share:</div>
                     <ul>
@@ -174,6 +177,7 @@
                         <li><a class="fa fa-envelope" href=""><span class="visuallyHidden">Contact us via Email</span></a></li>
                     </ul>
                 </div>
+//-->
             </div>
 
             <div class="clearfix"></div>
@@ -267,8 +271,6 @@
             </ul>
         </div>
     </div>
-
-
 
     <div class="flex-block">
 
