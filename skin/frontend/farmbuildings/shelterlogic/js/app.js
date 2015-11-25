@@ -543,17 +543,18 @@ $j(document).ready(function () {
         }
     });
 
-    var msgMod=$j(".messages");
-    msgMod.find("span").after('<div class="dismiss fa fa-times" title="Close Message"></div>');
-    msgMod.find(".dismiss").each(function(){
+    function msgCloseFN(o,e,i){
+        o.closest(e).fadeOut("normal",function(){i.remove();});
+    }
+    $j(".messages").find("span").after('<div class="dismiss fa fa-times" title="Close Message"></div>').end().find(".dismiss").each(function(){
         var thisDismiss=$j(this);
         $j(this).on({
             click:function(){
                 var thisMsg=$j(this).closest("ul");
                 if($j(thisMsg).children().length>1) {
-                    thisDismiss.closest("li").fadeOut("fast",function(){$j(this).remove();});
+                    msgCloseFN(thisDismiss,"li",$j(this));
                 } else {
-                    thisDismiss.closest("ul").fadeOut("fast",function(){$j(this).remove();});
+                    msgCloseFN(thisDismiss,"ul",$j(this));
                 }
             }
         });
