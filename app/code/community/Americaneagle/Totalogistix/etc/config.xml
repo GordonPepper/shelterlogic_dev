@@ -30,6 +30,11 @@
                     <region_collection>Americaneagle_Totalogistix_Model_Region_Collection</region_collection>
                 </rewrite>
             </directory_resource>
+            <enterprise_cataloginventory>
+                <rewrite>
+                    <index_observer>Americaneagle_Totalogistix_Model_Index_Observer</index_observer>
+                </rewrite>
+            </enterprise_cataloginventory>
         </models>
         <resources>
             <americaneagle_totalogistix_setup>
