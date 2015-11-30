@@ -100,7 +100,20 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 
     function getDistanceOrderedWarehouses($postcode) {
-        // TODO: Implement __call() method.
+        /*
+         * ok, so here we want a list of the gaboli warehouse locations
+         * ordered by distance to $postcode
+         */
+        /** @var Magento_Db_Adapter_Pdo_Mysql $conn */
+        $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+        /** @var Magento_Db_Adapter_Pdo_Mysql $select */
+        $select = $conn->select();
+
+        $from = $select->from(
+            array('gs' => $conn->getTableName('gaboli_warehouse_stock')),
+            array('product_id' => 'product_id', 'location_id' => 'location_id', 'qty' => 'qty')
+        );
+
     }
 
     private function getServiceUri() {

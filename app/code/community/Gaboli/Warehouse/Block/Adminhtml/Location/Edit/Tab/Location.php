@@ -148,6 +148,14 @@ class Gaboli_Warehouse_Block_Adminhtml_Location_Edit_Tab_Location extends Mage_A
             'name'     => 'address',
         ));
 
+        // AE: add explicit zipcode field:
+        $fieldset->addField('zipcode', 'text', array(
+            'label'    => Mage::helper('gaboli_warehouse')->__('Zip Code'),
+            'class'    => 'required-entry',
+            'required' => true,
+            'name'     => 'zipcode',
+        ));
+
         $countryList = Mage::getModel('directory/country')->getCollection()->toOptionArray();
         $country     = $fieldset->addField('country_id', 'select', array(
             'label'    => Mage::helper('gaboli_warehouse')->__('Country'),
