@@ -43,6 +43,15 @@
                 </setup>
             </scene7_setup>
         </resources>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <scene7_main/>
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
     </global>
     <default>
         <shelterlogic>
