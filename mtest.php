@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'warehouseDistance',
     'categoryImages',
 	'fillUrlKey',
 	'processImport',
@@ -82,6 +83,12 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	showAllowedFunctions($html);
 	$html->endBody()->endHtml();
 	exit;
+}
+
+function warehouseDistance(){
+    global $html;
+    $helper = Mage::helper('americaneagle_totalogistix');
+    $list = $helper->getDistanceOrderedWarehouses('94116');
 }
 
 function fillUrlKey() {

@@ -109,11 +109,28 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
         /** @var Magento_Db_Adapter_Pdo_Mysql $select */
         $select = $conn->select();
 
+        /** @var Varien_Db_Select $from */
         $from = $select->from(
-            array('gs' => $conn->getTableName('gaboli_warehouse_stock')),
-            array('product_id' => 'product_id', 'location_id' => 'location_id', 'qty' => 'qty')
+            array('gwl' => $conn->getTableName('gaboli_warehouse_location')),
+            array('location_id' => 'id', 'zipcode' => 'zipcode')
+        );
+        $from->joinInner(
+            array('source' => 'ae_totalogistix_zipcode'),
+            'source.zip_code = gwl.zipcode',
+            array()
+        );
+        $from->joinInner(
+            array('dest' => 'ae_totalogistix_zipcode'),
+            'dest.zip_code = ' . $conn->quote($postcode),
+            array()
         );
 
+        $from->order('asin(sqrt(pow(sin(abs(radians(source.latitude) - radians(dest.latitude)) / 2), 2)
+                   + cos(radians(source.latitude))
+                     * cos(radians(dest.latitude))
+                     * pow(sin(abs(radians(source.longitude) - radians(dest.longitude)) / 2), 2)))');
+
+        return $conn->fetchAll($select);
     }
 
     private function getServiceUri() {
