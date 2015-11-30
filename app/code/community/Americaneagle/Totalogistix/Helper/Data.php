@@ -23,7 +23,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 
 		$client = new Zend_Http_Client();
 		$client->setUri($this->getServiceUri());
-		$client->setParameterPost('szip', $this->getOriginZip());
+		$client->setParameterPost('szip', $this->getOriginZip($request));
 		$client->setParameterPost('AccessID', $this->getAccessId());
 		$client->setParameterPost('service', $this->getAccessorial());
 		$client->setParameterPost('date', $this->getShipDate());
@@ -85,11 +85,25 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
 		return Mage::getStoreConfig('carriers/totalogistix/access_id');
 	}
 
-	private function getOriginZip() {
-		return Mage::getStoreConfig('carriers/totalogistix/origin_zip');
+	private function getOriginZip(Mage_Shipping_Model_Rate_Request  $request = null) {
+        /*
+         * so, here is the plan.
+         * 1) we need to get a list of warehouses in order of increasing distance to the customer zip
+         * 2) we need to know which warehouses the products in the cart are available at.
+         * 3) we try to find a warehouse which has all products, list order from (1)
+         * 4) if we can't find such a warehouse, we ship each product from the first available warehouse
+         */
+        if(empty($request)){
+            return Mage::getStoreConfig('carriers/totalogistix/origin_zip');
+        }
+        $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
 	}
 
-	private function getServiceUri() {
+    function getDistanceOrderedWarehouses($postcode) {
+        // TODO: Implement __call() method.
+    }
+
+    private function getServiceUri() {
 		return Mage::getStoreConfig('carriers/totalogistix/service_url');
 	}
 }

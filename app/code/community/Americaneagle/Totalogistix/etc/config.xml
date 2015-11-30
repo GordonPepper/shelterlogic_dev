@@ -20,6 +20,18 @@
             <americaneagle_totalogistix>
                 <class>Americaneagle_Totalogistix_Model</class>
             </americaneagle_totalogistix>
+            <americaneagle_totalogistix_zip>
+                <class>Americaneagle_Totalogistix_Model_Resource</class>
+                <resourceModel>americaneagle_totalogistix_zip_resource</resourceModel>
+            </americaneagle_totalogistix_zip>
+            <americaneagle_totalogistix_zip_resource>
+                <entities>
+                    <zip>
+                        <table>ae_totalogistix_zipcode</table>
+                    </zip>
+                </entities>
+            </americaneagle_totalogistix_zip_resource>
+
             <!--<sales>-->
                 <!--<rewrite>-->
                     <!--<quote_address>Americaneagle_Totalogistix_Model_Quote_Address</quote_address>-->
@@ -43,7 +55,23 @@
                     <class>Mage_Customer_Model_Entity_Setup</class>
                 </setup>
             </americaneagle_totalogistix_setup>
+            <zip_database>
+                <setup>
+                    <module>Americaneagle_Totalogistix</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </zip_database>
         </resources>
+        <!--<events>-->
+            <!--<catalog_product_collection_load_after>-->
+                <!--<observers>-->
+                    <!--<tlx_before_product_load>-->
+                        <!--<class>americaneagle_totalogistix/observer</class>-->
+                        <!--<method>afterLoadProductCollection</method>-->
+                    <!--</tlx_before_product_load>-->
+                <!--</observers>-->
+            <!--</catalog_product_collection_load_after>-->
+        <!--</events>-->
     </global>
     <!--<frontend>-->
         <!--<events>-->
