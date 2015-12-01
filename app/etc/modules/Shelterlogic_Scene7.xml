@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Shelterlogic_Scene7>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog/>
+
+            </depends>
+        </Shelterlogic_Scene7>
+    </modules>
+</config>
