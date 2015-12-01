@@ -97,9 +97,101 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
             return Mage::getStoreConfig('carriers/totalogistix/origin_zip');
         }
         $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
+        $this->addWarehouseStockToProducts($request);
+        $closestWarehouse = $this->getClosestWarehouseWithAllProducts($request, $warehouses);
+        if(isset($closestWarehouse)){
+            foreach ($warehouses as $warehouse) {
+                if($warehouse['location_id'] == $closestWarehouse){
+                    return $warehouse['zipcode'];
+                }
+            }
+            Mage::logException(new Exception('Closest warehouse mismatch'));
+        } else {
+            $closestWarehouse = $this->getBestWarehouse($request, $warehouses);
+            foreach ($warehouses as $warehouse) {
+                if($warehouse['location_id'] == $closestWarehouse){
+                    return $warehouse['zipcode'];
+                }
+            }
+            Mage::logException(new Exception('Closest warehouse mismatch'));
+        }
+        Mage::logException(new Exception('Unable to determine origin zip'));
+        return null;
 	}
 
-    function getDistanceOrderedWarehouses($postcode) {
+    private function getBestWarehouse(Mage_Shipping_Model_Rate_Request $request, array $warehouses) {
+        /*
+         * so here we iterate over the products. and start fulfilling the item from the closest
+         * warehouse, preferring a warehouse that has all items. we simply remember the last warehouse used
+         */
+        foreach ($request->getAllItems() as $item) {
+            $bestWarehouse = 0;
+            $fill = array(); // [{qty: #, warehouse: location_id}, {...},...], save the fill in the product
+            foreach ($warehouses as $warehouse) {
+                $bestWarehouse = $warehouse;
+
+            }
+        }
+    }
+    private function getClosestWarehouseWithAllProducts(Mage_Shipping_Model_Rate_Request $request, array $warehouses) {
+        /*
+         * so here we need to iterate over the warehouses. the first warehouse to have all items on hand will be
+         * returned. otherwise return null
+         */
+        foreach ($warehouses as $warehouse) {
+            $found = true;
+            foreach ($request->getAllItems() as $item) {
+                if($item->getProductType() != 'simple') {
+                    continue;
+                }
+                if($item->getQty() > $item->getWarehouse()[$warehouse['location_id']]){
+                    $found = false;
+                    break;
+                }
+            }
+            if($found) {
+                return $warehouse['location_id'];
+            }
+        }
+
+        return null;
+    }
+
+    private function addWarehouseStockToProducts(Mage_Shipping_Model_Rate_Request $request = null){
+        $ids = array();
+        foreach ($request->getAllItems() as $item) {
+            if($item->getProductType() == 'simple') {
+                $ids[] = $item->getProductId();
+            }
+        }
+        /** @var Magento_Db_Adapter_Pdo_Mysql $conn */
+        $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+        /** @var Magento_Db_Adapter_Pdo_Mysql $select */
+        $select = $conn->select();
+        /** @var Varien_Db_Select $from */
+        $from = $select->from(
+            array('gs' => $conn->getTableName('gaboli_warehouse_stock')),
+            array('product_id' => 'product_id', 'location_id' => 'location_id', 'qty' => 'qty')
+        );
+        $from->order(array('product_id', 'location_id'));
+        $from->where(sprintf("gs.product_id in ('%s')", implode("','", $ids)));
+
+        $rows = $conn->fetchAll($select);
+
+        $products = $request->getAllItems();
+
+        /** @var Mage_Sales_Model_Quote_Item $product */
+        foreach ($products as $product) {
+            $warehouse = array();
+            foreach ($rows as $row) {
+                if($row['product_id'] == $product->getProductId()){
+                    $warehouse[$row['location_id']] = $row['qty'];
+                }
+            }
+            $product->setWarehouse($warehouse);
+        }
+    }
+    private function getDistanceOrderedWarehouses($postcode) {
         /*
          * ok, so here we want a list of the gaboli warehouse locations
          * ordered by distance to $postcode
