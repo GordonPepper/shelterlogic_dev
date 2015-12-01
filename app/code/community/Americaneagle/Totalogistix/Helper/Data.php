@@ -6,86 +6,106 @@
  * Date: 9/24/14
  * Time: 4:05 PM
  */
-class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
-	private $req;
+class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
+{
+    /** @var Mage_Shipping_Model_Rate_Request $req */
+    private $req;
 
-	public function getPriceSheets(Mage_Shipping_Model_Rate_Request $request) {
+    private function getCartChecksum() {
+        $str = $this->req->getDestPostcode();
+        foreach ($this->req->getAllItems() as $item) {
+            $str .= $item->getProductId() . $item->getQty() * $item->getWeight();
+        }
+        return hash('sha1', $str);
+    }
 
-		$this->req = $request;
-		$xItems = new SimpleXMLElement('<Items></Items>');
-		foreach ($request->getAllItems() as $item) {
-			if ($item->getProductType() == 'simple') {
-				$xitem = $xItems->addChild('Item');
-				$xitem->addChild('Class', $item->getProduct()->load($item->getProduct()->getId())->getClass());
-				$xitem->addChild('Weight', intval($item->getWeight()));
-			}
-		}
+    public function getPriceSheets(Mage_Shipping_Model_Rate_Request $request) {
+        $this->req = $request;
+        $cartcs = $this->getCartChecksum();
+        $sess = Mage::getSingleton('core/session');
+        if ($sess->getTlxPriceSheet()
+            && $sess->getTlxPriceSheet()['hash'] == $cartcs
+            && $sess->getTlxPriceSheet()['sheet']
+            && isset($sess->getTlxPriceSheet()['expires'])
+            && $sess->getTlxPriceSheet()['expires'] > time()
+        ) {
+            return $sess->getTlxPriceSheet()['sheet'];
+        } else {
+            $xItems = new SimpleXMLElement('<Items></Items>');
+            foreach ($request->getAllItems() as $item) {
+                if ($item->getProductType() == 'simple') {
+                    $xitem = $xItems->addChild('Item');
+                    $xitem->addChild('Class', $item->getProduct()->load($item->getProduct()->getId())->getClass());
+                    $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
+                }
+            }
 
-		$client = new Zend_Http_Client();
-		$client->setUri($this->getServiceUri());
-		$client->setParameterPost('szip', $this->getOriginZip($request));
-		$client->setParameterPost('AccessID', $this->getAccessId());
-		$client->setParameterPost('service', $this->getAccessorial());
-		$client->setParameterPost('date', $this->getShipDate());
-		$client->setParameterPost('czip', $request->getDestPostcode());
-		$client->setParameterPost('items', $xItems->asXML());
-		$client->setParameterPost('profile', $this->getProfile());
+            $client = new Zend_Http_Client();
+            $client->setUri($this->getServiceUri());
+            $client->setParameterPost('szip', $this->getOriginZip($request));
+            $client->setParameterPost('AccessID', $this->getAccessId());
+            $client->setParameterPost('service', $this->getAccessorial());
+            $client->setParameterPost('date', $this->getShipDate());
+            $client->setParameterPost('czip', $request->getDestPostcode());
+            $client->setParameterPost('items', $xItems->asXML());
+            $client->setParameterPost('profile', $this->getProfile());
 
 
-		$response = $client->request('POST');
-		Mage::log("TOTALogistix: PostBody: " . $client->getLastRequest());
+            $response = $client->request('POST');
+            Mage::log("TOTALogistix: PostBody: " . $client->getLastRequest());
 
-		$xml = simplexml_load_string($response->getBody());
-		$status = $xml->xpath('/Response')[0]->{"Status"};
-		Mage::log('TOTALogistix: received status: ' . $status->asXML());
-		if ($status === false) {
-			Mage::logException("Failed to load response from TOTALogistix");
-		}
-		$prices = $xml->xpath('/Response/PriceSheet');
-		if ($prices === false) {
-			Mage::logException("Failed to load shipping price sheets");
-		}
-		$sheets = array();
-		foreach ($prices as $price) {
-			$ps = new Varien_Object();
+            $xml = simplexml_load_string($response->getBody());
+            $status = $xml->xpath('/Response')[0]->{"Status"};
+            Mage::log('TOTALogistix: received status: ' . $status->asXML());
+            if ($status === false) {
+                Mage::logException("Failed to load response from TOTALogistix");
+            }
+            $prices = $xml->xpath('/Response/PriceSheet');
+            if ($prices === false) {
+                Mage::logException("Failed to load shipping price sheets");
+            }
+            $sheets = array();
+            foreach ($prices as $price) {
+                $ps = new Varien_Object();
 
-			$ps->setCarrier((string)$price->{'Carrier'});
-			$ps->setChargeAmount((string)$price->{'ChargeAmount'});
-			$ps->setCarrierName((string)$price->{'CarrierName'});
-			$ps->setErpShipCode((string)$price->{'ErpShipCode'});
-			$sheets[] = $ps;
-		}
+                $ps->setCarrier((string)$price->{'Carrier'});
+                $ps->setChargeAmount((string)$price->{'ChargeAmount'});
+                $ps->setCarrierName((string)$price->{'CarrierName'});
+                $ps->setErpShipCode((string)$price->{'ErpShipCode'});
+                $sheets[] = $ps;
+            }
+            $sess->setTlxPriceSheet(array('hash' => $cartcs, 'sheet' => $sheets, 'expires' => time() + 3600));
+            return $sheets;
+        }
+    }
 
-		return $sheets;
-	}
+    private function getAccessorial() {
+        $vals = explode(',', Mage::getStoreConfig('carriers/totalogistix/accessorial'));
+        if ($this->req->getIsResidential() == 1) {
+            $vals[] = 'REP';
+        }
+        if ($this->req->getIsLimitedAccess() == 1) {
+            $vals[] = 'LTD';
+        }
+        return implode(',', $vals);
+    }
 
-	private function getAccessorial() {
-		$vals = explode(',', Mage::getStoreConfig('carriers/totalogistix/accessorial'));
-		if ($this->req->getIsResidential() == 1) {
-			$vals[] = 'REP';
-		}
-		if ($this->req->getIsLimitedAccess() == 1) {
-			$vals[] = 'LTD';
-		}
-		return implode(',', $vals);
-	}
+    private function getShipDate() {
+        $lead = Mage::getStoreConfig('carriers/totalogistix/lead_time');
+        $d = new Zend_Date();
+        $d->add($lead, Zend_Date::DAY);
+        return $d->toString('MM/dd/YYYY');    //	$client->setParameterGet('date', '10/10/2014');
+    }
 
-	private function getShipDate() {
-		$lead = Mage::getStoreConfig('carriers/totalogistix/lead_time');
-		$d = new Zend_Date();
-		$d->add($lead, Zend_Date::DAY);
-		return $d->toString('MM/dd/YYYY');    //	$client->setParameterGet('date', '10/10/2014');
-	}
+    private function getProfile() {
+        return Mage::getStoreConfig('carriers/totalogistix/profile');
+    }
 
-	private function getProfile() {
-		return Mage::getStoreConfig('carriers/totalogistix/profile');
-	}
+    private function getAccessId() {
+        return Mage::getStoreConfig('carriers/totalogistix/access_id');
+    }
 
-	private function getAccessId() {
-		return Mage::getStoreConfig('carriers/totalogistix/access_id');
-	}
-
-	private function getOriginZip(Mage_Shipping_Model_Rate_Request  $request = null) {
+    private function getOriginZip(Mage_Shipping_Model_Rate_Request $request = null) {
         /*
          * so, here is the plan.
          * 1) we need to get a list of warehouses in order of increasing distance to the customer zip
@@ -93,15 +113,15 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
          * 3) we try to find a warehouse which has all products, list order from (1)
          * 4) if we can't find such a warehouse, we ship each product from the first available warehouse
          */
-        if(empty($request)){
+        if (empty($request)) {
             return Mage::getStoreConfig('carriers/totalogistix/origin_zip');
         }
         $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
         $this->addWarehouseStockToProducts($request);
         $closestWarehouse = $this->getClosestWarehouseWithAllProducts($request, $warehouses);
-        if(isset($closestWarehouse)){
+        if (isset($closestWarehouse)) {
             foreach ($warehouses as $warehouse) {
-                if($warehouse['location_id'] == $closestWarehouse){
+                if ($warehouse['location_id'] == $closestWarehouse) {
                     return $warehouse['zipcode'];
                 }
             }
@@ -109,7 +129,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
         } else {
             $closestWarehouse = $this->getBestWarehouse($request, $warehouses);
             foreach ($warehouses as $warehouse) {
-                if($warehouse['location_id'] == $closestWarehouse){
+                if ($warehouse['location_id'] == $closestWarehouse) {
                     return $warehouse['zipcode'];
                 }
             }
@@ -117,7 +137,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
         }
         Mage::logException(new Exception('Unable to determine origin zip'));
         return null;
-	}
+    }
 
     private function getBestWarehouse(Mage_Shipping_Model_Rate_Request $request, array $warehouses) {
         /*
@@ -126,13 +146,29 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
          */
         foreach ($request->getAllItems() as $item) {
             $bestWarehouse = 0;
+            $totalFilled = 0;
             $fill = array(); // [{qty: #, warehouse: location_id}, {...},...], save the fill in the product
-            foreach ($warehouses as $warehouse) {
-                $bestWarehouse = $warehouse;
-
+            for ($i = 0; $i < count($warehouses); $i++) {
+                $bestWarehouse = max($i, $bestWarehouse);
+                $available = $item->getWarehouse()[$warehouses[$i]['location_id']];
+                if ($available >= $item->getQty()) {
+                    $fill = array(array('qty' => $item->getQty(), 'location_id' => $warehouses[$i]['location_id']));
+                    $totalFilled = $item->getQty();
+                    break;
+                } else {
+                    $thisFill = min($available, $item->getQty() - $totalFilled);
+                    $fill[] = array('qty' => $thisFill, 'location_id' => $warehouses[$i]['location_id']);
+                    $totalFilled += $thisFill;
+                }
             }
+            if ($totalFilled < $item->getQty()) {
+                Mage::logException(new Exception('Failed to fill full cart quantity from all warehouses'));
+            }
+            $item->setWarehouseFulfillment($fill);
         }
+        return $warehouses[$bestWarehouse]['location_id'];
     }
+
     private function getClosestWarehouseWithAllProducts(Mage_Shipping_Model_Rate_Request $request, array $warehouses) {
         /*
          * so here we need to iterate over the warehouses. the first warehouse to have all items on hand will be
@@ -141,15 +177,15 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
         foreach ($warehouses as $warehouse) {
             $found = true;
             foreach ($request->getAllItems() as $item) {
-                if($item->getProductType() != 'simple') {
+                if ($item->getProductType() != 'simple') {
                     continue;
                 }
-                if($item->getQty() > $item->getWarehouse()[$warehouse['location_id']]){
+                if ($item->getQty() > $item->getWarehouse()[$warehouse['location_id']]) {
                     $found = false;
                     break;
                 }
             }
-            if($found) {
+            if ($found) {
                 return $warehouse['location_id'];
             }
         }
@@ -157,10 +193,10 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
         return null;
     }
 
-    private function addWarehouseStockToProducts(Mage_Shipping_Model_Rate_Request $request = null){
+    private function addWarehouseStockToProducts(Mage_Shipping_Model_Rate_Request $request = null) {
         $ids = array();
         foreach ($request->getAllItems() as $item) {
-            if($item->getProductType() == 'simple') {
+            if ($item->getProductType() == 'simple') {
                 $ids[] = $item->getProductId();
             }
         }
@@ -184,13 +220,14 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
         foreach ($products as $product) {
             $warehouse = array();
             foreach ($rows as $row) {
-                if($row['product_id'] == $product->getProductId()){
+                if ($row['product_id'] == $product->getProductId()) {
                     $warehouse[$row['location_id']] = $row['qty'];
                 }
             }
             $product->setWarehouse($warehouse);
         }
     }
+
     private function getDistanceOrderedWarehouses($postcode) {
         /*
          * ok, so here we want a list of the gaboli warehouse locations
@@ -226,6 +263,6 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     private function getServiceUri() {
-		return Mage::getStoreConfig('carriers/totalogistix/service_url');
-	}
+        return Mage::getStoreConfig('carriers/totalogistix/service_url');
+    }
 }
