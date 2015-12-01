@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MagPassion_Advancedmenu extension
+ * 
+ * @category   	MagPassion
+ * @package		MagPassion_Advancedmenu
+ * @copyright  	Copyright (c) 2013 by MagPassion (http://magpassion.com)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<modules>
+		<MagPassion_Advancedmenu>
+			<version>1.0.3</version>
+		</MagPassion_Advancedmenu>
+	</modules>
+	<global>
+		<resources>
+			<magpassion_advancedmenu_setup>
+				<setup>
+					<module>MagPassion_Advancedmenu</module>
+					<class>MagPassion_Advancedmenu_Model_Resource_Setup</class>
+				</setup>
+				<connection>
+                    <use>core_setup</use>
+                </connection>
+			</magpassion_advancedmenu_setup>
+			<magpassion_advancedmenu_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </magpassion_advancedmenu_write>
+            <magpassion_advancedmenu_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </magpassion_advancedmenu_read>
+		</resources>
+		<blocks>
+			<advancedmenu>
+				<class>MagPassion_Advancedmenu_Block</class>
+			</advancedmenu>
+		</blocks>
+		<helpers>
+			<advancedmenu>
+				<class>MagPassion_Advancedmenu_Helper</class>
+			</advancedmenu>
+		</helpers>
+		<models>
+			<advancedmenu>
+				<class>MagPassion_Advancedmenu_Model</class>
+				<resourceModel>advancedmenu_resource</resourceModel>
+			</advancedmenu>
+			<advancedmenu_resource>
+				<class>MagPassion_Advancedmenu_Model_Resource</class>
+				<entities>
+					<menugroup>
+						<table>advancedmenu_menugroup</table>
+					</menugroup>
+					<menugroup_store>
+						<table>advancedmenu_menugroup_store</table>
+					</menugroup_store>
+					<menuitem>
+						<table>advancedmenu_menuitem</table>
+					</menuitem>
+					<menuitem_store>
+						<table>advancedmenu_menuitem_store</table>
+					</menuitem_store>
+				</entities>
+			</advancedmenu_resource>
+		</models>
+	</global>
+	<adminhtml>
+		<layout>
+			<updates>
+				<magpassion_advancedmenu>
+					<file>magpassion_advancedmenu.xml</file>
+				</magpassion_advancedmenu>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<MagPassion_Advancedmenu>
+					<files>
+						<default>MagPassion_Advancedmenu.csv</default>
+					</files>
+				</MagPassion_Advancedmenu>
+			</modules>
+		</translate>
+	</adminhtml>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<MagPassion_Advancedmenu before="Mage_Adminhtml">MagPassion_Advancedmenu_Adminhtml</MagPassion_Advancedmenu>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<frontend>
+		<routers>
+			<advancedmenu>
+				<use>standard</use>
+				<args>
+					<module>MagPassion_Advancedmenu</module>
+					<frontName>advancedmenu</frontName>
+				</args>
+			</advancedmenu>
+		</routers>
+		<layout>
+			<updates>
+				<magpassion_advancedmenu>
+					<file>magpassion_advancedmenu.xml</file>
+				</magpassion_advancedmenu>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<MagPassion_Advancedmenu>
+					<files>
+						<default>MagPassion_Advancedmenu.csv</default>
+					</files>
+				</MagPassion_Advancedmenu>
+			</modules>
+		</translate>
+	</frontend>
+	
+</config>
