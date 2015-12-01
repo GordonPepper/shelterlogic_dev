@@ -33,9 +33,9 @@
 /** @var Mage_Page_Block_Html_Topmenu $this */
 
 ?>
-<?php $_menu = $this->getHtml('level-top') ?>
+<?php $_menu = $this->getLayout()->getBlock('menugroup_view') ?>
 <?php if($_menu): ?>
 <nav id="nav">
-    <?php echo $this->getLayout()->getBlock('menugroup_view')->toHtml(); ?>
+    <?php echo $_menu->toHtml(); ?>
 </nav>
 <?php endif ?>

@@ -25,7 +25,9 @@ class MagPassion_Advancedmenu_Adminhtml_Advancedmenu_MenuitemController extends 
 		$menuitem	= Mage::getModel('advancedmenu/menuitem');
 		if ($menuitemId) {
 			$menuitem->load($menuitemId);
-		}
+		} else {
+            $menuitem->setStatus(1);
+        }
 		Mage::register('current_menuitem', $menuitem);
 		return $menuitem;
 	}
@@ -103,8 +105,8 @@ class MagPassion_Advancedmenu_Adminhtml_Advancedmenu_MenuitemController extends 
 			try {
 				$menuitem = $this->_initMenuitem();
 				$menuitem->addData($data);
-				$image_iconName = $this->_uploadAndGetName('image_icon', Mage::helper('advancedmenu/menuitem_image')->getImageBaseDir(), $data);
-				$menuitem->setData('image_icon', $image_iconName);
+				$image_iconName = $this->_uploadAndGetName('banner_image', Mage::helper('advancedmenu/menuitem_image')->getImageBaseDir(), $data);
+				$menuitem->setData('banner_image', $image_iconName);
                 if (!empty($data["block"])) {
                     $menuitem->setData('block', implode(",", $data["block"]));
                 }

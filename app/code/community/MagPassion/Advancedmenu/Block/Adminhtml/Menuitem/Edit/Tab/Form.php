@@ -24,7 +24,10 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 	protected function getListCategories($catid, $level = 0) {
 		$prefix = '';
         $strCat = '';
-		for ($i = 0; $i < $level; $i++) $prefix .= '---';
+		for ($i = 0; $i < $level; $i++) {
+            $prefix .= '---';
+        }
+
 		$categories=Mage::getModel('catalog/category')->load($catid)->getChildrenCategories();
 		foreach($categories as $cat){ 
 			$category=Mage::getModel('catalog/category')->load($cat->entity_id);
@@ -35,7 +38,9 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 	}
 	
 	protected function _prepareForm(){
-		$form = new Varien_Data_Form();
+		$form = new Varien_Data_Form(array(
+            'enctype' => 'multipart/form-data',
+        ));
 		$form->setHtmlIdPrefix('menuitem_');
 		$form->setFieldNameSuffix('menuitem');
 		$this->setForm($form);
@@ -95,18 +100,26 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 		));
 		
 		$cateoptions = array();
-		$parentid = Mage::app()->getWebsite(4)->getDefaultStore()->getRootCategoryId();
-		$strCategories = $this->getListCategories($parentid);
-		$arrCate = explode("@@@", $strCategories);
-		foreach ($arrCate as $c) 
-			if ($c) {
-				$tmp = explode(":::", $c);
-				$cateoptions[] = array(
-					'label' => $tmp[1],
-					'value' => $tmp[0],
-				);
-			}
-		
+        $rootCategories = array();
+        $websites = Mage::getModel('core/website')->getCollection();
+        foreach ($websites as $website) {
+            $rootCategories[] = $website->getDefaultStore()->getRootCategoryId();
+        }
+        $rootCategories = array_unique($rootCategories);
+        foreach ($rootCategories as $parentid) {
+            $strCategories = $this->getListCategories($parentid);
+            $arrCate = explode("@@@", $strCategories);
+            foreach ($arrCate as $c) {
+                if ($c) {
+                    $tmp = explode(":::", $c);
+                    $cateoptions[] = array(
+                        'label' => $tmp[1],
+                        'value' => $tmp[0],
+                    );
+                }
+            }
+        }
+
 		//print_r($cateoptions);
 		
 		$fieldset->addField('category_id', 'select', array(
@@ -238,12 +251,6 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 			'value' => 'parent',
 		));
 
-		$fieldset->addField('image_icon', 'image', array(
-			'label' => Mage::helper('advancedmenu')->__('Image icon'),
-			'name'  => 'image_icon',
-
-		));
-		
 		$fieldset->addField('submenu_content', 'select', array(
 			'label' => Mage::helper('advancedmenu')->__('Submenu content'),
 			'name'  => 'submenu_content',
@@ -260,6 +267,14 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 					'value' => 'childblock',
 					'label' => Mage::helper('advancedmenu')->__('Child menu items and block content'),
 				),
+                array(
+                    'value' => 'featuredproduct',
+                    'label' => Mage::helper('advancedmenu')->__('Child menu items and featured product'),
+                ),
+                array(
+                    'value' => 'banner',
+                    'label' => Mage::helper('advancedmenu')->__('Child menu items and image banner'),
+                ),
 			),
 			'value' => 'child',
 		));
@@ -267,7 +282,6 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 		$blocks = Mage::getResourceModel('cms/block_collection')->toOptionArray();
 		array_unshift($blocks, array('label'=>'', 'value'=>''));
 		$newblocks = array();
-		$blockCount = 0;
 		foreach ($blocks as $block) {
 			if ($block['value']) $newblocks[] = $block;
 		}
@@ -278,8 +292,37 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 			'values'=> $newblocks,
 			
 		));
-		
-		$fieldset->addField('status', 'select', array(
+
+        $fieldset->addField('featured_product', 'text', array(
+            'label' => Mage::helper('advancedmenu')->__('Featured Product SKU'),
+            'name'  => 'featured_product',
+        ));
+
+        $fieldset->addField('price_from', 'text', array(
+            'label' => Mage::helper('advancedmenu')->__('Featured Product Price From'),
+            'name'  => 'price_from',
+        ));
+
+        $fieldset->addField('banner_image', 'image', array(
+            'label' => Mage::helper('advancedmenu')->__('Banner Image'),
+            'name'  => 'banner_image',
+
+        ));
+
+        $fieldset->addField('banner_title', 'text', array(
+            'label'     => Mage::helper('advancedmenu')->__('Banner Title'),
+            'required'  => false,
+            'name'      => 'banner_title',
+        ));
+
+        $fieldset->addField('banner_desc', 'textarea', array(
+            'label'     => Mage::helper('advancedmenu')->__('Banner Description'),
+            'required'  => false,
+            'name'      => 'banner_desc',
+        ));
+
+
+        $fieldset->addField('status', 'select', array(
 			'label' => Mage::helper('advancedmenu')->__('Status'),
 			'name'  => 'status',
 			'values'=> array(

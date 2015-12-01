@@ -139,7 +139,8 @@ $table = $this->getConnection()
 	->addColumn('parent_item', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
 		), 'Parent Item')
 
-	->addColumn('menuorder', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+	->addColumn('menuorder', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned'  => true,
 		), 'Order')
 
 	->addColumn('class', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(

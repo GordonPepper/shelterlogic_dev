@@ -31,6 +31,7 @@ class MagPassion_Advancedmenu_Controller_Adminhtml_Advancedmenu extends Mage_Adm
 			}
 			else{
 				$uploader = new Varien_File_Uploader($input);
+                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
 				$uploader->setAllowRenameFiles(true);
 				$uploader->setFilesDispersion(true);
 				$uploader->setAllowCreateFolders(true);

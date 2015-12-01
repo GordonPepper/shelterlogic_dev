@@ -19,7 +19,11 @@
 		</reference>
         <reference name="catalog.topnav">
             <block type="advancedmenu/menugroup_view" name="menugroup_view" template="magpassion_advancedmenu/menugroup/view.phtml">
-                <action method="setMenuId"><id>1</id></action>
+                <action method="setMenuId">
+                    <id>1</id>
+                </action>
+                <block type="advancedmenu/menugroup_product" name="featured_product" template="magpassion_advancedmenu/menugroup/featured_product.phtml"/>
+                <block type="core/template" name="banner_image" template="magpassion_advancedmenu/menugroup/banner_image.phtml"/>
             </block>
         </reference>
 	</default>

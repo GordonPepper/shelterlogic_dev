@@ -281,15 +281,15 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 	 */
 	public function getMenuMegaLevelTwo($parent_id = 0, $level, $content_type, $blockIds) {
 		$html = '';
-		$items = null;
+		$items = array();
 		$arrBlockIds = array();
 		if ($content_type != 'block')
-			$items = $this->getMenuItems($parent_id);
+                $items = $this->getMenuItems($parent_id);
 		if ($content_type == 'child')
 			$blockIds = null;
 		else {
-			$arrBlockIds = explode(",", $blockIds);
-		}
+                $arrBlockIds = explode(",", $blockIds);
+        }
 		$totalItems = count($items) + count($arrBlockIds);
 		
 		if ($totalItems > 0) {
@@ -374,7 +374,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 				$count++;
 			}
 		}
-		
+
 		
 		if ($totalItems > 0) {
 			if ($level == 2) $html .= '</ul>';
@@ -391,16 +391,26 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 	 */
 	public function getMenuMegaLevelOne($parent_id = 0, $level, $content_type, $blockIds) {
 		$html = '';
-		$items = null;
+		$items = array();
 		$arrBlockIds = array();
-		if ($content_type != 'block')
-			$items = $this->getMenuItems($parent_id);
-		if ($content_type == 'child')
-			$blockIds = null;
-		else {
-			$arrBlockIds = explode(",", $blockIds);
-		}
-		$totalItems = count($items) + count($arrBlockIds);
+        $totalItems = 0;
+        switch ($content_type) {
+            case 'featuredproduct':
+            case 'banner':
+                $totalItems = 1;
+            case 'childblock':
+            case 'child':
+                $items = $this->getMenuItems($parent_id);
+                break;
+        }
+
+        switch ($content_type) {
+            case 'childblock':
+            case 'block':
+                $arrBlockIds = explode(",", $blockIds);
+                break;
+        }
+		$totalItems += count($items) + count($arrBlockIds);
 		
 		if ($totalItems > 0) {
 			$width = $totalItems * 201;
@@ -459,8 +469,8 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 			else {
                 // Hide link
             }
-            
-			$html .= $this->getMenuMegaLevelTwo( $item->getId(), $level + 1, $item->getSubmenu_content(), $item->getBlock() ); 
+
+			$html .= $this->getMenuMegaLevelTwo( $item->getId(), $level + 1, $item->getSubmenu_content(), $item->getBlock() );
 			
 			$html .= '</div>';
 			
@@ -489,14 +499,34 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 				$count++;
 			}
 		}
-		
-		if ($totalItems > 0) {
+
+        if ($content_type == 'featuredproduct') {
+            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
+            $sku = $menuitem->getFeaturedProduct();
+            $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+            if ($product->getId()) {
+                $html .= '<div class="magpassion-child-content last">';
+                $html .= $this->getChild('featured_product')->setProduct($product)->setPriceFrom($menuitem->getPriceFrom())->toHtml();
+                $html .= '</div>';
+            }
+        }
+
+        if ($content_type == 'banner') {
+            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
+            if ($menuitem->getBannerImage()) {
+                $html .= '<div class="magpassion-child-content last">';
+                $html .= $this->getChild('banner_image')->setMenuItem($menuitem)->toHtml();
+                $html .= '</div>';
+            }
+        }
+
+        if ($totalItems > 0) {
 			$html .= '</li></ul>';
 		}
 		
 		return $html;
 	}
-	
+
 	/**
 	 * get menu html element for mega style
 	 * @access public
