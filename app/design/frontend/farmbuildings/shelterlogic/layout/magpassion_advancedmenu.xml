@@ -17,5 +17,10 @@
 			<action method="addCss"><stylesheet>magpassion_advancedmenu/css/color.css</stylesheet></action>
 			<action method="addCss"><stylesheet>magpassion_advancedmenu/css/mp_advancedmenu.css</stylesheet></action>
 		</reference>
+        <reference name="catalog.topnav">
+            <block type="advancedmenu/menugroup_view" name="menugroup_view" template="magpassion_advancedmenu/menugroup/view.phtml">
+                <action method="setMenuId"><id>1</id></action>
+            </block>
+        </reference>
 	</default>
 </layout>

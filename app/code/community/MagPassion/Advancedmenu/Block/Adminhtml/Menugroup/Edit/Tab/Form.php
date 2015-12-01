@@ -126,93 +126,93 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menugroup_Edit_Tab_Form extends Ma
 		));
 		
 		
-		$fieldset->addField('background_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Top menu background Color'),
-			'name'  => 'background_color',
-			'note'	=> $this->__('Color code (Ex: f2f2f2)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('menu_level_top_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Top menu link color'),
-			'name'  => 'menu_level_top_color',
-			'note'	=> $this->__('Color code (Ex: 303030)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('menu_level_top_hover_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Top menu link hover color'),
-			'name'  => 'menu_level_top_hover_color',
-			'note'	=> $this->__('Color code (Ex: 2882ce)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('menu_level_top_active_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Top menu link active color'),
-			'name'  => 'menu_level_top_active_color',
-			'note'	=> $this->__('Color code (Ex: 2882ce)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		
-		$fieldset->addField('submenu_background_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Submenu background color'),
-			'name'  => 'submenu_background_color',
-			'note'	=> $this->__('Color code (Ex: 27A1E0)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('submenu_link_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Submenu link color'),
-			'name'  => 'submenu_link_color',
-			'note'	=> $this->__('Color code (Ex: D4F0FC)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('submenu_link_hover_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Submenu link hover color'),
-			'name'  => 'submenu_link_hover_color',
-			'note'	=> $this->__('Color code (Ex: FFFFFF)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('submenu_link_hover_background_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Submenu link hover background color'),
-			'name'  => 'submenu_link_hover_background_color',
-			'note'	=> $this->__('Color code (Ex: 127AAF)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-		
-		$fieldset->addField('submenu_link_active_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Submenu link active color'),
-			'name'  => 'submenu_link_active_color',
-			'note'	=> $this->__('Color code (Ex: FFFFFF)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
-
-		
-		$fieldset->addField('show_submenu_border', 'select', array(
-			'label' => Mage::helper('advancedmenu')->__('Display border in submenu'),
-			'name'  => 'show_submenu_border',
-			'values'=> array(
-				array(
-					'value' => 1,
-					'label' => Mage::helper('advancedmenu')->__('Show'),
-				),
-				array(
-					'value' => 0,
-					'label' => Mage::helper('advancedmenu')->__('Hide'),
-				),
-			),
-			'value' => 1,
-		));
-		
-		$fieldset->addField('submenu_border_color', 'text', array(
-			'label' => Mage::helper('advancedmenu')->__('Submenu border color'),
-			'name'  => 'submenu_border_color',
-			'note'	=> $this->__('Color code (Ex: 78C7EE)'),
-			'class'     => 'color {required:false, adjust:false, hash:false}',
-		));
+//		$fieldset->addField('background_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Top menu background Color'),
+//			'name'  => 'background_color',
+//			'note'	=> $this->__('Color code (Ex: f2f2f2)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('menu_level_top_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Top menu link color'),
+//			'name'  => 'menu_level_top_color',
+//			'note'	=> $this->__('Color code (Ex: 303030)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('menu_level_top_hover_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Top menu link hover color'),
+//			'name'  => 'menu_level_top_hover_color',
+//			'note'	=> $this->__('Color code (Ex: 2882ce)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('menu_level_top_active_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Top menu link active color'),
+//			'name'  => 'menu_level_top_active_color',
+//			'note'	=> $this->__('Color code (Ex: 2882ce)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//
+//		$fieldset->addField('submenu_background_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Submenu background color'),
+//			'name'  => 'submenu_background_color',
+//			'note'	=> $this->__('Color code (Ex: 27A1E0)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('submenu_link_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Submenu link color'),
+//			'name'  => 'submenu_link_color',
+//			'note'	=> $this->__('Color code (Ex: D4F0FC)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('submenu_link_hover_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Submenu link hover color'),
+//			'name'  => 'submenu_link_hover_color',
+//			'note'	=> $this->__('Color code (Ex: FFFFFF)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('submenu_link_hover_background_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Submenu link hover background color'),
+//			'name'  => 'submenu_link_hover_background_color',
+//			'note'	=> $this->__('Color code (Ex: 127AAF)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//		$fieldset->addField('submenu_link_active_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Submenu link active color'),
+//			'name'  => 'submenu_link_active_color',
+//			'note'	=> $this->__('Color code (Ex: FFFFFF)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
+//
+//
+//		$fieldset->addField('show_submenu_border', 'select', array(
+//			'label' => Mage::helper('advancedmenu')->__('Display border in submenu'),
+//			'name'  => 'show_submenu_border',
+//			'values'=> array(
+//				array(
+//					'value' => 1,
+//					'label' => Mage::helper('advancedmenu')->__('Show'),
+//				),
+//				array(
+//					'value' => 0,
+//					'label' => Mage::helper('advancedmenu')->__('Hide'),
+//				),
+//			),
+//			'value' => 1,
+//		));
+//
+//		$fieldset->addField('submenu_border_color', 'text', array(
+//			'label' => Mage::helper('advancedmenu')->__('Submenu border color'),
+//			'name'  => 'submenu_border_color',
+//			'note'	=> $this->__('Color code (Ex: 78C7EE)'),
+//			'class'     => 'color {required:false, adjust:false, hash:false}',
+//		));
 		
 		$fieldset->addField('status', 'select', array(
 			'label' => Mage::helper('advancedmenu')->__('Status'),

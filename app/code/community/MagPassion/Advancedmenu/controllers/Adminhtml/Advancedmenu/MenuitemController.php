@@ -105,7 +105,9 @@ class MagPassion_Advancedmenu_Adminhtml_Advancedmenu_MenuitemController extends 
 				$menuitem->addData($data);
 				$image_iconName = $this->_uploadAndGetName('image_icon', Mage::helper('advancedmenu/menuitem_image')->getImageBaseDir(), $data);
 				$menuitem->setData('image_icon', $image_iconName);
-				$menuitem->setData('block', implode(",", $data["block"]));
+                if (!empty($data["block"])) {
+                    $menuitem->setData('block', implode(",", $data["block"]));
+                }
 				if ($data["type"] == 'custom') {
 					$menuitem->setData('category_id', '');
 					$menuitem->setData('category', '');

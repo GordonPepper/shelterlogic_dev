@@ -21,8 +21,9 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 	 * @return Advancedmenu_Menuitem_Block_Adminhtml_Menuitem_Edit_Tab_Form
 	 * @author MagPassion.com
 	 */
-	protected function getListCategories($catid, $level) {
+	protected function getListCategories($catid, $level = 0) {
 		$prefix = '';
+        $strCat = '';
 		for ($i = 0; $i < $level; $i++) $prefix .= '---';
 		$categories=Mage::getModel('catalog/category')->load($catid)->getChildrenCategories();
 		foreach($categories as $cat){ 
@@ -94,7 +95,7 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
 		));
 		
 		$cateoptions = array();
-		$parentid = Mage::app()->getWebsite(true)->getDefaultStore()->getRootCategoryId();
+		$parentid = Mage::app()->getWebsite(4)->getDefaultStore()->getRootCategoryId();
 		$strCategories = $this->getListCategories($parentid);
 		$arrCate = explode("@@@", $strCategories);
 		foreach ($arrCate as $c) 

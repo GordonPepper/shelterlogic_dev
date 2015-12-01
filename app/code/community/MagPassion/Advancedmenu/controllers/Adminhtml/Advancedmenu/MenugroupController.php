@@ -104,8 +104,8 @@ class MagPassion_Advancedmenu_Adminhtml_Advancedmenu_MenugroupController extends
 				$menugroup = $this->_initMenugroup();
 				$menugroup->addData($data);
 				$menugroup->save();
-				$css = $this->writeColorCss($data);
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('advancedmenu')->__('Menu Group was successfully saved').$css);
+//				$css = $this->writeColorCss($data);
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('advancedmenu')->__('Menu Group was successfully saved'));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
 				if ($this->getRequest()->getParam('back')) {
 					$this->_redirect('*/*/edit', array('id' => $menugroup->getId()));
@@ -335,6 +335,6 @@ class MagPassion_Advancedmenu_Adminhtml_Advancedmenu_MenugroupController extends
 		catch (Exception $e) {
 			Mage::logException($e);
 		}
-		return '<br/>Can not write css!';
+		return '<br/>Can not write css. The base/default/magpassion_advancedmenu/css should be writable by webserver';
 	}
 }

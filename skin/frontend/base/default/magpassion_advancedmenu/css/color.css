@@ -12,12 +12,12 @@
  * @category	MagPassion
  * @package		MagPassion.com
  */
-.magpassion-nav-container { background: #FFFFFF; }
-.magpassion-nav-container ul.level0 li a { color:#525252; }
-.magpassion-nav-container ul.level0 li a:hover, .magpassion-nav-container ul.level0 li a.over { color:#2c97aa;}
-.magpassion-nav-container ul.level0 li a.active { color:#2c97aa;}
-.magpassion-nav-container ul li ul li { background:#1e1e1e;}
-.magpassion-nav-container ul li ul li a span { color: #d4f0ff !important;}
-.magpassion-nav-container ul li ul li a:hover { background-color: #D5E82A;}
-.magpassion-nav-container ul li ul li a:hover span { color: #87edff !important;}
-.magpassion-nav-container ul li ul li a.active span { color: #87edff !important;}
+.magpassion-nav-container { background: #f2f2f2; }
+.magpassion-nav-container ul.level0 li a { color:#303030; }
+.magpassion-nav-container ul.level0 li a:hover, .magpassion-nav-container ul.level0 li a.over { color:#2882ce;}
+.magpassion-nav-container ul.level0 li a.active { color:#2882ce;}
+.magpassion-nav-container ul li ul li { background:#27A1E0;}
+.magpassion-nav-container ul li ul li a span { color: #D4F0FC !important;}
+.magpassion-nav-container ul li ul li a:hover { background-color: #27A1E0;}
+.magpassion-nav-container ul li ul li a:hover span { color: #FFFFFF !important;}
+.magpassion-nav-container ul li ul li a.active span { color: #FFFFFF !important;}
