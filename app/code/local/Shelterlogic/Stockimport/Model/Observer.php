@@ -3,7 +3,9 @@ class Shelterlogic_Stockimport_Model_Observer
 {
     const LOG_FILE = "stock_import.log";
     const XML_PATH_DATA_FILE_PATH       = 'shelterlogic/stockimport/filepath';
-    const XML_PATH_DATA_WAREHOUSEID_MAPPING = 'shelterlogic/stockimport/warehouseid_mapping';
+    const XML_PATH_WAREHOUSEID_MAPPING  = 'shelterlogic/stockimport/warehouseid_mapping';
+    const XML_PATH_ENABLE_ARCHIVE       = 'shelterlogic/stockimport/enable_archive';
+    const XML_PATH_ARCHIVE_FOLDER       = 'shelterlogic/stockimport/archive_folder';
 
     /**
      * @var Magento_Db_Adapter_Pdo_Mysql
@@ -25,6 +27,7 @@ class Shelterlogic_Stockimport_Model_Observer
         $fileHandle = null;
         $totalUpdated = 0;
         $notExistedSku = array();
+        $dataFile = null;
         try {
             $dataFile = $this->getStockDataFile();
 
@@ -66,6 +69,9 @@ class Shelterlogic_Stockimport_Model_Observer
         if (count($notExistedSku) > 0) {
             Mage::log('Not existed SKUs: ' . implode(', ', $notExistedSku), Zend_Log::DEBUG, self::LOG_FILE);
         }
+
+        $this->archiveStockDataFile($dataFile);
+
         Mage::log('=============== END ===============', Zend_Log::DEBUG, self::LOG_FILE);
     }
 
@@ -79,6 +85,32 @@ class Shelterlogic_Stockimport_Model_Observer
         return $filePath;
     }
 
+    protected function archiveStockDataFile($file)
+    {
+        if (Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_ARCHIVE) && $file) {
+            $archiveFolder = Mage::getStoreConfig(self::XML_PATH_ARCHIVE_FOLDER);
+            if (!is_dir($archiveFolder)) {
+                $result = mkdir($archiveFolder, 0777, true);
+                if (!$result) {
+                    Mage::log(sprintf('Archive functionality is enable, but the archive folder [%s] cannot be created', $archiveFolder), Zend_Log::ERR, self::LOG_FILE);
+                    return;
+                }
+            }
+
+            if (!is_dir_writeable($archiveFolder)) {
+                Mage::log(sprintf('Archive functionality is enable, but the archive folder [%s] is not writable', $archiveFolder), Zend_Log::ERR, self::LOG_FILE);
+            } else {
+                $archiveFile = $archiveFolder . DS . pathinfo($file, PATHINFO_BASENAME) . date('.Ymd.U');
+                $result = rename($file, $archiveFile);
+                if ($result) {
+                    Mage::log(sprintf('Data file is successfully archived to [%s]', $archiveFile), Zend_Log::DEBUG, self::LOG_FILE);
+                } else {
+                    Mage::log(sprintf('Archive functionality is enable, but the data file [%s] is not movable', $file), Zend_Log::ERR, self::LOG_FILE);
+                }
+            }
+        }
+    }
+
     protected function getWarehouseIdMapping($header)
     {
         /**
@@ -86,7 +118,7 @@ class Shelterlogic_Stockimport_Model_Observer
          * <Warehouse 1 name>|<Warehouse 1 id>
          * <Warehouse 2 name>|<Warehouse 2 id>
          */
-        $mappingConfig = Mage::getStoreConfig(self::XML_PATH_DATA_WAREHOUSEID_MAPPING);
+        $mappingConfig = Mage::getStoreConfig(self::XML_PATH_WAREHOUSEID_MAPPING);
         $mappingConfig = explode("\n", trim($mappingConfig));
         $warehouseIdMapping = array();
         foreach ($mappingConfig as $item) {

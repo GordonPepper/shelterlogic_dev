@@ -41,6 +41,7 @@
 ATP LKW|2
 ]]>
                 </warehouseid_mapping>
+                <enable_archive>1</enable_archive>
             </stockimport>
         </shelterlogic>
     </default>
