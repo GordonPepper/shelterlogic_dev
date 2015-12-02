@@ -36,16 +36,18 @@ class Shelterlogic_Stockimport_Model_Observer
                 $sku = $row[0];
                 $productId = $this->getProductId($sku);
                 if ($productId) {
-                    for ($i = 1; $i < $numberOfWarehouses; $i++) {
+                    for ($i = 1; $i <= $numberOfWarehouses; $i++) {
                         if (!isset($row[$i]) || trim($row[$i]) === '') {
                             continue;
                         }
 
+                        $qty = intval($row[$i]);
+                        $isInStock = ($qty > 0 ? 1 : 0);
                         $this->adapter->update($this->tableName,
-                            array('qty' => intval($row[$i])),
+                            array('qty' => $qty, 'is_in_stock' => $isInStock),
                             array(
                                 'location_id = ?' => $warehouseIdMapping[$i],
-                                'product_id = ?' => $productId
+                                'product_id = ?' => $productId,
                             ));
                     }
                     $totalUpdated++;
@@ -59,7 +61,7 @@ class Shelterlogic_Stockimport_Model_Observer
         }
 
         $fileHandle ? fclose($fileHandle) : null;
-
+        Mage::getModel('gaboli_warehouse/stock_status_index')->reindex();
         Mage::log('Total updated SKUs: ' . $totalUpdated, Zend_Log::DEBUG, self::LOG_FILE);
         if (count($notExistedSku) > 0) {
             Mage::log('Not existed SKUs: ' . implode(', ', $notExistedSku), Zend_Log::DEBUG, self::LOG_FILE);
@@ -99,6 +101,7 @@ class Shelterlogic_Stockimport_Model_Observer
                 $unknownWarehouses[] = $header[$i];
             } else {
                 $warehouseIdMapping[$i] = $warehouseIdMapping[$header[$i]];
+                unset($warehouseIdMapping[$header[$i]]);
             }
         }
 
