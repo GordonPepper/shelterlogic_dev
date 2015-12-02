@@ -60,10 +60,6 @@
         if (this.editable) {
             this.button = $('<button class="image-annotate-add" id="image-annotate-add" onclick="javascript: return false;"><span>Add Hotspot</span></button>');
             this.button.click(function() {
-                if (image.notes.length==3) {
-                    alert('Only up to 3 hotspots could be added in Free Lookbook extension.');
-                    return false;
-                }
                 $.fn.annotateImage.add(image);
             });
             this.canvas.after(this.button);

@@ -36,40 +36,30 @@ class Altima_Lookbook_Adminhtml_Lookbook_LookbookController extends Mage_Adminht
 	}
 
 	public function editAction() {
-        $slides_count = Mage::getModel('lookbook/lookbook')->getCollection()
-                        ->getSize();
         $id     = $this->getRequest()->getParam('id');
-        if ($slides_count<5 || $id) {                
+        $model  = Mage::getModel('lookbook/lookbook')->load($id);
 
-    		$model  = Mage::getModel('lookbook/lookbook')->load($id);
-    
-    		if ($model->getId() || $id == 0) {
-    			$data = Mage::getSingleton('adminhtml/session')->getFormData(true);
-    			if (!empty($data)) {
-    				$model->setData($data);
-    			}
-    
-    			Mage::register('lookbook_data', $model);
-    
-    			$this->loadLayout();
-    			$this->_setActiveMenu('cms');
-    
-    			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Lookbook slides manager'), Mage::helper('adminhtml')->__('Lookbook slides manager'));
-    
-    			$this->_addContent($this->getLayout()->createBlock('lookbook/adminhtml_lookbook_edit'))
-    				->_addLeft($this->getLayout()->createBlock('lookbook/adminhtml_lookbook_edit_tabs'));
-    
-    			$this->renderLayout();
-    		} else {
-    			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('lookbook')->__('Slide does not exist'));
-    			$this->_redirect('*/*/');
-    		}
-      }
-      else
-      {
-         Mage::getSingleton('adminhtml/session')->addError(Mage::helper('lookbook')->__('Only up to 5 slides could be uploaded in Free Lookbook extension.'));
-    	 $this->_redirect('*/*/');
-      }
+        if ($model->getId() || $id == 0) {
+            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+            if (!empty($data)) {
+                $model->setData($data);
+            }
+
+            Mage::register('lookbook_data', $model);
+
+            $this->loadLayout();
+            $this->_setActiveMenu('cms');
+
+            $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Lookbook slides manager'), Mage::helper('adminhtml')->__('Lookbook slides manager'));
+
+            $this->_addContent($this->getLayout()->createBlock('lookbook/adminhtml_lookbook_edit'))
+                ->_addLeft($this->getLayout()->createBlock('lookbook/adminhtml_lookbook_edit_tabs'));
+
+            $this->renderLayout();
+        } else {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('lookbook')->__('Slide does not exist'));
+            $this->_redirect('*/*/');
+        }
 	}
  
 	public function newAction() {

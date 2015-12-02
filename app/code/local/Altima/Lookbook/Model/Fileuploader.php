@@ -131,7 +131,7 @@ class Altima_Lookbook_Model_Fileuploader {
                      }
                                                                                 
                     if ($this->max_image_width!=0 && $this->max_image_height!=0) {
-                        if ($dimensions['width'] > $this->max_image_width || $dimensions['height'] > $this->max_image_heigh)
+                        if ($dimensions['width'] > $this->max_image_width || $dimensions['height'] > $this->max_image_height)
                         {
                             $resized_image = new Varien_Image($imgPathFull);
                             $resized_image->constrainOnly(TRUE);
