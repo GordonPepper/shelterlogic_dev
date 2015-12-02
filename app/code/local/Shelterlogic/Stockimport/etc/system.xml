@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <shelterlogic>
+            <groups>
+                <stockimport>
+                    <label>Stock Import</label>
+                    <sort_order>20</sort_order>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <filepath>
+                            <label>File path</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Absoluted path to stock data file</comment>
+                        </filepath>
+                        <warehouseid_mapping>
+                            <label>Warehouse Id Mapping</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[
+                            Warehouse id mapping in format: <br/>
+                            Warehouse header 1|Warehouse id 1<br/>
+                            Warehouse header 2|Warehouse id 2
+                            ]]></comment>
+                        </warehouseid_mapping>
+                    </fields>
+                </stockimport>
+            </groups>
+        </shelterlogic>
+    </sections>
+</config>
