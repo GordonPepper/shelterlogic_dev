@@ -47,5 +47,14 @@ $this->addAttribute('catalog_product', 'tlx_ship_height', array(
     'is_configurable'   => false,
     'default'           => '0'
 ));
+$this->addAttribute('catalog_product', 'tlx_pallet_weight', array(
+    'type'              => 'varchar',
+    'label'             => 'Pallet Weight',
+    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'visible'           => false,
+    'required'          => false,
+    'is_configurable'   => false,
+    'default'           => ''
+));
 
 $this->endSetup();
