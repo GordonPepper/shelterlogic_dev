@@ -141,7 +141,21 @@ class Altima_Lookbook_Adminhtml_Lookbook_LookbookController extends Mage_Adminht
             $this->getResponse()->setBody(htmlspecialchars(json_encode($result), ENT_NOQUOTES));
 	}
 
-    
+    public function contentuploadAction()
+    {
+
+        $upload_dir  = Mage::getBaseDir('media').'/lookbook/content/';
+        if (!file_exists($upload_dir)) mkdir($upload_dir, 0755, true);
+
+        $uploader = Mage::getModel('lookbook/fileuploader');
+
+        $result = $uploader->handleUploadContent($upload_dir);
+
+        // to pass data through iframe you will need to encode all html tags
+        $this->getResponse()->setBody(htmlspecialchars(json_encode($result), ENT_NOQUOTES));
+    }
+
+
     public function getproductAction(){
         	$sku     = $this->getRequest()->getParam('text');
             $product_id = Mage::getModel('catalog/product')->getIdBySku($sku);

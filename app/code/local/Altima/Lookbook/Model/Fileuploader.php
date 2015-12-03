@@ -82,7 +82,7 @@ class Altima_Lookbook_Model_Fileuploader {
     /**
      * Returns array('success'=>true) or array('error'=>'error message')
      */
- function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
+    function handleUpload($uploadDirectory, $replaceOldFile = FALSE){
         if (!is_writable($uploadDirectory)){
             return array('error' => "Server error. Upload directory isn't writable.");
         }
@@ -147,6 +147,51 @@ class Altima_Lookbook_Model_Fileuploader {
             return array('error'=> 'Could not save uploaded file.' .
                 'The upload was cancelled, or server error encountered');
         }
-        
-    }        
+    }
+
+    public function handleUploadContent($uploadDirectory, $replaceOldFile = FALSE)
+    {
+        if (!is_writable($uploadDirectory)){
+            return array('error' => "Server error. Upload directory isn't writable.");
+        }
+
+        if (!$this->filemodel){
+            return array('error' => 'No files were uploaded.');
+        }
+
+        $size = $this->filemodel->getSize();
+
+        if ($size == 0) {
+            return array('error' => 'File is empty');
+        }
+
+        if ($size > $this->sizeLimit) {
+            return array('error' => 'File is too large');
+        }
+
+        $pathinfo = pathinfo($this->filemodel->getName());
+        $filename = uniqid();
+        $ext = $pathinfo['extension'];
+
+        if($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)){
+            $these = implode(', ', $this->allowedExtensions);
+            return array('error' => 'File has an invalid extension, it should be one of '. $these . '.');
+        }
+
+        if(!$replaceOldFile){
+            /// don't overwrite previous files that were uploaded
+            while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
+                $filename .= rand(10, 99);
+            }
+        }
+
+        if ($this->filemodel->save($uploadDirectory . $filename . '.' . $ext)){
+            $imgPathFull = $uploadDirectory . $filename . '.' . $ext;
+            $dimensions = Mage::helper('lookbook')->getImageDimensions($imgPathFull);
+            return array('success'=>true, 'filename'=>$filename . '.' . $ext, 'dimensions' => $dimensions);
+        } else {
+            return array('error'=> 'Could not save uploaded file.' .
+                'The upload was cancelled, or server error encountered');
+        }
+    }
 }

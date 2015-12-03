@@ -209,66 +209,68 @@ class Altima_Lookbook_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param json array $array
      * @return json array('width'=>$width, 'height'=>$height)
-     */ 
-    public function getHotspotsWithProductDetails($hotspots_json){
-        if ($hotspots_json=='') return '';
-		$decoded_array = json_decode($hotspots_json,true);
-        $img_width = intval(Mage::getStoreConfig('lookbook/general/max_image_width'));
-        $hotspot_icon  = Mage::getBaseUrl('media').'lookbook/icons/default/hotspot-icon.png';
-        $hotspot_icon_path  = Mage::getBaseDir('media').DS.'lookbook'.DS.'icons'.DS.'default'.DS.'hotspot-icon.png';
-		$icon_dimensions = $this->getImageDimensions($hotspot_icon_path);
+     */
+    public function getHotspotsWithProductDetails($hotspots_json)
+    {
+        if ($hotspots_json == '') return '';
+        $decoded_array = json_decode($hotspots_json, true);
+        $hotspot_icon = Mage::getBaseUrl('media') . 'lookbook/icons/default/hotspot-icon.png';
+        $hotspot_icon_path = Mage::getBaseDir('media') . DS . 'lookbook' . DS . 'icons' . DS . 'default' . DS . 'hotspot-icon.png';
+        $icon_dimensions = $this->getImageDimensions($hotspot_icon_path);
         $_coreHelper = Mage::helper('core');
-        foreach($decoded_array as $key => $value){
-		      $product_details = Mage::getModel('catalog/product')->loadByAttribute('sku',$decoded_array[$key]['text']);
+        foreach ($decoded_array as $key => $value) {
+            $html_content = '<img class="hotspot-icon" src="' . $hotspot_icon . '" alt="" style="
+                    left:' . (round($value['width'] / 2) - round($icon_dimensions['width'] / 2)) . 'px;
+                    top:' . (round($value['height'] / 2) - round($icon_dimensions['height'] / 2)) . 'px;
+                    "/><div class="product-info ' . (!empty($value['img']) ? "hotspot-type-content" : '') . '" style="';
+            $html_content .= 'left:' . round($value['width'] / 2) . 'px;';
+            $html_content .= 'top:' . round($value['height'] / 2) . 'px;';
 
-            		$html_content = '<img class="hotspot-icon" src="'.$hotspot_icon.'" alt="" style="
-                    left:'. (round($value['width']/2)-round($icon_dimensions['width']/2)) .'px; 
-                    top:'. (round($value['height']/2)-round($icon_dimensions['height']/2)) .'px;
-                    "/><div class="product-info" style="';           
-                    $html_content .=  'left:'.round($value['width']/2).'px;';
-                    $html_content .=  'top:'.round($value['height']/2).'px;';
-                   
+            if (!empty($value['img'])) {
+                $html_content .= ' width: 200px;">';
+                $html_content .= "<div>{$value['text']}</div>";
+                if (!empty($value['img'])) {
+                    $img = Mage::getBaseUrl('media') . $value['img'];
+                    $html_content .= "<img src=\"{$img}\" />";
+                }
+            } else {
+                $product_details = Mage::getModel('catalog/product')->loadByAttribute('sku', $value['text']);
+
                 if ($product_details) {
                     $_p_name = $product_details->getName();
-                    $html_content .=  'width: '. strlen($_p_name)*8 .'px;';
+                    $html_content .= 'width: ' . strlen($_p_name) * 8 . 'px;';
+                } else {
+                    $html_content .= 'width: 200px;';
                 }
-                else
-                {
-                    $html_content .=  'width: 200px;';
-                }
-                
-                    $html_content .=  '">';
+
+                $html_content .= '">';
                 if ($product_details) {
-        			$_p_price = $_coreHelper->currency($product_details->getFinalPrice(),true,false);
-                    if($product_details->isAvailable())
-                    {
-                        $_p_url = $product_details->getProductUrl();                                                                                    
-            			$html_content .= '<div><a href=\''.$_p_url.'\'>'.$_p_name.'</a></div>';
-                    }
-                    else
-                    {
-                        $html_content .= '<div>'.$_p_name.'</div>';
-                        $html_content .= '<div class="out-of-stock"><span>'. $this->__('Out of stock') .'</span></div>';                        
+                    $_p_price = $_coreHelper->currency($product_details->getFinalPrice(), true, false);
+                    if ($product_details->isAvailable()) {
+                        $_p_url = $product_details->getProductUrl();
+                        $html_content .= '<div><a href=\'' . $_p_url . '\'>' . $_p_name . '</a></div>';
+                    } else {
+                        $html_content .= '<div>' . $_p_name . '</div>';
+                        $html_content .= '<div class="out-of-stock"><span>' . $this->__('Out of stock') . '</span></div>';
                     }
 
-                    if($product_details->getFinalPrice()){
-                            if ($product_details->getPrice()>$product_details->getFinalPrice()){
-                                    $regular_price = $_coreHelper->currency($product_details->getPrice(),true,false);
-                                    $_p_price = '<div class="old-price">'.$regular_price.'</div>'.$_p_price;
-                            }
-            				$html_content .= '<div class="price">'.$_p_price.'</div>';
-            		}  
+                    if ($product_details->getFinalPrice()) {
+                        if ($product_details->getPrice() > $product_details->getFinalPrice()) {
+                            $regular_price = $_coreHelper->currency($product_details->getPrice(), true, false);
+                            $_p_price = '<div class="old-price">' . $regular_price . '</div>' . $_p_price;
+                        }
+                        $html_content .= '<div class="price">' . $_p_price . '</div>';
+                    }
+                } else {
+                    $html_content .= '<div>Product with SKU "' . $value['text'] . '" doesn\'t exists.</div>';
                 }
-                else
-                {
-                    $html_content .= '<div>Product with SKU "'.$decoded_array[$key]['text'].'" doesn\'t exists.</div>';
-                }
-			$html_content .= '	
-			</div>
-			';
-			
-			$decoded_array[$key]['text'] = $html_content;
-		}
+            }
+
+            $html_content .= '</div>';
+
+            $decoded_array[$key]['text'] = $html_content;
+
+        }
         $result = $decoded_array;
         return $result;
     }

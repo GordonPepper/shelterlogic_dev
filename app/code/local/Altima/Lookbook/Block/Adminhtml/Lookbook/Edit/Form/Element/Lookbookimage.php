@@ -29,18 +29,20 @@ class Altima_Lookbook_Block_Adminhtml_Lookbook_Edit_Form_Element_Lookbookimage e
 
  public function getElementHtml()
  {
-    $block_class =  Mage::getBlockSingleton('lookbook/adminhtml_lookbook');
-    $upload_action  = Mage::getUrl('adminhtml/lookbook_lookbook/upload', array('_secure'=>true)).'?isAjax=true';
-    $media_url  = Mage::getBaseUrl('media');
-    $upload_folder_path = str_replace("/",DS, Mage::getBaseDir("media").DS);
-    $helper = Mage::helper('lookbook');
-    $min_image_width = $helper->getMinImageWidth();
-    $min_image_height = $helper->getMinImageHeight();
-    $sizeLimit      = $helper->getMaxUploadFilesize();
-    $allowed_extensions = implode('","',explode(',',$helper->getAllowedExtensions()));
+     $block_class = Mage::getBlockSingleton('lookbook/adminhtml_lookbook');
+     $upload_action = Mage::getUrl('adminhtml/lookbook_lookbook/upload', array('_secure' => true)) . '?isAjax=true';
+     $contentImgUploadAction = Mage::getUrl('adminhtml/lookbook_lookbook/contentupload', array('_secure' => true)) . '?isAjax=true';
+     $media_url = Mage::getBaseUrl('media');
+     $upload_folder_path = str_replace("/", DS, Mage::getBaseDir("media") . DS);
+     $helper = Mage::helper('lookbook');
+     $min_image_width = $helper->getMinImageWidth();
+     $min_image_height = $helper->getMinImageHeight();
+     $sizeLimit = $helper->getMaxUploadFilesize();
+     $allowed_extensions = implode('","', explode(',', $helper->getAllowedExtensions()));
     
     $html = '<script type="text/javascript">
                 //<![CDATA[
+                var lookbookParams = {"formKey":"'.$block_class->getFormKey().'", "action":"'.$contentImgUploadAction.'", "mediaUrl":"'.$media_url.'"};
                 jQuery(document).ready(function() { 
                     
                   InitHotspotBtn(); 

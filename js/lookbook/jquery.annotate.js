@@ -58,11 +58,17 @@
 
         // Add the "Add a note" button
         if (this.editable) {
-            this.button = $('<button class="image-annotate-add" id="image-annotate-add" onclick="javascript: return false;"><span>Add Hotspot</span></button>');
+            this.button = $('<button class="image-annotate-add" id="image-annotate-add" onclick="javascript: return false;"><span>Add Product Hotspot</span></button>');
             this.button.click(function() {
                 $.fn.annotateImage.add(image);
             });
             this.canvas.after(this.button);
+
+            this.buttonContent = $('<button class="image-annotate-add" id="image-annotate-add" style="margin-left: 10px" onclick="javascript: return false;"><span>Add Content Hotspot</span></button>');
+            this.buttonContent.click(function() {
+                $.fn.annotateImage.addContent(image);
+            });
+            this.canvas.after(this.buttonContent);
         }
 
         // Hide the original
@@ -141,6 +147,24 @@
 
     };
 
+    $.fn.annotateImage.addContent = function(image) {
+        ///	<summary>
+        ///		Adds a note to the image.
+        ///	</summary>
+        if (image.mode == 'view') {
+            image.mode = 'edit';
+
+            // Create/prepare the editable note elements
+            var editable = new $.fn.annotateEditContent(image);
+
+            $.fn.annotateImage.createSaveButton(editable, image);
+            $.fn.annotateImage.createCancelButton(editable, image);
+            $("#image-annotate-edit-ok").css('float', 'right').css('margin-right', '25px');
+            $(".image-annotate-edit-close").css('margin-left', '25px');
+        }
+
+    };
+
     $.fn.annotateImage.createSaveButton = function(editable, image, note) {
         ///	<summary>
         ///		Creates a Save button on the editable note.
@@ -149,9 +173,13 @@
 
         ok.click(function() {
             var form = $('#image-annotate-edit-form form');
-            var text = $('#image-annotate-text').val();                      
+            var text = $('#image-annotate-text').val();
+            var img = '';
+            if (editable.contentHotspot) {
+                img = $('#content-img-input').val();
+            }
 
-            $.fn.annotateImage.appendPosition(form, editable)
+            $.fn.annotateImage.appendPosition(form, editable);
             image.mode = 'view';
 
             // Save via AJAX
@@ -182,22 +210,25 @@
                 }
                 
             if ($.trim(text)=='') {
-                alert('Please, enter product SKU');
+                var message = editable.contentHotspot ? 'Please enter content' : 'Please enter product SKU';
+                alert(message);
                 return false;
             }
-            
-            var response = checkSKU();
-            if (response!=1) {
-                alert('The product with SKU="'+text+'" ' + response);
-                return false;
+
+            if (!editable.contentHotspot) {
+                var response = checkSKU();
+                if (response!=1) {
+                    alert('The product with SKU="'+text+'" ' + response);
+                    return false;
+                }
             }
             // Add to canvas
             if (note) {
-                note.resetPosition(editable, text);             
+                note.resetPosition(editable, text, img);
             } else {
                 editable.note.editable = true;
                 note = new $.fn.annotateView(image, editable.note);
-                note.resetPosition(editable, text);
+                note.resetPosition(editable, text, img);
                 image.notes.push(editable.note);
             }  
 
@@ -302,6 +333,108 @@
         return this;
     };
 
+    $.fn.annotateEditContent = function(image, note) {
+        ///	<summary>
+        ///		Defines an editable annotation area.
+        ///	</summary>
+        this.image = image;
+        this.contentHotspot = true;
+        if (note) {
+            this.note = note;
+        } else {
+            var newNote = new Object();
+            newNote.id = ""+new Date().getTime();
+            newNote.top = 30;
+            newNote.left = 30;
+            newNote.width = 30;
+            newNote.height = 30;
+            newNote.text = "";
+            newNote.imgH = this.image.height();
+            newNote.imgW = this.image.width();
+            this.note = newNote;
+        }
+
+        // Set area
+        var area = image.canvas.children('.image-annotate-edit').children('.image-annotate-edit-area');
+        this.area = area;
+        this.area.css('height', this.note.height + 'px');
+        this.area.css('width', this.note.width + 'px');
+        this.area.css('left', this.note.left + 'px');
+        this.area.css('top', this.note.top + 'px');
+
+        // Show the edition canvas and hide the view canvas
+        image.canvas.children('.image-annotate-view').hide();
+        image.canvas.children('.image-annotate-edit').show();
+
+        // Add the note (which we'll load with the form afterwards)
+        var form = $('<div id="image-annotate-edit-form">' +
+            '<form id="annotate-edit-form">' +
+                '<label for="image-annotate-text">Content: </label> <textarea id="image-annotate-text" name="text">'+this.note.text+'</textarea>' +
+                '<div id="lookbook-content-img"></div>' +
+                '<div id="content-img-upload"></div><div style="clear:both"/> ' +
+                '<input id="content-img-input" name="img" type="hidden" />' +
+            '</form></div>');
+        this.form = form;
+
+        $('body').append(this.form);
+        new qq.FileUploader({
+            element: document.getElementById('content-img-upload'),
+            action: lookbookParams.action,
+            params: {"form_key": lookbookParams.formKey},
+            multiple: false,
+            onComplete: function(id, fileName, responseJSON){
+                if (responseJSON.success)
+                {
+                    if ($('#lookbook-content-img'))
+                    {
+                        $.each($('#lookbook-content-img').children(),function(index) {
+                            $(this).remove();
+                        });
+                    }
+                    $('#lookbook-content-img').append('<img src="'+lookbookParams.mediaUrl+'lookbook/content/'+responseJSON.filename+'" alt="'+responseJSON.filename+'"' +
+                    ' width="'+responseJSON.dimensions.width+'" height="'+responseJSON.dimensions.height+'"/>');
+
+                    if ($('#advice-required-entry-image'))
+                    {
+                        $('#advice-required-entry-image').remove();
+                    }
+
+                    $('#content-img-input').val('lookbook/content/'+responseJSON.filename);
+                }
+            }
+        });
+
+        if (this.note.img) {
+            $('#lookbook-content-img').append('<img src="'+lookbookParams.mediaUrl+this.note.img+'"/>');
+        }
+        this.form.css('left', this.area.offset().left + 'px');
+        this.form.css('top', (parseInt(this.area.offset().top) + parseInt(this.area.height()) + 7) + 'px');
+
+        // Set the area as a draggable/resizable element contained in the image canvas.
+        // Would be better to use the containment option for resizable but buggy
+        area.resizable({
+            handles: 'all',
+
+            stop: function(e, ui) {
+                form.css('left', area.offset().left + 'px');
+                form.css('top', (parseInt(area.offset().top) + parseInt(area.height()) + 2) + 'px');
+            }
+        })
+            .draggable({
+                containment: image.canvas,
+                drag: function(e, ui) {
+                    form.css('left', area.offset().left + 'px');
+                    form.css('top', (parseInt(area.offset().top) + parseInt(area.height()) + 2) + 'px');
+                },
+                stop: function(e, ui) {
+                    form.css('left', area.offset().left + 'px');
+                    form.css('top', (parseInt(area.offset().top) + parseInt(area.height()) + 2) + 'px');
+                }
+            });
+
+        return this;
+    };
+
     $.fn.annotateEdit.prototype.destroy = function() {
         ///	<summary>
         ///		Destroys an editable annotation area.
@@ -315,7 +448,9 @@
         this.area.css('top', '');
         this.form.remove(); 
         ShowHideHotspotsMsg();    
-    }
+    };
+
+    $.fn.annotateEditContent.prototype.destroy = $.fn.annotateEdit.prototype.destroy;
 
     $.fn.annotateView = function(image, note) {
         ///	<summary>
@@ -407,7 +542,13 @@
             var annotation = this;
 
             // Create/prepare the editable note elements
-            var editable = new $.fn.annotateEdit(this.image, this.note);
+            var editable = null;
+
+            if (this.note.img) {
+                editable = new $.fn.annotateEditContent(this.image, this.note);
+            } else {
+                editable = new $.fn.annotateEdit(this.image, this.note);
+            }
 
             $.fn.annotateImage.createSaveButton(editable, this.image, annotation);
 
@@ -458,7 +599,7 @@
         form.append(areaFields);
     }
 
-    $.fn.annotateView.prototype.resetPosition = function(editable, text) {
+    $.fn.annotateView.prototype.resetPosition = function(editable, text, img) {
         ///	<summary>
         ///		Sets the position of an annotation.
         ///	</summary>
@@ -481,6 +622,9 @@
         this.note.text = text;
         this.note.id = editable.note.id;
         this.editable = true;
+        if (img) {
+            this.note.img = img;
+        }
     };
 
     intersects = function(X1, Y1, H1, L1, X2, Y2, H2, L2) {
