@@ -23,6 +23,11 @@
 -->
 <layout version="0.1.0">
     <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>lookbook/css/hotspots.css</stylesheet></action>
+            <action method="addItem"><type>skin_js</type><name>lookbook/js/hotspots.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>lookbook/js/jquery-migrate-1.2.1.min.js</name></action>
+        </reference>
     </default>
     <lookbook_index_index>
          <reference name="head">

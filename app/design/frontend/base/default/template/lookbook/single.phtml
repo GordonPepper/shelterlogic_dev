@@ -1,0 +1,27 @@
+<?php
+/** @var Altima_Lookbook_Block_Single $this */
+
+$helper = Mage::helper('lookbook');
+$lookbook = $this->getLookbook();
+if ($helper->getEnabled() && $lookbook):
+    $width = $helper->getMaxImageWidth();
+    $height = $helper->getMaxImageHeight();
+    $height_procent = $height/$width*100;
+?>
+    <div class="camera_wrap camera_black_skin" id="lookbook-<?php echo $this->getLookbookId() ?>" style="max-width:<?php echo $width;?>px; max-height:<?php echo $height;?>px; display: block;">
+        <div>
+            <img src="<?php echo $helper->getResizedUrl($lookbook->getData('image'), $width, $height);?>" alt="<?php echo $lookbook->getName();?>"/>
+        </div>
+        <?php $hotspots = $helper->getHotspotsWithProductDetails($lookbook->getHotspots()); ?>
+    </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        (function($, undefined) {
+            var hotspots = <?php echo json_encode($hotspots);?>;
+            $.setHotspots($('#lookbook-<?php echo $this->getLookbookId() ?>'), hotspots);
+        })(jQuery);
+        //]]>
+    </script>
+<?php endif; ?>
+
