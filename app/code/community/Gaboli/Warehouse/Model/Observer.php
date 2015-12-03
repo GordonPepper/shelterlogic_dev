@@ -87,7 +87,11 @@ class Gaboli_Warehouse_Model_Observer
         $orderId = $order->getId();
         $storeId = $order->getStoreId();
 
-
+        /*
+         * AE modifications to accomodate our shipping rules. No provisions for backorders
+         */
+        $wff = Mage::getSingleton('core/session')->getWarehouseFulfillment();
+        
         foreach ($this->checkoutProducts as $checkoutProductQuoteItemId => $checkoutProductQuantity) {
             $checkoutProductItem = $quote->getItemById($checkoutProductQuoteItemId);
             if($checkoutProductItem->getProduct()->getTypeId() == 'simple') {
