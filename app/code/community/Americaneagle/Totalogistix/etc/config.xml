@@ -47,6 +47,11 @@
                     <index_observer>Americaneagle_Totalogistix_Model_Index_Observer</index_observer>
                 </rewrite>
             </enterprise_cataloginventory>
+            <importexport>
+                <rewrite>
+                    <import_entity_product_type_simple>Americaneagle_Totalogistix_Model_Import_Simple</import_entity_product_type_simple>
+                </rewrite>
+            </importexport>
         </models>
         <resources>
             <americaneagle_totalogistix_setup>
