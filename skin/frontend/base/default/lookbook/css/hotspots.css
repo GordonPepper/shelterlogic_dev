@@ -569,7 +569,7 @@
         z-index:101; 
 }
         
-.product-info {
+.hotspot .product-info {
     background: url(../images/info-bg.png) repeat 0 0 transparent;
     border-top: 2px solid #FFFFFF;
     color: #686767;
@@ -590,23 +590,23 @@
     box-shadow: #666 2px 2px 3px;
 }
 
-.product-info a {
+.hotspot .product-info a {
     color: #686767;
     font: normal 12px Tahoma,Arial;   
 }
 
-.product-info .price {
+.hotspot .product-info .price {
     font: bold 12px Tahoma,Arial;
     color: #7dad01;
     padding-top: 8px;
 }
-.product-info .price .old-price{
+.hotspot .product-info .price .old-price{
     font: bold 11px Tahoma,Arial;
     color: #686767;
     text-decoration: line-through;
 }
 
-.product-info  .out-of-stock {
+.hotspot .product-info  .out-of-stock {
     margin-top:5px;
     color: #D83820;
 }

@@ -8,7 +8,8 @@ if ($helper->getEnabled() && $lookbook):
     $height = $helper->getMaxImageHeight();
     $height_procent = $height/$width*100;
 ?>
-    <div class="camera_wrap camera_black_skin" id="lookbook-<?php echo $this->getLookbookId() ?>" style="max-width:<?php echo $width;?>px; max-height:<?php echo $height;?>px; display: block;">
+    <div class="camera_wrap camera_black_skin" id="lookbook-<?php echo $this->getLookbookId() ?>"
+         style="max-width:<?php echo $width;?>px; max-height:<?php echo $height;?>px; display: block; float: none; z-index: 1">
         <div>
             <img src="<?php echo $helper->getResizedUrl($lookbook->getData('image'), $width, $height);?>" alt="<?php echo $lookbook->getName();?>"/>
         </div>
