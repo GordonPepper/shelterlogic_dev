@@ -122,14 +122,26 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         if (isset($closestWarehouse)) {
             foreach ($warehouses as $warehouse) {
                 if ($warehouse['location_id'] == $closestWarehouse) {
+                    /*
+                     * put shippment data in the session to be used to determine
+                     * warehouse stock level reductions
+                     */
+                    Mage::getSingleton('core/session')->setWarehouseFulfillment(array(
+                        'single_warehouse' => true,
+                        'location_id' => $warehouse['location_id']
+                    ));
                     return $warehouse['zipcode'];
                 }
             }
             Mage::logException(new Exception('Closest warehouse mismatch'));
         } else {
-            $closestWarehouse = $this->getBestWarehouse($request, $warehouses);
+            list($closestWarehouse, $quoteMap) = $this->getBestWarehouse($request, $warehouses);
             foreach ($warehouses as $warehouse) {
                 if ($warehouse['location_id'] == $closestWarehouse) {
+                    Mage::getSingleton('core/session')->setWarehouseFulfillment(array(
+                        'single_warehouse' => false,
+                        'fulfillment' => $quoteMap
+                    ));
                     return $warehouse['zipcode'];
                 }
             }
@@ -144,6 +156,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
          * so here we iterate over the products. and start fulfilling the item from the closest
          * warehouse, preferring a warehouse that has all items. we simply remember the last warehouse used
          */
+        $quoteMap = array();
         foreach ($request->getAllItems() as $item) {
             $bestWarehouse = 0;
             $totalFilled = 0;
@@ -164,9 +177,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             if ($totalFilled < $item->getQty()) {
                 Mage::logException(new Exception('Failed to fill full cart quantity from all warehouses'));
             }
-            $item->setWarehouseFulfillment($fill);
+            $quoteMap[$item->getId()] = $fill;
         }
-        return $warehouses[$bestWarehouse]['location_id'];
+        return array($warehouses[$bestWarehouse]['location_id'], $quoteMap);
     }
 
     private function getClosestWarehouseWithAllProducts(Mage_Shipping_Model_Rate_Request $request, array $warehouses) {
