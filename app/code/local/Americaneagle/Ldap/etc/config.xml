@@ -8,7 +8,6 @@
         <models>
             <admin>
                 <rewrite>
-                    <session>Americaneagle_Ldap_Model_Session</session>
                     <user>Americaneagle_Ldap_Model_User</user>
                 </rewrite>
             </admin>

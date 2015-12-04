@@ -96,6 +96,30 @@
                 </secure>
             </web>
         </admin>
+    </stores>
+    <websites>
+        <base>
+            <web>
+                <unsecure>
+                    <base_url>http://farmbuildings.com.local/</base_url>
+                </unsecure>
+                <secure>
+                    <base_url>http://farmbuildings.com.local/</base_url>
+                </secure>
+            </web>
+        </base>
+        <vendors>
+            <web>
+                <unsecure>
+                    <base_url>http://farmbuildings.com.local/</base_url>
+                    <base_link_url>{{unsecure_base_url}}vendors/</base_link_url>
+                </unsecure>
+                <secure>
+                    <base_url>http://farmbuildings.com.local/</base_url>
+                    <base_link_url>{{secure_base_url}}vendors/</base_link_url>
+                </secure>
+            </web>
+        </vendors>
         <shelterlogic>
             <web>
                 <unsecure>
@@ -106,5 +130,17 @@
                 </secure>
             </web>
         </shelterlogic>
-    </stores>
+        <slcanada>
+            <web>
+                <unsecure>
+                    <base_url>http://shelterlogic.com.local/</base_url>
+                    <base_link_url>{{unsecure_base_url}}ca/</base_link_url>
+                </unsecure>
+                <secure>
+                    <base_url>http://shelterlogic.com.local/</base_url>
+                    <base_link_url>{{secure_base_url}}ca/</base_link_url>
+                </secure>
+            </web>
+        </slcanada>
+    </websites>
 </config>

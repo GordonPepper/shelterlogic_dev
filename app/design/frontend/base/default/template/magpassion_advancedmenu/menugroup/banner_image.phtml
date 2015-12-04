@@ -1,0 +1,12 @@
+<?php
+$_menuitem = $this->getMenuItem();
+?>
+
+<img class="megamenu-banner-image" src="<?php echo Mage::helper('advancedmenu/menuitem_image')->getImageBaseUrl() . $_menuitem->getBannerImage() ?>" width="400">
+<?php if ($_menuitem->getBannerTitle()): ?>
+    <div class="megamenu-banner-title"><?php echo $_menuitem->getBannerTitle() ?></div>
+<?php endif; ?>
+<?php if ($_menuitem->getBannerDesc()): ?>
+    <div class="megamenu-banner-desc"><?php echo $_menuitem->getBannerDesc() ?></div>
+<?php endif; ?>
+
