@@ -45,14 +45,14 @@
             </ae_visual_soaplog>
         </resources>
         <events>
-            <customer_login>
+            <customer_customer_authenticated>
                 <observers>
-                    <americaneagle_visual>
+                    <admin>
                         <class>americaneagle_visual/observer</class>
-                        <method>customerLogin</method>
-                    </americaneagle_visual>
+                        <method>customerCustomerAuthenticated</method>
+                    </admin>
                 </observers>
-            </customer_login>
+            </customer_customer_authenticated>
         </events>
     </global>
     <crontab>

@@ -7,14 +7,18 @@
  */
 
 class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
-	/** @var  Americaneagle_Visual_Helper_Visual vhelper */
-	private $vhelper;
+	/** @var  Americaneagle_Visual_Helper_Data helper */
+	private $helper;
 
-	public function cleanSoaplog(Mage_Cron_Model_Schedule $observer) {
+    public function __construct()
+    {
+        $this->helper = Mage::helper('americaneagle_visual');
+    }
+
+    public function cleanSoaplog(Mage_Cron_Model_Schedule $observer) {
 		$ttl = Mage::getStoreConfig('aevisual/logging/soaplog_ttl');
-		$helper = Mage::helper('americaneagle_visual');
 
-		if($helper->getSoaplogEnable() == 0)
+		if($this->helper->getSoaplogEnable() == 0)
 			return $this;
 
 		/** @var Americaneagle_Visual_Model_Soaplog $sl */
@@ -23,10 +27,11 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 
 	}
 	public function pushOrders(Mage_Cron_Model_Schedule $observer) {
-		if(Mage::helper('americaneagle_visual')->getEnabled() == 0) {
+		if($this->helper->getEnabled() == 0) {
 			return $this;
 		}
-		$this->vhelper = Mage::helper('americaneagle_visual/visual');
+		$orderHelper = Mage::helper('americaneagle_visual/order');
+		$customerHelper = Mage::helper('americaneagle_visual/customer');
 		/**
 		 * so the pattern is
 		 * 1) check if any orders need to be transferred, if not bail
@@ -53,19 +58,13 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 
 		$customerId = Mage::getStoreConfig('aevisual/general/customer_id');
 
-		$resp = $this->vhelper->getVisualCustomerById($customerId);
-		if(empty($resp))
-			return; // helper logs exception
-		$vCustomer = null;
+		$vCustomer = $customerHelper->getVisualCustomerById($customerId);
 
-		if($resp->getSearchCustomerResult()->getCustomers()->getCustomer()->CustomerID == $customerId) {
-			$vCustomer = $resp->getSearchCustomerResult()->getCustomers()->getCustomer();
-		} else {
-			$resp = $this->vhelper->createVisualCustomerId($customerId);
-			if($resp->getCreateCustomerResult()->getCustomers()->getCustomer() != $customerId) {
+		if(is_null($vCustomer)) {
+            $vCustomer = $customerHelper->createVisualCustomer($customerId);
+			if(is_null($vCustomer)) {
 				Mage::logException(new Exception("Unable to create customer $customerId in VISUAL"));
 			}
-			$vCustomer = $resp->getCreateCustomerResult()->getCustomers()->getCustomer();
 		}
 
 		/** @var Mage_Sales_Model_Order $order */
@@ -75,12 +74,12 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			 * then the order
 			 */
 
-			$vAddress = $this->vhelper->addNewAddress($order->getShippingAddress())->getAddNewAddressResult();
+			$vAddress = $customerHelper->addNewAddress($order->getShippingAddress());
 			if($vAddress === false) {
 				continue;
 			}
 
-			$vOrder = $this->vhelper->addNewOrderForAddress($order, $vAddress->getShipToID());
+			$vOrder = $orderHelper->addNewOrderForAddress($order, $vAddress->getShipToID());
 			if($vOrder === false) {
 				continue;
 			}
@@ -116,4 +115,22 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		}
 	}
 
+	public function customerCustomerAuthenticated($event)
+    {
+        if($this->helper->getEnabled() == 0) {
+            return $this;
+        }
+        $customerHelper = Mage::helper('americaneagle_visual/customer');
+
+        $customer = $event->getModel();
+
+        if (!empty($customer->getVisualCustomerId)) {
+            $vCustomer = $customerHelper->getVisualCustomerById($customer->getVisualCustomerId);
+            if(is_null($vCustomer)) {
+                throw Mage::exception('Mage_Core', Mage::helper('customer')->__('We are not able to reach the service please try again later.'),
+                    Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
+                );
+            }
+        }
+    }
 }
