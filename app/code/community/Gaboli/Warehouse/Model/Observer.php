@@ -88,10 +88,60 @@ class Gaboli_Warehouse_Model_Observer
         $storeId = $order->getStoreId();
 
         /*
-         * AE modifications to accomodate our shipping rules. No provisions for backorders
+         * AE modifications to accomodate our shipping rules. No provisions for backorders.
+         * utilize the gaboli gaboli_warehouse/order_stock_source tables to store the
+         * item sources. what we need to do is add rows to the order_stock_source table,
+         * and subtract quantity from the  stock table
          */
         $wff = Mage::getSingleton('core/session')->getWarehouseFulfillment();
-        
+        foreach ($this->checkoutProducts as $checkoutProduct => $checkoutProductQuantity) {
+            if($wff['single_warehouse']){
+                $location_id = $wff['location_id'];
+                $checkoutProductId = $quote->getItemById($checkoutProduct)->getProductId();
+                $stockCollection = Mage::getModel('gaboli_warehouse/stock')
+                    ->getCollection()
+                    ->addFieldToSelect(array('stock_id', 'location_id', 'product_id', 'qty'))
+                    ->addFieldToFilter('product_id', $checkoutProductId)
+                    ->addFieldToFilter('location_id', $location_id);
+                foreach ($stockCollection as $stock) {
+                    $stock->setQty($stock->getQty() - $checkoutProductQuantity);
+                    if($stock->getQty() <= 0){
+                        //$stock->setIsInStock(0);
+                    }
+                    $stock->save();
+                    $orderStockSource = Mage::getModel('gaboli_warehouse/order_stock_source');
+                    $orderStockSource->setSalesQuoteItemId($checkoutProduct);
+                    $orderStockSource->setLocationId($location_id);
+                    $orderStockSource->setQty($checkoutProductQuantity);
+                    $orderStockSource->save();
+                }
+            } else {
+                $fill = $wff['fulfillment'][$checkoutProduct];
+                $checkoutProductId = $quote->getItemById($checkoutProduct)->getProductId();
+                $stockCollection = Mage::getModel('gaboli_warehouse/stock')
+                    ->getCollection()
+                    ->addFieldToSelect(array('stock_id', 'location_id', 'product_id', 'qty'))
+                    ->addFieldToFilter('product_id', $checkoutProductId);
+                foreach ($stockCollection as $stock) {
+                    foreach ($fill as $item) {
+                        if($item['location_id'] == $stock->getLocationId()){
+                            $stock->setQty($stock->getQty() - $item['qty']);
+                            if($stock->getQty() <= 0){
+                                //$stock->setIsInStock(0);
+                            }
+                            $stock->save();
+                            $orderStockSource = Mage::getModel('gaboli_warehouse/order_stock_source');
+                            $orderStockSource->setSalesQuoteItemId($checkoutProduct);
+                            $orderStockSource->setLocationId($item['location_id']);
+                            $orderStockSource->setQty($item['qty']);
+                            $orderStockSource->save();
+                        }
+                    }
+                }
+            }
+        }
+        Mage::getSingleton('core/session')->unsWarehouseFulfillment();
+/*
         foreach ($this->checkoutProducts as $checkoutProductQuoteItemId => $checkoutProductQuantity) {
             $checkoutProductItem = $quote->getItemById($checkoutProductQuoteItemId);
             if($checkoutProductItem->getProduct()->getTypeId() == 'simple') {
@@ -175,6 +225,7 @@ class Gaboli_Warehouse_Model_Observer
                 }
             }
         }
+*/
     }
 
     /**
