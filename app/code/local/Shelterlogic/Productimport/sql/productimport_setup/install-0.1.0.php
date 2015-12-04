@@ -20,15 +20,15 @@ if ($attrSetModel->validate()) {
 $installer->addAttributeGroup('catalog_product', $attrSet, $attrGroup);
 
 $installer->addTextAttribute(   'size',                 'Size',                 $attrSet, $attrGroup, 10);
-$installer->addTextAttribute(   'marketing_bullet_1',   'Marketing Bullet 1',   $attrSet, $attrGroup, 20);
-$installer->addTextAttribute(   'marketing_bullet_2',   'Marketing Bullet 2',   $attrSet, $attrGroup, 30);
-$installer->addTextAttribute(   'marketing_bullet_3',   'Marketing Bullet 3',   $attrSet, $attrGroup, 40);
-$installer->addTextAttribute(   'marketing_bullet_4',   'Marketing Bullet 4',   $attrSet, $attrGroup, 50);
-$installer->addTextAttribute(   'marketing_bullet_5',   'Marketing Bullet 5',   $attrSet, $attrGroup, 60);
-$installer->addTextAttribute(   'marketing_bullet_6',   'Marketing Bullet 6',   $attrSet, $attrGroup, 70);
-$installer->addTextAttribute(   'marketing_bullet_7',   'Marketing Bullet 7',   $attrSet, $attrGroup, 80);
-$installer->addTextAttribute(   'marketing_bullet_8',   'Marketing Bullet 8',   $attrSet, $attrGroup, 90);
-$installer->addTextAttribute(   'marketing_bullet_9',   'Marketing Bullet 9',   $attrSet, $attrGroup, 100);
+$installer->addTextAttribute(   'marketing_bullet_1',   'Marketing Bullet 1',   $attrSet, $attrGroup, 20, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_2',   'Marketing Bullet 2',   $attrSet, $attrGroup, 30, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_3',   'Marketing Bullet 3',   $attrSet, $attrGroup, 40, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_4',   'Marketing Bullet 4',   $attrSet, $attrGroup, 50, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_5',   'Marketing Bullet 5',   $attrSet, $attrGroup, 60, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_6',   'Marketing Bullet 6',   $attrSet, $attrGroup, 70, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_7',   'Marketing Bullet 7',   $attrSet, $attrGroup, 80, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_8',   'Marketing Bullet 8',   $attrSet, $attrGroup, 90, array('type' => 'text'));
+$installer->addTextAttribute(   'marketing_bullet_9',   'Marketing Bullet 9',   $attrSet, $attrGroup, 100, array('type' => 'text'));
 $installer->addTextAttribute(   'video_url',            'Video URL',            $attrSet, $attrGroup, 110);
 $installer->addTextAttribute(   'peak_height',          'Peak Height (ft.)',    $attrSet, $attrGroup, 120);
 $installer->addTextAttribute(   'wall_height',          'Wall Height (ft.)',    $attrSet, $attrGroup, 130);
