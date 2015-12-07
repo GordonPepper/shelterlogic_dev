@@ -162,19 +162,31 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
             $objReader->setReadDataOnly( true );
             $objPHPExcel = $objReader->load($filename);
             $this->done();
-            foreach ($objPHPExcel->getAllSheets() as $sheet) {
-                echo "Reading sheet [{$sheet->getTitle()}] ... ";
-                /**  PHPExcel_Worksheet $sheet */
-                $data = $this->getProductData($sheet->toArray());
-                $this->done();
 
-                echo sprintf("\tTotal rows count: %s\n", count($data));
-                $this->import->processProductImport($data);
-                echo "\t" . $this->import->getEntityAdapter()->getProcessedRowsCount() . ' rows with ' . $this->import->getEntityAdapter()->getProcessedEntitiesCount() . ' entities have been imported successfully.';
-                $this->done();
-                die();
+            $sheets = $objPHPExcel->getAllSheets();
+            foreach ($sheets as $sheet) {
+                try {
+                    echo "Reading sheet [{$sheet->getTitle()}] ... \n";
+                    /**  PHPExcel_Worksheet $sheet */
+                    $data = $this->getProductData($sheet->toArray());
+                    echo "\t";$this->done();
+
+                    echo sprintf("\tTotal rows count: %s\n", count($data));
+                    $this->import->setUseNestedArrays(true);
+                    $this->import->processProductImport($data);
+                    echo "\t" . $this->import->getEntityAdapter()->getProcessedRowsCount() . ' rows with ' . $this->import->getEntityAdapter()->getProcessedEntitiesCount() . ' entities have been imported successfully.';
+                    $this->done();
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                    echo "\n";
+                }
             }
 
+            echo "Reindexing multi-warehouse ... ";
+            if ($indexer = Mage::getModel('index/indexer')->getProcessByCode('gaboli_warehouse')) {
+                $indexer->reindexAll();
+            }
+            $this->done();
         } catch (Exception $e) {
             echo $e->getMessage();
             echo "\n";
@@ -185,9 +197,9 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
     {
         $firstRow = $rows[0];
         if ($this->isConfigurable($firstRow)) {
-            array_shift($rows);
-            array_shift($firstRow);
-            return $this->importConfigurableProducts($rows, $firstRow);
+            array_shift($rows); // Remove configurable indicator row
+            array_shift($firstRow); // Remove first cell that contain 'configurable' text
+            return $this->getConfigurableProducts($rows, $firstRow);
         } else {
             return $this->getSimpleProducts($rows);
         }
@@ -207,6 +219,7 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
                 if ($attrCode = $headers[$i]) {
                     $value = trim($value);
                     if ($attrCode == '_category') {
+                        $value = trim($value, '/');
                         $this->validateCategory($value);
                     } else {
                         $this->validateAttributeOption($attrCode, $value);
@@ -261,6 +274,102 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
         }
 
         return false;
+    }
+
+    protected function getConfigurableProducts($rows, $firstRow)
+    {
+        $configurableAttrs = $this->validateConfigurableAttributes($firstRow);
+        $simpleProducts = array();
+        $confProducts = array();
+        $attrOptions = array();
+        $headers = $rows[0];
+        $this->convertToAttributeCodes($headers);
+        array_shift($rows);
+        foreach ($rows as $row) {
+            $parentSku = trim($row[0]);
+            $product = array();
+            if (empty($parentSku)) {
+                $product = $this->initDefaultValue('configurable');
+                if (isset($confProducts[$parentSku])) {
+                    $product = array_merge_recursive($product, $confProducts[$parentSku]);
+                }
+            } else {
+                $product = $this->initDefaultValue('simple');
+                $product['visibility'] = 1; // Not visible individually
+            }
+
+            foreach ($row as $i => $value)
+            {
+                if ($attrCode = $headers[$i]) {
+                    $value = trim($value);
+                    if ($attrCode == '_category') {
+                        $this->validateCategory($value);
+                    } else {
+                        $this->validateAttributeOption($attrCode, $value);
+                    }
+
+                    $product[$attrCode] = trim($value) ?: null;
+                }
+            }
+            $product['description'] = $product['short_description'];
+
+            if (!empty($parentSku)) {
+                if (isset($confProducts[$parentSku])) {
+                    $confProducts[$parentSku]['_super_products_sku'][] = $product['sku'];
+                } else {
+                    $confProducts[$parentSku]['_super_products_sku'] = array($product['sku']);
+                }
+
+                if (!isset($confProducts[$parentSku]['_super_attribute_code'])) {
+                    $confProducts[$parentSku]['_super_attribute_code'] = array();
+                }
+
+                if (!isset($confProducts[$parentSku]['_super_attribute_option'])) {
+                    $confProducts[$parentSku]['_super_attribute_option'] = array();
+                }
+
+                foreach ($configurableAttrs as $attr) {
+                    if (!isset($attrOptions[$parentSku])) {
+                        $attrOptions[$parentSku] = array();
+                    }
+                    if (!isset($attrOptions[$parentSku][$attr])) {
+                        $attrOptions[$parentSku][$attr] = array();
+                    }
+                    if (!in_array($product[$attr], $attrOptions[$parentSku][$attr])) {
+                        $confProducts[$parentSku]['_super_attribute_code'][] = $attr;
+                        $confProducts[$parentSku]['_super_attribute_option'][] = $product[$attr];
+                        $attrOptions[$parentSku][$attr][] = $product[$attr];
+                    }
+                }
+                $simpleProducts[] = $product;
+            } else {
+                $confProducts[$product['sku']] = $product;
+            }
+        }
+
+        return array_merge($simpleProducts, array_values($confProducts));
+    }
+
+    protected function validateConfigurableAttributes($firstRow)
+    {
+        $configurableAttrs = array();
+        $unknownAttrs = array();
+        foreach ($firstRow as $attr)
+        {
+            $attr = strtolower(trim($attr));
+            if (empty($attr)) continue;
+            if (isset($this->attributeCodes[$attr])) {
+                $configurableAttrs[] = $this->attributeCodes[$attr];
+            } else {
+                $unknownAttrs[] = $attr;
+            }
+        }
+
+        if (!empty($unknownAttrs)) {
+            Mage::throwException(sprintf("Configurable attribute [%s] does not exist in import data", implode(',', $unknownAttrs)));
+        } else {
+            return $configurableAttrs;
+        }
     }
 
     protected function done()
