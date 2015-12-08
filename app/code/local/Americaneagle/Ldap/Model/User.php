@@ -136,11 +136,17 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
     }
 
     public function getUsername() {
-        if (parent::getUsername() == 'AE') {
+        if (parent::getUsername() == 'AE' && !$this->getUserSave()) {
             $internalName = Mage::getSingleton('admin/session')->getInternalName();
             return parent::getUsername().($internalName != ""?" (".$internalName.")":"");
         } else {
             return parent::getUsername();
         }
+    }
+
+    protected function _beforeSave()
+    {
+        $this->setUserSave(true);
+        return parent::_beforeSave();
     }
 }
