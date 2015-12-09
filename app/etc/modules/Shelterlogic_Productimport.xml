@@ -4,6 +4,9 @@
         <Shelterlogic_Productimport>
             <active>true</active>
             <codePool>local</codePool>
+            <depends>
+                <AvS_FastSimpleImport/>
+            </depends>
         </Shelterlogic_Productimport>
     </modules>
 </config>
