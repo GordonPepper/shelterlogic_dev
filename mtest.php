@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'findDuplicateSku',
     'warehouseDistance',
     'categoryImages',
 	'fillUrlKey',
@@ -88,7 +89,7 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 function warehouseDistance(){
     global $html;
     $helper = Mage::helper('americaneagle_totalogistix');
-    $list = $helper->getDistanceOrderedWarehouses('94116');
+    //$list = $helper->getDistanceOrderedWarehouses('94116');
 }
 
 function fillUrlKey() {
@@ -130,6 +131,26 @@ function categoryImages() {
         $html->para(sprintf('found catid %d, name: %s with image %s', $cat->getId(), $cat->getName(), $cat->getImage()));
     }
 
+}
+
+function findDuplicateSku(){
+    global $html;
+    $file = new CsvReader('/media/sf_Magento/SL_Product Data_6.csv',',', true);
+    $skus = array();
+    while($file->nextRow()) {
+        if(isset($skus[$file->item('SKU')]) ) {
+            $skus[$file->item('SKU')]++;
+        } else {
+            $skus[$file->item("SKU")] = 1;
+        }
+    }
+    $file->close();
+    foreach ($skus as $sku => $count) {
+        if($count > 1){
+            $html->para(sprintf('found duplicate sku: %s', $sku));
+        }
+
+    }
 }
 
 function toggleBaseUrl() {
