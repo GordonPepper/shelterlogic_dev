@@ -131,7 +131,7 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
         }
     }
 
-    protected function validateCategory($path)
+    public function validateCategory($path)
     {
         $path = trim($path, '/');
         if (!$path) return;
@@ -146,8 +146,9 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
                 'description' => '',
                 'is_active' => 'yes',
                 'include_in_menu' => 'yes',
-                'available_sort_by' => 'position',
-                'default_sort_by' => 'position',
+                'available_sort_by' => null,
+                'default_sort_by' => null,
+                'is_anchor' => 'yes',
             )));
             echo "DONE\n";
             $this->categoryPaths[] = $path;
