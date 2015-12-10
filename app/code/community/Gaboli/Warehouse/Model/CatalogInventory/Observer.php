@@ -31,7 +31,8 @@ class Gaboli_Warehouse_Model_CatalogInventory_Observer extends Mage_CatalogInven
         /**
          * Check if product in stock. For composite products check base (parent) item stosk status
          */
-        $stockItem = $quoteItem->getProduct()->getStockItem();
+        $product = $quoteItem->getProduct();
+        $stockItem = $product->getStockItem();
 
         $parentStockItem = false;
         if($quoteItem->getParentItem()) {

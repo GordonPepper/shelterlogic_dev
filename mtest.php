@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'prepImageImport',
     'warehouseDistance',
     'categoryImages',
 	'fillUrlKey',
@@ -84,6 +85,7 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->endBody()->endHtml();
 	exit;
 }
+
 
 function warehouseDistance(){
     global $html;
@@ -1130,6 +1132,53 @@ function processImport() {
 
 }
 
+function prepImageImport() {
+    global $html;
+
+    $rows = array();
+
+    $ssImages = fopen('/media/sf_Magento/FarmBuildings/ssImages.csv', "r");
+    $ssDiagrams = fopen('/media/sf_Magento/FarmBuildings/ssManuals.csv', 'r');
+
+    $header = fgetcsv($ssImages, 0, ',');
+    $header = fgetcsv($ssDiagrams, 0, ',');
+
+    while(($row = fgetcsv($ssImages, 0, ',')) !== FALSE){
+        $sku = array_shift($row);
+        if(isset($rows[$sku])){
+            $html->para(sprintf('duplicate sku seen: %s overwritting previous row', $sku));
+        }
+        $rows[$sku] = array();
+        $rows[$sku][] = $sku;
+        $rows[$sku][] = array_shift($row);
+        $extra = array();
+        foreach ($row as $item) {
+            $extra[] = $item;
+        }
+        $rows[$sku][] = implode("\n", array_filter($extra));
+    }
+    while(($row = fgetcsv($ssDiagrams, 0, ',')) !== FALSE){
+        $sku = array_shift($row);
+        if(!isset($rows[$sku])){
+            $html->para(sprintf('new sku for manuals: %s', $sku));
+            $rows[$sku] = array();
+            $rows[$sku][] = $sku;
+            $rows[$sku][] = '';
+            $rows[$sku][] = '';
+        }
+        $rows[$sku][] = array_shift($row);
+    }
+
+    fclose($ssImages);
+    fclose($ssDiagrams);
+
+    $writer = new CsvWriter('combined.csv', ',');
+    $writer->appendRow(array('sku','scene7_main','scene7_addition','scene7_manual' ));
+    foreach ($rows as $row) {
+        $writer->appendRow($row);
+    }
+    $writer->closeOutput();
+}
 
 class CsvReader {
 	private $fileName;
