@@ -27,8 +27,9 @@
 /**
  * Product view template
  *
- * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Catalog_Block_Product_View $this
  * @see Mage_Review_Block_Product_View
+ * @var Mage_Catalog_Helper_Output $_helper
  */
 ?>
 <?php $_helper = $this->helper('catalog/output'); ?>
@@ -224,8 +225,8 @@
         <div class="product-features-benefits">
             <div class="head">
                 <div class="mod">
-                    <h3>Features & Benefits</h3>
-                    <p><strong>Big Quality Features. Value Priced. Learn more about Shed-in-a-Box<sup>&reg;</sup>.</strong></p>
+                    <h3><?php echo $_helper->productAttribute($_product, $this->getMarketingTitle(), 'marketing_block_title') ?></h3>
+                    <p><strong><?php echo $_helper->productAttribute($_product, $this->getMarketingDescription(), 'marketing_block_description') ?></strong></p>
                 </div>
             </div>
             <div class="cmlla">

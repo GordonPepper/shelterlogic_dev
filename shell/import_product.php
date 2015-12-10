@@ -64,6 +64,9 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
             "storage bag" => "storage_bag",
             "hardware kit" => "hardware_kit",
             "cords of wood" => "cords_of_wood",
+// TODO: uncomment these after get exact columns name
+//            "???" => "marketing_block_title",
+//            "???" => "marketing_block_description",
         );
         $this->eavSetup = Mage::getSingleton('eav/entity_setup', 'core_setup');
         $this->import = Mage::getModel('fastsimpleimport/import');
