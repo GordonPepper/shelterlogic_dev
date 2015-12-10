@@ -73,6 +73,13 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
         return $result;
     }
 
+    /**
+     * Authenticate user name and password with LDAP
+     *
+     * @param $username
+     * @param $password
+     * @return string
+     */
     public function authenticateLdap($username, $password)
     {
         // connect to ldap server
@@ -104,6 +111,9 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
 
     }
 
+    /**
+     * Create the internal AE admin user
+     */
     public function createAEAdmin() {
 
         $user = Mage::getModel("admin/user");
@@ -135,12 +145,38 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
         }
     }
 
+    /**
+     * @return string
+     */
     public function getUsername() {
-        if (parent::getUsername() == 'AE') {
+        if (parent::getUsername() == 'AE' && !$this->getUserSave()) {
             $internalName = Mage::getSingleton('admin/session')->getInternalName();
             return parent::getUsername().($internalName != ""?" (".$internalName.")":"");
         } else {
             return parent::getUsername();
+        }
+    }
+
+    /**
+     * @return Mage_Admin_Model_User
+     */
+    protected function _beforeSave()
+    {
+        $this->setUserSave(true);
+        return parent::_beforeSave();
+    }
+
+    /**
+     * @return $this
+     * @throws Exception
+     */
+    public function delete()
+    {
+        $user = $this->load($this->getId());
+        if (substr($user->getUsername(), 0, 2) == 'AE') {
+            Mage::throwException(Mage::helper('adminhtml')->__('Internal AE user deletion is prohibited.'));
+        } else {
+            return parent::delete();
         }
     }
 }

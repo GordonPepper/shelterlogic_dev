@@ -154,4 +154,39 @@ class Gaboli_Warehouse_Block_Adminhtml_Catalog_Product_Edit_Warehouse
     {
         $this->globalInventory = Mage::getModel('gaboli_warehouse/stock')->getGlobalInventory($productId);
     }
+
+    /**
+     * @return mixed
+     */
+    public function isReadonly()
+    {
+        return Mage::registry('product')->getInventoryReadonly();
+    }
+    public function isNew()
+    {
+        if (Mage::registry('product')->getId()) {
+            return false;
+        }
+        return true;
+    }
+    public function getConfigFieldValue($field)
+    {
+        if (Mage::registry('product')->getStockItem()) {
+            if (Mage::registry('product')->getStockItem()->getData('use_config_' . $field) == 0) {
+                return Mage::registry('product')->getStockItem()->getData($field);
+            }
+        }
+
+        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+    }
+    public function getFieldValue($field)
+    {
+        if (Mage::registry('product')->getStockItem()) {
+            return Mage::registry('product')->getStockItem()->getDataUsingMethod($field);
+        }
+
+        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+    }
+
+
 }
