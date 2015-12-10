@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Shelterlogic_Productimport>
-            <version>0.1.0</version>
+            <version>0.1.3</version>
         </Shelterlogic_Productimport>
     </modules>
     <global>
@@ -34,4 +34,12 @@
             </import_product_types>
         </importexport>
     </global>
+    <default>
+        <shelterlogic>
+            <product_detail>
+                <marketing_title><![CDATA[Features & Benefits]]></marketing_title>
+                <marketing_description><![CDATA[Big Quality Features. Value Priced. Learn more about Shed-in-a-Box<sup>&reg;</sup>.]]></marketing_description>
+            </product_detail>
+        </shelterlogic>
+    </default>
 </config>

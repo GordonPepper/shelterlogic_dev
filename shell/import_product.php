@@ -64,6 +64,9 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
             "storage bag" => "storage_bag",
             "hardware kit" => "hardware_kit",
             "cords of wood" => "cords_of_wood",
+// TODO: uncomment these after get exact columns name
+//            "???" => "marketing_block_title",
+//            "???" => "marketing_block_description",
         );
         $this->eavSetup = Mage::getSingleton('eav/entity_setup', 'core_setup');
         $this->import = Mage::getModel('fastsimpleimport/import');
@@ -128,7 +131,7 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
         }
     }
 
-    protected function validateCategory($path)
+    public function validateCategory($path)
     {
         $path = trim($path, '/');
         if (!$path) return;
@@ -143,8 +146,9 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
                 'description' => '',
                 'is_active' => 'yes',
                 'include_in_menu' => 'yes',
-                'available_sort_by' => 'position',
-                'default_sort_by' => 'position',
+                'available_sort_by' => null,
+                'default_sort_by' => null,
+                'is_anchor' => 'yes',
             )));
             echo "DONE\n";
             $this->categoryPaths[] = $path;
