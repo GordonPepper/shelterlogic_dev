@@ -1196,7 +1196,9 @@ function prepImageImport() {
     $writer = new CsvWriter('combined.csv', ',');
     $writer->appendRow(array('sku','scene7_main','scene7_addition','scene7_manual' ));
     foreach ($rows as $row) {
-        $writer->appendRow($row);
+        if(Mage::getModel('catalog/product')->loadByAttribute('sku',$row[0])) {
+            $writer->appendRow($row);
+        }
     }
     $writer->closeOutput();
 }
