@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gaboli_Warehouse>
-            <version>1.2</version>
+            <version>1.2.1</version>
         </Gaboli_Warehouse>
     </modules>
     <global>
@@ -140,6 +140,14 @@
                     </gaboli_warehouse_product_collection_apply_limitations_before>
                 </observers>
             </catalog_product_collection_apply_limitations_before>
+            <catalog_product_is_salable_before>
+                <observers>
+                    <gaboli_warehouse>
+                        <class>gaboli_warehouse/observer</class>
+                        <method>catalogProductIsSalableBefore</method>
+                    </gaboli_warehouse>
+                </observers>
+            </catalog_product_is_salable_before>
         </events>
     </frontend>
     <admin>

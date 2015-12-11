@@ -50,6 +50,39 @@ class Gaboli_Warehouse_Model_Stock_Status_Index_Grouped
 
         return $query;
     }
+    public function getManageStockIndexSelectQuery($productIds = false) {
+        $stockTable                    = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stock');
+        $storesTable                   = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stores');
+        $locationsTable                = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/location');
+        $coreCatalogProductEntityTable = Mage::getModel('core/resource')->getTableName('catalog/product');
+        $coreInventoryTable            = Mage::getModel('core/resource')->getTableName('cataloginventory/stock_item');
+        $coreCatalogProductSuperlink   = Mage::getModel('core/resource')->getTableName('catalog/product_super_link');
+
+
+        $q = array();
+        $q[] = "SELECT";
+        $q[] = "  stores.store_id                   AS store_id,";
+        $q[] = "  catalog.entity_id                 AS product_id,";
+        $q[] = "  inventory.manage_stock            AS manage_stock,";
+        $q[] = "  inventory.use_config_manage_stock AS use_config_manage_stock";
+        $q[] = "FROM $stockTable stock";
+        $q[] = "  INNER JOIN $storesTable stores ON stock.location_id = stores.location_id";
+        $q[] = "  INNER JOIN $locationsTable locations ON locations.id = stores.location_id";
+        $q[] = "  INNER JOIN $coreCatalogProductEntityTable catalog ON catalog.entity_id = stock.product_id";
+        $q[] = "  INNER JOIN $coreCatalogProductSuperlink  as link ON catalog.entity_id = link.parent_id";
+        $q[] = "  INNER JOIN $coreInventoryTable inventory ON inventory.product_id = catalog.entity_id";
+        $q[] = "WHERE locations.status = '1'";
+        $q[] = "    AND catalog.type_id = 'grouped'";
+
+        if(is_array($productIds)) {
+            $q[] = '    AND catalog.entity_id IN (' . implode(',', $productIds) . ')';
+        }
+
+        $q[] = 'GROUP BY CONCAT(stores.store_id, "_", stock.product_id)';
+
+        return implode("\n", $q);
+    }
+
 
 
     /**
@@ -93,4 +126,35 @@ class Gaboli_Warehouse_Model_Stock_Status_Index_Grouped
 
         return $query;
     }
+    public function getGlobalManageStockIndexSelectQuery($productIds = false) {
+        $stockTable                    = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stock');
+        $locationsTable                = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/location');
+        $coreCatalogProductEntityTable = Mage::getModel('core/resource')->getTableName('catalog/product');
+        $coreInventoryTable            = Mage::getModel('core/resource')->getTableName('cataloginventory/stock_item');
+        $coreCatalogProductSuperlink   = Mage::getModel('core/resource')->getTableName('catalog/product_super_link');
+
+
+        $q = array();
+        $q[] = "SELECT";
+        $q[] = "  0 AS store_id,";
+        $q[] = "  catalog.entity_id                 AS product_id,";
+        $q[] = "  inventory.manage_stock            AS manage_stock,";
+        $q[] = "  inventory.use_config_manage_stock AS use_config_manage_stock";
+        $q[] = "FROM $stockTable stock";
+        $q[] = "  INNER JOIN $locationsTable locations ON stock.location_id = locations.id";
+        $q[] = "  INNER JOIN $coreCatalogProductEntityTable catalog ON catalog.entity_id = stock.product_id";
+        $q[] = "  INNER JOIN $coreCatalogProductSuperlink link ON catalog.entity_id = link.parent_id";
+        $q[] = "  INNER JOIN $coreInventoryTable inventory ON inventory.product_id = catalog.entity_id";
+        $q[] = "WHERE locations.status = '1'";
+        $q[] = "    AND catalog.type_id = 'grouped'";
+
+        if(is_array($productIds)) {
+            $q[] = '    AND catalog.entity_id IN (' . implode(',', $productIds) . ')';
+        }
+
+        $q[] = 'GROUP BY catalog.entity_id';
+
+        return implode("\n", $q);
+    }
+
 }
