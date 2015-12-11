@@ -146,11 +146,11 @@
             <general>
                 <enabled>1</enabled>
                 <same_category>0</same_category>
-                <products_to_display>3</products_to_display>
-                <process_orders>complete</process_orders>
+                <products_to_display>4</products_to_display>
+                <process_orders>complete,pending,processing</process_orders>
             </general>
             <checkout_block>
-                <enabled>0</enabled>
+                <enabled>1</enabled>
             </checkout_block>
         </relatedproducts>
     </default>
