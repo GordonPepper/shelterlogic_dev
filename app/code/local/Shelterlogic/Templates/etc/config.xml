@@ -36,5 +36,10 @@
                 <class>Shelterlogic_Templates_Block</class>
             </shelterlogic_templates>
         </blocks>
+        <helpers>
+            <shelterlogic_templates>
+                <class>Shelterlogic_Templates_Helper</class>
+            </shelterlogic_templates>
+        </helpers>
     </global>
 </config>

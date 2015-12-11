@@ -129,7 +129,7 @@
                         <?php if($_product->isSaleable() && !$_product->canConfigure()): ?>
                             <div class="product-east">
                                 <?php echo $this->getPriceHtml($_product, true) ?>
-                                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                             </div>
                         <?php endif; ?>
                         <div class="product-west">
