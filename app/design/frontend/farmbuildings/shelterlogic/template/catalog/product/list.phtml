@@ -129,7 +129,7 @@
                         <?php if($_product->isSaleable() && !$_product->canConfigure()): ?>
                             <div class="product-east">
                                 <?php echo $this->getPriceHtml($_product, true) ?>
-                                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                             </div>
                         <?php endif; ?>
                         <div class="product-west">
@@ -159,7 +159,13 @@
                         </div>
     */ ?>
                     </div>
-                    <div class="fa wishlist-toggle" title="Wishlist"><span class="visuallyHidden">Wishlist: Add or Remove</span></div>
+                    <div class="fa wishlist-toggle" title="Add to wishlist"
+                         id="wishlist-toggle-<?php echo $_product->getId() ?>"
+                         data-id="<?php echo $_product->getId() ?>"
+                         data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_product) ?>"
+                        >
+                        <span class="visuallyHidden">Wishlist: Add or Remove</span>
+                    </div>
                 </a>
             </li>
             <?php /*if ($i%$_columnCount==0 || $i==$_collectionSize): ?>

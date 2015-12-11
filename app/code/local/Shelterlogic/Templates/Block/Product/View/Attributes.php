@@ -1,6 +1,8 @@
 <?php
 class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_Block_Product_View_Attributes
 {
+    protected $urlAttributes = array('scene7_manual', 'video_url');
+
     public function getAdditionalData(array $excludeAttr = array())
     {
         $data = array();
@@ -8,8 +10,8 @@ class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
             /** @var Mage_Catalog_Model_Entity_Attribute $attribute */
-            if ($attribute->getIsVisibleOnFront() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
-                $attrCode = $attribute->getAttributeCode();
+            $attrCode = $attribute->getAttributeCode();
+            if ($attribute->getIsVisibleOnFront() && !in_array($attrCode, $excludeAttr)) {
                 if ($attribute->getSource() instanceof Mage_Eav_Model_Entity_Attribute_Source_Boolean) {
                     if (!$product->hasData($attrCode)) continue;
                 } elseif (!$product->getData($attrCode)) {
@@ -24,14 +26,19 @@ class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_
                 }
 
                 if (is_string($value) && strlen($value)) {
-                    $data[$attribute->getAttributeCode()] = array(
+                    $data[$attrCode] = array(
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'code'  => $attribute->getAttributeCode()
+                        'code'  => $attrCode
                     );
                 }
             }
         }
         return $data;
+    }
+
+    public function isUrlAttribute($attrCode)
+    {
+        return in_array($attrCode, $this->urlAttributes);
     }
 }
