@@ -173,13 +173,9 @@
         <div class="section-title"><h3>Calculate Shipping</h3></div>
         <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     </div>
-    <?php echo $this->getChildHtml('crosssell') ?>
+
 </div>
 
 <div class="oap-mod">
-
-    <div class="section-title"><h3>Others Also Purchased</h3></div>
-
-    <p>MODULE :: Others Also Purchased ::</p>
-
+    <?php echo $this->getChildHtml('crosssell') ?>
 </div>
