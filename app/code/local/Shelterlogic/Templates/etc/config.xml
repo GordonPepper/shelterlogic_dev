@@ -42,4 +42,12 @@
             </shelterlogic_templates>
         </helpers>
     </global>
+    <default>
+        <shelterlogic>
+            <product_detail>
+                <marketing_title><![CDATA[Features & Benefits]]></marketing_title>
+                <marketing_description><![CDATA[Big Quality Features. Value Priced. Learn more about Shed-in-a-Box<sup>&reg;</sup>.]]></marketing_description>
+            </product_detail>
+        </shelterlogic>
+    </default>
 </config>

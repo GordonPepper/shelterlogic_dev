@@ -27,6 +27,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </marketing_description>
+                        <clearance_cat_id>
+                            <label>On Clearance Category ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </clearance_cat_id>
+                        <featured_cat_id>
+                            <label>Featured Category ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </featured_cat_id>
                     </fields>
                 </product_detail>
             </groups>
