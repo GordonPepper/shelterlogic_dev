@@ -10,5 +10,8 @@
         <reference name="product_list_toolbar">
             <action method="disableViewSwitcher" />
         </reference>
+        <reference name="before_body_end">
+            <block type="shelterlogic_wishlist/js" name="shelterlogic.wishlist" template="wishlist/js.phtml"/>
+        </reference>
     </catalog_category_layered>
 </layout>

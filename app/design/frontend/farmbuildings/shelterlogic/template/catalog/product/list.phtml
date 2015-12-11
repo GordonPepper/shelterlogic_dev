@@ -159,7 +159,13 @@
                         </div>
     */ ?>
                     </div>
-                    <div class="fa wishlist-toggle" title="Wishlist"><span class="visuallyHidden">Wishlist: Add or Remove</span></div>
+                    <div class="fa wishlist-toggle" title="Add to wishlist"
+                         id="wishlist-toggle-<?php echo $_product->getId() ?>"
+                         data-id="<?php echo $_product->getId() ?>"
+                         data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_product) ?>"
+                        >
+                        <span class="visuallyHidden">Wishlist: Add or Remove</span>
+                    </div>
                 </a>
             </li>
             <?php /*if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
