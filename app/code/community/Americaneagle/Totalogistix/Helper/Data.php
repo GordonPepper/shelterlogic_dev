@@ -23,7 +23,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         $this->req = $request;
         $cartcs = $this->getCartChecksum();
         $sess = Mage::getSingleton('core/session');
-        if ($sess->getTlxPriceSheet()
+        if (false && $sess->getTlxPriceSheet()
             && $sess->getTlxPriceSheet()['hash'] == $cartcs
             && $sess->getTlxPriceSheet()['sheet']
             && isset($sess->getTlxPriceSheet()['expires'])
@@ -35,8 +35,20 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             foreach ($request->getAllItems() as $item) {
                 if ($item->getProductType() == 'simple') {
                     $xitem = $xItems->addChild('Item');
-                    $xitem->addChild('Class', $item->getProduct()->load($item->getProduct()->getId())->getClass());
-                    $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
+                    $xitem->addChild('Class', $item->getProduct()->getClass());
+                    if($item->getProduct()->getTlxShipLtl()) {
+                        $xitem->addChild('Length', $item->getProduct()->getTlxShipLength());
+                        $xitem->addChild('Width', $item->getProduct()->getTlxShipWidth());
+                        $xitem->addChild('Height', $item->getProduct()->getTlxShipHeight());
+                        if($item->getProduct()->getTlxPalletWeight()) {
+                            $xitem->addChild('Weight', intval(($item->getWeight() + $item->getProduct()->getTlxPalletWeight()) * $item->getQty()));
+                        } else {
+                            $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
+                        }
+                    } else {
+                        $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
+
+                    }
                 }
             }
 

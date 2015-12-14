@@ -14,6 +14,7 @@ class Shelterlogic_Productimport_Model_Import_Simple extends AvS_FastSimpleImpor
         $this->_forcedAttributesCodes[] = 'tlx_ship_height';
         $this->_forcedAttributesCodes[] = 'tlx_ship_length';
         $this->_forcedAttributesCodes[] = 'tlx_ship_width';
+        $this->_forcedAttributesCodes[] = 'class';
         return parent::_initAttributes();
     }
 }
