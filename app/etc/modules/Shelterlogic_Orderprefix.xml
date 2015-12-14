@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Shelterlogic_Orderprefix>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Shelterlogic_Orderprefix>
+    </modules>
+</config>
