@@ -279,4 +279,13 @@ class Gaboli_Warehouse_Model_Observer
         }
     }
 
+    public function catalogProductIsSalableBefore($event) {
+        $stockItem = $event->getProduct()->getStockItem();
+        $product = $event->getProduct();
+
+        if(!$stockItem->getManageStock()){
+            $product->setIsSalable(true);
+        }
+    }
+
 }

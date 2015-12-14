@@ -31,6 +31,8 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'prepImageImport',
+    'findDuplicateSku',
     'warehouseDistance',
     'categoryImages',
 	'fillUrlKey',
@@ -85,10 +87,11 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+
 function warehouseDistance(){
     global $html;
     $helper = Mage::helper('americaneagle_totalogistix');
-    $list = $helper->getDistanceOrderedWarehouses('94116');
+    //$list = $helper->getDistanceOrderedWarehouses('94116');
 }
 
 function fillUrlKey() {
@@ -130,6 +133,26 @@ function categoryImages() {
         $html->para(sprintf('found catid %d, name: %s with image %s', $cat->getId(), $cat->getName(), $cat->getImage()));
     }
 
+}
+
+function findDuplicateSku(){
+    global $html;
+    $file = new CsvReader('/media/sf_Magento/SL_Product Data_6.csv',',', true);
+    $skus = array();
+    while($file->nextRow()) {
+        if(isset($skus[$file->item('SKU')]) ) {
+            $skus[$file->item('SKU')]++;
+        } else {
+            $skus[$file->item("SKU")] = 1;
+        }
+    }
+    $file->close();
+    foreach ($skus as $sku => $count) {
+        if($count > 1){
+            $html->para(sprintf('found duplicate sku: %s', $sku));
+        }
+
+    }
 }
 
 function toggleBaseUrl() {
@@ -1130,6 +1153,55 @@ function processImport() {
 
 }
 
+function prepImageImport() {
+    global $html;
+
+    $rows = array();
+
+    $ssImages = fopen('/media/sf_Magento/FarmBuildings/ssImages.csv', "r");
+    $ssDiagrams = fopen('/media/sf_Magento/FarmBuildings/ssManuals.csv', 'r');
+
+    $header = fgetcsv($ssImages, 0, ',');
+    $header = fgetcsv($ssDiagrams, 0, ',');
+
+    while(($row = fgetcsv($ssImages, 0, ',')) !== FALSE){
+        $sku = array_shift($row);
+        if(isset($rows[$sku])){
+            $html->para(sprintf('duplicate sku seen: %s overwritting previous row', $sku));
+        }
+        $rows[$sku] = array();
+        $rows[$sku][] = $sku;
+        $rows[$sku][] = array_shift($row);
+        $extra = array();
+        foreach ($row as $item) {
+            $extra[] = $item;
+        }
+        $rows[$sku][] = implode("\n", array_filter($extra));
+    }
+    while(($row = fgetcsv($ssDiagrams, 0, ',')) !== FALSE){
+        $sku = array_shift($row);
+        if(!isset($rows[$sku])){
+            $html->para(sprintf('new sku for manuals: %s', $sku));
+            $rows[$sku] = array();
+            $rows[$sku][] = $sku;
+            $rows[$sku][] = '';
+            $rows[$sku][] = '';
+        }
+        $rows[$sku][] = array_shift($row);
+    }
+
+    fclose($ssImages);
+    fclose($ssDiagrams);
+
+    $writer = new CsvWriter('combined.csv', ',');
+    $writer->appendRow(array('sku','scene7_main','scene7_addition','scene7_manual' ));
+    foreach ($rows as $row) {
+        if(Mage::getModel('catalog/product')->loadByAttribute('sku',$row[0])) {
+            $writer->appendRow($row);
+        }
+    }
+    $writer->closeOutput();
+}
 
 class CsvReader {
 	private $fileName;

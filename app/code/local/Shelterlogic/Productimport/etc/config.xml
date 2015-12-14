@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Shelterlogic_Productimport>
-            <version>0.1.0</version>
+            <version>0.1.4</version>
         </Shelterlogic_Productimport>
     </modules>
     <global>
@@ -28,5 +28,10 @@
                 </setup>
             </productimport_setup>
         </resources>
+        <importexport>
+            <import_product_types>
+                <simple>productimport/import_simple</simple>
+            </import_product_types>
+        </importexport>
     </global>
 </config>

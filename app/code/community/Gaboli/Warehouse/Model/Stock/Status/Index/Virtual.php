@@ -47,6 +47,37 @@ class Gaboli_Warehouse_Model_Stock_Status_Index_Virtual
 
         return $query;
     }
+    public function getManageStockIndexSelectQuery($productIds = false) {
+        $stockTable                    = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stock');
+        $storesTable                   = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stores');
+        $locationsTable                = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/location');
+        $coreCatalogProductEntityTable = Mage::getModel('core/resource')->getTableName('catalog/product');
+        $coreInventoryTable            = Mage::getModel('core/resource')->getTableName('cataloginventory/stock_item');
+
+
+        $q = array();
+        $q[] = "SELECT";
+        $q[] = "  stores.store_id                   AS store_id,";
+        $q[] = "  catalog.entity_id                 AS product_id,";
+        $q[] = "  inventory.manage_stock            AS manage_stock,";
+        $q[] = "  inventory.use_config_manage_stock AS use_config_manage_stock";
+        $q[] = "FROM $stockTable stock";
+        $q[] = "  INNER JOIN $storesTable stores ON stock.location_id = stores.location_id";
+        $q[] = "  INNER JOIN $locationsTable locations ON locations.id = stores.location_id";
+        $q[] = "  INNER JOIN $coreCatalogProductEntityTable catalog ON catalog.entity_id = stock.product_id";
+        $q[] = "  INNER JOIN $coreInventoryTable inventory ON inventory.product_id = catalog.entity_id";
+        $q[] = "WHERE locations.status = '1'";
+        $q[] = "    AND catalog.type_id = 'virtual'";
+
+        if(is_array($productIds)) {
+            $q[] = '    AND stock.product_id IN (' . implode(',', $productIds) . ')';
+        }
+
+        $q[] = 'GROUP BY CONCAT(stores.store_id, "_", stock.product_id)';
+
+        return implode("\n", $q);
+    }
+
 
     /**
      * A select query to retrieve the global stock status index data of simple products.
@@ -86,6 +117,35 @@ class Gaboli_Warehouse_Model_Stock_Status_Index_Virtual
 
         return $query;
     }
+    public function getGlobalManageStockIndexSelectQuery($productIds = false) {
+        $stockTable                    = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stock');
+        $locationsTable                = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/location');
+        $coreCatalogProductEntityTable = Mage::getModel('core/resource')->getTableName('catalog/product');
+        $coreInventoryTable            = Mage::getModel('core/resource')->getTableName('cataloginventory/stock_item');
+
+
+        $q = array();
+        $q[] = "SELECT";
+        $q[] = "  0 AS store_id,";
+        $q[] = "  catalog.entity_id                 AS product_id,";
+        $q[] = "  inventory.manage_stock            AS manage_stock,";
+        $q[] = "  inventory.use_config_manage_stock AS use_config_manage_stock";
+        $q[] = "FROM $stockTable stock";
+        $q[] = "  INNER JOIN $locationsTable locations ON locations.id = stock.location_id";
+        $q[] = "  INNER JOIN $coreCatalogProductEntityTable catalog ON catalog.entity_id = stock.product_id";
+        $q[] = "  INNER JOIN $coreInventoryTable inventory ON inventory.product_id = catalog.entity_id";
+        $q[] = "WHERE locations.status = '1'";
+        $q[] = "    AND catalog.type_id = 'virtual'";
+
+        if(is_array($productIds)) {
+            $q[] = '    AND catalog.entity_id IN (' . implode(',', $productIds) . ')';
+        }
+
+        $q[] = 'GROUP BY catalog.entity_id';
+
+        return implode("\n", $q);
+    }
+
 }
 
-?>
+

@@ -45,6 +45,9 @@ class Gaboli_Warehouse_Model_Stock_Status_Index
 
         //Update core stock item table
         $this->getResource()->updateCoreStockItem($productIds);
+
+        // AE add manage stock value to the index table
+        $this->getResource()->updateManageStockIndex($productIds);
     }
 
 
