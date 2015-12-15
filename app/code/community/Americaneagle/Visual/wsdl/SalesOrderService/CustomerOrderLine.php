@@ -206,6 +206,11 @@ class CustomerOrderLine extends ExternalReference
     protected $UserDefinedValues = null;
 
     /**
+     * @var ArrayOfUDFValue $UDFValues
+     */
+    protected $UDFValues = null;
+
+    /**
      * @var boolean $AutoAllocateInventory
      */
     protected $AutoAllocateInventory = null;
@@ -967,6 +972,24 @@ class CustomerOrderLine extends ExternalReference
     public function setUserDefinedValues($UserDefinedValues)
     {
       $this->UserDefinedValues = $UserDefinedValues;
+      return $this;
+    }
+
+    /**
+     * @return ArrayOfUDFValue
+     */
+    public function getUDFValues()
+    {
+      return $this->UDFValues;
+    }
+
+    /**
+     * @param ArrayOfUDFValue $UDFValues
+     * @return \Visual\SalesOrderService\CustomerOrderLine
+     */
+    public function setUDFValues($UDFValues)
+    {
+      $this->UDFValues = $UDFValues;
       return $this;
     }
 

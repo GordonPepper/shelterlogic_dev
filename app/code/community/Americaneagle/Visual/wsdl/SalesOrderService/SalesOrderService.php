@@ -31,6 +31,8 @@ class SalesOrderService extends \SoapClient
       'ArrayOfUserDefinedFieldValue' => 'Visual\\SalesOrderService\\ArrayOfUserDefinedFieldValue',
       'UserDefinedFieldValue' => 'Visual\\SalesOrderService\\UserDefinedFieldValue',
       'UserDefinedFieldLabel' => 'Visual\\SalesOrderService\\UserDefinedFieldLabel',
+      'ArrayOfUDFValue' => 'Visual\\SalesOrderService\\ArrayOfUDFValue',
+      'UDFValue' => 'Visual\\SalesOrderService\\UDFValue',
       'ArrayOfCustomerOrderLine' => 'Visual\\SalesOrderService\\ArrayOfCustomerOrderLine',
       'CreateSalesOrderResponse' => 'Visual\\SalesOrderService\\CreateSalesOrderResponse',
       'CustomerOrderDataResponse' => 'Visual\\SalesOrderService\\CustomerOrderDataResponse',
@@ -46,6 +48,8 @@ class SalesOrderService extends \SoapClient
       'SampleEDIOrderResponse' => 'Visual\\SalesOrderService\\SampleEDIOrderResponse',
       'SampleOrderCD65' => 'Visual\\SalesOrderService\\SampleOrderCD65',
       'SampleOrderCD65Response' => 'Visual\\SalesOrderService\\SampleOrderCD65Response',
+      'SampleCUDFOrder' => 'Visual\\SalesOrderService\\SampleCUDFOrder',
+      'SampleCUDFOrderResponse' => 'Visual\\SalesOrderService\\SampleCUDFOrderResponse',
       'CreateSampleOrder' => 'Visual\\SalesOrderService\\CreateSampleOrder',
       'CreateSampleOrderResponse' => 'Visual\\SalesOrderService\\CreateSampleOrderResponse',
       'TestSetPrintedDate' => 'Visual\\SalesOrderService\\TestSetPrintedDate',
@@ -164,6 +168,15 @@ class SalesOrderService extends \SoapClient
     public function SampleOrderCD65(SampleOrderCD65 $parameters)
     {
       return $this->__soapCall('SampleOrderCD65', array($parameters));
+    }
+
+    /**
+     * @param SampleCUDFOrder $parameters
+     * @return SampleCUDFOrderResponse
+     */
+    public function SampleCUDFOrder(SampleCUDFOrder $parameters)
+    {
+      return $this->__soapCall('SampleCUDFOrder', array($parameters));
     }
 
     /**

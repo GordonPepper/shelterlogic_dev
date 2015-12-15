@@ -296,6 +296,26 @@ class Customer extends ExternalReference
     protected $ActiveFlag = null;
 
     /**
+     * @var \DateTime $AccountModify
+     */
+    protected $AccountModify = null;
+
+    /**
+     * @var string $PriceGroup
+     */
+    protected $PriceGroup = null;
+
+    /**
+     * @var string $CustomerType
+     */
+    protected $CustomerType = null;
+
+    /**
+     * @var float $DiscountPercent
+     */
+    protected $DiscountPercent = null;
+
+    /**
      * @var ArrayOfCustomerAddress $Addresses
      */
     protected $Addresses = null;
@@ -1369,6 +1389,90 @@ class Customer extends ExternalReference
     public function setActiveFlag($ActiveFlag)
     {
       $this->ActiveFlag = $ActiveFlag;
+      return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAccountModify()
+    {
+      if ($this->AccountModify == null) {
+        return null;
+      } else {
+        try {
+          return new \DateTime($this->AccountModify);
+        } catch (\Exception $e) {
+          return false;
+        }
+      }
+    }
+
+    /**
+     * @param \DateTime $AccountModify
+     * @return \Visual\CustomerService\Customer
+     */
+    public function setAccountModify(\DateTime $AccountModify = null)
+    {
+      if ($AccountModify == null) {
+       $this->AccountModify = null;
+      } else {
+        $this->AccountModify = $AccountModify->format(\DateTime::ATOM);
+      }
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPriceGroup()
+    {
+      return $this->PriceGroup;
+    }
+
+    /**
+     * @param string $PriceGroup
+     * @return \Visual\CustomerService\Customer
+     */
+    public function setPriceGroup($PriceGroup)
+    {
+      $this->PriceGroup = $PriceGroup;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerType()
+    {
+      return $this->CustomerType;
+    }
+
+    /**
+     * @param string $CustomerType
+     * @return \Visual\CustomerService\Customer
+     */
+    public function setCustomerType($CustomerType)
+    {
+      $this->CustomerType = $CustomerType;
+      return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountPercent()
+    {
+      return $this->DiscountPercent;
+    }
+
+    /**
+     * @param float $DiscountPercent
+     * @return \Visual\CustomerService\Customer
+     */
+    public function setDiscountPercent($DiscountPercent)
+    {
+      $this->DiscountPercent = $DiscountPercent;
       return $this;
     }
 

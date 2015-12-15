@@ -81,6 +81,10 @@ class CustomerService extends \SoapClient
       'TestUpdateCustomerAddressResponse' => 'Visual\\CustomerService\\TestUpdateCustomerAddressResponse',
       'AddNewAddress' => 'Visual\\CustomerService\\AddNewAddress',
       'AddNewAddressResponse' => 'Visual\\CustomerService\\AddNewAddressResponse',
+      'AddressUseCount' => 'Visual\\CustomerService\\AddressUseCount',
+      'AddressUseCountResponse' => 'Visual\\CustomerService\\AddressUseCountResponse',
+      'TestAddressUseCount' => 'Visual\\CustomerService\\TestAddressUseCount',
+      'TestAddressUseCountResponse' => 'Visual\\CustomerService\\TestAddressUseCountResponse',
       'SearchCustomer' => 'Visual\\CustomerService\\SearchCustomer',
       'SearchCustomerResponse' => 'Visual\\CustomerService\\SearchCustomerResponse',
       'SearchCustomerLike' => 'Visual\\CustomerService\\SearchCustomerLike',
@@ -94,6 +98,18 @@ class CustomerService extends \SoapClient
       'SearchAddressLikeResponse' => 'Visual\\CustomerService\\SearchAddressLikeResponse',
       'TestSearchAdderess' => 'Visual\\CustomerService\\TestSearchAdderess',
       'TestSearchAdderessResponse' => 'Visual\\CustomerService\\TestSearchAdderessResponse',
+      'AvailableCredit' => 'Visual\\CustomerService\\AvailableCredit',
+      'AvailableCreditResponse' => 'Visual\\CustomerService\\AvailableCreditResponse',
+      'TestAvailableCredit' => 'Visual\\CustomerService\\TestAvailableCredit',
+      'TestAvailableCreditResponse' => 'Visual\\CustomerService\\TestAvailableCreditResponse',
+      'TestGetCustomerList' => 'Visual\\CustomerService\\TestGetCustomerList',
+      'TestGetCustomerListResponse' => 'Visual\\CustomerService\\TestGetCustomerListResponse',
+      'CustomerDataResponse' => 'Visual\\CustomerService\\CustomerDataResponse',
+      'BaseDataResponse' => 'Visual\\CustomerService\\BaseDataResponse',
+      'ArrayOfCustomerListItem' => 'Visual\\CustomerService\\ArrayOfCustomerListItem',
+      'CustomerListItem' => 'Visual\\CustomerService\\CustomerListItem',
+      'GetCustomerList' => 'Visual\\CustomerService\\GetCustomerList',
+      'GetCustomerListResponse' => 'Visual\\CustomerService\\GetCustomerListResponse',
       'CurrentVersion' => 'Visual\\CustomerService\\CurrentVersion',
       'CurrentVersionResponse' => 'Visual\\CustomerService\\CurrentVersionResponse',
       'LoginCreds' => 'Visual\\CustomerService\\LoginCreds',
@@ -387,6 +403,24 @@ class CustomerService extends \SoapClient
     }
 
     /**
+     * @param AddressUseCount $parameters
+     * @return AddressUseCountResponse
+     */
+    public function AddressUseCount(AddressUseCount $parameters)
+    {
+      return $this->__soapCall('AddressUseCount', array($parameters));
+    }
+
+    /**
+     * @param TestAddressUseCount $parameters
+     * @return TestAddressUseCountResponse
+     */
+    public function TestAddressUseCount(TestAddressUseCount $parameters)
+    {
+      return $this->__soapCall('TestAddressUseCount', array($parameters));
+    }
+
+    /**
      * @param SearchCustomer $parameters
      * @return SearchCustomerResponse
      */
@@ -438,6 +472,42 @@ class CustomerService extends \SoapClient
     public function TestSearchAdderess(TestSearchAdderess $parameters)
     {
       return $this->__soapCall('TestSearchAdderess', array($parameters));
+    }
+
+    /**
+     * @param AvailableCredit $parameters
+     * @return AvailableCreditResponse
+     */
+    public function AvailableCredit(AvailableCredit $parameters)
+    {
+      return $this->__soapCall('AvailableCredit', array($parameters));
+    }
+
+    /**
+     * @param TestAvailableCredit $parameters
+     * @return TestAvailableCreditResponse
+     */
+    public function TestAvailableCredit(TestAvailableCredit $parameters)
+    {
+      return $this->__soapCall('TestAvailableCredit', array($parameters));
+    }
+
+    /**
+     * @param TestGetCustomerList $parameters
+     * @return TestGetCustomerListResponse
+     */
+    public function TestGetCustomerList(TestGetCustomerList $parameters)
+    {
+      return $this->__soapCall('TestGetCustomerList', array($parameters));
+    }
+
+    /**
+     * @param GetCustomerList $parameters
+     * @return GetCustomerListResponse
+     */
+    public function GetCustomerList(GetCustomerList $parameters)
+    {
+      return $this->__soapCall('GetCustomerList', array($parameters));
     }
 
     /**

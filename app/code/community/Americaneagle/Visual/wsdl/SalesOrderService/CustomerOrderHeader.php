@@ -36,6 +36,11 @@ class CustomerOrderHeader extends ExternalReference
     protected $PromiseShipDate = null;
 
     /**
+     * @var \DateTime $PromiseDeliveryDate
+     */
+    protected $PromiseDeliveryDate = null;
+
+    /**
      * @var string $ShipToID
      */
     protected $ShipToID = null;
@@ -59,6 +64,11 @@ class CustomerOrderHeader extends ExternalReference
      * @var string $CarrierID
      */
     protected $CarrierID = null;
+
+    /**
+     * @var string $ContactID
+     */
+    protected $ContactID = null;
 
     /**
      * @var string $ContactHonorific
@@ -171,6 +181,11 @@ class CustomerOrderHeader extends ExternalReference
     protected $PrintedDate = null;
 
     /**
+     * @var float $TotalAmountOrdered
+     */
+    protected $TotalAmountOrdered = null;
+
+    /**
      * @var string $UserDefined1
      */
     protected $UserDefined1 = null;
@@ -224,6 +239,11 @@ class CustomerOrderHeader extends ExternalReference
      * @var ArrayOfUserDefinedFieldValue $UserDefinedValues
      */
     protected $UserDefinedValues = null;
+
+    /**
+     * @var ArrayOfUDFValue $UDFValues
+     */
+    protected $UDFValues = null;
 
     /**
      * @var ArrayOfCustomerOrderLine $Lines
@@ -381,6 +401,36 @@ class CustomerOrderHeader extends ExternalReference
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getPromiseDeliveryDate()
+    {
+      if ($this->PromiseDeliveryDate == null) {
+        return null;
+      } else {
+        try {
+          return new \DateTime($this->PromiseDeliveryDate);
+        } catch (\Exception $e) {
+          return false;
+        }
+      }
+    }
+
+    /**
+     * @param \DateTime $PromiseDeliveryDate
+     * @return \Visual\SalesOrderService\CustomerOrderHeader
+     */
+    public function setPromiseDeliveryDate(\DateTime $PromiseDeliveryDate = null)
+    {
+      if ($PromiseDeliveryDate == null) {
+       $this->PromiseDeliveryDate = null;
+      } else {
+        $this->PromiseDeliveryDate = $PromiseDeliveryDate->format(\DateTime::ATOM);
+      }
+      return $this;
+    }
+
+    /**
      * @return string
      */
     public function getShipToID()
@@ -467,6 +517,24 @@ class CustomerOrderHeader extends ExternalReference
     public function setCarrierID($CarrierID)
     {
       $this->CarrierID = $CarrierID;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContactID()
+    {
+      return $this->ContactID;
+    }
+
+    /**
+     * @param string $ContactID
+     * @return \Visual\SalesOrderService\CustomerOrderHeader
+     */
+    public function setContactID($ContactID)
+    {
+      $this->ContactID = $ContactID;
       return $this;
     }
 
@@ -879,6 +947,24 @@ class CustomerOrderHeader extends ExternalReference
     }
 
     /**
+     * @return float
+     */
+    public function getTotalAmountOrdered()
+    {
+      return $this->TotalAmountOrdered;
+    }
+
+    /**
+     * @param float $TotalAmountOrdered
+     * @return \Visual\SalesOrderService\CustomerOrderHeader
+     */
+    public function setTotalAmountOrdered($TotalAmountOrdered)
+    {
+      $this->TotalAmountOrdered = $TotalAmountOrdered;
+      return $this;
+    }
+
+    /**
      * @return string
      */
     public function getUserDefined1()
@@ -1073,6 +1159,24 @@ class CustomerOrderHeader extends ExternalReference
     public function setUserDefinedValues($UserDefinedValues)
     {
       $this->UserDefinedValues = $UserDefinedValues;
+      return $this;
+    }
+
+    /**
+     * @return ArrayOfUDFValue
+     */
+    public function getUDFValues()
+    {
+      return $this->UDFValues;
+    }
+
+    /**
+     * @param ArrayOfUDFValue $UDFValues
+     * @return \Visual\SalesOrderService\CustomerOrderHeader
+     */
+    public function setUDFValues($UDFValues)
+    {
+      $this->UDFValues = $UDFValues;
       return $this;
     }
 
