@@ -13,7 +13,7 @@ ini_set('display_errors', true);
 
 require 'app/Mage.php';
 //Mage::setIsDeveloperMode(true);
-//Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /** @var Mage $app */
 $app = Mage::app();
 
@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'findEmptyCategories',
     'prepImageImport',
     'findDuplicateSku',
     'warehouseDistance',
@@ -87,6 +88,37 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function findEmptyCategories() {
+    global $html;
+    /** @var Mage_Catalog_Model_Resource_Category_Collection $categories */
+    $categories = Mage::getModel('catalog/category')->getCollection();
+
+    $categories->addAttributeToSelect('*');
+    $categories->addFieldToFilter('children_count', array('eq' => '0'));
+    $number = $categories->count();
+    $delete = array();
+
+    foreach ($categories as $category) {
+        $name = $category->getName();
+        //$html->para(sprintf('found category: %s', $name));
+
+        /** @var Mage_Catalog_Model_Resource_Product_Collection $pc */
+        $pc = $category->getProductCollection();
+        $pc->addAttributeToSelect('*');
+        $count = $pc->count();
+        if($count == 0) {
+            $html->para(sprintf('category %s (%d) has %d products, marking for deletion', $name, $category->getId(), $count));
+            $delete[] = $category->getId();
+        }
+    }
+    $html->para(sprintf('i have found %d categories to delete', count($delete)));
+    foreach ($delete as $id) {
+        $html->para(sprintf('going to delete category id %d', $id));
+        Mage::getModel('catalog/category')->load($id)->delete();
+        $html->para(sprintf('deleted category id: %d', $id));
+    }
+
+}
 
 function warehouseDistance(){
     global $html;
