@@ -18,7 +18,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Absoluted path to stock data file</comment>
+                            <comment>Absoluted path to stock data file (live: /home/wwwroot/farmbuildings.com/http/var/import/ATPExport.csv)</comment>
                         </filepath>
                         <warehouseid_mapping>
                             <label>Warehouse Id Mapping</label>
