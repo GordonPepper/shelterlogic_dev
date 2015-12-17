@@ -42,7 +42,7 @@ class Americaneagle_Totalogistix_Block_Adminhtml_Catalog_Product_Tab
         ));
 
         $tlxAtts = array();
-        foreach (array('tlx_ship_ltl', 'tlx_ship_length', 'tlx_ship_width', 'tlx_ship_height') as $item) {
+        foreach (array('class', 'tlx_ship_ltl', 'tlx_ship_length', 'tlx_ship_width', 'tlx_ship_height', 'tlx_pallet_weight') as $item) {
             $a = Mage::registry('product')->getAttributes()[$item];
             $a->setIsVisible('1');
             $tlxAtts[] = $a;

@@ -1,0 +1,8 @@
+<div class="product-recommended-items">
+    <ul class="col-grid clearfix">
+        <?php echo $this->renderRecommendedList($this->getBestSellersCollection(),  'Best Sellers') ?>
+        <?php echo $this->renderRecommendedList($this->getWhatsNewCollection(),     'What\'s New' ) ?>
+        <?php echo $this->renderRecommendedList($this->getOnClearanceCollection(),  'On Clearance') ?>
+        <?php echo $this->renderRecommendedList($this->getFeaturedCollection(),     'Featured') ?>
+    </ul>
+</div>

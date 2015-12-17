@@ -13,7 +13,7 @@ ini_set('display_errors', true);
 
 require 'app/Mage.php';
 //Mage::setIsDeveloperMode(true);
-//Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 /** @var Mage $app */
 $app = Mage::app();
 
@@ -31,6 +31,10 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'findEmptyCategories',
+    'prepImageImport',
+    'findDuplicateSku',
+    'warehouseDistance',
     'categoryImages',
 	'fillUrlKey',
 	'processImport',
@@ -84,6 +88,44 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	exit;
 }
 
+function findEmptyCategories() {
+    global $html;
+    /** @var Mage_Catalog_Model_Resource_Category_Collection $categories */
+    $categories = Mage::getModel('catalog/category')->getCollection();
+
+    $categories->addAttributeToSelect('*');
+    $categories->addFieldToFilter('children_count', array('eq' => '0'));
+    $number = $categories->count();
+    $delete = array();
+
+    foreach ($categories as $category) {
+        $name = $category->getName();
+        //$html->para(sprintf('found category: %s', $name));
+
+        /** @var Mage_Catalog_Model_Resource_Product_Collection $pc */
+        $pc = $category->getProductCollection();
+        $pc->addAttributeToSelect('*');
+        $count = $pc->count();
+        if($count == 0) {
+            $html->para(sprintf('category %s (%d) has %d products, marking for deletion', $name, $category->getId(), $count));
+            $delete[] = $category->getId();
+        }
+    }
+    $html->para(sprintf('i have found %d categories to delete', count($delete)));
+    foreach ($delete as $id) {
+        $html->para(sprintf('going to delete category id %d', $id));
+        Mage::getModel('catalog/category')->load($id)->delete();
+        $html->para(sprintf('deleted category id: %d', $id));
+    }
+
+}
+
+function warehouseDistance(){
+    global $html;
+    $helper = Mage::helper('americaneagle_totalogistix');
+    //$list = $helper->getDistanceOrderedWarehouses('94116');
+}
+
 function fillUrlKey() {
 	global $html;
 	/** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
@@ -123,6 +165,26 @@ function categoryImages() {
         $html->para(sprintf('found catid %d, name: %s with image %s', $cat->getId(), $cat->getName(), $cat->getImage()));
     }
 
+}
+
+function findDuplicateSku(){
+    global $html;
+    $file = new CsvReader('/media/sf_Magento/SL_Product Data_6.csv',',', true);
+    $skus = array();
+    while($file->nextRow()) {
+        if(isset($skus[$file->item('SKU')]) ) {
+            $skus[$file->item('SKU')]++;
+        } else {
+            $skus[$file->item("SKU")] = 1;
+        }
+    }
+    $file->close();
+    foreach ($skus as $sku => $count) {
+        if($count > 1){
+            $html->para(sprintf('found duplicate sku: %s', $sku));
+        }
+
+    }
 }
 
 function toggleBaseUrl() {
@@ -1123,6 +1185,55 @@ function processImport() {
 
 }
 
+function prepImageImport() {
+    global $html;
+
+    $rows = array();
+
+    $ssImages = fopen('/media/sf_Magento/FarmBuildings/ssImages.csv', "r");
+    $ssDiagrams = fopen('/media/sf_Magento/FarmBuildings/ssManuals.csv', 'r');
+
+    $header = fgetcsv($ssImages, 0, ',');
+    $header = fgetcsv($ssDiagrams, 0, ',');
+
+    while(($row = fgetcsv($ssImages, 0, ',')) !== FALSE){
+        $sku = array_shift($row);
+        if(isset($rows[$sku])){
+            $html->para(sprintf('duplicate sku seen: %s overwritting previous row', $sku));
+        }
+        $rows[$sku] = array();
+        $rows[$sku][] = $sku;
+        $rows[$sku][] = array_shift($row);
+        $extra = array();
+        foreach ($row as $item) {
+            $extra[] = $item;
+        }
+        $rows[$sku][] = implode("\n", array_filter($extra));
+    }
+    while(($row = fgetcsv($ssDiagrams, 0, ',')) !== FALSE){
+        $sku = array_shift($row);
+        if(!isset($rows[$sku])){
+            $html->para(sprintf('new sku for manuals: %s', $sku));
+            $rows[$sku] = array();
+            $rows[$sku][] = $sku;
+            $rows[$sku][] = '';
+            $rows[$sku][] = '';
+        }
+        $rows[$sku][] = array_shift($row);
+    }
+
+    fclose($ssImages);
+    fclose($ssDiagrams);
+
+    $writer = new CsvWriter('combined.csv', ',');
+    $writer->appendRow(array('sku','scene7_main','scene7_addition','scene7_manual' ));
+    foreach ($rows as $row) {
+        if(Mage::getModel('catalog/product')->loadByAttribute('sku',$row[0])) {
+            $writer->appendRow($row);
+        }
+    }
+    $writer->closeOutput();
+}
 
 class CsvReader {
 	private $fileName;
