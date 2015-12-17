@@ -21,6 +21,8 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_TERRITORY_ID = 'aevisual/general/territory_id';
 	const CONFIG_WAREHOUSE_ID = 'aevisual/general/warehouse_id';
 	const CONFIG_FOB = 'aevisual/general/fob';
+	const CONFIG_GENERAL_GROUP_ID = 'aevisual/general/general_group_id';
+	const CONFIG_EXCLUSIVE_GROUP_ID = 'aevisual/general/exclusive_group_id';
 
 	const CONFIG_SOAPLOG_ENABLE = 'aevisual/logging/soaplog_enable';
 	const CONFIG_SOAPLOG_TTL = 'aevisual/logging/soaplog_ttl';
@@ -78,6 +80,12 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 	public function getFob(){
 		return Mage::getStoreConfig(self::CONFIG_FOB);
+	}
+	public function getGeneralGroupId(){
+		return Mage::getStoreConfig(self::CONFIG_GENERAL_GROUP_ID);
+	}
+	public function getExclusiveGroupId(){
+		return Mage::getStoreConfig(self::CONFIG_EXCLUSIVE_GROUP_ID);
 	}
 	public function stripCarrierCode($code) {
 		$parts = explode('_', $code);

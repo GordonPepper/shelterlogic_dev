@@ -130,23 +130,24 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
         return null;
     }
 
-    public function getNewCustomers($keyword)
+    /**
+     * @param $start
+     * @param $count
+     * @param $startDate
+     * @return null|CustomerService\CustomerDataResponse
+     * @throws Exception
+     */
+    public function getNewCustomers($start, $count, $startDate)
     {
         try {
-            $cust = (new CustomerService\Customer())
-                ->setTerritoryID('WEB')
-                ->setCustomerName("{$keyword}%");
+            $params = new CustomerService\GetCustomerList($this->getConfig()->getSiteId(), "N", $start, $count, null, null, $startDate != null ? "Y" : null, $startDate, null, null, $this->getConfig()->getTerritoryId());
 
-            $custData = (new CustomerService\CustomerData())
-                ->setCustomers(array($cust));
+            $res = $this->customerService->GetCustomerList($params)->getGetCustomerListResult();
+            $this->soapLog($this->customerService, 'CustomerService:GetCustomerList', sprintf('Search for %s', 'Fred%'));
 
-            $req = new CustomerService\SearchCustomerLike($custData);
-
-            $res = $this->customerService->SearchCustomerLike($req);
-            $this->soapLog($this->customerService, 'CustomerService:SearchCustomerLike', sprintf('Search for %s', 'Fred%'));
-            return $res->getSearchCustomerLikeResult()->getCustomers()->getCustomer();
+            return $res;
         } catch (Exception $e) {
-            $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
+            $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:GetCustomerList', sprintf('Exception: %s', $e->getMessage()));
             throw $e;
         }
 

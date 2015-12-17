@@ -65,6 +65,10 @@
                 <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
                 <run><model>americaneagle_visual/task_ordersync::run</model></run>
             </americaneagle_visual_ordersync>
+            <americaneagle_visual_pricesync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_pricesync::run</model></run>
+            </americaneagle_visual_pricesync>
             <americaneagle_visual>
                 <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
                 <run><model>americaneagle_visual/observer::pushOrders</model></run>
@@ -89,6 +93,8 @@
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
                 <fob>WATERTOWN</fob>
+                <general_group_id>1</general_group_id>
+                <exclusive_group_id>4</exclusive_group_id>
             </general>
             <logging>
                 <soaplog>1</soaplog>

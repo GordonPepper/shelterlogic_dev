@@ -17,90 +17,101 @@ class Americaneagle_Visual_Model_Task_Customersync
      * @return string
      * @throws Exception
      */
-    /** @var  Americaneagle_Visual_Helper_Visual vhelper */
-    private $vhelper;
+    /** @var  Americaneagle_Visual_Helper_Customer helper */
+    private $helper;
 
 
     /**
      * @param Aoe_Scheduler_Model_Schedule $schedule
      * @return $this|bool|string
-     * @throws Exception
      */
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
     {
-        if(Mage::helper('americaneagle_visual')->getEnabled() == 0) {
+        $this->helper = Mage::helper('americaneagle_visual/customer');
+
+        if($this->helper->getConfig()->getEnabled() == 0) {
             return $this;
         }
-        $this->vhelper = Mage::helper('americaneagle_visual/visual');
 
         $parameters = $schedule->getParameters();
         $websiteId = 0;
         $store = Mage::getModel('core/store');
+        $pageSize = 1000;
+        $date = new DateTime();
+        $date->sub(new DateInterval('P1D'));
+        $startDate = $date->format('Y-m-d');
+        $startDate = null;//"2013-03-15";
         if ($parameters) {
             $parameters = json_decode($parameters);
             $websiteId = $parameters->website_id;
             $store->load($parameters->store_id);
+            if ($parameters->page_size) {
+                $pageSize = (int)$parameters->page_size;
+            }
+            if ($parameters->skip_date_filter == "Y") {
+                $startDate = null;
+            }
         } else {
             return false;
         }
 
-
-        /*$customerId = Mage::getStoreConfig('aevisual/general/customer_id');
-
-        $resp = $this->vhelper->getVisualCustomerById($customerId);
-        if(empty($resp))
-            return;*/ // helper logs exception
-
-        /*$customerCollection = Mage::getModel('customer/customer')->getCollection()
-            ->addAttributeToSelect(array('visual_customer_id'))
-            ->addAttributeToFilter('website_id', array('eq' => $parameters->website_id));
-
-
-        if($customerCollection->count() == 0){
-            echo 'AE Visual: No customers to push';
-            return;
-        } else {
-            echo $customerCollection->count();
-        }
-
-        foreach($customerCollection as $customer) {
-            $visualId = $customer->getVisualCustomerId();
-            print_r($visualId);
-        }*/
-
-
         $count = 0;
-
-        $letters = range('A', 'Z');
+        $errors = array();
 
         $startTime = microtime(true);
 
-        /*foreach ($letters as $one) {
-            foreach ($letters as $two) {
-                $timePre = microtime(true);
-                $newCustomers = $this->vhelper->getNewCustomers("{$one}{$two}");
-                echo "Q:".$one.$two." Qty:".count($newCustomers)." T:".(microtime(true) - $timePre)."\n";
-                $count += count($newCustomers);
-            }
-        }*/
+        $this->getRecursiveCustomers(0, $pageSize, $websiteId, $store, $startDate, $this->helper->getConfig(), $count, $errors);
 
-        $newCustomers = $this->vhelper->getNewCustomers("FRED M");
+        if (count($errors) > 0) {
+            return 'Items imported: ' . $count . ' Errors:(' . count($errors) . ')' . json_encode($errors, JSON_PRETTY_PRINT);
+        } else {
+            return 'Items imported: ' . $count . ' Time:' . (microtime(true)-$startTime);
+        }
+    }
 
-        foreach($newCustomers as $cust){
-            $customer = $this->findCustomerByVisualId($cust->getCustomerID());
+    /**
+     * @param $page
+     * @param $pageSize
+     * @param $websiteId
+     * @param $store
+     * @param $startDate
+     * @param Americaneagle_Visual_Helper_Data $config
+     * @param $count
+     * @return string
+     * @throws Exception
+     */
+    function getRecursiveCustomers($page, $pageSize, $websiteId, $store, $startDate, $config, &$count, &$errors){
+        printf("\nGetting page %d\n", $page + 1);
+
+        /** @var Visual\CustomerService\CustomerDataResponse $newCustomersResponse */
+        $newCustomersResponse = $this->helper->getNewCustomers($page * $pageSize + 1, $pageSize, $startDate);
+        $customerList = $newCustomersResponse->getCustomerList()->getCustomerListItem();
+
+        printf("Processing %d items\n", count($customerList));
+
+        $fail = false;
+
+        for ($i = 0; $i < count($customerList); $i++) {
+            $customerItem = $customerList[$i];
+            $customer = $this->findCustomerByVisualId($customerItem->getID());
+            $cust = $customerItem->getCustomer();
 
             if ($customer == null) {
+                /** @var Mage_Customer_Model_Customer $customer */
                 $customer = Mage::getModel("customer/customer");
                 $customer
                     ->setWebsiteId($websiteId)
                     ->setStore($store)
-                    ->setGroupId(1) //adding it to the General group
+                    ->setGroupId(strtolower($cust->getPriceGroup())=='exclusive' ? $config->getExclusiveGroupId() : $config->getGeneralGroupId()) //adding it to the General or exclusive group
                     ->setFirstname($cust->getContactFirstName())
                     ->setMiddlename($cust->getContactMiddleInitial())
                     ->setLastname($cust->getContactLastName())
                     ->setEmail($cust->getContactEmail())
                     ->setPassword($customer->generatePassword())
-                    ->setVisualCustomerId($cust->getCustomerID());
+                    ->setVisualCustomerId($cust->getCustomerID())
+                    ->setCreditStatus($cust->getCreditStatus())
+                    ->setPriceGroup($cust->getPriceGroup())
+                    ->setDiscountPercent($cust->getDiscountPercent());
 
                 try{
                     $customer->save();
@@ -108,63 +119,76 @@ class Americaneagle_Visual_Model_Task_Customersync
                 }
 
                 catch (Exception $e) {
-                    return $e->getMessage();
+                    $errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                    $fail = true;
                 }
 
-                if (!$this->isSameShipping($cust)) {
+                if (!$fail) {
+                    if (!$this->isSameShipping($cust) && $cust->getBillingCountry() != '') {
+
+                        list($firstname, $middlename, $lastname) = explode(' ', $cust->getBillingName(), 3);
+
+                        /** @var Mage_Customer_Model_Address $address */
+                        $address = Mage::getModel("customer/address")
+                            ->setCustomerId($customer->getId())
+                            ->setFirstname($firstname)
+                            ->setMiddlename($middlename)
+                            ->setLastname($lastname)
+                            ->setCountryId($this->findCountryId($cust->getBillingCountry()))
+                            ->setRegionId($this->findRegionId($cust->getBillingCountry(), $cust->getBillingState()))
+                            ->setPostcode($cust->getBillingZipCode())
+                            ->setCity($cust->getBillingCity())
+                            ->setTelephone($cust->getContactPhoneNumber())
+                            ->setFax($cust->getContactFaxNumber())
+                            ->setStreet(array($cust->getBillingAddress1(),
+                                $cust->getBillingAddress2(),
+                                $cust->getBillingAddress3()))
+                            ->setIsDefaultBilling('1')
+                            ->setIsDefaultShipping('0')
+                            ->setSaveInAddressBook('1');
+
+                        try{
+                            $address->save();
+                        }
+                        catch (Exception $e) {
+                            $errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                        }
+                    }
+
+                    list($firstname, $middlename, $lastname) = explode(' ', $cust->getCustomerName(), 3);
+
                     $address = Mage::getModel("customer/address")
                         ->setCustomerId($customer->getId())
-                        ->setFirstname(strstr($cust->getBillingName(), ' ', true))
-                        ->setLastname(substr(strstr($cust->getBillingName(), ' '), 1))
-                        ->setCountryId($this->findCountryId($cust->getBillingCountry()))
-                        ->setRegionId($this->findRegionId($cust->getBillingCountry(), $cust->getBillingState()))
-                        ->setPostcode($cust->getBillingZipCode())
-                        ->setCity($cust->getBillingCity())
+                        ->setFirstname($firstname)
+                        ->setMiddlename($middlename)
+                        ->setLastname($lastname)
+                        ->setCountryId($this->findCountryId($cust->getCountry()))
+                        ->setRegionId($this->findRegionId($cust->getCountry(), $cust->getState()))
+                        ->setPostcode($cust->getZipCode())
+                        ->setCity($cust->getCity())
                         ->setTelephone($cust->getContactPhoneNumber())
                         ->setFax($cust->getContactFaxNumber())
-                        ->setStreet(array($cust->getBillingAddress1(),
-                            $cust->getBillingAddress2(),
-                            $cust->getBillingAddress3()))
-                        ->setIsDefaultBilling('1')
-                        ->setIsDefaultShipping('0')
+                        ->setStreet(array($cust->getAddress1(),
+                            $cust->getAddress2(),
+                            $cust->getAddress3()))
+                        ->setIsDefaultBilling($this->isSameShipping($cust)?'1':'0')
+                        ->setIsDefaultShipping('1')
                         ->setSaveInAddressBook('1');
 
                     try{
                         $address->save();
                     }
                     catch (Exception $e) {
-                        return $e->getMessage();
+                        $errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                     }
                 }
-
-                $address = Mage::getModel("customer/address")
-                    ->setCustomerId($customer->getId())
-                    ->setFirstname($cust->getContactFirstName())
-                    ->setLastname($cust->getContactLastName())
-                    ->setCountryId($this->findCountryId($cust->getCountry()))
-                    ->setRegionId($this->findRegionId($cust->getCountry(), $cust->getState()))
-                    ->setPostcode($cust->getZipCode())
-                    ->setCity($cust->getCity())
-                    ->setTelephone($cust->getContactPhoneNumber())
-                    ->setFax($cust->getContactFaxNumber())
-                    ->setStreet(array($cust->getAddress1(),
-                            $cust->getAddress2(),
-                            $cust->getAddress3()))
-                    ->setIsDefaultBilling($this->isSameShipping($cust)?'1':'0')
-                    ->setIsDefaultShipping('1')
-                    ->setSaveInAddressBook('1');
-
-                try{
-                    $address->save();
-                }
-                catch (Exception $e) {
-                    return $e->getMessage();
-                }
             }
-
+            $this->helper->progressBar($i + 1, count($customerList));
         }
 
-        return 'Items imported: ' . $count . ' Time:'.(microtime(true)-$startTime);
+        if ($newCustomersResponse->getCustomerCount() == $pageSize) {
+           $this->getRecursiveCustomers($page + 1, $pageSize, $websiteId, $store, $startDate, $config, $count, $errors);
+        }
     }
 
     /**
@@ -220,14 +244,13 @@ class Americaneagle_Visual_Model_Task_Customersync
      */
     function isSameShipping($customer) {
         return
-            $customer->getBillingAddress1() == null ||
-            ($customer->getCustomerName() == $customer->getBillingName() &&
+            $customer->getCustomerName() == $customer->getBillingName() &&
             $customer->getBillingAddress1() == $customer->getAddress1() &&
             $customer->getBillingAddress2() == $customer->getAddress2() &&
             $customer->getBillingAddress3() == $customer->getAddress3() &&
             $customer->getBillingCity() == $customer->getCity() &&
             $customer->getBillingState() == $customer->getState() &&
             $customer->getBillingZipCode() == $customer->getZipCode() &&
-            $customer->getBillingCountry() == $customer->getCountry());
+            $customer->getBillingCountry() == $customer->getCountry();
     }
 }

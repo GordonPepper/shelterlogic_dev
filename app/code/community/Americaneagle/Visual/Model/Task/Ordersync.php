@@ -17,8 +17,8 @@ class Americaneagle_Visual_Model_Task_Ordersync
      * @return string
      * @throws Exception
      */
-    /** @var  Americaneagle_Visual_Helper_Visual vhelper */
-    private $vhelper;
+    /** @var  Americaneagle_Visual_Helper_Visual helper */
+    private $helper;
 
 
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
@@ -26,7 +26,7 @@ class Americaneagle_Visual_Model_Task_Ordersync
         if(Mage::helper('americaneagle_visual')->getEnabled() == 0) {
             return $this;
         }
-        $this->vhelper = Mage::helper('americaneagle_visual/visual');
+        $this->helper = Mage::helper('americaneagle_visual/visual');
 
         $parameters = $schedule->getParameters();
         if ($parameters) {
