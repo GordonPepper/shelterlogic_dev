@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Totalogistix>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </Americaneagle_Totalogistix>
     </modules>
     <global>
@@ -67,6 +67,21 @@
                 </setup>
             </zip_database>
         </resources>
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <tlx_pallet_weight/>
+                        <tlx_ship_height/>
+                        <tlx_ship_length/>
+                        <tlx_ship_width/>
+                        <tlx_ship_ltl/>
+                        <class/>
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+
         <!--<events>-->
             <!--<catalog_product_collection_load_after>-->
                 <!--<observers>-->

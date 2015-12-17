@@ -14,4 +14,16 @@
             <block type="shelterlogic_wishlist/js" name="shelterlogic.wishlist" template="wishlist/js.phtml"/>
         </reference>
     </catalog_category_layered>
+    <catalog_product_view translate="label">
+        <reference name="head">
+            <action method="addJs">
+                <script>farmbuildings/configurable.js</script>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/configurable.js</name>
+            </action>
+        </reference>
+    </catalog_product_view>
+
 </layout>
