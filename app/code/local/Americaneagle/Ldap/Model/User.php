@@ -13,6 +13,9 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
      */
     public function authenticate($username, $password)
     {
+        if(!Mage::getStoreConfigFlag('americaneagle/ldap/active')){
+            return parent::authenticate($username, $password);
+        }
         $config = Mage::getStoreConfigFlag('admin/security/use_case_sensitive_login');
         $result = false;
 

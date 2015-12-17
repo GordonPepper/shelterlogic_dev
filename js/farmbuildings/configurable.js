@@ -38,6 +38,10 @@ aeProduct.Config.prototype = {
                 var newOption = new Option(this.config.options[i]['val'], this.config.options[i]['id']);
                 this.settings[0].options[i+1] = newOption;
             }
+            // disable the rest
+            for(i = 1; i < this.settings.length; i++) {
+                this.settings[i].disabled = true;
+            }
         }
         this.settings.each(function(element) {
             if(this.settings[this.settings.length - 1].id == element.id){
