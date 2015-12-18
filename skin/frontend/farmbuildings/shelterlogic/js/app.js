@@ -454,7 +454,7 @@ $j(document).ready(function () {
     // (since other blocks can be inserted into left_first), it creates simpler code to move the entire
     // .col-left-first block, so that is the approach we're taking
 
-/*
+/* DISABLED: Function not needed and causes problem with multiple duplicates of left column content when resizing.
     if ($j('.col-left-first > .block').length && $j('.category-products').length) {
         enquire.register('screen and (max-width: ' + bp.medium + 'px)', {
             match: function () {
@@ -809,4 +809,29 @@ var ProductMediaManager = {
 
 $j(document).ready(function() {
     ProductMediaManager.init();
+});
+
+$j.fn.xMod=function(o) {
+	var sObj=this,
+	trigger=o.trigger,
+	target=o.target,
+	sObjTrig;
+	$j(trigger,sObj).on({
+		click:function(e){
+			e.preventDefault();
+			sObjTrig=$j(this);
+			sObjTrig.toggleClass("trans");
+			setTimeout(function(){sObjTrig.toggleClass("active trans");},200);
+			sObjTrig.closest(sObj).find(target).slideToggle(400).toggleClass("active");
+		}
+	});
+}
+
+$j(document).ready(function() {
+	$j(".x-mod").each(function() {
+		$j(this).xMod({
+			trigger:".x-trigger",
+			target:".x-target"
+		});
+	});
 });
