@@ -5126,28 +5126,21 @@ opacity:1;
 }
 
 @media only screen and (min-width:480px) {
-  /* Config:Three columns + flexible gutter */
-  .products-grid {
-    /* Undo two-column config */
-    /* Set three-column config */
-  }
-  .products-grid > li:nth-child(odd) {
-    clear:none;
-  }
-  .products-grid > li:nth-child(even) {
-    margin-right:4.85%;
-  }
-  .products-grid > li {
-    width:30.115%;
-    margin-right:4.8%;
-  }
-  .products-grid > li:nth-child(3n+1) {
-    clear:left;
-  }
-  .products-grid > li:nth-child(3n) {
-    margin-right:0;
-  }
+  .products-grid > li:nth-child(odd) {clear:none;}
+  .products-grid > li:nth-child(even) {margin-right:0;}
+  .products-grid > li {width:47.5%; margin-right:4.8%;}
+  .products-grid > li:nth-child(2n+1) {clear:left;}
+  .products-grid > li:nth-child(2n) {margin-right:0;}
 }
+
+@media only screen and (min-width:640px) {
+  .products-grid > li:nth-child(odd) {clear:none;}
+  .products-grid > li:nth-child(even) {margin-right:4.85%;}
+  .products-grid > li {width:30.115%; margin-right:4.8%;}
+  .products-grid > li:nth-child(3n+1) {clear:left;}
+  .products-grid > li:nth-child(3n) {margin-right:0;}
+}
+
 @media only screen and (min-width:960px) {
   /* Config:Columns + flexible gutter */
   /* Undo three-column config */
