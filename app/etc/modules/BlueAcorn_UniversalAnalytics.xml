@@ -11,6 +11,9 @@
         <BlueAcorn_UniversalAnalytics>
             <active>true</active>
             <codePool>community</codePool>
+            <depends>
+                <Netzarbeiter_GroupsCatalog2/>
+            </depends>
         </BlueAcorn_UniversalAnalytics>
     </modules>
 </config>

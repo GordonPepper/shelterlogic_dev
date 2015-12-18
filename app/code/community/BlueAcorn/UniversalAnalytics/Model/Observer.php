@@ -78,6 +78,8 @@ class BlueAcorn_UniversalAnalytics_Model_Observer extends Mage_Core_Model_Observ
 
         if ($product->getVisibility() == 1) return null;
 
+        if($product->getForbiddenByGroupscatalog2() == true) return null;
+
         if ($product !== null) {
             $list = 'Single';
 
