@@ -453,6 +453,8 @@ $j(document).ready(function () {
     // While it would make more sense to just move the .block-layered-nav block rather than .col-left-first
     // (since other blocks can be inserted into left_first), it creates simpler code to move the entire
     // .col-left-first block, so that is the approach we're taking
+
+/*
     if ($j('.col-left-first > .block').length && $j('.category-products').length) {
         enquire.register('screen and (max-width: ' + bp.medium + 'px)', {
             match: function () {
@@ -464,6 +466,7 @@ $j(document).ready(function () {
             }
         });
     }
+*/
 
     // ==============================================
     // 3 column layout
