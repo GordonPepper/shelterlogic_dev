@@ -20,6 +20,12 @@ class Americaneagle_Visual_Model_Task_Pricesync
     /** @var  Americaneagle_Visual_Helper_Inventory helper */
     private $helper;
 
+    private $pageSize = 1000;
+    private $productSkuList = array();
+    private $count = 0;
+    private $errors = array();
+    private $websiteId = 0;
+    private $store;
 
     /**
      * @param Aoe_Scheduler_Model_Schedule $schedule
@@ -34,77 +40,86 @@ class Americaneagle_Visual_Model_Task_Pricesync
         }
 
         $parameters = $schedule->getParameters();
-        $websiteId = 0;
-        $store = Mage::getModel('core/store');
-        $pageSize = 1000;
+        $this->store = Mage::getModel('core/store');
+        $this->pageSize = 1000;
         if ($parameters) {
             $parameters = json_decode($parameters);
-            $websiteId = $parameters->website_id;
-            $store->load($parameters->store_id);
+            $this->websiteId = $parameters->website_id;
+            $this->store->load($parameters->store_id);
             if ($parameters->page_size) {
-                $pageSize = (int)$parameters->page_size;
+                $this->pageSize = (int)$parameters->page_size;
             }
         } else {
             return false;
         }
 
-        $count = 0;
-        $errors = array();
         $startTime = microtime(true);
 
-        $this->getRecursiveItems(0, $pageSize, $count, $errors);
+        $cache = Mage::getSingleton('core/cache');
+        $key = 'products-sku-productid-array' . $this->store->getId();
 
-        if (count($errors) > 0) {
-            return 'Items updated: ' . $count . ' Errors:(' . count($errors) . ')' . json_encode($errors, JSON_PRETTY_PRINT);
+        if(!$data = $cache->load($key)){
+            $productsCollection = Mage::getResourceModel('catalog/product_collection')
+                ->addAttributeToSelect('SKU');
+            $productsCollection->load();
+
+            foreach($productsCollection->getItems() as $product){
+                $this->productSkuList[$product->getSku()] = $product->getId();
+            }
+            $data = serialize($this->productSkuList);
+            $cache->save($data, $key, array(Mage_Catalog_Model_Product::CACHE_TAG));
         } else {
-            return 'Items updated: ' . $count . ' Time:' . (microtime(true)-$startTime);
+            $this->productSkuList = unserialize($data);
+        }
+
+        printf('Magento Products loading time: %d', (microtime(true)-$startTime));
+
+        $this->getRecursiveItems(0);
+
+        if (count($this->errors) > 0) {
+            return 'Items updated: ' . $this->count . ' Time: ' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT);
+        } else {
+            return 'Items updated: ' . $this->count . ' Time: ' . (microtime(true)-$startTime);
         }
     }
 
-
     /**
      * @param $page
-     * @param $pageSize
-     * @param $count
-     * @param $errors
-     * @return array
      * @throws Exception
-     * @internal param $websiteId
-     * @internal param $store
      */
-    function getRecursiveItems($page, $pageSize, &$count, &$errors){
+    function getRecursiveItems($page){
+        printf("\nGetting page %d\n", $page + 1);
+
         /** @var Visual\InventoryService\PartDataResponse $productDataResponse */
-        $productDataResponse = $this->helper->getProducts($page * $pageSize + 1, $pageSize);
+        $productDataResponse = $this->helper->getProducts($page * $this->pageSize + 1, $this->pageSize);
         $productList = $productDataResponse->getPartList()->getPartListItem();
+
+        printf("Processing %d items\n", count($productList));
 
         for ($i = 0; $i < count($productList); $i++) {
             $productItem = $productList[$i];
-            $productId = Mage::getModel('catalog/product')->getIdBySku($productItem->getID());
-            if ($productId) {
-                /** @var Mage_Catalog_Model_Product $product */
-                $product = Mage::getModel('catalog/product')->load($productId);
+            $sku = $productItem->getID();
+            if (array_key_exists ( $sku, $this->productSkuList)) {
                 $prod = $productItem->getPart();
+                $productId = $this->productSkuList[$sku];
 
-                if ($product != null) {
+                try{
+                    Mage::getResourceSingleton('catalog/product_action')
+                        ->updateAttributes(array($productId),
+                            array("price" => $prod->getUnitPrice(), "weight" => $prod->getShippingWeight()),
+                            $this->store->getId());
+                    $this->count++;
+                }
 
-                    $product
-                        ->setPrice($prod->getUnitPrice())
-                        ->setWeight($prod->getShippingWeight());
-
-                    try{
-                        $product->save();
-                        $count++;
-                    }
-
-                    catch (Exception $e) {
-                        $errors[] = array('ID' => $productItem->getID(), 'Error' => $e->getMessage());
-                    }
+                catch (Exception $e) {
+                    $this->errors[] = array('ID' => $productItem->getID(), 'Error' => $e->getMessage());
                 }
             }
+            $this->helper->progressBar($i + 1, count($productList));
         }
 
-        if ($productDataResponse->getPartCount() == $pageSize) {
-           //$this->getRecursiveItems($page + 1, $pageSize, $count, $errors);
+        if ($productDataResponse->getPartCount() == $this->pageSize) {
+           $this->getRecursiveItems($page + 1);
         }
     }
 }

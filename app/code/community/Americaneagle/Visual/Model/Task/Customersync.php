@@ -20,6 +20,13 @@ class Americaneagle_Visual_Model_Task_Customersync
     /** @var  Americaneagle_Visual_Helper_Customer helper */
     private $helper;
 
+    private $pageSize = 1000;
+    private $productSkuList = array();
+    private $count = 0;
+    private $errors = array();
+    private $websiteId = 0;
+    private $store;
+    private $startDate;
 
     /**
      * @param Aoe_Scheduler_Model_Schedule $schedule
@@ -34,57 +41,47 @@ class Americaneagle_Visual_Model_Task_Customersync
         }
 
         $parameters = $schedule->getParameters();
-        $websiteId = 0;
-        $store = Mage::getModel('core/store');
-        $pageSize = 1000;
+        $this->store = Mage::getModel('core/store');
         $date = new DateTime();
         $date->sub(new DateInterval('P1D'));
-        $startDate = $date->format('Y-m-d');
-        $startDate = null;//"2013-03-15";
+        $this->startDate = $date->format('Y-m-d');
         if ($parameters) {
             $parameters = json_decode($parameters);
-            $websiteId = $parameters->website_id;
-            $store->load($parameters->store_id);
-            if ($parameters->page_size) {
-                $pageSize = (int)$parameters->page_size;
+            $this->websiteId = $parameters->website_id;
+            if ($parameters->store_id) {
+                $this->store->load($parameters->store_id);
             }
-            if ($parameters->skip_date_filter == "Y") {
-                $startDate = null;
+            if ($parameters->page_size) {
+                $this->pageSize = (int)$parameters->page_size;
+            }
+            if ($parameters->skip_date_filter) {
+                $this->startDate = null;
             }
         } else {
             return false;
         }
 
-        $count = 0;
-        $errors = array();
-
         $startTime = microtime(true);
 
-        $this->getRecursiveCustomers(0, $pageSize, $websiteId, $store, $startDate, $this->helper->getConfig(), $count, $errors);
+        $this->getRecursiveCustomers(0);
 
-        if (count($errors) > 0) {
-            return 'Items imported: ' . $count . ' Errors:(' . count($errors) . ')' . json_encode($errors, JSON_PRETTY_PRINT);
+        if (count($this->errors) > 0) {
+            return 'Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT);
         } else {
-            return 'Items imported: ' . $count . ' Time:' . (microtime(true)-$startTime);
+            return 'Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime);
         }
     }
 
+
     /**
      * @param $page
-     * @param $pageSize
-     * @param $websiteId
-     * @param $store
-     * @param $startDate
-     * @param Americaneagle_Visual_Helper_Data $config
-     * @param $count
-     * @return string
      * @throws Exception
      */
-    function getRecursiveCustomers($page, $pageSize, $websiteId, $store, $startDate, $config, &$count, &$errors){
+    function getRecursiveCustomers($page){
         printf("\nGetting page %d\n", $page + 1);
 
         /** @var Visual\CustomerService\CustomerDataResponse $newCustomersResponse */
-        $newCustomersResponse = $this->helper->getNewCustomers($page * $pageSize + 1, $pageSize, $startDate);
+        $newCustomersResponse = $this->helper->getNewCustomers($page * $this->pageSize + 1, $this->pageSize, $this->startDate);
         $customerList = $newCustomersResponse->getCustomerList()->getCustomerListItem();
 
         printf("Processing %d items\n", count($customerList));
@@ -100,9 +97,9 @@ class Americaneagle_Visual_Model_Task_Customersync
                 /** @var Mage_Customer_Model_Customer $customer */
                 $customer = Mage::getModel("customer/customer");
                 $customer
-                    ->setWebsiteId($websiteId)
-                    ->setStore($store)
-                    ->setGroupId(strtolower($cust->getPriceGroup())=='exclusive' ? $config->getExclusiveGroupId() : $config->getGeneralGroupId()) //adding it to the General or exclusive group
+                    ->setWebsiteId($this->websiteId)
+                    ->setStore($this->store)
+                    ->setGroupId(strtolower($cust->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
                     ->setFirstname($cust->getContactFirstName())
                     ->setMiddlename($cust->getContactMiddleInitial())
                     ->setLastname($cust->getContactLastName())
@@ -115,11 +112,11 @@ class Americaneagle_Visual_Model_Task_Customersync
 
                 try{
                     $customer->save();
-                    $count++;
+                    $this->count++;
                 }
 
                 catch (Exception $e) {
-                    $errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                    $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                     $fail = true;
                 }
 
@@ -151,7 +148,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                             $address->save();
                         }
                         catch (Exception $e) {
-                            $errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                            $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                         }
                     }
 
@@ -179,15 +176,15 @@ class Americaneagle_Visual_Model_Task_Customersync
                         $address->save();
                     }
                     catch (Exception $e) {
-                        $errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                        $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                     }
                 }
             }
             $this->helper->progressBar($i + 1, count($customerList));
         }
 
-        if ($newCustomersResponse->getCustomerCount() == $pageSize) {
-           $this->getRecursiveCustomers($page + 1, $pageSize, $websiteId, $store, $startDate, $config, $count, $errors);
+        if ($newCustomersResponse->getCustomerCount() == $this->pageSize) {
+           $this->getRecursiveCustomers($page + 1);
         }
     }
 
