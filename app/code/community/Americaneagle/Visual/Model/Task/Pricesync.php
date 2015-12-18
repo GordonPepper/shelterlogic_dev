@@ -1,22 +1,14 @@
 <?php
 
 /**
- * Customer Sync Task for Visual
+ * Price Sync Task for Visual
  *
  * @author Levente Albert
- * @since 2015-11-9
+ * @since 2015-12-18
  */
 
 class Americaneagle_Visual_Model_Task_Pricesync
 {
-
-    /**
-     * Behavior can be controlled via parameters
-     *
-     * @param Aoe_Scheduler_Model_Schedule $schedule
-     * @return string
-     * @throws Exception
-     */
     /** @var  Americaneagle_Visual_Helper_Inventory helper */
     private $helper;
 
@@ -24,12 +16,16 @@ class Americaneagle_Visual_Model_Task_Pricesync
     private $productSkuList = array();
     private $count = 0;
     private $errors = array();
-    private $websiteId = 0;
+
+    /** @var  Mage_Core_Model_Store store */
     private $store;
 
     /**
+     * Behavior can be controlled via parameters
+     *
      * @param Aoe_Scheduler_Model_Schedule $schedule
-     * @return $this|bool|string
+     * @return string
+     * @throws Exception
      */
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
     {
@@ -41,11 +37,14 @@ class Americaneagle_Visual_Model_Task_Pricesync
 
         $parameters = $schedule->getParameters();
         $this->store = Mage::getModel('core/store');
-        $this->pageSize = 1000;
         if ($parameters) {
             $parameters = json_decode($parameters);
-            $this->websiteId = $parameters->website_id;
-            $this->store->load($parameters->store_id);
+            if ($parameters->store_id) {
+                $this->store->load($parameters->store_id);
+                $this->helper->getConfig()->setStore($this->store);
+            } else {
+                return false;
+            }
             if ($parameters->page_size) {
                 $this->pageSize = (int)$parameters->page_size;
             }
@@ -56,7 +55,7 @@ class Americaneagle_Visual_Model_Task_Pricesync
         $startTime = microtime(true);
 
         $cache = Mage::getSingleton('core/cache');
-        $key = 'products-sku-productid-array' . $this->store->getId();
+        $key = 'products-sku-product-id-array' . $this->store->getId();
 
         if(!$data = $cache->load($key)){
             $productsCollection = Mage::getResourceModel('catalog/product_collection')

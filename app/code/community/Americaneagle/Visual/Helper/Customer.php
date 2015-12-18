@@ -55,35 +55,42 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
         }
     }
 
-
     /**
-     * @param $cid
+     * @param CustomerService\Customer $customer
+     * @param bool $update
      * @return null|CustomerService\Customer
      */
-    public function createVisualCustomer($cid)
-    {
+    private function _createVisualCustomer(CustomerService\Customer $customer, $update = false){
         try {
 
-            $customerEntity = (new CustomerService\CustomerEntity())
-                ->setEntityID($this->helper->getEntityId());
+            $customer
+                ->setCurrencyID($this->getConfig()->getCurrencyId())
+                ->setTermsID($this->getConfig()->getTermsId())
+                ->setSalesRepID($this->getConfig()->getSalesRepId())
+                ->setTerritoryID($this->getConfig()->getTerritoryId());
 
-            $customerSite = (new CustomerService\CustomerSite())
-                ->setSiteID($this->helper->getSiteId());
+            if (!$update) {
+                $customerEntity = (new CustomerService\CustomerEntity())
+                    ->setEntityID($this->getConfig()->getEntityId());
+                $customerEntityArray = (new CustomerService\ArrayOfCustomerEntity())
+                    ->setCustomerEntity(array($customerEntity));
 
-            $customer = (new CustomerService\Customer())
-                ->setCustomerID($cid)
-                ->setCustomerName($cid)
-                ->setCurrencyID($this->helper->getCurrencyId())
-                ->setTermsID($this->helper->getTermsId())
-                ->setSalesRepID($this->helper->getSalesRepId())
-                ->setTerritoryID($this->helper->getTerritoryId())
-                ->setEntities(array($customerEntity))
-                ->setSites(array($customerSite));
+                $customerSite = (new CustomerService\CustomerSite())
+                    ->setSiteID($this->getConfig()->getSiteId());
+                $customerSites = (new CustomerService\ArrayOfCustomerSite())
+                    ->setCustomerSite(array($customerSite));
+                $customer
+                    ->setEntities($customerEntityArray)
+                    ->setSites($customerSites);
+            }
+
+            $customerArray = (new CustomerService\ArrayOfCustomer())
+                ->setCustomer(array($customer));
 
             $customerData = (new CustomerService\CustomerData())
-                ->setCustomers(array($customer));
+                ->setCustomers($customerArray);
 
-            $res = $this->customerService->CreateCustomer(
+            /*$res = $this->customerService->CreateCustomer(
                 new CustomerService\CreateCustomer($customerData));
 
             $this->soapLog($this->customerService, 'CustomerService:CreateCustomer', sprintf('Create Customer %s', $cid));
@@ -92,11 +99,74 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 return null;
             }
             $customer = $res->getSearchCustomerResult()->getCustomers()->getCustomer()[0];
-            return $customer->getCustomerID() == $cid ? $customer : null;
+            return $customer->getCustomerID() == $cid ? $customer : null;*/
+            return null;
         } catch (Exception $e) {
             $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:CreateCustomer', sprintf('Exception: %s', $e->getMessage()));
             return null;
         }
+    }
+
+
+    /**
+     * @param $CustomerId
+     * @return null|CustomerService\Customer
+     */
+    public function createVisualFBCustomerById($CustomerId)
+    {
+        $customer = (new CustomerService\Customer())
+            ->setCustomerID($CustomerId)
+            ->setCustomerName($CustomerId);
+
+        return $this->_createVisualCustomer($customer);
+    }
+
+    /**
+     * Create or update customer record in Visual
+     * @param Mage_Customer_Model_Customer $cust
+     * @return null|CustomerService\Customer
+     */
+    public function createVisualCustomer(Mage_Customer_Model_Customer $cust){
+
+        $billing = $cust->getDefaultBillingAddress();
+        $shipping = $cust->getDefaultShippingAddress();
+
+        if (!$billing || !$shipping) return null;
+
+        $customer = (new CustomerService\Customer())
+            ->setCustomerName($shipping->getName())
+            ->setAddress1($shipping->getStreet1())
+            ->setAddress2($shipping->getStreet2())
+            ->setAddress3($shipping->getStreet3())
+            ->setCity($shipping->getCity())
+            ->setZipCode($shipping->getPostcode())
+            ->setState($this->findRegionCode($shipping->getRegionId()))
+            ->setCountry($this->findCountryIso3Code($shipping->getCountry()))
+            ->setBillingName($billing->getName())
+            ->setBillingAddress1($billing->getStreet1())
+            ->setBillingAddress2($billing->getStreet2())
+            ->setBillingAddress3($billing->getStreet3())
+            ->setBillingCity($billing->getCity())
+            ->setBillingZipCode($billing->getPostcode())
+            ->setBillingState($this->findRegionCode($billing->getRegionId()))
+            ->setBillingCountry($this->findCountryIso3Code($billing->getCountry()))
+            ->setUserDefined1($cust->getId());
+
+
+        $update = false;
+        if ($cust->getVisualCustomerId()) {
+            $customer->setCustomerID($cust->getVisualCustomerId());
+            $update = true;
+        } else {
+            $customer
+                ->setContactFirstName($billing->getFirstname())
+                ->setContactMiddleInitial($billing->getMiddlename() ? substr($billing->getMiddlename(),0,1) : null)
+                ->setContactLastName($billing->getLastname())
+                ->setContactMobileNumber($billing->getTelephone())
+                ->setContactEmail($cust->getEmail());
+        }
+
+        return null; //$this->_createVisualCustomer($customer, $update);
     }
 
     /**
@@ -152,5 +222,93 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
         }
 
         return null;
+    }
+
+    /**
+     * @param $event
+     * @return $this
+     * @throws Mage_Core_Exception
+     */
+    public function customerCustomerAuthenticated($event)
+    {
+        if($this->getConfig()->getEnabled() == 0) {
+            return $this;
+        }
+
+        $customer = $event->getModel();
+
+        if (!empty($customer->getVisualCustomerId)) {
+            $vCustomer = $this->getVisualCustomerById($customer->getVisualCustomerId);
+            if(is_null($vCustomer)) {
+                throw Mage::exception('Mage_Core', Mage::helper('customer')->__('We are not able to reach the service please try again later.'),
+                    Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
+                );
+            }
+        }
+    }
+
+    /**
+     * @param $countryCode
+     * @return mixed
+     */
+    function findCountryId($countryCode){
+        if (!Mage::registry("country_{$countryCode}")) {
+            $country = Mage::getModel('directory/country')
+                ->getCollection()
+                ->addCountryCodeFilter($countryCode)
+                ->getFirstItem();
+            Mage::register("country_{$countryCode}", $country->getId());
+        }
+
+        return Mage::registry("country_{$countryCode}");
+    }
+
+    /**
+     * @param $countryCode
+     * @return mixed
+     */
+    function findCountryIso3Code($countryCode){
+        if (!Mage::registry("country_iso3_{$countryCode}")) {
+            $country = Mage::getModel('directory/country')
+                ->getCollection()
+                ->addCountryCodeFilter($countryCode)
+                ->getFirstItem();
+            Mage::register("country_iso3_{$countryCode}", $country->getIso3Code());
+        }
+
+        return Mage::registry("country_iso3_{$countryCode}");
+    }
+
+
+    /**
+     * @param $countryCode
+     * @param $regionCode
+     * @return mixed
+     */
+    function findRegionId($countryCode, $regionCode){
+        if (!Mage::registry("region_{$countryCode}_{$regionCode}")) {
+            $region = Mage::getModel('directory/region')
+                ->getCollection()
+                ->addCountryCodeFilter($countryCode)
+                ->addRegionCodeFilter($regionCode)
+                ->getFirstItem();
+            Mage::register("region_{$countryCode}_{$regionCode}", $region->getId());
+        }
+
+        return Mage::registry("region_{$countryCode}_{$regionCode}");
+    }
+
+    /**
+     * @param $regionId
+     * @return mixed
+     */
+    function findRegionCode($regionId){
+        if (!Mage::registry("region_{$regionId}")) {
+            $region = Mage::getModel('directory/region')
+                ->load($regionId);
+            Mage::register("region_{$regionId}", $region->getCode());
+        }
+
+        return Mage::registry("region_{$regionId}");
     }
 }

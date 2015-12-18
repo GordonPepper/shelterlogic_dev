@@ -4,11 +4,22 @@
  * Order Sync Task for Visual
  *
  * @author Levente Albert
- * @since 2015-11-9
+ * @since 2015-12-18
  */
 
 class Americaneagle_Visual_Model_Task_Ordersync
 {
+    /** @var  Americaneagle_Visual_Helper_Order $orderHelper */
+    private $orderHelper;
+
+    /** @var  Americaneagle_Visual_Helper_Customer $customerHelper */
+    private $customerHelper;
+
+    private $count = 0;
+    private $errors = array();
+
+    /** @var  Mage_Core_Model_Store store */
+    private $store;
 
     /**
      * Behavior can be controlled via parameters
@@ -17,54 +28,58 @@ class Americaneagle_Visual_Model_Task_Ordersync
      * @return string
      * @throws Exception
      */
-    /** @var  Americaneagle_Visual_Helper_Visual helper */
-    private $helper;
-
-
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
     {
-        if(Mage::helper('americaneagle_visual')->getEnabled() == 0) {
+        $this->orderHelper = Mage::helper('americaneagle_visual/order');
+
+        if($this->orderHelper->getConfig()->getEnabled() == 0) {
             return $this;
         }
-        $this->helper = Mage::helper('americaneagle_visual/visual');
+
+        $this->customerHelper = Mage::helper('americaneagle_visual/customer');
 
         $parameters = $schedule->getParameters();
+        $this->store = Mage::getModel('core/store');
         if ($parameters) {
-            $parameters = unserialize($parameters);
+            $parameters = json_decode($parameters);
+            if ($parameters->store_id) {
+                $this->store->load($parameters->store_id);
+                $this->orderHelper->getConfig()->setStore($this->store);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
 
-        $customerId = Mage::getStoreConfig('aevisual/general/customer_id');
-
-        $farmbuildingStoreId = Mage::app()->getStore('default')->getId();
+        $startTime = microtime(true);
 
         $orderCollection = Mage::getModel('sales/order')->getCollection();
-        $orderCollection->addAttributeToFilter('store_id', array('neq' => $farmbuildingStoreId));
+        $orderCollection->addAttributeToFilter('store_id', array('eq' => $this->store->getId()));
         $orderCollection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
 
         if($orderCollection->count() == 0){
-            echo 'AE Visual: No orders to push';
-            return;
-        } else {
-            echo $orderCollection->count();
+            return 'AE Visual: No orders to push';
         }
+
+        //increment push attempts, send failure notifications
+        //$this->orderHelper->auditCollectionPush($orderCollection);
 
         /** @var Mage_Sales_Model_Order $order */
-        foreach($orderCollection as $order) {
-            //print_r($order);
-            $customerId = $order->getCustomerId();
-            $visualCustomerId="";
-            if (!isset($customerId)){
-                $visualCustomerId = $order->getStore()->getConfig('aevisual/general/customer_id');
-            } else {
-                $customerData = Mage::getModel('customer/customer')->load($customerId); // then load customer by customer id
-                $visualCustomerId = $customerData->getBillingAddress()->getTelephone();
-            }
-            $billingAddress = $order->getBillingAddress();
+        foreach ($orderCollection as $order) {
 
-            print_r($c); // customer details
+            /** @var Mage_Customer_Model_Customer $customer */
+            $customer = Mage::getModel("customer/customer");
+            $customer->load($order->getCustomerId());
+
+            /*
+             * update customer info
+             */
+            $this->customerHelper->createVisualCustomer($customer);
+
+            //$order->setAeSentToVisual(1);
+            //$order->save();
         }
-
-        return;
 
     }
 }

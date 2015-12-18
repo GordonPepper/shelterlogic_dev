@@ -27,65 +27,68 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_SOAPLOG_ENABLE = 'aevisual/logging/soaplog_enable';
 	const CONFIG_SOAPLOG_TTL = 'aevisual/logging/soaplog_ttl';
 
+	/** @var  Mage_Core_Model_Store store */
+	private $store;
+
 	public function getSoaplogTtl() {
-		return Mage::getStoreConfig(self::CONFIG_SOAPLOG_TTL);
+		return Mage::getStoreConfig(self::CONFIG_SOAPLOG_TTL, $this->store);
 	}
 
 	/* This call should not be in this helper. consider moving */
 	public function getLeadTimeDate($d){
-		$lead = Mage::getStoreConfig('carriers/totalogistix/lead_time');
+		$lead = Mage::getStoreConfig('carriers/totalogistix/lead_time', $this->store);
 		return strtotime("$d + $lead days");
 	}
 	public function getServiceHost() {
-		return Mage::getStoreConfig(self::CONFIG_SERVICE_PATH);
+		return Mage::getStoreConfig(self::CONFIG_SERVICE_PATH, $this->store);
 	}
 	public function getSoaplogEnable() {
-		return Mage::getStoreConfig(self::CONFIG_SOAPLOG_ENABLE);
+		return Mage::getStoreConfig(self::CONFIG_SOAPLOG_ENABLE, $this->store);
 	}
 	public function getEnabled(){
-		return Mage::getStoreConfig(self::CONFIG_ENABLED);
+		return Mage::getStoreConfig(self::CONFIG_ENABLED, $this->store);
 	}
 	public function getServiceKey() {
-		return Mage::getStoreConfig(self::CONFIG_SERVICE_KEY);
+		return Mage::getStoreConfig(self::CONFIG_SERVICE_KEY, $this->store);
 	}
 	public function getExternalRefGroup() {
-		return Mage::getStoreConfig(self::CONFIG_EXTERNAL_REF_GROUP);
+		return Mage::getStoreConfig(self::CONFIG_EXTERNAL_REF_GROUP, $this->store);
 	}
 	public function getCurrencyId() {
-		return Mage::getStoreConfig(self::CONFIG_CURRENCY_ID);
+		return Mage::getStoreConfig(self::CONFIG_CURRENCY_ID, $this->store);
 	}
 	public function getSiteId() {
-		return Mage::getStoreConfig(self::CONFIG_SITE_ID);
+		return Mage::getStoreConfig(self::CONFIG_SITE_ID, $this->store);
 	}
 	public function getTermsId() {
-		return Mage::getStoreConfig(self::CONFIG_TERMS_ID);
+		return Mage::getStoreConfig(self::CONFIG_TERMS_ID, $this->store);
 	}
 	public function getEntityId() {
-		return Mage::getStoreConfig(self::CONFIG_ENTITY_ID);
+		return Mage::getStoreConfig(self::CONFIG_ENTITY_ID, $this->store);
 	}
 	public function getCustomerId() {
-		return Mage::getStoreConfig(self::CONFIG_CUSTOMER_ID);
+		return Mage::getStoreConfig(self::CONFIG_CUSTOMER_ID, $this->store);
 	}
 	public function getPartId() {
-		return Mage::getStoreConfig(self::CONFIG_PART_ID);
+		return Mage::getStoreConfig(self::CONFIG_PART_ID, $this->store);
 	}
 	public function getSalesRepId() {
-		return Mage::getStoreConfig(self::CONFIG_SALES_REP_ID);
+		return Mage::getStoreConfig(self::CONFIG_SALES_REP_ID, $this->store);
 	}
 	public function getTerritoryId() {
-		return Mage::getStoreConfig(self::CONFIG_TERRITORY_ID);
+		return Mage::getStoreConfig(self::CONFIG_TERRITORY_ID, $this->store);
 	}
 	public function getWarehouseId() {
-		return Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID);
+		return Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID, $this->store);
 	}
 	public function getFob(){
-		return Mage::getStoreConfig(self::CONFIG_FOB);
+		return Mage::getStoreConfig(self::CONFIG_FOB, $this->store);
 	}
 	public function getGeneralGroupId(){
-		return Mage::getStoreConfig(self::CONFIG_GENERAL_GROUP_ID);
+		return Mage::getStoreConfig(self::CONFIG_GENERAL_GROUP_ID, $this->store);
 	}
 	public function getExclusiveGroupId(){
-		return Mage::getStoreConfig(self::CONFIG_EXCLUSIVE_GROUP_ID);
+		return Mage::getStoreConfig(self::CONFIG_EXCLUSIVE_GROUP_ID, $this->store);
 	}
 	public function stripCarrierCode($code) {
 		$parts = explode('_', $code);
@@ -93,6 +96,14 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 			array_shift($parts);
 		}
 		return implode('_', $parts);
+	}
+
+	/**
+	 * @param Mage_Core_Model_Store $store
+	 */
+	public function setStore($store)
+	{
+		$this->store = $store;
 	}
 
 }

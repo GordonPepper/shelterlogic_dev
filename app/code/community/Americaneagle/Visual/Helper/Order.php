@@ -87,4 +87,35 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
         }
 
     }
+
+    /**
+     * @param Mage_Sales_Model_Resource_Order_Collection $coll
+     * @throws Exception
+     */
+    public function auditCollectionPush(Mage_Sales_Model_Resource_Order_Collection $coll) {
+        $max = 0;
+        $fails = array();
+        foreach($coll as $order) {
+            $count = intval($order->getData('ae_visual_push_attempt'));
+            $order->setData('ae_visual_push_attempt', $count + 1);
+            $order->save();
+            if($count > $max)
+                $max = $count;
+            if($count > 1)
+                $fails[] = $order->getIncrementId();
+        }
+        if($max == 10 || $max == 75 || ($max > 0 && ($max % 200) == 0)){
+            $email = Mage::getStoreConfig('aevisual/logging/pushfail_email');
+            $f_name = Mage::getStoreConfig('trans_email/ident_general/name');
+            $f_email = Mage::getStoreConfig('trans_email/ident_general/email');
+            if($email) {
+                mail(
+                    $email,
+                    'Order push to VISUAL failure notice',
+                    "NOTICE: The following orders have failed to push to VISUAL:\r\n" . implode("\r\n", $fails) . "\r\n\r\nPlease review the VISUAL Soap log for more information.",
+                    "From: $f_name <$f_email>"
+                );
+            }
+        }
+    }
 }

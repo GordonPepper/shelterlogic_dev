@@ -10,13 +10,6 @@
 class Americaneagle_Visual_Model_Task_Customersync
 {
 
-    /**
-     * Behavior can be controlled via parameters
-     *
-     * @param Aoe_Scheduler_Model_Schedule $schedule
-     * @return string
-     * @throws Exception
-     */
     /** @var  Americaneagle_Visual_Helper_Customer helper */
     private $helper;
 
@@ -24,13 +17,17 @@ class Americaneagle_Visual_Model_Task_Customersync
     private $productSkuList = array();
     private $count = 0;
     private $errors = array();
-    private $websiteId = 0;
-    private $store;
     private $startDate;
 
+    /** @var  Mage_Core_Model_Store store */
+    private $store;
+
     /**
+     * Behavior can be controlled via parameters
+     *
      * @param Aoe_Scheduler_Model_Schedule $schedule
-     * @return $this|bool|string
+     * @return string
+     * @throws Exception
      */
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
     {
@@ -47,9 +44,11 @@ class Americaneagle_Visual_Model_Task_Customersync
         $this->startDate = $date->format('Y-m-d');
         if ($parameters) {
             $parameters = json_decode($parameters);
-            $this->websiteId = $parameters->website_id;
             if ($parameters->store_id) {
                 $this->store->load($parameters->store_id);
+                $this->helper->getConfig()->setStore($this->store);
+            } else {
+                return false;
             }
             if ($parameters->page_size) {
                 $this->pageSize = (int)$parameters->page_size;
@@ -97,8 +96,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                 /** @var Mage_Customer_Model_Customer $customer */
                 $customer = Mage::getModel("customer/customer");
                 $customer
-                    ->setWebsiteId($this->websiteId)
-                    ->setStore($this->store)
+                    ->setWebsiteId($this->store)
+                    ->setStore($this->store->getWebsiteId())
                     ->setGroupId(strtolower($cust->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
                     ->setFirstname($cust->getContactFirstName())
                     ->setMiddlename($cust->getContactMiddleInitial())
@@ -131,8 +130,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                             ->setFirstname($firstname)
                             ->setMiddlename($middlename)
                             ->setLastname($lastname)
-                            ->setCountryId($this->findCountryId($cust->getBillingCountry()))
-                            ->setRegionId($this->findRegionId($cust->getBillingCountry(), $cust->getBillingState()))
+                            ->setCountryId($this->helper->findCountryId($cust->getBillingCountry()))
+                            ->setRegionId($this->helper->findRegionId($cust->getBillingCountry(), $cust->getBillingState()))
                             ->setPostcode($cust->getBillingZipCode())
                             ->setCity($cust->getBillingCity())
                             ->setTelephone($cust->getContactPhoneNumber())
@@ -159,8 +158,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                         ->setFirstname($firstname)
                         ->setMiddlename($middlename)
                         ->setLastname($lastname)
-                        ->setCountryId($this->findCountryId($cust->getCountry()))
-                        ->setRegionId($this->findRegionId($cust->getCountry(), $cust->getState()))
+                        ->setCountryId($this->helper->findCountryId($cust->getCountry()))
+                        ->setRegionId($this->helper->findRegionId($cust->getCountry(), $cust->getState()))
                         ->setPostcode($cust->getZipCode())
                         ->setCity($cust->getCity())
                         ->setTelephone($cust->getContactPhoneNumber())
@@ -198,41 +197,6 @@ class Americaneagle_Visual_Model_Task_Customersync
             ->addAttributeToFilter('visual_customer_id', array('eq' => $visualId))
             ->getFirstItem();
         return $customer->getId() == null ? null : $customer;
-    }
-
-    /**
-     * @param $countryCode
-     * @return mixed
-     */
-    function findCountryId($countryCode){
-        if (!Mage::registry($countryCode)) {
-            $country = Mage::getModel('directory/country')
-                ->getCollection()
-                ->addCountryCodeFilter($countryCode)
-                ->getFirstItem();
-            Mage::register($countryCode, $country->getId());
-        }
-
-        return Mage::registry($countryCode);
-    }
-
-
-    /**
-     * @param $countryCode
-     * @param $regionCode
-     * @return mixed
-     */
-    function findRegionId($countryCode, $regionCode){
-        if (!Mage::registry("{$countryCode}_{$regionCode}")) {
-            $region = Mage::getModel('directory/region')
-                ->getCollection()
-                ->addCountryCodeFilter($countryCode)
-                ->addRegionCodeFilter($regionCode)
-                ->getFirstItem();
-            Mage::register("{$countryCode}_{$regionCode}", $region->getId());
-        }
-
-        return Mage::registry("{$countryCode}_{$regionCode}");
     }
 
     /**
