@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MagPassion_Advancedmenu extension
+ * 
+ * @category   	MagPassion
+ * @package		MagPassion_Advancedmenu
+ * @copyright  	Copyright (c) 2013 by MagPassion (http://magpassion.com)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<layout>
+	<default>
+		<reference name="head">
+			<action method="addJs"><script>magpassion/advancedmenu/magpassion_drop_menu.js</script></action>
+			
+			<action method="addCss"><stylesheet>magpassion_advancedmenu/css/color.css</stylesheet></action>
+			<action method="addCss"><stylesheet>magpassion_advancedmenu/css/mp_advancedmenu.css</stylesheet></action>
+		</reference>
+        <reference name="catalog.topnav">
+            <block type="advancedmenu/menugroup_view" name="menugroup_view" template="magpassion_advancedmenu/menugroup/view.phtml">
+                <action method="setMenuId">
+                    <id>1</id>
+                </action>
+                <block type="advancedmenu/menugroup_product" name="featured_product" template="magpassion_advancedmenu/menugroup/featured_product.phtml"/>
+                <block type="core/template" name="banner_image" template="magpassion_advancedmenu/menugroup/banner_image.phtml"/>
+            </block>
+        </reference>
+	</default>
+</layout>

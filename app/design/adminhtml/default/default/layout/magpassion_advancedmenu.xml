@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MagPassion.com extension
+ * 
+ * @category   	MagPassion
+ * @package		MagPassion.com
+ * @copyright  	Copyright (c) 2013 by MagPassion (http://magpassion.com)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+--> 
+<layout>
+	<!-- Menu Groups grid action -->
+	<adminhtml_advancedmenu_menugroup_index>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>advancedmenu/menugroup</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="advancedmenu/adminhtml_menugroup" name="menugroup" />
+		</reference>
+	</adminhtml_advancedmenu_menugroup_index>
+	<adminhtml_advancedmenu_menugroup_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="advancedmenu/adminhtml_menugroup_grid" name="menugroup_grid"/>
+		</block>
+	</adminhtml_advancedmenu_menugroup_grid>
+	<!-- Menugroup add/edit action -->
+	<adminhtml_advancedmenu_menugroup_edit>
+		<reference name="head">
+			<action method="addJs"><script>jscolor/jscolor.js</script></action>
+		</reference>
+		<update handle="editor"/>
+		
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>advancedmenu/menugroup</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="advancedmenu/adminhtml_menugroup_edit" name="menugroup_edit"></block>
+		</reference>
+		<reference name="left">
+			<block type="advancedmenu/adminhtml_menugroup_edit_tabs" name="menugroup_tabs"></block>
+		</reference> 
+	</adminhtml_advancedmenu_menugroup_edit>
+	<!-- Menu Items grid action -->
+	<adminhtml_advancedmenu_menuitem_index>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>advancedmenu/menuitem</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="advancedmenu/adminhtml_menuitem" name="menuitem" />
+		</reference>
+	</adminhtml_advancedmenu_menuitem_index>
+	<adminhtml_advancedmenu_menuitem_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="advancedmenu/adminhtml_menuitem_grid" name="menuitem_grid"/>
+		</block>
+	</adminhtml_advancedmenu_menuitem_grid>
+	<!-- Menuitem add/edit action -->
+	<adminhtml_advancedmenu_menuitem_edit>
+		<update handle="editor"/>
+		<reference name="head">
+            <action method="addJs"><script>magpassion/advancedmenu/jquery.min.js</script></action>
+            <action method="addJs"><script>magpassion/advancedmenu/jquery.noconflict.js</script></action>
+            <action method="addJs"><script>magpassion/advancedmenu/adminhtml/edit.js</script></action>
+			<action method="addCss"><name>magpassion_advancedmenu_adminhtml.css</name></action>
+		</reference>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>advancedmenu/menuitem</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="advancedmenu/adminhtml_menuitem_edit" name="menuitem_edit"></block>
+		</reference>
+		<reference name="left">
+			<block type="advancedmenu/adminhtml_menuitem_edit_tabs" name="menuitem_tabs"></block>
+		</reference> 
+	</adminhtml_advancedmenu_menuitem_edit>
+</layout>
