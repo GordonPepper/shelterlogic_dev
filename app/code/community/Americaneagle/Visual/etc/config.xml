@@ -48,12 +48,20 @@
     <crontab>
         <jobs>
             <americaneagle_visual>
-                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
-                <run><model>americaneagle_visual/observer::pushOrders</model></run>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>americaneagle_visual/observer::pushOrders</model>
+                </run>
             </americaneagle_visual>
             <ae_soaplog_clean>
-                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
-                <run><model>americaneagle_visual/observer::cleanSoaplog</model></run>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>americaneagle_visual/observer::cleanSoaplog</model>
+                </run>
             </ae_soaplog_clean>
         </jobs>
     </crontab>
@@ -83,7 +91,8 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Americaneagle_Visual after="Mage_Adminhtml">Americaneagle_Visual_Adminhtml</Americaneagle_Visual>
+                        <Americaneagle_Visual after="Mage_Adminhtml">Americaneagle_Visual_Adminhtml
+                        </Americaneagle_Visual>
                     </modules>
                 </args>
             </adminhtml>
@@ -98,5 +107,26 @@
             </updates>
         </layout>
     </adminhtml>
+    <frontend>
+        <events>
+            <catalog_product_get_final_price>
+                <observers>
+                    <catalogrule>
+                        <!--<class>catalogrule/observer</class>-->
+                        <class>americaneagle_visual/priceobserver</class>
+                        <method>processFrontFinalPrice</method>
+                    </catalogrule>
+                </observers>
+            </catalog_product_get_final_price>
+            <prepare_catalog_product_collection_prices>
+                <observers>
+                    <catalogrule>
+                        <class>catalogrule/observer</class>
+                        <method>prepareCatalogProductCollectionPrices</method>
+                    </catalogrule>
+                </observers>
+            </prepare_catalog_product_collection_prices>
+        </events>
+    </frontend>
 </config>
 
