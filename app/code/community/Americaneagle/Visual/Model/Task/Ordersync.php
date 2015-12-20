@@ -75,6 +75,12 @@ class Americaneagle_Visual_Model_Task_Ordersync
             /*
              * update customer info
              */
+            if (!$customer->getVisualCustomerId()) {
+                $vCustomer = $this->customerHelper->getVisualCustomerByEmail($customer->getEmail());
+                if ($vCustomer) {
+                    $customer->setVisualCustomerId($vCustomer->getCustomerID());
+                }
+            }
             $this->customerHelper->createVisualCustomer($customer);
 
             //$order->setAeSentToVisual(1);

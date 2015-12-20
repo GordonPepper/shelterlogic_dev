@@ -63,25 +63,13 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
     private function _createVisualCustomer(CustomerService\Customer $customer, $update = false){
         try {
 
-            $customer
-                ->setCurrencyID($this->getConfig()->getCurrencyId())
-                ->setTermsID($this->getConfig()->getTermsId())
-                ->setSalesRepID($this->getConfig()->getSalesRepId())
-                ->setTerritoryID($this->getConfig()->getTerritoryId());
-
             if (!$update) {
-                $customerEntity = (new CustomerService\CustomerEntity())
-                    ->setEntityID($this->getConfig()->getEntityId());
-                $customerEntityArray = (new CustomerService\ArrayOfCustomerEntity())
-                    ->setCustomerEntity(array($customerEntity));
-
-                $customerSite = (new CustomerService\CustomerSite())
-                    ->setSiteID($this->getConfig()->getSiteId());
-                $customerSites = (new CustomerService\ArrayOfCustomerSite())
-                    ->setCustomerSite(array($customerSite));
                 $customer
-                    ->setEntities($customerEntityArray)
-                    ->setSites($customerSites);
+                    ->setCurrencyID($this->getConfig()->getCurrencyId())
+                    ->setTermsID($this->getConfig()->getTermsId())
+                    ->setSalesRepID($this->getConfig()->getSalesRepId())
+                    ->setTerritoryID($this->getConfig()->getTerritoryId())
+                    ->setSiteID($this->getConfig()->getSiteId());
             }
 
             $customerArray = (new CustomerService\ArrayOfCustomer())
@@ -90,17 +78,19 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             $customerData = (new CustomerService\CustomerData())
                 ->setCustomers($customerArray);
 
-            /*$res = $this->customerService->CreateCustomer(
+            $res = $this->customerService->CreateCustomer(
                 new CustomerService\CreateCustomer($customerData));
-
-            $this->soapLog($this->customerService, 'CustomerService:CreateCustomer', sprintf('Create Customer %s', $cid));
 
             if (count($res->getCreateCustomerResult()->getCustomers()->getCustomer()) == 0) {
                 return null;
+            } else {
+                $customer = $res->getCreateCustomerResult()->getCustomers()->getCustomer()[0];
             }
-            $customer = $res->getSearchCustomerResult()->getCustomers()->getCustomer()[0];
-            return $customer->getCustomerID() == $cid ? $customer : null;*/
-            return null;
+
+            $this->soapLog($this->customerService, 'CustomerService:CreateCustomer', sprintf('%s Customer %s',$update ? 'Update' : "Create", $customer->getCustomerID()));
+
+            return $customer;
+
         } catch (Exception $e) {
             $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:CreateCustomer', sprintf('Exception: %s', $e->getMessage()));
             return null;
@@ -126,7 +116,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
      * @param Mage_Customer_Model_Customer $cust
      * @return null|CustomerService\Customer
      */
-    public function createVisualCustomer(Mage_Customer_Model_Customer $cust){
+    public function createVisualCustomer(Mage_Customer_Model_Customer &$cust){
 
         $billing = $cust->getDefaultBillingAddress();
         $shipping = $cust->getDefaultShippingAddress();
@@ -166,32 +156,68 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 ->setContactEmail($cust->getEmail());
         }
 
-        return null; //$this->_createVisualCustomer($customer, $update);
+        $customer = $this->_createVisualCustomer($customer, $update);
+
+        if (!update) {
+            $cust->setVisualCustomerId($customer->getCustomerID());
+        }
+        return $customer;
     }
 
     /**
-     * @param $cid
+     * @param $customerId
      * @return null|CustomerService\Customer
      */
-    public function getVisualCustomerById($cid)
+    public function getVisualCustomerById($customerId)
     {
         try {
             $cust = (new CustomerService\Customer())
-                ->setCustomerID($cid);
+                ->setCustomerID($customerId);
 
             $custData = (new CustomerService\CustomerData())
                 ->setCustomers(array($cust));
 
             $res = $this->customerService->SearchCustomer(new CustomerService\SearchCustomer($custData));
 
-            $this->soapLog($this->customerService, 'CustomerService:SearchCustomer', sprintf('Search for %s', $cid));
+            $this->soapLog($this->customerService, 'CustomerService:SearchCustomer', sprintf('Search for %s', $customerId));
 
             if (count($res->getSearchCustomerResult()->getCustomers()->getCustomer())) {
                 return null;
             }
 
             $customer = $res->getSearchCustomerResult()->getCustomers()->getCustomer()[0];
-            return $customer->getCustomerID() == $cid ? $customer : null;
+            return $customer->getCustomerID() == $customerId ? $customer : null;
+        } catch (Exception $e) {
+            $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
+            return null;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $email
+     * @return null|CustomerService\Customer
+     */
+    public function getVisualCustomerByEmail($email)
+    {
+        try {
+            $cust = (new CustomerService\Customer())
+                ->setContactEmail($email);
+
+            $custData = (new CustomerService\CustomerData())
+                ->setCustomers(array($cust));
+
+            $res = $this->customerService->SearchCustomer(new CustomerService\SearchCustomer($custData));
+
+            $this->soapLog($this->customerService, 'CustomerService:SearchCustomer', sprintf('Search for %s', $email));
+
+            if (count($res->getSearchCustomerResult()->getCustomers()->getCustomer())) {
+                return null;
+            }
+
+            $customer = $res->getSearchCustomerResult()->getCustomers()->getCustomer()[0];
+            return $customer ? $customer : null;
         } catch (Exception $e) {
             $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
             return null;
