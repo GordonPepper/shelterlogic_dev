@@ -820,9 +820,7 @@ $j.fn.xMod=function(o) {
 		click:function(e){
 			e.preventDefault();
 			sObjTrig=$j(this);
-			sObjTrig.toggleClass("trans");
-			setTimeout(function(){sObjTrig.toggleClass("active trans");},200);
-			sObjTrig.closest(sObj).find(target).slideToggle(400).toggleClass("active");
+			sObjTrig.closest(sObj).find(target).slideToggle(400);
 		}
 	});
 }

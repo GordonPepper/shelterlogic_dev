@@ -25,24 +25,26 @@
  */
 ?>
 
-<div class="column newsletter clearfix<?php // block block-subscribe ?>">
-        <div class="block-title">
+<div class="column newsletter clearfix<?php // block block-subscribe ?> x-mod">
+        <div class="block-title x-trigger">
             <span><?php echo $this->__('Newsletter Sign Up') ?></span>
         </div>
-        <p>Sign up to receive periodic emails featuring our latest product news, contest giveaways, and more.</p>
-        <form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
-            <div class="block-content">
-                <div class="form-subscribe-header">
-                    <label for="newsletter"><?php echo $this->__('Sign Up for Our Newsletter:') ?></label>
+        <div class="x-target">
+            <p>Sign up to receive periodic emails featuring our latest product news, contest giveaways, and more.</p>
+            <form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+                <div class="block-content">
+                    <div class="form-subscribe-header">
+                        <label for="newsletter"><?php echo $this->__('Sign Up for Our Newsletter:') ?></label>
+                    </div>
+                    <div class="input-box">
+                       <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="email" id="newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" placeholder="ENTER YOUR E-MAIL" />
+                    </div>
+                    <div class="actions">
+                        <button type="submit" title="<?php echo $this->__('SIGN UP') ?>" class="button"><span><span><?php echo $this->__('SIGN UP') ?></span></span></button>
+                    </div>
                 </div>
-                <div class="input-box">
-                   <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="email" id="newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" placeholder="ENTER YOUR E-MAIL" />
-                </div>
-                <div class="actions">
-                    <button type="submit" title="<?php echo $this->__('SIGN UP') ?>" class="button"><span><span><?php echo $this->__('SIGN UP') ?></span></span></button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
         <script type="text/javascript">
         //<![CDATA[
             var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
