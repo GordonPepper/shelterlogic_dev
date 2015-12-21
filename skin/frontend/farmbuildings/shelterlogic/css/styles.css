@@ -1360,6 +1360,7 @@ body:not(.customer-account) .block:first-child .block-title {
   -webkit-transition:all 0.1s ease; -moz-transition:all 0.1s ease; transition:all 0.1s ease;
 }
 
+.button.active,
 .button:hover,
 .button:active,
 .button:focus,
@@ -5888,8 +5889,6 @@ opacity:1;
     .product-features-benefits .cmlla {display:block; padding:0 30px; margin:40px auto; max-width:1140px;}
     .product-features-benefits .cmlla ul li {display:inline-block; vertical-align:top; position:relative; margin:25px 0; padding:0 35px; width:49%;}
 }
-
-.flex-block {display:block; position:relative; z-index:101; padding:0 30px; margin:0 auto 15px auto; max-width:1140px; overflow:hidden;}
 
 .product-related-accessories {display:block;}
 .product-related-accessories h2 {display:block; margin:0 0 25px 0;}
@@ -11097,6 +11096,10 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     .product-item-wrpr .product-name h1.h1 {max-height:65px; padding-right:10px; overflow:hidden;}
     .product-view .product-shop .product-category {padding-left:5px;}
     .product-img-box {padding-top:5%;}
+
+    .flex-block {display:block; position:relative; z-index:101; padding:0 30px; margin:0 auto 15px auto; max-width:1140px; overflow:hidden;}
+    .flex-block .x-trigger {display:none;}
+    .flex-block .x-target {display:block !important;}
 }
 
 @media only screen and (min-width:771px) and (max-width:959px) {
@@ -11137,10 +11140,15 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     .product-item-wrpr .product-name h1.h1 {padding-bottom:20px;}
     .footer-copyright {float:none; width:100%; text-align:center; margin-bottom:10px;}
     .footer-top {float:none; width:100%; text-align:center; margin-bottom:10px;}
+
+    .product-recommended-items {margin:0 0 40px 0;}
+    .flex-block {display:block;}
+    .flex-block .x-trigger {display:block; margin-bottom:20px; line-height:36px; height:36px; font-size:14px;}
+    .flex-block .x-target {display:none;}
 }
 
 @media only screen and (max-width:639px) {
-    .flex-block {display:none;}
+    .mobitoggle {display:block; position:absolute; opacity:0; visibility:hidden; width:1px; height:0px;}
 }
 
 @media only screen and (min-width:1400px) {
@@ -11175,4 +11183,9 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 	.qty-inc {display:inline-block; vertical-align:middle;}
 	.product-item-wrpr .add-to-cart-buttons {display:inline-block; vertical-align:middle;}
     .product-item-wrpr .add-to-cart-buttons button.button {margin:7px 0;}
+}
+
+@media only screen and (min-width:640px) {
+    .footer .column .x-target {display:block !important;}
+    .mobitoggle {display:none;}
 }
