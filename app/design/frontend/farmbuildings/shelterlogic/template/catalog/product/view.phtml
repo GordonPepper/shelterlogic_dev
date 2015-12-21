@@ -233,14 +233,15 @@
     <?php endif; ?>
 
     <div class="flex-block">
-        <a href="#"></a>
+        <div class="x-mod">
+            <div class="x-trigger button">MAY WE SUGGEST</div>
+            <div class="x-target">
+                    <?php echo $this->getChildHtml('related_products') ?>
+                    <?php echo $this->getChildHtml('product-recommended-items') ?>
+            </div>
+        </div>
     </div>
 
-    <div class="flex-block">
-        <?php echo $this->getChildHtml('related_products') ?>
-
-        <?php echo $this->getChildHtml('product-recommended-items') ?>
-    </div>
 
     <?php echo $this->getChildHtml('product_additional_data') ?>
 
