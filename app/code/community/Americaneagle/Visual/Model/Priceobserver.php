@@ -97,7 +97,7 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
          * to be displayed on the front-end.
          */
 
-        if ($customer->getPriceGroup() == 'Exclusive') {
+        if ($customer->getGroupId() == '4') {
             /** @var Mage_Catalog_Model_Resource_Category_Collection $categories */
             $categories = $product->getCategoryCollection();
             /** @var ArrayIterator $iterator */
@@ -111,9 +111,11 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
             if ($found) {
                 return $product->getPrice() * 0.8;
             }
-        } elseif($customer->hasDiscountPercent()) {
+        }
+        if($customer->hasDiscountPercent()) {
             return $product->getPrice() * ((100 - $customer->getDiscountPercent()) / 100);
         }
+
         return false;
     }
 
