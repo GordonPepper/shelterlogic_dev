@@ -131,6 +131,14 @@
                     </visual_catalogrule>
                 </observers>
             </prepare_catalog_product_collection_prices>
+            <catalog_block_product_list_collection>
+                <observers>
+                    <visual_pricing>
+                        <class>americaneagle_visual/priceobserver</class>
+                        <method>addVisualPriceRulesToCollection</method>
+                    </visual_pricing>
+                </observers>
+            </catalog_block_product_list_collection>
         </events>
     </frontend>
 </config>

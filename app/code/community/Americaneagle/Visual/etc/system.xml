@@ -129,6 +129,24 @@
                         </pushfail_email>
                     </fields>
                 </logging>
+                <restricted_products translate="label" module="americaneagle_visual">
+                    <label>Restricted Products</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <entity_ids>
+                            <label>Product ID's</label>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>CSV of Product entity id's for "Exclusive" pricing.</comment>
+                        </entity_ids>
+                    </fields>
+                </restricted_products>
             </groups>
         </aevisual>
     </sections>
