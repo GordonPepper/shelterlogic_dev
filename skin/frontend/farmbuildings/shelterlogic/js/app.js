@@ -857,9 +857,21 @@ $j(document).ready(function() {
 
     function spFN() {
         if ($j("#mobitoggle").is(":visible")) {
-            xModBind(true,"#footer");
+            $j("#footer .x-footer-mod").each(function() {
+                $j(this).xMod({
+                    xbind:true,
+                    trigger:".x-trigger",
+                    target:".x-target"
+                });
+            });
         } else {
-            xModBind(false,"#footer");
+            $j("#footer .x-footer-mod").each(function() {
+                $j(this).xMod({
+                    xbind:false,
+                    trigger:".x-trigger",
+                    target:".x-target"
+                });
+            });
         }
     }
 
