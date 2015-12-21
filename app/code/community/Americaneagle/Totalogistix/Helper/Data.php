@@ -145,7 +145,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                     return $warehouse['zipcode'];
                 }
             }
-            Mage::logException(new Exception('Closest warehouse mismatch'));
+            Mage::throwException('Closest warehouse mismatch');
         } else {
             list($closestWarehouse, $quoteMap) = $this->getBestWarehouse($request, $warehouses);
             foreach ($warehouses as $warehouse) {
@@ -157,9 +157,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                     return $warehouse['zipcode'];
                 }
             }
-            Mage::logException(new Exception('Closest warehouse mismatch'));
+            Mage::throwException('Closest warehouse mismatch');
         }
-        Mage::logException(new Exception('Unable to determine origin zip'));
+        Mage::throwException('Unable to determine origin zip');
         return null;
     }
 
@@ -187,7 +187,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if ($totalFilled < $item->getQty()) {
-                Mage::logException(new Exception('Failed to fill full cart quantity from all warehouses'));
+                Mage::throwException('Failed to fill full cart quantity from all warehouses');
             }
             $quoteMap[$item->getId()] = $fill;
         }
