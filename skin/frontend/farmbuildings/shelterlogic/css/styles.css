@@ -4567,7 +4567,7 @@ body {
 .footer .column ~ .column {padding-right:60px;}
 .footer .column .block-title {display:block; margin-bottom:15px; font-size:12px; font-family:"open sans"; color:#ffffff; text-transform:uppercase; border-bottom:1px solid #666666;}
 .footer .column .block-title span {display:inline-block; position:relative; padding-bottom:15px; bottom:-1px; border-bottom:1px solid #f0b310;}
-.footer .column .block-mod {display:block; margin:15px 0; color:#cccccc; line-height:22px;}
+.footer .column .block-mod {display:block; padding:15px 0; color:#cccccc; line-height:22px;}
 .footer .column.newsletter {float:right;}
 .footer .column .input-box {display:block; margin-bottom:18px;}
 .footer .column .input-box input.input-text {background:none; color:#f0b310; border-width:0 0 1px 0 !important; border-style:none none dotted none; border-color:#f0b310;}
@@ -4618,6 +4618,8 @@ body {
 .footer .column .block-cs li ~ li {margin-top:2px;}
 .footer .column .block-cs a {display:inline-block;}
 
+.footer .column .x-target {display:block;}
+
 @media only screen and (max-width:1139px) {
     .footer .column ~ .column {padding-right:10px;}
 }
@@ -4627,11 +4629,12 @@ body {
     .footer .column .input-box {margin-right:10px;}
     .footer .column .input-box,
     .footer .column .actions {display:inline-block; vertical-align:middle; margin-bottom:18px;}
-    .footer .column.newsletter {float:none; width:100%; float:none; margin-bottom:36px;}
+    .footer .column.newsletter {float:none; width:100%; float:none;}
 }
 
 @media only screen and (max-width:639px) {
-    .footer .column {width:100%; margin-bottom:36px;}
+    .footer .column {width:100%;}
+    .footer .column .x-target {display:none; padding-bottom:36px;}
 }
 
 .footer .block-title {
@@ -4937,6 +4940,8 @@ p.product-name a:hover {
 .products-list .product-name a {
   font-weight:500;
 }
+
+.x-trigger {cursor:pointer;}
 
 /* ============================================ *
  * Product Grid
