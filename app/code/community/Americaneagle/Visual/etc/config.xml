@@ -111,19 +111,24 @@
         <events>
             <catalog_product_get_final_price>
                 <observers>
-                    <catalogrule>
-                        <!--<class>catalogrule/observer</class>-->
+                    <!--Note: if you name your 'observer' node the same as some other -->
+                    <!--observer, for example instead of 'visual_catalog_rule', you use -->
+                    <!--'catalogrule', this node will effectively "rewrite" the core -->
+                    <!--'catalogrule' observer.-->
+                    <visual_catalogrule>
                         <class>americaneagle_visual/priceobserver</class>
                         <method>processFrontFinalPrice</method>
-                    </catalogrule>
+                    </visual_catalogrule>
                 </observers>
             </catalog_product_get_final_price>
             <prepare_catalog_product_collection_prices>
                 <observers>
-                    <catalogrule>
-                        <class>catalogrule/observer</class>
+                    <!--Note: this observer has the same node name as the observer above. these-->
+                    <!--only need to be unique on a per event handler basis.-->
+                    <visual_catalogrule>
+                        <class>americaneagle_visual/priceobserver</class>
                         <method>prepareCatalogProductCollectionPrices</method>
-                    </catalogrule>
+                    </visual_catalogrule>
                 </observers>
             </prepare_catalog_product_collection_prices>
         </events>

@@ -461,7 +461,7 @@ function visualTesting() {
 				'data' => array(
 					'Customers' => array(
 						'Customer' => array(
-							'CustomerID' => 'FBWebOrder')
+							'CustomerID' => '1234')
 					)
 				)
 			)
