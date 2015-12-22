@@ -566,33 +566,37 @@ $j(document).ready(function () {
     // ==============================================
     // Store Item Details
     // ==============================================
-    var qtyWrapper="#qty-wrapper-control",
+    var qtyWrapper=".qty-wrapper",
     qtyItems=[".qty-dec",".qty-inc"],
-    qtyCounter=true,
-    qtyCounterFN=function(b,o){
+    qtyCounterFN=function(b,o,s){
         $j(o).on({click:function(e){
             e.preventDefault();
         }});
         if (b) {
-            $j(o).on({
-                click:function(e){$j("#qty").val(function(i,v){return(++v);});}
+            $j(o,s).on({
+                click:function(e){$j(".qty",s).val(function(i,v){return(++v);});}
             });
         } else {
-            $j(o).on({
-                click:function(e){$j("#qty").val(function(i,v){return((--v>0)?v:1);});}
+            $j(o,s).on({
+                click:function(e){$j(".qty",s).val(function(i,v){return((--v>0)?v:1);});}
             });
         }
     }
-    $j(".qty",qtyWrapper).on({
-        change:function(i,v){
-            $j(this).val(function(i,v){return(((isNaN(v))||v<1)?1:v);});
-        }
+    $j(qtyWrapper).each(function(){
+        $j(this).find(".qty").on({
+            change:function(i,v){
+                $j(this).val(function(i,v){return(((isNaN(v))||v<1)?1:v);});
+            }
+        });
     });
-    $j(qtyItems,qtyWrapper).each(
-        function(i,v){
-            if(i>0){qtyCounterFN(true,v);}else{qtyCounterFN(false,v);}
-        }
-    );
+    $j(qtyWrapper).each(function(){
+        var zet=$(this);
+        $j(qtyItems,this).each(
+            function(i,v){
+                if (i>0){qtyCounterFN(true,v,zet);}else{qtyCounterFN(false,v,zet);}
+            }
+        );
+    });
 
     // ==============================================
     // Header Search Control

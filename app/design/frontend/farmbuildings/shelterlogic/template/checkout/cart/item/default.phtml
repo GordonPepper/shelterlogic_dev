@@ -212,10 +212,10 @@ $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage
         <?php endif; ?>
         <td class="product-cart-actions" data-rwd-label="<?php echo $this->__('Qty'); ?>">
 
-            <div id="qty-wrapper-control" class="qty-wrapper">
+            <div class="qty-wrapper">
                 <label class="visuallyHidden" for="qty"><?php echo $this->__('Qty:') ?></label>
                 <span class="qty-dec" unselectable="on">-</span>
-                <input id="qty" class="input-text qty" name="cart[<?php echo $_item->getId() ?>][qty]" pattern="\d*" value="<?php echo $this->getQty() ?>" size="3" title="<?php echo $this->__('Qty') ?>" maxlength="12" />
+                <input class="input-text qty" name="cart[<?php echo $_item->getId() ?>][qty]" pattern="\d*" value="<?php echo $this->getQty() ?>" size="3" title="<?php echo $this->__('Qty') ?>" maxlength="12" />
                 <span class="qty-inc" unselectable="on">+</span>
                 <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update'); ?>" class="button btn-update"><span><span><?php echo $this->__('Update'); ?></span></span></button>
             </div>
