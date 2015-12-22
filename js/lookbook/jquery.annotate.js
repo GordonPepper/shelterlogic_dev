@@ -174,7 +174,7 @@
         ok.click(function() {
             var form = $('#image-annotate-edit-form form');
             var text = $('#image-annotate-text').val();
-            var img = '';
+            var img = false;
             if (editable.contentHotspot) {
                 img = $('#content-img-input').val();
             }
@@ -544,7 +544,7 @@
             // Create/prepare the editable note elements
             var editable = null;
 
-            if (this.note.img) {
+            if (this.note.img !== false) {
                 editable = new $.fn.annotateEditContent(this.image, this.note);
             } else {
                 editable = new $.fn.annotateEdit(this.image, this.note);
@@ -622,7 +622,7 @@
         this.note.text = text;
         this.note.id = editable.note.id;
         this.editable = true;
-        if (img) {
+        if (img !== false) {
             this.note.img = img;
         }
     };

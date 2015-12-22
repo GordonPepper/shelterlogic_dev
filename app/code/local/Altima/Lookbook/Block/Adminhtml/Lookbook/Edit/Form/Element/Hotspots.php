@@ -29,7 +29,7 @@ class Altima_Lookbook_Block_Adminhtml_Lookbook_Edit_Form_Element_Hotspots extend
 
     public function getElementHtml()
     {
-	    $hotspot_icon  = Mage::getBaseUrl('media').'lookbook/icons/default/hotspot-icon.png';	
+	    $hotspot_icon  = Mage::helper('lookbook')->getHotspotIconUrl();
         $products_link = Mage::helper("adminhtml")->getUrl('adminhtml/catalog_product/');
         $helper = Mage::helper('lookbook');
     

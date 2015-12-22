@@ -504,7 +504,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
             $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
             $sku = $menuitem->getFeaturedProduct();
             $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
-            if ($product->getId()) {
+            if ($product && $product->getId()) {
                 $html .= '<div class="magpassion-child-content last">';
                 $html .= $this->getChild('featured_product')->setProduct($product)->setPriceFrom($menuitem->getPriceFrom())->toHtml();
                 $html .= '</div>';
