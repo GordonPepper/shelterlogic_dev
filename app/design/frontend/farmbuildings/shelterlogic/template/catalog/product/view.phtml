@@ -100,17 +100,6 @@
                                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                             <?php endif;?>
 
-                            <div id="product-item-attr" class="product-item-attr">
-                                <ul>
-                                    <li>
-                                        <label for="product-item-attr-color">Choose Color</label>
-                                    </li>
-                                    <li>
-                                        <label for="product-item-attr-size">Choose Size</label>
-                                    </li>
-                                </ul>
-                            </div>
-
                             <div class="add-to-cart-wrapper">
                                 <?php if (!$this->hasOptions()):?>
                                     <div class="add-to-box">
@@ -131,7 +120,7 @@
                                 <?php elseif (!$_product->isSaleable()): ?>
                                     <div class="add-to-box">
                                         <?php echo $this->getChildHtml('addto') ?>
-                                     <?php
+                                        <?php
         /*
                                          echo $this->getChildHtml('sharing')
         */
@@ -244,10 +233,15 @@
     <?php endif; ?>
 
     <div class="flex-block">
-        <?php echo $this->getChildHtml('related_products') ?>
-
-        <?php echo $this->getChildHtml('product-recommended-items') ?>
+        <div class="x-mod">
+            <div class="x-trigger button">MAY WE SUGGEST</div>
+            <div class="x-target">
+                    <?php echo $this->getChildHtml('related_products') ?>
+                    <?php echo $this->getChildHtml('product-recommended-items') ?>
+            </div>
+        </div>
     </div>
+
 
     <?php echo $this->getChildHtml('product_additional_data') ?>
 

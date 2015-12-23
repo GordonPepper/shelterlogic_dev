@@ -214,8 +214,8 @@ class Altima_Lookbook_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if ($hotspots_json == '') return '';
         $decoded_array = json_decode($hotspots_json, true);
-        $hotspot_icon = Mage::getBaseUrl('media') . 'lookbook/icons/default/hotspot-icon.png';
-        $hotspot_icon_path = Mage::getBaseDir('media') . DS . 'lookbook' . DS . 'icons' . DS . 'default' . DS . 'hotspot-icon.png';
+        $hotspot_icon = $this->getHotspotIconUrl();
+        $hotspot_icon_path = $this->getHotspotIconPath();;
         $icon_dimensions = $this->getImageDimensions($hotspot_icon_path);
         $_coreHelper = Mage::helper('core');
         foreach ($decoded_array as $key => $value) {
@@ -273,5 +273,15 @@ class Altima_Lookbook_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $result = $decoded_array;
         return $result;
+    }
+
+    public function getHotspotIconUrl()
+    {
+        return Mage::getBaseUrl('skin') . 'adminhtml/default/default/lookbook/images/hotspot-icon.png';
+    }
+
+    public function getHotspotIconPath()
+    {
+        return Mage::getBaseDir('skin') . '/adminhtml/default/default/lookbook/images/hotspot-icon.png';
     }
 }

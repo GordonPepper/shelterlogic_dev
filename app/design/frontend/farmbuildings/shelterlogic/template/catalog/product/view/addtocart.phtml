@@ -29,10 +29,10 @@
 <?php if($_product->isSaleable()): ?>
     <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
-        <div id="qty-wrapper-control" class="qty-wrapper">
+        <div class="qty-wrapper">
             <label class="visuallyHidden" for="qty"><?php echo $this->__('Qty:') ?></label>
             <span class="qty-dec" unselectable="on">-</span>
-            <input type="text" pattern="\d*" name="qty" id="qty" maxlength="12" value="<?php echo max($this->getProductDefaultQty() * 1, 1) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+            <input type="text" pattern="\d*" name="qty" maxlength="12" value="<?php echo max($this->getProductDefaultQty() * 1, 1) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
             <span class="qty-inc" unselectable="on">+</span>
         </div>
         <?php endif; ?>

@@ -1,0 +1,20 @@
+<?php
+/** @var Mage_Catalog_Model_Product $_product */
+$_product = $this->getProduct();
+?>
+
+<img class="megamenu-featured-product"
+     src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(400, 333) ?>"
+     alt="<?php echo $this->escapeHtml($_product->getName()) ?>"
+     title="<?php echo $this->escapeHtml($_product->getName()); ?>" />
+<div class="megamenu-product-name"><?php echo Mage::helper('catalog/output')->productAttribute($_product, $_product->getName(), 'name') ?></div>
+<div class="megamenu-product-category"><?php echo $_product->getCategoryCollection()->getFirstItem()->getName() ?></div>
+<div class="megamenu-product-price">
+    <?php if ($this->getPriceFrom() > 0): ?>
+        <?php echo $this->__('Starting at ') ?><?php echo Mage::app()->getStore()->formatPrice($this->getPriceFrom()) ?>
+    <?php else: ?>
+        <?php echo $this->getPriceHtml($_product, true); ?>
+    <?php endif; ?>
+</div>
+
+

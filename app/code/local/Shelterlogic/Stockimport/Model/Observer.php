@@ -30,6 +30,11 @@ class Shelterlogic_Stockimport_Model_Observer
         $dataFile = null;
         try {
             $dataFile = $this->getStockDataFile();
+            if(null === $dataFile) {
+                Mage::log('No import file available', Zend_Log::DEBUG, self::LOG_FILE);
+                Mage::log('============== END ==============', Zend_Log::DEBUG, self::LOG_FILE);
+                return;
+            }
 
             $fileHandle = fopen($dataFile, 'r');
             $header = fgetcsv($fileHandle);
@@ -78,8 +83,10 @@ class Shelterlogic_Stockimport_Model_Observer
     protected function getStockDataFile()
     {
         $filePath = Mage::getStoreConfig(self::XML_PATH_DATA_FILE_PATH);
-        if (!is_readable($filePath)) {
-            Mage::throwException(sprintf('Data file [%s] does not exist or not readable', $filePath));
+        if (file_exists($filePath) && !is_readable($filePath)) {
+            Mage::throwException(sprintf('Data file [%s] exists but is not readable', $filePath));
+        } elseif( !file_exists($filePath) ) {
+            return null;
         }
 
         return $filePath;
