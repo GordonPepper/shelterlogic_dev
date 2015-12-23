@@ -33,7 +33,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Customer ID to be used for all orders</comment>
+                            <comment>Customer ID to be used for all orders on FB and all guest orders on other sites</comment>
                         </customer_id>
                         <service_host translate="label">
                             <label>Service Host</label>

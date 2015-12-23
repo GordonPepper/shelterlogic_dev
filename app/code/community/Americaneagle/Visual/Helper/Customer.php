@@ -155,17 +155,17 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
 
     /**
      * Create or update customer record in Visual
-     * @param Mage_Customer_Model_Customer $cust
+     * @param Mage_Customer_Model_Customer $customer
      * @return null|CustomerService\Customer
      * @throws Exception
      */
-    public function createVisualCustomer(Mage_Customer_Model_Customer &$cust){
+    public function createVisualCustomer(Mage_Customer_Model_Customer &$customer){
 
-        $billing = $cust->getDefaultBillingAddress();
+        $billing = $customer->getDefaultBillingAddress();
 
         if (!$billing) return null;
 
-        $customer = (new CustomerService\Customer())
+        $vCustomer = (new CustomerService\Customer())
             ->setBillingName($billing->getName())
             ->setBillingAddress1($billing->getStreet1())
             ->setBillingAddress2($billing->getStreet2())
@@ -174,14 +174,14 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setBillingZipCode($billing->getPostcode())
             ->setBillingState($this->findRegionCode($billing->getRegionId()))
             ->setBillingCountry($this->findCountryIso3Code($billing->getCountry()))
-            ->setUserDefined1($cust->getId());
+            ->setUserDefined1($customer->getId());
 
         $update = false;
-        if ($cust->getVisualCustomerId()) {
-            $customer->setCustomerID($cust->getVisualCustomerId());
+        if ($customer->getVisualCustomerId()) {
+            $vCustomer->setCustomerID($customer->getVisualCustomerId());
             $update = true;
         } else {
-            $customer
+            $vCustomer
                 ->setCustomerName($billing->getName())
                 ->setAddress1($billing->getStreet1())
                 ->setAddress2($billing->getStreet2())
@@ -194,22 +194,19 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 ->setContactMiddleInitial($billing->getMiddlename() ? substr($billing->getMiddlename(),0,1) : null)
                 ->setContactLastName($billing->getLastname())
                 ->setContactMobileNumber($billing->getTelephone())
-                ->setContactEmail($cust->getEmail());
-            /**
-             * TODO remove this after visual is creating customerids
-             */
-            $customer->setCustomerID('WEB'.$cust->getId());
+                ->setContactEmail($customer->getEmail())
+                ->setCustomerID(preg_replace("/[^0-9]/", '', $customer->getPhone()));
         }
 
-        $customer = $this->_createVisualCustomer($customer, $update);
+        $vCustomer = $this->_createVisualCustomer($vCustomer, $update);
 
-        if (is_null($customer)) return null;
+        if (is_null($vCustomer)) return null;
 
-        if (!$cust->getVisualCustomerId()) {
-            $cust->setVisualCustomerId($customer->getCustomerID());
-            $cust->save();
+        if (!$customer->getVisualCustomerId()) {
+            $customer->setVisualCustomerId($vCustomer->getCustomerID());
+            $customer->save();
         }
-        return $customer;
+        return $vCustomer;
     }
 
     /**
@@ -250,13 +247,13 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
     public function getVisualCustomerByEmail($email)
     {
         try {
-            $cust = (new CustomerService\Customer())
-                ->setContactEmail($email);
+            $customerData = (new CustomerService\CustomerData())
+                ->setCustomers((new CustomerService\ArrayOfCustomer())
+                    ->setCustomer(array(
+                        (new CustomerService\Customer())
+                            ->setContactEmail($email))));
 
-            $custData = (new CustomerService\CustomerData())
-                ->setCustomers(array($cust));
-
-            $res = $this->customerService->SearchCustomer(new CustomerService\SearchCustomer($custData));
+            $res = $this->customerService->SearchCustomer(new CustomerService\SearchCustomer($customerData));
 
             $this->soapLog($this->customerService, 'CustomerService:SearchCustomer', sprintf('Search for %s', $email));
 
@@ -270,8 +267,6 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
             return null;
         }
-
-        return null;
     }
 
     /**

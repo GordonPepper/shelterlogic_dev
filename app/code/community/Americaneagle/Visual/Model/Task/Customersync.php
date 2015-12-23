@@ -103,6 +103,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setMiddlename($cust->getContactMiddleInitial())
                     ->setLastname($cust->getContactLastName())
                     ->setEmail($cust->getContactEmail())
+                    ->setPhone($cust->getContactPhoneNumber())
                     ->setPassword($customer->generatePassword())
                     ->setVisualCustomerId($cust->getCustomerID())
                     ->setCreditStatus($cust->getCreditStatus())
@@ -134,8 +135,6 @@ class Americaneagle_Visual_Model_Task_Customersync
                             ->setRegionId($this->helper->findRegionId($cust->getBillingCountry(), $cust->getBillingState()))
                             ->setPostcode($cust->getBillingZipCode())
                             ->setCity($cust->getBillingCity())
-                            ->setTelephone($cust->getContactPhoneNumber())
-                            ->setFax($cust->getContactFaxNumber())
                             ->setStreet(array($cust->getBillingAddress1(),
                                 $cust->getBillingAddress2(),
                                 $cust->getBillingAddress3()))
@@ -162,8 +161,6 @@ class Americaneagle_Visual_Model_Task_Customersync
                         ->setRegionId($this->helper->findRegionId($cust->getCountry(), $cust->getState()))
                         ->setPostcode($cust->getZipCode())
                         ->setCity($cust->getCity())
-                        ->setTelephone($cust->getContactPhoneNumber())
-                        ->setFax($cust->getContactFaxNumber())
                         ->setStreet(array($cust->getAddress1(),
                             $cust->getAddress2(),
                             $cust->getAddress3()))
