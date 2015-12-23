@@ -116,6 +116,5 @@ class Americaneagle_Visual_Model_Task_Ordersync
         } else {
             return 'Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime);
         }
-
     }
 }
