@@ -95,6 +95,16 @@
                             <sort_order>230</sort_order>
                             <show_in_default>1</show_in_default>
                         </warehouse_id>
+                        <general_group_id>
+                            <label>General Group ID</label>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </general_group_id>
+                        <exclusive_group_id>
+                            <label>Exclusive group ID</label>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </exclusive_group_id>
                     </fields>
                 </general>
                 <logging translate="label" module="americaneagle_visual">

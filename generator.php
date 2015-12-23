@@ -17,3 +17,10 @@ $generator->generate(
         'namespaceName' => 'Visual\CustomerService'
     ))
 );
+$generator->generate(
+    new \Wsdl2PhpGenerator\Config(array(
+        'inputFile' => 'https://slvisual.shelterlogicdirect.com/derp/InventoryService.asmx?wsdl',
+        'outputDir' => 'app/code/community/Americaneagle/Visual/wsdl/InventoryService',
+        'namespaceName' => 'Visual\InventoryService'
+    ))
+);

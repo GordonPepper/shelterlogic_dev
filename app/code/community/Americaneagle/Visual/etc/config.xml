@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Visual>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Americaneagle_Visual>
     </modules>
     <global>
@@ -44,9 +44,31 @@
                 </setup>
             </ae_visual_soaplog>
         </resources>
+        <events>
+            <customer_customer_authenticated>
+                <observers>
+                    <admin>
+                        <class>americaneagle_visual/observer</class>
+                        <method>customerCustomerAuthenticated</method>
+                    </admin>
+                </observers>
+            </customer_customer_authenticated>
+        </events>
     </global>
     <crontab>
         <jobs>
+            <americaneagle_visual_customersync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_customersync::run</model></run>
+            </americaneagle_visual_customersync>
+            <americaneagle_visual_ordersync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_ordersync::run</model></run>
+            </americaneagle_visual_ordersync>
+            <americaneagle_visual_pricesync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_pricesync::run</model></run>
+            </americaneagle_visual_pricesync>
             <americaneagle_visual>
                 <schedule>
                     <cron_expr>*/5 * * * *</cron_expr>
@@ -79,6 +101,8 @@
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
                 <fob>WATERTOWN</fob>
+                <general_group_id>1</general_group_id>
+                <exclusive_group_id>4</exclusive_group_id>
             </general>
             <logging>
                 <soaplog>1</soaplog>
@@ -91,8 +115,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Americaneagle_Visual after="Mage_Adminhtml">Americaneagle_Visual_Adminhtml
-                        </Americaneagle_Visual>
+                        <Americaneagle_Visual after="Mage_Adminhtml">Americaneagle_Visual_Adminhtml</Americaneagle_Visual>
                     </modules>
                 </args>
             </adminhtml>
