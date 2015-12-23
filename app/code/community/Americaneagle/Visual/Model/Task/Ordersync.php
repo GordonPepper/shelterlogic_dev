@@ -63,7 +63,7 @@ class Americaneagle_Visual_Model_Task_Ordersync
         }
 
         //increment push attempts, send failure notifications
-        //$this->orderHelper->auditCollectionPush($orderCollection);
+        $this->orderHelper->auditCollectionPush($orderCollection);
 
         /** @var Mage_Sales_Model_Order $order */
         foreach ($orderCollection as $order) {
@@ -85,7 +85,7 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
             $vCustomer = $this->customerHelper->createVisualCustomer($customer);
             if (is_null($vCustomer)) {
-                Mage::logException(new Exception('Unable to create customer ' . $customer->getEmail() . ' in VISUAL'));
+                $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create customer ' . $customer->getEmail() . ' in VISUAL');
                 continue;
             }
 
@@ -94,16 +94,27 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
             if (is_null($shipToId)) {
                 $address = $this->customerHelper->addNewAddress($shippingAddress, $vCustomer->getCustomerID());
-                if (is_null($address)) continue;
+                if (is_null($address)) {
+                    $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create address for ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                    continue;
+                }
                 $shipToId = $address->getShipToID();
             }
 
             $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId);
             if (is_null($vOrder)) {
+                $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
                 continue;
             }
             $order->setAeSentToVisual(1);
             $order->save();
+            $this->count++;
+        }
+
+        if (count($this->errors) > 0) {
+            return 'Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT);
+        } else {
+            return 'Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime);
         }
 
     }
