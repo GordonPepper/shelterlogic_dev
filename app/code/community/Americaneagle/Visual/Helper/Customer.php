@@ -56,6 +56,35 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
     }
 
     /**
+     * @param $customerId
+     * @param Mage_Sales_Model_Order_Address $address
+     * @return null|string
+     */
+    public function getShipToId($customerId, Mage_Sales_Model_Order_Address $address) {
+        try {
+            $loadShipToByAddress = new CustomerService\LoadShipTOByAddress($customerId,
+                (new CustomerService\CustomerAddress())
+                    ->setName($address->getName())
+                    ->setAddress1($address->getStreet1())
+                    ->setAddress2($address->getStreet2())
+                    ->setAddress3($address->getStreet3())
+                    ->setCity($address->getCity())
+                    ->setState($address->getRegionCode())
+                    ->setZipCode($address->getPostcode())
+                    ->setCountry($this->findCountryIso3Code($address->getCountryId())));
+
+            $res = $this->customerService->LoadShipTOByAddress($loadShipToByAddress);
+
+            $this->soapLog($this->customerService, 'CustomerService:LoadShipTOByAddress', sprintf('Get address ship to %s', print_r($loadShipToByAddress, true)));
+            return $res->getLoadShipTOByAddressResult() ? $res->getLoadShipTOByAddressResult() : null;
+        } catch (Exception $e) {
+            $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:LoadShipTOByAddress', sprintf('Exception: %s', $e->getMessage()));
+            //throw $e;
+            return null;
+        }
+    }
+
+    /**
      * @param CustomerService\Customer $customer
      * @param bool $update
      * @return null|CustomerService\Customer
@@ -70,6 +99,19 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                     ->setSalesRepID($this->getConfig()->getSalesRepId())
                     ->setTerritoryID($this->getConfig()->getTerritoryId())
                     ->setSiteID($this->getConfig()->getSiteId());
+
+                $customerEntity = (new CustomerService\CustomerEntity())
+                    ->setEntityID($this->getConfig()->getEntityId());
+                $customerEntityArray = (new CustomerService\ArrayOfCustomerEntity())
+                    ->setCustomerEntity(array($customerEntity));
+
+                $customerSite = (new CustomerService\CustomerSite())
+                    ->setSiteID($this->getConfig()->getSiteId());
+                $customerSites = (new CustomerService\ArrayOfCustomerSite())
+                    ->setCustomerSite(array($customerSite));
+                $customer
+                    ->setEntities($customerEntityArray)
+                    ->setSites($customerSites);
             }
 
             $customerArray = (new CustomerService\ArrayOfCustomer())
@@ -115,23 +157,15 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
      * Create or update customer record in Visual
      * @param Mage_Customer_Model_Customer $cust
      * @return null|CustomerService\Customer
+     * @throws Exception
      */
     public function createVisualCustomer(Mage_Customer_Model_Customer &$cust){
 
         $billing = $cust->getDefaultBillingAddress();
-        $shipping = $cust->getDefaultShippingAddress();
 
-        if (!$billing || !$shipping) return null;
+        if (!$billing) return null;
 
         $customer = (new CustomerService\Customer())
-            ->setCustomerName($shipping->getName())
-            ->setAddress1($shipping->getStreet1())
-            ->setAddress2($shipping->getStreet2())
-            ->setAddress3($shipping->getStreet3())
-            ->setCity($shipping->getCity())
-            ->setZipCode($shipping->getPostcode())
-            ->setState($this->findRegionCode($shipping->getRegionId()))
-            ->setCountry($this->findCountryIso3Code($shipping->getCountry()))
             ->setBillingName($billing->getName())
             ->setBillingAddress1($billing->getStreet1())
             ->setBillingAddress2($billing->getStreet2())
@@ -142,24 +176,38 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setBillingCountry($this->findCountryIso3Code($billing->getCountry()))
             ->setUserDefined1($cust->getId());
 
-
         $update = false;
         if ($cust->getVisualCustomerId()) {
             $customer->setCustomerID($cust->getVisualCustomerId());
             $update = true;
         } else {
             $customer
+                ->setCustomerName($billing->getName())
+                ->setAddress1($billing->getStreet1())
+                ->setAddress2($billing->getStreet2())
+                ->setAddress3($billing->getStreet3())
+                ->setCity($billing->getCity())
+                ->setZipCode($billing->getPostcode())
+                ->setState($billing->getRegionCode())
+                ->setCountry($this->findCountryIso3Code($billing->getCountry()))
                 ->setContactFirstName($billing->getFirstname())
                 ->setContactMiddleInitial($billing->getMiddlename() ? substr($billing->getMiddlename(),0,1) : null)
                 ->setContactLastName($billing->getLastname())
                 ->setContactMobileNumber($billing->getTelephone())
                 ->setContactEmail($cust->getEmail());
+            /**
+             * TODO remove this after visual is creating customerids
+             */
+            $customer->setCustomerID('WEB'.$cust->getId());
         }
 
         $customer = $this->_createVisualCustomer($customer, $update);
 
-        if (!update) {
+        if (is_null($customer)) return null;
+
+        if (!$cust->getVisualCustomerId()) {
             $cust->setVisualCustomerId($customer->getCustomerID());
+            $cust->save();
         }
         return $customer;
     }

@@ -27,6 +27,12 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_SOAPLOG_ENABLE = 'aevisual/logging/soaplog_enable';
 	const CONFIG_SOAPLOG_TTL = 'aevisual/logging/soaplog_ttl';
 
+	const CONFIG_PUSH_FAIL_EMAIL = 'aevisual/logging/pushfail_email';
+	const CONFIG_PUSH_FAIL_FROM_NAME = 'trans_email/ident_general/name';
+	const CONFIG_PUSH_FAIL_FROM_EMAIL = 'trans_email/ident_general/email';
+
+	const CONFIG_TLX_LEAD_TIME = 'carriers/totalogistix/lead_time';
+
 	/** @var  Mage_Core_Model_Store store */
 	private $store;
 
@@ -36,8 +42,8 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 
 	/* This call should not be in this helper. consider moving */
 	public function getLeadTimeDate($d){
-		$lead = Mage::getStoreConfig('carriers/totalogistix/lead_time', $this->store);
-		return strtotime("$d + $lead days");
+		$lead = Mage::getStoreConfig(self::CONFIG_TLX_LEAD_TIME, $this->store);
+		return (new DateTime($d))->add(new DateInterval("P{$lead}D"));
 	}
 	public function getServiceHost() {
 		return Mage::getStoreConfig(self::CONFIG_SERVICE_PATH, $this->store);
@@ -90,6 +96,16 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function getExclusiveGroupId(){
 		return Mage::getStoreConfig(self::CONFIG_EXCLUSIVE_GROUP_ID, $this->store);
 	}
+	public function getPushFailEmail(){
+		return Mage::getStoreConfig(self::CONFIG_PUSH_FAIL_EMAIL, $this->store);
+	}
+	public function getPushFailFromName(){
+		return Mage::getStoreConfig(self::CONFIG_PUSH_FAIL_FROM_NAME, $this->store);
+	}
+	public function getPushFailFromEmail(){
+		return Mage::getStoreConfig(self::CONFIG_PUSH_FAIL_FROM_EMAIL, $this->store);
+	}
+
 	public function stripCarrierCode($code) {
 		$parts = explode('_', $code);
 		if(count($parts) > 1) {

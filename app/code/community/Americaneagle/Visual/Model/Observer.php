@@ -42,8 +42,11 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 
 		$fbStore = Mage::app()->getStore('default');
 
+		/** @var Americaneagle_Visual_Helper_Order $orderHelper*/
 		$orderHelper = Mage::helper('americaneagle_visual/order');
 		$orderHelper->getConfig()->setStore($fbStore);
+
+		/** @var Americaneagle_Visual_Helper_Customer $customerHelper*/
 		$customerHelper = Mage::helper('americaneagle_visual/customer');
 		$customerHelper->getConfig()->setStore($fbStore);
 
@@ -80,12 +83,12 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			 */
 
 			$vAddress = $customerHelper->addNewAddress($order->getShippingAddress(), $customerId);
-			if ($vAddress === false) {
+			if (is_null($vAddress)) {
 				continue;
 			}
 
-			$vOrder = $orderHelper->addNewOrderForAddress($order, $vAddress->getShipToID());
-			if ($vOrder === false) {
+			$vOrder = $orderHelper->addNewOrderForAddress($order, $customerId, $vAddress->getShipToID(), 'LTL');
+			if (is_null($vOrder)) {
 				continue;
 			}
 			$order->setAeSentToVisual(1);

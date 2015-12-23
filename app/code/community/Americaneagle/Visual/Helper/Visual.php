@@ -55,10 +55,10 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract
 
     public function soapLog(SoapClient $client, $code, $message)
     {
-        if (!isset($this->helper)) {
-            $this->helper = Mage::helper('americaneagle_visual');
+        if (!isset($this->config)) {
+            $this->config = Mage::helper('americaneagle_visual');
         }
-        if (!$this->helper->getSoaplogEnable()) {
+        if (!$this->config->getSoaplogEnable()) {
             return;
         }
         $log = Mage::getModel('americaneagle_visual/soaplog');
@@ -73,10 +73,10 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract
     public function soapLogException($client, $code, $message)
     {
 
-        if (!isset($this->helper)) {
-            $this->helper = Mage::helper('americaneagle_visual');
+        if (!isset($this->config)) {
+            $this->config = Mage::helper('americaneagle_visual');
         }
-        if (!$this->helper->getSoaplogEnable()) {
+        if (!$this->config->getSoaplogEnable()) {
             return;
         }
         $log = Mage::getModel('americaneagle_visual/soaplog');

@@ -68,6 +68,8 @@ class Americaneagle_Visual_Model_Task_Ordersync
         /** @var Mage_Sales_Model_Order $order */
         foreach ($orderCollection as $order) {
 
+            if ($order->getId() != 140) continue;
+
             /** @var Mage_Customer_Model_Customer $customer */
             $customer = Mage::getModel("customer/customer");
             $customer->load($order->getCustomerId());
@@ -75,16 +77,35 @@ class Americaneagle_Visual_Model_Task_Ordersync
             /*
              * update customer info
              */
-            if (!$customer->getVisualCustomerId()) {
+            if (!$customer->getVisualCustomerId() && $customer->getEmail()) {
                 $vCustomer = $this->customerHelper->getVisualCustomerByEmail($customer->getEmail());
                 if ($vCustomer) {
                     $customer->setVisualCustomerId($vCustomer->getCustomerID());
+                    $customer->save();
                 }
             }
-            $this->customerHelper->createVisualCustomer($customer);
 
-            //$order->setAeSentToVisual(1);
-            //$order->save();
+            $vCustomer = $this->customerHelper->createVisualCustomer($customer);
+            if (is_null($vCustomer)) {
+                Mage::logException(new Exception('Unable to create customer ' . $customer->getEmail() . ' in VISUAL'));
+                continue;
+            }
+
+            $shippingAddress = $order->getShippingAddress();
+            $shipToId = $this->customerHelper->getShipToId($vCustomer->getCustomerID(), $shippingAddress);
+
+            if (is_null($shipToId)) {
+                $address = $this->customerHelper->addNewAddress($shippingAddress, $vCustomer->getCustomerID());
+                if (is_null($address)) continue;
+                $shipToId = $address->getShipToID();
+            }
+
+            $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId);
+            if (is_null($vOrder)) {
+                continue;
+            }
+            $order->setAeSentToVisual(1);
+            $order->save();
         }
 
     }

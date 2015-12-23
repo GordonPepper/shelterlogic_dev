@@ -23,58 +23,99 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
 
     /**
      * @param Mage_Sales_Model_Order $order
-     * @param $sid
+     * @param $customerId
+     * @param $shipToId
+     * @param null $shipVIA
      * @return bool|SalesOrderService\CreateSalesOrderResponse
      */
-    public function addNewOrderForAddress(Mage_Sales_Model_Order $order, $sid)
+    public function addNewOrderForAddress(Mage_Sales_Model_Order $order, $customerId, $shipToId, $shipVIA = null)
     {
         try {
             $lines = array();
             $line = 1;
+            $isLTL = false;
             /** @var Mage_Sales_Model_Order_Item $item */
+            $orderStockSource = Mage::getModel('gaboli_warehouse/order_stock_source')
+                    ->getCollection()
+                    ->join(array('l' => 'gaboli_warehouse/location'),
+                        'location_id = l.id',
+                        array('warehouse_code' => 'name'))
+                    ->join(array('oi' => 'sales/order_item'),
+                        'sales_quote_item_id = oi.quote_item_id',
+                        array('item_id'))
+                    ->addFieldToFilter('oi.order_id', array('eq' => $order->getId()))
+                    ->load();
+
             foreach ($order->getAllItems() as $item) {
                 if ($item->getProductType() == 'simple' && $item->getParentItem() != null) {
                     continue;
                 }
-                $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
-                    ->setLineNo($line)
-                    ->setPartID($item->getSku())
-                    ->setUnitPrice($item->getPrice())
-                    ->setLineDescription($item->getName())
-                    ->setLineStatus('A')
-                    ->setCreateNewWorkOrder(1)
-                    ->setFreightCost($order->getShippingAmount())
-                    ->setWarehouseID($this->helper->getWarehouseId())
-                    ->setProductCode(current($item->getChildrenItems())->getProduct()->getProductCode());
-                $lines[] = $lineItem;
-                $line++;
+                /** @var  Mage_Catalog_Model_Product $product */
+                $product = $item->getProduct();
+                if ($product->getTlxPalletWeight() > 0 && $product->getTlxShipLtl()) {
+                    $isLTL = true;
+                }
+
+                foreach ($orderStockSource as $stockItem){
+                    if ($stockItem->getItemId() == $item->getId()) {
+                        $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
+                            ->setLineNo($line)
+                            ->setPartID($item->getSku())
+                            ->setUnitPrice($item->getPrice())
+                            ->setLineDescription($item->getName())
+                            ->setLineStatus('A')
+                            ->setCreateNewWorkOrder(1)
+                            ->setQTY($stockItem->getQty())
+                            ->setFreightCost($order->getShippingAmount())
+                            ->setWarehouseID($stockItem->getWarehouseCode());
+
+                        if ($item->getProductType() == 'simple' && $product->getProductCode()) {
+                            $lineItem->setProductCode($product->getProductCode());
+                        } elseif ($item->getProductType() == 'configurable' && $item->getChildrenItems()) {
+                            $childProduct = current($item->getChildrenItems())->getProduct();
+                            if ($childProduct->getProductCode()) {
+                                $lineItem->setProductCode($childProduct->getProductCode());
+                            }
+                        }
+                        $lines[] = $lineItem;
+                        $line++;
+                    }
+                }
             }
+
+            /** return nothing if there are no line items. */
+            if (count($lines) == 0) {
+                return null;
+            } else {}
 
             /** @var Mage_Sales_Model_Order_Address $billingAddress */
             $billingAddress = $order->getBillingAddress();
 
-            $newOrderHeader = (new \Visual\SalesOrderService\CustomerOrderHeader())
+            /** @var SalesOrderService\CustomerOrderHeader $newOrderHeader */
+            $newOrderHeader = (new SalesOrderService\CustomerOrderHeader())
                 ->setCustomerOrderID($order->getIncrementId())
-                ->setOrderDate(date('c', strtotime($order->getCreatedAt())))
-                ->setCustomerID($this->helper->getCustomerId())
-                ->setDesiredShipDate(date('c', $this->helper->getLeadTimeDate($order->getCreatedAt())))
-                ->setShipToID($sid)
+                ->setOrderDate(new DateTime($order->getCreatedAt()))
+                ->setCustomerID($customerId)
+                ->setDesiredShipDate($this->getConfig()->getLeadTimeDate($order->getCreatedAt()))
+                ->setShipToID($shipToId)
                 ->setStatus('R')
-                ->setShipVIA('LTL')
-                ->setCarrierID($this->helper->stripCarrierCode($order->getShippingMethod()))
+                ->setShipVIA(!is_null($shipVIA) ? $shipVIA : ($isLTL ? 'LTL' : 'PACKAGE'))
+                ->setCarrierID($this->getConfig()->stripCarrierCode($order->getShippingMethod()))
                 ->setContactFirstName($billingAddress->getFirstname())
                 ->setContactLastName($billingAddress->getLastname())
                 ->setContactPhoneNumber($billingAddress->getTelephone())
                 ->setContactEmail($billingAddress->getEmail())
-                ->setSiteID($this->helper->getSiteId())
-                ->setCurrencyID($this->helper->getCurrencyId())
+                ->setSiteID($this->getConfig()->getSiteId())
+                ->setCurrencyID($this->getConfig()->getCurrencyId())
                 ->setCustomerPurchaseOrderID($order->getPayment()->getCcTransId())
-                ->setFOB($this->helper->getFob())
-                ->setTerritoryID($this->helper->getTerritoryId())
-                ->setLines($lines);
+                ->setFOB($this->getConfig()->getFob())
+                ->setTerritoryID($this->getConfig()->getTerritoryId())
+                ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
+                    ->setCustomerOrderLine($lines));
 
             $newOrderData = (new SalesOrderService\CustomerOrderData())
-                ->setOrders(array($newOrderHeader));
+                ->setOrders((new SalesOrderService\ArrayOfCustomerOrderHeader())
+                    ->setCustomerOrderHeader(array($newOrderHeader)));
 
             $res = $this->orderService->CreateSalesOrder(new SalesOrderService\CreateSalesOrder($newOrderData));
 
@@ -96,8 +137,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
         $max = 0;
         $fails = array();
         foreach($coll as $order) {
-            $count = intval($order->getData('ae_visual_push_attempt'));
-            $order->setData('ae_visual_push_attempt', $count + 1);
+            $count = intval($order->getAeVisualPushAttempt());
+            $order->setAeVisualPushAttempt($count + 1);
             $order->save();
             if($count > $max)
                 $max = $count;
@@ -105,9 +146,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 $fails[] = $order->getIncrementId();
         }
         if($max == 10 || $max == 75 || ($max > 0 && ($max % 200) == 0)){
-            $email = Mage::getStoreConfig('aevisual/logging/pushfail_email');
-            $f_name = Mage::getStoreConfig('trans_email/ident_general/name');
-            $f_email = Mage::getStoreConfig('trans_email/ident_general/email');
+            $email = $this->getConfig()->getPushFailEmail();
+            $f_name = $this->getConfig()->getPushFailFromName();
+            $f_email =$this->getConfig()->getPushFailFromEmail();
             if($email) {
                 mail(
                     $email,
