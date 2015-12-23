@@ -68,8 +68,6 @@ class Americaneagle_Visual_Model_Task_Ordersync
         /** @var Mage_Sales_Model_Order $order */
         foreach ($orderCollection as $order) {
 
-            if ($order->getId() != 140) continue;
-
             /** @var Mage_Customer_Model_Customer $customer */
             $customer = Mage::getModel("customer/customer");
             $customer->load($order->getCustomerId());

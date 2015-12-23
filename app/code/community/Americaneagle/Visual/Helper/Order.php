@@ -120,11 +120,11 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             $res = $this->orderService->CreateSalesOrder(new SalesOrderService\CreateSalesOrder($newOrderData));
 
             $this->soapLog($this->orderService, 'CustomerService:addNewOrderForAddress', sprintf('Add New Order'));
-            return $res;
+            return $res->getCreateSalesOrderResult() ? $res->getCreateSalesOrderResult() : null;
         } catch (Exception $e) {
             $this->soapLogException(isset($this->orderService) ? $this->orderService : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
             //throw $e;
-            return false;
+            return null;
         }
 
     }
