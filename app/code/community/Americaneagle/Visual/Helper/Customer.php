@@ -156,12 +156,11 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
     /**
      * Create or update customer record in Visual
      * @param Mage_Customer_Model_Customer $customer
+     * @param Mage_Sales_Model_Order_Address $billing
      * @return null|CustomerService\Customer
      * @throws Exception
      */
-    public function createVisualCustomer(Mage_Customer_Model_Customer &$customer){
-
-        $billing = $customer->getDefaultBillingAddress();
+    public function createVisualCustomer(Mage_Customer_Model_Customer &$customer, Mage_Sales_Model_Order_Address &$billing){
 
         if (!$billing) return null;
 
@@ -176,8 +175,12 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setBillingCountry($this->findCountryIso3Code($billing->getCountry()))
             ->setUserDefined1($customer->getId());
 
+        if ($customer) {
+            $vCustomer->setUserDefined1($customer->getId());
+        }
+
         $update = false;
-        if ($customer->getVisualCustomerId()) {
+        if ($customer && $customer->getVisualCustomerId()) {
             $vCustomer->setCustomerID($customer->getVisualCustomerId());
             $update = true;
         } else {
@@ -194,7 +197,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 ->setContactMiddleInitial($billing->getMiddlename() ? substr($billing->getMiddlename(),0,1) : null)
                 ->setContactLastName($billing->getLastname())
                 ->setContactMobileNumber($billing->getTelephone())
-                ->setContactEmail($customer->getEmail())
+                ->setContactEmail($customer ? $customer->getEmail() : $billing->getEmail())
                 ->setCustomerID(preg_replace("/[^0-9]/", '', $customer->getPhone()));
         }
 
@@ -202,7 +205,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
 
         if (is_null($vCustomer)) return null;
 
-        if (!$customer->getVisualCustomerId()) {
+        if ($customer && !$customer->getVisualCustomerId()) {
             $customer->setVisualCustomerId($vCustomer->getCustomerID());
             $customer->save();
         }

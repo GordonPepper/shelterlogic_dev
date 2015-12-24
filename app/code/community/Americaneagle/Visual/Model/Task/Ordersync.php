@@ -67,23 +67,30 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
         /** @var Mage_Sales_Model_Order $order */
         foreach ($orderCollection as $order) {
+            $vCustomer = null;
+            $customer = null;
 
-            /** @var Mage_Customer_Model_Customer $customer */
-            $customer = Mage::getModel("customer/customer");
-            $customer->load($order->getCustomerId());
+            if ($order->getCustomerId()) {
+                /** @var Mage_Customer_Model_Customer $customer */
+                $customer = Mage::getModel("customer/customer");
+                $customer->load($order->getCustomerId());
 
-            /*
-             * update customer info
-             */
-            if (!$customer->getVisualCustomerId() && $customer->getEmail()) {
-                $vCustomer = $this->customerHelper->getVisualCustomerByEmail($customer->getEmail());
-                if ($vCustomer) {
-                    $customer->setVisualCustomerId($vCustomer->getCustomerID());
-                    $customer->save();
+                /*
+                 * update customer info
+                 */
+                if (!$customer->getVisualCustomerId() && $customer->getEmail()) {
+                    $vCustomer = $this->customerHelper->getVisualCustomerByEmail($customer->getEmail());
+                    if ($vCustomer) {
+                        $customer->setVisualCustomerId($vCustomer->getCustomerID());
+                        $customer->save();
+                    }
                 }
+
+            } else {
+
             }
 
-            $vCustomer = $this->customerHelper->createVisualCustomer($customer);
+            $vCustomer = $this->customerHelper->createVisualCustomer($customer, $order->getBillingAddress());
             if (is_null($vCustomer)) {
                 $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create customer ' . $customer->getEmail() . ' in VISUAL');
                 continue;
