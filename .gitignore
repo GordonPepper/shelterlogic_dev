@@ -9,7 +9,8 @@
 .idea
 .DS_Store
 
-/includes/*
+/includes/src
+/includes/config.php
 
 /image_collections/images/*
 
