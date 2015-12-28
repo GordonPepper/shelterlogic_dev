@@ -90,7 +90,7 @@ class Americaneagle_Visual_Model_Task_Customersync
         for ($i = 0; $i < count($customerList); $i++) {
             $customerItem = $customerList[$i];
             $customer = $this->findCustomerByVisualId($customerItem->getID());
-            $cust = $customerItem->getCustomer();
+            $vCustomer = $customerItem->getCustomer();
 
             if ($customer == null) {
                 /** @var Mage_Customer_Model_Customer $customer */
@@ -98,17 +98,16 @@ class Americaneagle_Visual_Model_Task_Customersync
                 $customer
                     ->setWebsiteId($this->store)
                     ->setStore($this->store->getWebsiteId())
-                    ->setGroupId(strtolower($cust->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
-                    ->setFirstname($cust->getContactFirstName())
-                    ->setMiddlename($cust->getContactMiddleInitial())
-                    ->setLastname($cust->getContactLastName())
-                    ->setEmail($cust->getContactEmail())
-                    ->setPhone($cust->getContactPhoneNumber())
+                    ->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
+                    ->setFirstname($vCustomer->getContactFirstName())
+                    ->setMiddlename($vCustomer->getContactMiddleInitial())
+                    ->setLastname($vCustomer->getContactLastName())
+                    ->setEmail($vCustomer->getContactEmail())
+                    ->setPhone($vCustomer->getContactPhoneNumber())
                     ->setPassword($customer->generatePassword())
-                    ->setVisualCustomerId($cust->getCustomerID())
-                    ->setCreditStatus($cust->getCreditStatus())
-                    ->setPriceGroup($cust->getPriceGroup())
-                    ->setDiscountPercent($cust->getDiscountPercent());
+                    ->setVisualCustomerId($vCustomer->getCustomerID())
+                    ->setCreditStatus($vCustomer->getCreditStatus())
+                    ->setDiscountPercent($vCustomer->getDiscountPercent());
 
                 try{
                     $customer->save();
@@ -121,9 +120,9 @@ class Americaneagle_Visual_Model_Task_Customersync
                 }
 
                 if (!$fail) {
-                    if (!$this->isSameShipping($cust) && $cust->getBillingCountry() != '') {
+                    if (!$this->isSameShipping($vCustomer) && $vCustomer->getBillingCountry() != '') {
 
-                        list($firstname, $middlename, $lastname) = explode(' ', $cust->getBillingName(), 3);
+                        list($firstname, $middlename, $lastname) = explode(' ', $vCustomer->getBillingName(), 3);
 
                         /** @var Mage_Customer_Model_Address $address */
                         $address = Mage::getModel("customer/address")
@@ -131,13 +130,13 @@ class Americaneagle_Visual_Model_Task_Customersync
                             ->setFirstname($firstname)
                             ->setMiddlename($middlename)
                             ->setLastname($lastname)
-                            ->setCountryId($this->helper->findCountryId($cust->getBillingCountry()))
-                            ->setRegionId($this->helper->findRegionId($cust->getBillingCountry(), $cust->getBillingState()))
-                            ->setPostcode($cust->getBillingZipCode())
-                            ->setCity($cust->getBillingCity())
-                            ->setStreet(array($cust->getBillingAddress1(),
-                                $cust->getBillingAddress2(),
-                                $cust->getBillingAddress3()))
+                            ->setCountryId($this->helper->findCountryId($vCustomer->getBillingCountry()))
+                            ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
+                            ->setPostcode($vCustomer->getBillingZipCode())
+                            ->setCity($vCustomer->getBillingCity())
+                            ->setStreet(array($vCustomer->getBillingAddress1(),
+                                $vCustomer->getBillingAddress2(),
+                                $vCustomer->getBillingAddress3()))
                             ->setIsDefaultBilling('1')
                             ->setIsDefaultShipping('0')
                             ->setSaveInAddressBook('1');
@@ -150,21 +149,21 @@ class Americaneagle_Visual_Model_Task_Customersync
                         }
                     }
 
-                    list($firstname, $middlename, $lastname) = explode(' ', $cust->getCustomerName(), 3);
+                    list($firstname, $middlename, $lastname) = explode(' ', $vCustomer->getCustomerName(), 3);
 
                     $address = Mage::getModel("customer/address")
                         ->setCustomerId($customer->getId())
                         ->setFirstname($firstname)
                         ->setMiddlename($middlename)
                         ->setLastname($lastname)
-                        ->setCountryId($this->helper->findCountryId($cust->getCountry()))
-                        ->setRegionId($this->helper->findRegionId($cust->getCountry(), $cust->getState()))
-                        ->setPostcode($cust->getZipCode())
-                        ->setCity($cust->getCity())
-                        ->setStreet(array($cust->getAddress1(),
-                            $cust->getAddress2(),
-                            $cust->getAddress3()))
-                        ->setIsDefaultBilling($this->isSameShipping($cust)?'1':'0')
+                        ->setCountryId($this->helper->findCountryId($vCustomer->getCountry()))
+                        ->setRegionId($this->helper->findRegionId($vCustomer->getCountry(), $vCustomer->getState()))
+                        ->setPostcode($vCustomer->getZipCode())
+                        ->setCity($vCustomer->getCity())
+                        ->setStreet(array($vCustomer->getAddress1(),
+                            $vCustomer->getAddress2(),
+                            $vCustomer->getAddress3()))
+                        ->setIsDefaultBilling($this->isSameShipping($vCustomer)?'1':'0')
                         ->setIsDefaultShipping('1')
                         ->setSaveInAddressBook('1');
 

@@ -49,7 +49,7 @@
                 <observers>
                     <admin>
                         <class>americaneagle_visual/observer</class>
-                        <method>customerCustomerAuthenticated</method>
+                        <method>getDataFromVisual</method>
                     </admin>
                 </observers>
             </customer_customer_authenticated>

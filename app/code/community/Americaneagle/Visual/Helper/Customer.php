@@ -229,7 +229,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
 
             $this->soapLog($this->customerService, 'CustomerService:SearchCustomer', sprintf('Search for %s', $customerId));
 
-            if (count($res->getSearchCustomerResult()->getCustomers()->getCustomer())) {
+            if ($res && $res->getSearchCustomerResult() && count($res->getSearchCustomerResult()->getCustomers()->getCustomer()) == 0) {
                 return null;
             }
 
@@ -294,29 +294,6 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
         }
 
         return null;
-    }
-
-    /**
-     * @param $event
-     * @return $this
-     * @throws Mage_Core_Exception
-     */
-    public function customerCustomerAuthenticated($event)
-    {
-        if($this->getConfig()->getEnabled() == 0) {
-            return $this;
-        }
-
-        $customer = $event->getModel();
-
-        if (!empty($customer->getVisualCustomerId)) {
-            $vCustomer = $this->getVisualCustomerById($customer->getVisualCustomerId);
-            if(is_null($vCustomer)) {
-                throw Mage::exception('Mage_Core', Mage::helper('customer')->__('We are not able to reach the service please try again later.'),
-                    Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
-                );
-            }
-        }
     }
 
     /**
