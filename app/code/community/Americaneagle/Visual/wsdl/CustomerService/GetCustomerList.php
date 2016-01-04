@@ -61,6 +61,11 @@ class GetCustomerList
     protected $Territory = null;
 
     /**
+     * @var string $MarketId
+     */
+    protected $MarketId = null;
+
+    /**
      * @param string $SiteId
      * @param string $ListOnly
      * @param int $Start
@@ -72,8 +77,9 @@ class GetCustomerList
      * @param string $EndDate
      * @param string $ActiveFlag
      * @param string $Territory
+     * @param string $MarketId
      */
-    public function __construct($SiteId, $ListOnly, $Start, $Count, $ReverseSort, $CustomerId, $Modified, $StartDate, $EndDate, $ActiveFlag, $Territory)
+    public function __construct($SiteId, $ListOnly, $Start, $Count, $ReverseSort, $CustomerId, $Modified, $StartDate, $EndDate, $ActiveFlag, $Territory, $MarketId)
     {
       $this->SiteId = $SiteId;
       $this->ListOnly = $ListOnly;
@@ -86,6 +92,7 @@ class GetCustomerList
       $this->EndDate = $EndDate;
       $this->ActiveFlag = $ActiveFlag;
       $this->Territory = $Territory;
+      $this->MarketId = $MarketId;
     }
 
     /**
@@ -283,6 +290,24 @@ class GetCustomerList
     public function setTerritory($Territory)
     {
       $this->Territory = $Territory;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMarketId()
+    {
+      return $this->MarketId;
+    }
+
+    /**
+     * @param string $MarketId
+     * @return \Visual\CustomerService\GetCustomerList
+     */
+    public function setMarketId($MarketId)
+    {
+      $this->MarketId = $MarketId;
       return $this;
     }
 
