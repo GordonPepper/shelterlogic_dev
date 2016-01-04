@@ -57,7 +57,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 }
 
                 foreach ($orderStockSource as $stockItem){
-                    if ($stockItem->getItemId() == $item->getId()) {
+                    $childItem = null;
+                    if ($item->getProductType() == 'configurable' && $item->getChildrenItems()) {
+                        $childItem = current($item->getChildrenItems());
+                    }
+                    if ($stockItem->getItemId() == $item->getId() ||
+                        (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
                             ->setPartID($item->getSku())
@@ -71,9 +76,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
 
                         if ($item->getProductType() == 'simple' && $product->getProductCode()) {
                             $lineItem->setProductCode($product->getProductCode());
-                        } elseif ($item->getProductType() == 'configurable' && $item->getChildrenItems()) {
-                            $childProduct = current($item->getChildrenItems())->getProduct();
-                            if ($childProduct->getProductCode()) {
+                        } elseif (!is_null($childItem)) {
+                            $childProduct = $childItem->getProduct();
+                            if ($childProduct && $childProduct->getProductCode()) {
                                 $lineItem->setProductCode($childProduct->getProductCode());
                             }
                         }
