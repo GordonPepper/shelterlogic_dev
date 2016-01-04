@@ -282,7 +282,19 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
     public function getNewCustomers($start, $count, $startDate)
     {
         try {
-            $params = new CustomerService\GetCustomerList($this->getConfig()->getSiteId(), "N", $start, $count, null, null, $startDate != null ? "Y" : null, $startDate, null, null, $this->getConfig()->getTerritoryId());
+            $params = new CustomerService\GetCustomerList(
+                    $this->getConfig()->getSiteId(),
+                    "N",
+                    $start,
+                    $count,
+                    null,
+                    null,
+                    $startDate != null ? "Y" : null,
+                    $startDate,
+                    null,
+                    null,
+                    null,
+                    $this->getConfig()->getTerritoryId());
 
             $res = $this->customerService->GetCustomerList($params)->getGetCustomerListResult();
             $this->soapLog($this->customerService, 'CustomerService:GetCustomerList', sprintf('Search for %s', 'Fred%'));

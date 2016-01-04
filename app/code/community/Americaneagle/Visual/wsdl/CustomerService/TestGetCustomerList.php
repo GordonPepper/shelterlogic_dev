@@ -76,6 +76,11 @@ class TestGetCustomerList
     protected $Territory = null;
 
     /**
+     * @var string $MarketId
+     */
+    protected $MarketId = null;
+
+    /**
      * @param string $key
      * @param string $userName
      * @param string $password
@@ -90,8 +95,9 @@ class TestGetCustomerList
      * @param string $EndDate
      * @param string $ActiveFlag
      * @param string $Territory
+     * @param string $MarketId
      */
-    public function __construct($key, $userName, $password, $SiteId, $ListOnly, $Start, $Count, $ReverseSort, $CustomerId, $Modified, $StartDate, $EndDate, $ActiveFlag, $Territory)
+    public function __construct($key, $userName, $password, $SiteId, $ListOnly, $Start, $Count, $ReverseSort, $CustomerId, $Modified, $StartDate, $EndDate, $ActiveFlag, $Territory, $MarketId)
     {
       $this->key = $key;
       $this->userName = $userName;
@@ -107,6 +113,7 @@ class TestGetCustomerList
       $this->EndDate = $EndDate;
       $this->ActiveFlag = $ActiveFlag;
       $this->Territory = $Territory;
+      $this->MarketId = $MarketId;
     }
 
     /**
@@ -358,6 +365,24 @@ class TestGetCustomerList
     public function setTerritory($Territory)
     {
       $this->Territory = $Territory;
+      return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMarketId()
+    {
+      return $this->MarketId;
+    }
+
+    /**
+     * @param string $MarketId
+     * @return \Visual\CustomerService\TestGetCustomerList
+     */
+    public function setMarketId($MarketId)
+    {
+      $this->MarketId = $MarketId;
       return $this;
     }
 

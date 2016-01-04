@@ -59,7 +59,7 @@ class Americaneagle_Visual_Model_Task_Customersync
         } else {
             return false;
         }
-
+        $this->startDate = null;
         $startTime = microtime(true);
 
         $this->getRecursiveCustomers(0);
@@ -96,8 +96,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                 /** @var Mage_Customer_Model_Customer $customer */
                 $customer = Mage::getModel("customer/customer");
                 $customer
-                    ->setWebsiteId($this->store)
-                    ->setStore($this->store->getWebsiteId())
+                    ->setWebsiteId($this->store->getWebsiteId())
+                    ->setStore($this->store)
                     ->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
                     ->setFirstname($vCustomer->getContactFirstName())
                     ->setMiddlename($vCustomer->getContactMiddleInitial())
