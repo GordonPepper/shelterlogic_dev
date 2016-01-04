@@ -64,6 +64,8 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
             "storage bag" => "storage_bag",
             "hardware kit" => "hardware_kit",
             "cords of wood" => "cords_of_wood",
+            "manage_stock" => "manage_stock",
+            "use_config_manage_stock" => "use_config_manage_stock"
 // TODO: uncomment these after get exact columns name
 //            "???" => "marketing_block_title",
 //            "???" => "marketing_block_description",

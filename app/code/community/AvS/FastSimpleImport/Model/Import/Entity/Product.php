@@ -1159,6 +1159,8 @@ class AvS_FastSimpleImport_Model_Import_Entity_Product extends AvS_FastSimpleImp
 
                 $row['product_id'] = $this->_newSku[$sku]['entity_id'];
                 $row['stock_id'] = isset($rowData['stock_id']) ? $rowData['stock_id'] : 1;
+                $row['manage_stock'] = isset($rowData['manage_stock']) ? $rowData['manage_stock'] : $defaultStockData['manage_stock'];
+                $row['use_config_manage_stock'] = isset($rowData['use_config_manage_stock']) ? $rowData['use_config_manage_stock'] : $defaultStockData['use_config_manage_stock'];
 
                 /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 $stockItem = Mage::getModel('cataloginventory/stock_item');
