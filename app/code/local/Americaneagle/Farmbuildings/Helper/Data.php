@@ -135,12 +135,14 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 	public function getAdditionalData($pid, $spid) {
 		$product = Mage::getModel('catalog/product')->load($pid);
 		$sproduct = Mage::getModel('catalog/product')->load($spid);
-		$additional = array();
+        //Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+
+        $additional = array();
 		foreach($this->getSpAttributes($sproduct) as $adds) {
 			$additional[$adds['code']] = $product->getData($adds['code']);
 		}
 		$vals = array(
-			'price' => $product->getPrice(),
+			'price' => $product->getFinalPrice(),
 			'sku' => $product->getSku(),
 			'weight' => $product->getWeight(),
 			'attribs' => $additional

@@ -174,16 +174,35 @@
                     </fields>
                 </logging>
                 <restricted_products translate="label" module="americaneagle_visual">
-                    <label>Restricted Products</label>
+                    <label>Fixed Discount Products</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>3</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
+                        <fixed_discount_amount>
+                            <label>Fixed Discount Percent</label>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits validate-digits-range digits-range-0-100</validate>
+                        </fixed_discount_amount>
+                        <fixed_discount_groups translate="label" module="americaneagle_visual">
+                            <label>Customer Groups</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <frontend_model>netzarbeiter_groupscatalog2/adminhtml_system_config_renderer_customergroup</frontend_model>
+                            <source_model>netzarbeiter_groupscatalog2/system_config_source_customergroup</source_model>
+                            <backend_model>netzarbeiter_groupscatalog2/system_config_backend_customergroup_product</backend_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fixed_discount_groups>
                         <entity_ids>
                             <label>Product ID's</label>
-                            <sort_order>1</sort_order>
+                            <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
