@@ -73,7 +73,7 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
 
     }
 
-    private function getShelterlogicPriceRule(Mage_Customer_Model_Customer $customer, $product) {
+    public function getShelterlogicPriceRule(Mage_Customer_Model_Customer $customer, $product) {
         /** this is what the core rule looks like:
          *
          * $adapter = $this->_getReadAdapter();

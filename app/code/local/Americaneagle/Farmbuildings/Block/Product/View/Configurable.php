@@ -42,7 +42,7 @@ class Americaneagle_Farmbuildings_Block_Product_View_Configurable
 			usort($firstOption, function ($a, $b) {
 				return ($a['pos'] > $b['pos']);
 			});
-			return json_encode(array('id' => $keys[0], 'code' => $tree[$keys[0]]['code'], 'options' => $firstOption));
+			return json_encode(array('sp' => $tree['sp'], 'id' => $keys[0], 'code' => $tree[$keys[0]]['code'], 'options' => $firstOption));
 		}
 	}
 

@@ -50,6 +50,11 @@ aeProduct.Config.prototype = {
                 Event.observe(element, 'change', this.configure.bind(this));
             }
         }.bind(this));
+
+        var sp = $$('#ala-product-price-' + aeProductId);
+        if(sp[0]){
+            sp[0].innerHTML = formatCurrency(config.sp, priceFormat);
+        }
     },
     configure: function(event){
 

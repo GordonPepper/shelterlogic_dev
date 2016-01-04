@@ -59,11 +59,24 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 				'code' => $att->getProductAttribute()->getAttributeCode()
 			);
 		}
+
+        /* adding price data */
+            $from->joinInner(
+                array('at_price' => $conn->getTableName('catalog_product_entity_decimal')),
+                "at_price.entity_id = e.entity_id AND at_price.attribute_id = '75' AND at_price.store_id = 0",
+                array('price' => 'at_price.value')
+            );
 		$from->where(implode(' AND ', $where));
 //		file_put_contents('/tmp/full_select.sql', $select->__toString());
 		$labelMap = $this->getAttributeLabelMap($attmap);
 		$tree = array();
+        $sp = null;
 		foreach($conn->fetchAll($select) as $row){
+            if (empty($sp) && $row['price'] > 1.00) {
+                $sp = $row['price'];
+            } elseif ($row['price'] > 1.00 && $sp > $row['price']) {
+                $sp = $row['price'];
+            }
 			$root = &$tree;
 			$lastid = '';
 			foreach($attmap as $att) {
@@ -85,6 +98,8 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			}
 			$root['id'] = $lastid;
 		}
+        $product->setPrice($sp);
+        $tree['sp'] = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product);
 		return $tree;
 	}
 

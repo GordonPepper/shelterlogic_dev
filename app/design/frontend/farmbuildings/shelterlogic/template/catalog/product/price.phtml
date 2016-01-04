@@ -355,7 +355,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
             </p>
         <?php elseif($_product->isConfigurable()) :?>
                 <p class="ala-price">
-                <span class="ala-price-label">As low as:</span>
+                <span class="ala-price-label">Starting at:</span>
                 <span class="price" id="ala-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
                 </span>
