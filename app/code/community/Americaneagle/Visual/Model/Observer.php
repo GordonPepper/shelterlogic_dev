@@ -110,7 +110,7 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 		/** @var Mage_Customer_Model_Customer $customer*/
 		$customer = $event->getModel();
 
-		if (!empty($customer->getVisualCustomerId())) {
+		if ($customer->getVisualCustomerId()) {
 			/** @var Americaneagle_Visual_Helper_Customer $customerHelper*/
 			$customerHelper = Mage::helper('americaneagle_visual/customer');
 			$customerHelper->getConfig()->setStore($customer->getStore());

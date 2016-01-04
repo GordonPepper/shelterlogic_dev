@@ -109,29 +109,15 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
          * to be displayed on the front-end.
          */
 
-        if ($customer->getGroupId() == '4') {
-//            /** @var Mage_Catalog_Model_Resource_Category_Collection $categories */
-//            $categories = $product->getCategoryCollection();
-//            $found = false;
-//            foreach ($categories as $category) {
-//                if(in_array( '18', explode('/', $category->getPath()) )) {
-//                    $found = true;
-//                }
-//            }
-            /*
-             * instead of using the category, we are going to use a csv list of entity
-             * id's to match aginst.
-             */
+        $fpg = explode(',', Mage::getStoreConfig('aevisual/restricted_products/fixed_discount_groups'));
+        if (in_array($customer->getGroupId(),$fpg) === true ) {
             $ids = array_filter(explode(',',Mage::getStoreConfig('aevisual/restricted_products/entity_ids')));
             $found = false;
-            foreach ($ids as $id) {
-                if($product->getId() == $id) {
-                    $found = true;
-                    break;
-                }
+            if(in_array($product->getId(), $ids) === true) {
+                $found = true;
             }
             if ($found) {
-                return $product->getPrice() * 0.8;
+                return $product->getPrice() * ((100 - Mage::getStoreConfig('aevisual/restricted_products/fixed_discount_amount'))/100);
             }
         }
         if($customer->hasDiscountPercent()) {
