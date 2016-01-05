@@ -162,6 +162,14 @@
                     </visual_pricing>
                 </observers>
             </catalog_block_product_list_collection>
+            <sales_quote_add_item>
+                <observers>
+                    <visual_quote>
+                        <class>americaneagle_visual/priceobserver</class>
+                        <method>salesQuoteAddItem</method>
+                    </visual_quote>
+                </observers>
+            </sales_quote_add_item>
         </events>
     </frontend>
 </config>
