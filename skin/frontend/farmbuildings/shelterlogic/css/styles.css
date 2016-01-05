@@ -1853,6 +1853,7 @@ a.button2:hover {
   float:none;
   width:auto;
   padding:0;
+  margin:25px 0;
   /* Remove the 15px padding */
 }
 
@@ -2278,8 +2279,6 @@ a.button2:hover {
  * Price Box - Special
  */
 
-.price-box .old-price {margin-left:20px;}
-
 .price-box .old-price,
 .price-box .special-price {
   display:inline-block; vertical-align:middle;
@@ -2294,8 +2293,7 @@ a.button2:hover {
 }
 
 .price-box .old-price .price {
-  color:#cccccc;
-  font-size:18px;
+  color:#bfbfbf;
   text-decoration:line-through;
 }
 
@@ -3416,7 +3414,7 @@ form .form-instructions {
 .data-table thead th:nth-child(1) {width:5%;}
 .data-table thead th:nth-child(2) {width:10%;}
 .data-table thead th:nth-child(3),
-.data-table tbody td:nth-child(3) {width:40%; padding:0 20px;}
+.data-table tbody td:nth-child(3) {width:40%; padding-left:20px; padding-right:20px;}
 .data-table thead th:nth-child(4) {width:15%;}
 .data-table thead th:nth-child(5) {width:15%;}
 .data-table thead th:nth-child(6) {width:15%;}
@@ -5101,12 +5099,14 @@ opacity:1;
 }
 
 .products-grid .price-box {
-  display:block;
+  display:table-cell;
+  vertical-align:middle;
   padding:0;
   margin:0;
   color:#666666;
   font-size:13px;
-  line-height:60px;
+  line-height:20px;
+  width:85px;
   height:60px;
 }
 
@@ -6970,7 +6970,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 
 .cart-forms {margin-bottom:25px;}
 
-.cart {display:block; margin:25px 0;}
+.cart {display:block;}
 
 .cart-forms,
 .cart-totals-wrapper,
