@@ -3437,6 +3437,31 @@ form .form-instructions {
 .data-table tbody td .item-options {margin-top:10px;}
 .data-table tbody td .item-options dt::after {content:':';}
 
+@media only screen and (max-width:599px) {
+    .main .order-details .data-table colgroup col {width:auto;}
+    .main .order-details .data-table thead th {width:100%;}
+    .main .order-details .data-table tbody td {width:100%; padding-left:10px; padding-right:10px;}
+    .main .order-details .linearize-table-large tfoot td:nth-child(1) {width:70%;}
+    .main .order-details .linearize-table-large tfoot td:nth-child(2) {width:30%;}
+}
+
+@media only screen and (min-width:600px) {
+    .order-details .data-table thead th,
+    .order-details .data-table tbody td {vertical-align:middle;}
+    .order-details .data-table thead th:nth-child(4) {text-align:right;}
+    .order-details .data-table tbody td .product-name {margin-bottom:0;}
+    .order-details .data-table thead th:nth-child(1) {width:40%;}
+    .order-details .data-table thead th:nth-child(2) {width:10%;}
+    .order-details .data-table thead th:nth-child(3),
+    .order-details .data-table tbody td:nth-child(3) {width:10%;}
+    .order-details .data-table thead th:nth-child(4) {width:15%;}
+    .order-details .data-table thead th:nth-child(5) {width:15%;}
+    .order-details .data-table thead th:nth-child(6) {width:15%;}
+}
+
+.zoomContainer {z-index:601;}
+.zoomContainer .zoomWindowContainer {z-index:602;}
+
 /* ============================================ *
  * Zebra-Stripe Table
  * ============================================ */
@@ -4959,13 +4984,14 @@ p.product-name a:hover {
 .category-products .products-grid h4 {display:block; position:absolute; left:0; right:0; top:auto; bottom:0; height:auto; z-index:1; margin:0; padding:20px 20px 34px 20px; font-size:18px; line-height:20px; color:#ffffff;}
 .category-products .products-grid h4:after {content:""; display:block; position:relative; left:0; right:0; top:auto; bottom:-12px; border-bottom:1px solid #ffffff;}
 
-.category-products .products-grid li > a.wishlist-toggle {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25); box-shadow:none;}
+.category-products .products-grid li div.wishlist-toggle {display:block; position:absolute; padding:10px; z-index:1; left:0; right:auto; top:0; bottom:auto; font-family:FontAwesome; font-size:19px; line-height:19px; text-shadow:0 2px 2px rgba(0,0,0,0.25); box-shadow:none;}
 
-.category-products .products-grid li > a.wishlist-toggle:hover {transform:scale(1.2);}
-.category-products .products-grid li > a.wishlist-toggle::before {content:"\f006";}
-.category-products .products-grid li > a.wishlist-toggle.active::before,
-.category-products .products-grid li > a.wishlist-toggle:hover::before {content:"\f005";}
-.category-products .products-grid li > a.wishlist-toggle.active:hover::before {content:"\f006";}
+.category-products .products-grid li div.wishlist-toggle:hover {transform:scale(1.2);}
+.category-products .products-grid li div.wishlist-toggle::before {content:"\f006";}
+.category-products .products-grid li div.wishlist-toggle.active::before {content:"\f005";}
+
+.category-products .products-grid li div.wishlist-toggle.active:hover::before {content:"\f006";}
+.category-products .products-grid li div.wishlist-toggle:not(.active):hover::before {content:"\f005";}
 
 .category-products .products-grid li > a.onsale::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
 
@@ -9502,6 +9528,8 @@ div.paypal-logo span > img {
   text-transform:uppercase;
 }
 
+.customer-reviews-tab-add {display:inline-block; margin-bottom:10px;}
+
 .review-summary-table {
   border-bottom:1px solid #cccccc;
   margin:0 0 10px;
@@ -10068,6 +10096,9 @@ div.paypal-logo span > img {
     padding-right:15px;
   }
 }
+
+.product-cart-info-sku {display:block; font-size:12px;}
+
 @media only screen and (max-width:599px) {
   #wishlist-table td.customer-wishlist-item-quantity {
     padding-left:0;
