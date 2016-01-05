@@ -77,6 +77,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
             } elseif ($row['price'] > 1.00 && $sp > $row['price']) {
                 $sp = $row['price'];
             }
+
 			$root = &$tree;
 			$lastid = '';
 			foreach($attmap as $att) {
