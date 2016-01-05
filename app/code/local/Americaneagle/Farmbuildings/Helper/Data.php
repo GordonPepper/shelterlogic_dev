@@ -157,8 +157,10 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		foreach($this->getSpAttributes($sproduct) as $adds) {
 			$additional[$adds['code']] = $product->getData($adds['code']);
 		}
-		$vals = array(
-			'price' => $product->getFinalPrice(),
+        $fp = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product, $spid);
+
+        $vals = array(
+			'price' => $fp,
 			'sku' => $product->getSku(),
 			'weight' => $product->getWeight(),
 			'attribs' => $additional

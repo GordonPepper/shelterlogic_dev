@@ -73,7 +73,7 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
 
     }
 
-    public function getShelterlogicPriceRule(Mage_Customer_Model_Customer $customer, $product) {
+    public function getShelterlogicPriceRule(Mage_Customer_Model_Customer $customer, $product, $spid = null) {
         /** this is what the core rule looks like:
          *
          * $adapter = $this->_getReadAdapter();
@@ -113,7 +113,11 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
         if (in_array($customer->getGroupId(),$fpg) === true ) {
             $ids = array_filter(explode(',',Mage::getStoreConfig('aevisual/restricted_products/entity_ids')));
             $found = false;
-            if(in_array($product->getId(), $ids) === true) {
+            $searchId = $product->getId();
+            if($spid !== null) {
+                $searchId = $spid;
+            }
+            if(in_array($searchId, $ids) === true) {
                 $found = true;
             }
             if ($found) {
