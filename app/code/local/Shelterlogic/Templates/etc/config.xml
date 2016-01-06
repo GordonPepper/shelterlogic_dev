@@ -26,7 +26,7 @@
                 <columns2category module="page" translate="label">
                     <label>2 column category</label>
                     <template>page/2columns-category-left.phtml</template>
-                    <layout_handle>2columns-category-left.phtml</layout_handle>
+                    <!--<layout_handle>2columns-category-left.phtml</layout_handle>-->
                 </columns2category>
                 <!-- add more layouts here -->
             </layouts>
