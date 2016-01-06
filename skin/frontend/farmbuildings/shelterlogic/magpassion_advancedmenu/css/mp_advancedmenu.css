@@ -1,0 +1,89 @@
+/**
+ * MagPassion.com extension
+ * 
+ * @category   	MagPassion
+ * @package		MagPassion.com
+ * @copyright  	Copyright (c) 2013 by MagPassion (http://magpassion.com)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/**
+ * menu css
+ *
+ * @category	MagPassion
+ * @package		MagPassion.com
+ */
+
+.magpassion-nav-container {clear:both; width:100%; margin:10px 0px 10px;}
+.magpassion-menu-dropdown, .magpassion-menu-dropline, .magpassion-menu-mega {width:918px; padding:0; font-size:13px; margin:0 auto;clear:both; content:"."; display:block; height:50px;}
+
+/* All Levels */ /* Style consistent throughout all nav levels */
+.magpassion-nav-container ul li {text-align:left; height:100%;}
+ul.magpassion-menu-dropline, ul.magpassion-menu-mega, ul.magpassion-menu-dropdown li {position:relative;}
+ul.magpassion-menu-dropline li {height:50px;}
+.magpassion-nav-container ul li.over {z-index:998;}
+.magpassion-nav-container ul a,
+.magpassion-nav-container ul a:hover {display:block; text-decoration:none;}
+.magpassion-nav-container ul span {display:block; cursor:pointer; white-space:nowrap;}
+.magpassion-nav-container ul li ul span {white-space:normal;}
+
+/* 0 Level */
+.magpassion-nav-container ul li {float:left;}
+.magpassion-nav-container ul a { height:100%; font-size:100%; float:left; padding:5px 30px 5px 30px;}
+.magpassion-nav-container ul li.first a  {padding-left:0px;}
+.magpassion-nav-container ul li.last a {padding-right:0px !important;}
+
+.magpassion-nav-container ul.level0 li:hover a.hasChild{background-image:url(../images/mainmenu-hover.png); background-repeat:no-repeat; background-position:50% 85%;}
+.magpassion-nav-container ul.level0 li.first:hover a.hasChild {background-position:25% 85%;}
+.magpassion-nav-container ul.level0 li.last:hover a.hasChild {background-position:75% 85%;}
+
+/* 1st Level */
+.magpassion-nav-container ul.magpassion-menu-dropline ul li {float:left !important; width:180px;}
+.magpassion-nav-container ul ul li {float:none; margin:0;}
+.magpassion-nav-container ul ul a,
+.magpassion-nav-container ul ul a:hover {float:none; padding:0; background:none;}
+.magpassion-nav-container ul ul li a {font-size:100%; font-weight:normal;}
+.magpassion-menu-mega ul li a.level1 {font-size:95% !important; font-weight:bold !important;}
+
+.magpassion-nav-container ul.magpassion-menu-mega ul li a.hasChild {background-image:none !important;}
+.magpassion-nav-container ul.magpassion-menu-dropdown ul li a.hasChild, .magpassion-nav-container ul.magpassion-menu-dropline ul li a.hasChild  {background-image:url(../images/bg-li-child.png) !important; background-repeat:no-repeat; background-position:97% 50% !important;}
+/* 2nd Level */
+.magpassion-nav-container ul ul, .magpassion-menu-mega ul.level1 {position:absolute; top:49px; left:-10000px; /*border:1px solid #127aaf;*/ }
+ul.magpassion-menu-dropdown ul {width:15em;}
+.magpassion-nav-container ul div ul {position:static; width:auto; border:none;}
+
+.magpassion-menu-mega ul.level1 li {height:auto !important;}
+.magpassion-child-content {width:200px; float:left; display:block; min-height:50px; padding:10px 0;}
+.magpassion-child-content.last {border-right:none;}
+.magpassion-child-content ul.childmenu li a {font-size:90% !important;}
+/* 3rd+ Level */
+.magpassion-nav-container ul ul ul {top:0px;}
+.magpassion-nav-container ul ul li a span {margin-right:6px;}
+.magpassion-nav-container ul ul li a span
+.magpassion-nav-container ul ul li a:hover, .magpassion-nav-container ul ul li a.over {}
+.magpassion-nav-container ul ul li a:hover span, .magpassion-nav-container ul ul li a.over span, .magpassion-nav-container ul ul li a.active span {}
+.magpassion-nav-container ul ul span.mp-menu ,
+.magpassion-nav-container ul ul li.last li span.mp-menu {padding:3px 6px 4px; margin-left:6px;}
+
+.childmenu li.li-child3 {padding-left:10px;}
+.childmenu li.li-child4 {padding-left:18px;}
+.childmenu li.li-child5 {padding-left:26px;}
+
+/* Show menu */
+.magpassion-nav-container ul li ul.shown-sub {left:0; z-index:999;}
+
+ul.magpassion-menu-dropdown li .shown-sub ul.shown-sub,
+ul.magpassion-menu-dropdown li .shown-sub li div.shown-sub {left:101.4%;}
+
+ul.magpassion-menu-dropline li .shown-sub ul.shown-sub,
+ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
+
+ul.magpassion-menu-mega li:hover {}
+
+ul.magpassion-menu-mega li:hover ul.level1 {left:auto; z-index:999;}
+
+
+/* title */
+.magpassion-nav-container span.mp-menu-title {font-size:110%;}
+.magpassion-nav-container span.mp-menu-des {font-size:80%;}
+.magpassion-nav-container span.hasImg {background-repeat:no-repeat; background-position:1% 10%; padding-left:28px !important;}
+.magpassion-nav-container span.hasImg {background-position:1% 40% !important; padding-left:32px !important;}
