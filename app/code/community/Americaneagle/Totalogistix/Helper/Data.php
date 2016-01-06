@@ -205,6 +205,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                 if ($item->getProductType() != 'simple') {
                     continue;
                 }
+                if($warehouse['name'] == 'SHELTERLOGIC' && $item->getProduct()->getStockItem()->getManageStock() == false){
+                    return $warehouse['location_id'];
+                }
                 if ($item->getQty() > $item->getWarehouse()[$warehouse['location_id']]) {
                     $found = false;
                     break;
@@ -266,7 +269,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         /** @var Varien_Db_Select $from */
         $from = $select->from(
             array('gwl' => $conn->getTableName('gaboli_warehouse_location')),
-            array('location_id' => 'id', 'zipcode' => 'zipcode')
+            array('location_id' => 'id', 'zipcode' => 'zipcode', 'name' => 'name')
         );
         $from->joinInner(
             array('source' => 'ae_totalogistix_zipcode'),
