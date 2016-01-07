@@ -16,7 +16,9 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable_Price extends
 		$sp = $product->getCustomOption('simple_product');
 		if (isset($sp)){
 			$relatedProduct = Mage::getModel('catalog/product')->load($sp->getProduct()->getId());
-			$finalPrice = $relatedProduct->getPrice();
+            $finalPrice = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $relatedProduct, $product->getId());
+
+            //$finalPrice = $relatedProduct->getPrice();
 			$product->setFinalPrice($finalPrice);
 			return $finalPrice;
 		}

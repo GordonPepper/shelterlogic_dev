@@ -128,18 +128,7 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
             return $product->getPrice() * ((100 - $customer->getDiscountPercent()) / 100);
         }
 
-        return false;
-    }
-    public function salesQuoteAddItem($observer) {
-        $qi = $observer->getQuoteItem();
-        $product = $qi->getProduct();
-        if($product->getTypeId() == 'simple' && $product->getParentId()) {
-            $cPrice = $this->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product, $product->getParentId());
-            $qi->setOriginalCustomPrice($cPrice);
-            $qi->save();
-        }
-
-        return $this;
+        return $product->getPrice();
     }
 
 }
