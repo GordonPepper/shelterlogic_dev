@@ -118,8 +118,8 @@
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
             <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
-                <a class="onsale" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
-                    <?php $_imgSize = [260,195]; ?>
+                <a class="<?php echo $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : ''; ?>" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                    <?php $_imgSize = array(260,195); ?>
                     <img id="product-collection-image-<?php echo $_product->getId(); ?>"
                          src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize[0],$_imgSize[1]); ?>"
                          alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
