@@ -44,7 +44,7 @@ $accountUrl = Mage::helper('customer')->getAccountUrl();
             </div>
             <?php echo $this->getChildHtml('currency_switcher') ?>
             <div class="header-wishlist hlc-item"><a href="/">Wishlist</a></div>
-            <div class="header-login hlc-item"><a href="<?php echo $accountUrl; ?>"><?php echo Mage::getSingleton('customer/session')->isLoggedIn() ? 'My Account' : 'Login'; ?></a></div>
+            <div class="header-login hlc-item"><a href="#header-account" class="skip-link skip-account"><?php echo $this->__('Account'); ?></a></div>
         </div>
     </div>
 
@@ -81,11 +81,6 @@ $accountUrl = Mage::helper('customer')->getAccountUrl();
                 <a href="#header-nav" class="skip-link skip-nav">
                     <span class="icon"></span>
                     <span class="label visuallyHidden"><?php echo $this->__('Menu'); ?></span>
-                </a>
-
-                <a href="#header-account" class="skip-link skip-account">
-                    <span class="icon"></span>
-                    <span class="label"><?php //echo $this->__('Account'); ?></span>
                 </a>
 
                 <!-- Search -->

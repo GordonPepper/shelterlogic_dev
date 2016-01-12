@@ -184,6 +184,12 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             $vCustomer->setCustomerID($customer->getVisualCustomerId());
             $update = true;
         } else {
+            $phone = null;
+            if ($customer && $customer->getPhone()) {
+                $phone = $customer->getPhone();
+            } else {
+                $phone = $billing->getTelephone();
+            }
             $vCustomer
                 ->setCustomerName($billing->getName())
                 ->setAddress1($billing->getStreet1())
@@ -198,7 +204,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 ->setContactLastName($billing->getLastname())
                 ->setContactMobileNumber($billing->getTelephone())
                 ->setContactEmail($customer ? $customer->getEmail() : $billing->getEmail())
-                ->setCustomerID(preg_replace("/[^0-9]/", '', $customer->getPhone()));
+                ->setCustomerID(preg_replace("/[^0-9]/", '', $phone));
         }
 
         $vCustomer = $this->_createVisualCustomer($vCustomer, $update);
