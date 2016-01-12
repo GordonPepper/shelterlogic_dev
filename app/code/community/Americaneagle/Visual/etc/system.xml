@@ -31,70 +31,110 @@
                             <label>Customer ID</label>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
-                            <comment>Customer ID to be used for all orders</comment>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Customer ID to be used for all orders on FB and all guest orders on other sites</comment>
                         </customer_id>
                         <service_host translate="label">
                             <label>Service Host</label>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <comment>Host and root path only. Do not add "ServiceNameService.asmx", do end with '/'</comment>
                         </service_host>
                         <service_key translate="label">
                             <label>Service Key</label>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <comment>Provided by service provider</comment>
                         </service_key>
                         <external_ref_group translate="label">
                             <label>External Ref Group</label>
                             <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </external_ref_group>
                         <currency_id translate="label">
                             <label>Currency Id</label>
                             <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </currency_id>
                         <terms_id translate="label">
                             <label>Terms ID</label>
                             <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </terms_id>
                         <entity_id translate="label">
                             <label>Entity ID</label>
                             <sort_order>180</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </entity_id>
                         <site_id translate="label">
                             <label>Site ID</label>
                             <sort_order>190</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </site_id>
                         <!--<part_id translate="label">-->
                             <!--<label>Part ID</label>-->
                             <!--<sort_order>200</sort_order>-->
                             <!--<show_in_default>1</show_in_default>-->
+                            <!--<show_in_website>1</show_in_website>-->
+                            <!--<show_in_store>1</show_in_store>-->
                         <!--</part_id>-->
                         <sales_rep_id translate="label">
                             <label>Sales Rep ID</label>
                             <sort_order>210</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </sales_rep_id>
                         <territory_id translate="label">
                             <label>Territory ID</label>
                             <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </territory_id>
                         <fob>
                             <label>FOB ID</label>
                             <sort_order>240</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </fob>
                         <warehouse_id>
                             <label>Warehouse ID</label>
                             <sort_order>230</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </warehouse_id>
+                        <general_group_id>
+                            <label>General Group ID</label>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </general_group_id>
+                        <exclusive_group_id>
+                            <label>Exclusive group ID</label>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </exclusive_group_id>
                     </fields>
                 </general>
                 <logging translate="label" module="americaneagle_visual">
@@ -118,6 +158,8 @@
                             <label>Save Log, Days</label>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <comment>Number of days to keep logs (0=forever)</comment>
                             <depends><soaplog_enable>1</soaplog_enable></depends>
                         </soaplog_ttl>
@@ -125,10 +167,49 @@
                             <label>Failure Notification Email</label>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                             <comment>Separate multiple addresses with a comma</comment>
                         </pushfail_email>
                     </fields>
                 </logging>
+                <restricted_products translate="label" module="americaneagle_visual">
+                    <label>Fixed Discount Products</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <fixed_discount_amount>
+                            <label>Fixed Discount Percent</label>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits validate-digits-range digits-range-0-100</validate>
+                        </fixed_discount_amount>
+                        <fixed_discount_groups translate="label" module="americaneagle_visual">
+                            <label>Customer Groups</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <frontend_model>netzarbeiter_groupscatalog2/adminhtml_system_config_renderer_customergroup</frontend_model>
+                            <source_model>netzarbeiter_groupscatalog2/system_config_source_customergroup</source_model>
+                            <backend_model>netzarbeiter_groupscatalog2/system_config_backend_customergroup_product</backend_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fixed_discount_groups>
+                        <entity_ids>
+                            <label>Product ID's</label>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>CSV of Product entity id's for "Exclusive" pricing.</comment>
+                        </entity_ids>
+                    </fields>
+                </restricted_products>
             </groups>
         </aevisual>
     </sections>

@@ -14,6 +14,17 @@ class Gaboli_Warehouse_Model_Resource_Stock_Status_Index
     }
 
     /**
+     * Update manage stock value in gaboli stock index
+     *
+     * @param bool|array $productIds
+     */
+    public function updateManageStockIndex($productIds = false) {
+        $query  = Mage::helper('gaboli_warehouse/indexer')->getAllManageStockIndexSelects($productIds);
+        $update = Mage::helper('gaboli_warehouse/indexer')->getUpdateManageStockIndexQuery($query);
+        $this->_getWriteAdapter()->query($update);
+    }
+
+    /**
      * Update multi location inventory stock status index.
      *
      * @param bool|array $productIds

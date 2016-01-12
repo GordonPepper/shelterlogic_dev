@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Visual>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Americaneagle_Visual>
     </modules>
     <global>
@@ -44,16 +44,46 @@
                 </setup>
             </ae_visual_soaplog>
         </resources>
+        <events>
+            <customer_customer_authenticated>
+                <observers>
+                    <admin>
+                        <class>americaneagle_visual/observer</class>
+                        <method>getDataFromVisual</method>
+                    </admin>
+                </observers>
+            </customer_customer_authenticated>
+        </events>
     </global>
     <crontab>
         <jobs>
-            <americaneagle_visual>
+            <americaneagle_visual_customersync>
                 <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
-                <run><model>americaneagle_visual/observer::pushOrders</model></run>
+                <run><model>americaneagle_visual/task_customersync::run</model></run>
+            </americaneagle_visual_customersync>
+            <americaneagle_visual_ordersync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_ordersync::run</model></run>
+            </americaneagle_visual_ordersync>
+            <americaneagle_visual_pricesync>
+                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+                <run><model>americaneagle_visual/task_pricesync::run</model></run>
+            </americaneagle_visual_pricesync>
+            <americaneagle_visual>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>americaneagle_visual/observer::pushOrders</model>
+                </run>
             </americaneagle_visual>
             <ae_soaplog_clean>
-                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
-                <run><model>americaneagle_visual/observer::cleanSoaplog</model></run>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>americaneagle_visual/observer::cleanSoaplog</model>
+                </run>
             </ae_soaplog_clean>
         </jobs>
     </crontab>
@@ -71,6 +101,8 @@
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
                 <fob>WATERTOWN</fob>
+                <general_group_id>1</general_group_id>
+                <exclusive_group_id>4</exclusive_group_id>
             </general>
             <logging>
                 <soaplog>1</soaplog>
@@ -98,5 +130,47 @@
             </updates>
         </layout>
     </adminhtml>
+    <frontend>
+        <events>
+            <catalog_product_get_final_price>
+                <observers>
+                    <!--Note: if you name your 'observer' node the same as some other -->
+                    <!--observer, for example instead of 'visual_catalog_rule', you use -->
+                    <!--'catalogrule', this node will effectively "rewrite" the core -->
+                    <!--'catalogrule' observer.-->
+                    <visual_catalogrule>
+                        <class>americaneagle_visual/priceobserver</class>
+                        <method>processFrontFinalPrice</method>
+                    </visual_catalogrule>
+                </observers>
+            </catalog_product_get_final_price>
+            <prepare_catalog_product_collection_prices>
+                <observers>
+                    <!--Note: this observer has the same node name as the observer above. these-->
+                    <!--only need to be unique on a per event handler basis.-->
+                    <visual_catalogrule>
+                        <class>americaneagle_visual/priceobserver</class>
+                        <method>prepareCatalogProductCollectionPrices</method>
+                    </visual_catalogrule>
+                </observers>
+            </prepare_catalog_product_collection_prices>
+            <catalog_block_product_list_collection>
+                <observers>
+                    <visual_pricing>
+                        <class>americaneagle_visual/priceobserver</class>
+                        <method>addVisualPriceRulesToCollection</method>
+                    </visual_pricing>
+                </observers>
+            </catalog_block_product_list_collection>
+            <!--<sales_quote_add_item>-->
+                <!--<observers>-->
+                    <!--<visual_quote>-->
+                        <!--<class>americaneagle_visual/priceobserver</class>-->
+                        <!--<method>salesQuoteAddItem</method>-->
+                    <!--</visual_quote>-->
+                <!--</observers>-->
+            <!--</sales_quote_add_item>-->
+        </events>
+    </frontend>
 </config>
 

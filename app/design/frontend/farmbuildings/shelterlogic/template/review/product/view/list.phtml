@@ -27,9 +27,16 @@
 
 <?php $_items = $this->getReviewsCollection()->getItems();?>
 <div class="box-collateral box-reviews" id="customer-reviews">
+
+<?php
+$reviewBlock = new Mage_Review_Block_Helper();
+$reviewBlock=$reviewBlock->setProduct($this->getProduct());
+?>
+
+<a class="customer-reviews-tab-add" href="<?php echo $reviewBlock->getReviewsUrl();?>#review-form"><?php echo $this->__('Add Your Review') ?></a>
+
     <?php if (count($_items)):?>
-        <?php
-/*
+
             <div class="review-heading">
                 <h2>
                     <?php echo $this->__('Customer Reviews') ?>
@@ -37,8 +44,8 @@
                 </h2>
                 <?php echo $this->getChildHtml('toolbar') ?>
             </div>
-*/
-        ?>
+
+
         <dl>
         <?php foreach ($_items as $_review):?>
             <dt>
@@ -50,7 +57,6 @@
                 <?php $_votes = $_review->getRatingVotes(); ?>
 
                 <?php echo nl2br($this->escapeHtml($_review->getDetail())) ?>
-
 
                 <?php if (count($_votes)): ?>
                 <table class="ratings-table">

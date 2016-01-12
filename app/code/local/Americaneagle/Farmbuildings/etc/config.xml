@@ -66,4 +66,11 @@
             </checkout>
         </routers>
     </frontend>
+    <default>
+        <checkout>
+            <options>
+                <allow_registered_checkout>1</allow_registered_checkout>
+            </options>
+        </checkout>
+    </default>
 </config>

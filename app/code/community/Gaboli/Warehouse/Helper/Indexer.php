@@ -6,6 +6,29 @@
 class Gaboli_Warehouse_Helper_Indexer extends Mage_Core_Helper_Abstract
 {
     /**
+     * Get manage stock select queries.
+     *
+     * @param bool|array $productIds
+     * @param bool       $union Determines if we should return one query string using UNION or multiple queries in an array.
+     *
+     * @return array|string
+     */
+    public function getAllManageStockIndexSelects($productIds = false, $union = true)
+    {
+        $stockStatusIndexSelect = array();
+        foreach ($this->getAllStockStatusIndexes() as $indexerModel) {
+            $stockStatusIndexSelect[] = $indexerModel->getManageStockIndexSelectQuery($productIds);
+            $stockStatusIndexSelect[] = $indexerModel->getGlobalManageStockIndexSelectQuery($productIds);
+        }
+
+        if($union) {
+            return implode(' UNION ', $stockStatusIndexSelect);
+        } else {
+            return $stockStatusIndexSelect;
+        }
+    }
+
+    /**
      * Get stock status select queries.
      *
      * @param bool|array $productIds
@@ -39,7 +62,7 @@ class Gaboli_Warehouse_Helper_Indexer extends Mage_Core_Helper_Abstract
         foreach ($indexesConfig as &$indexerModel) {
             $indexerModel = Mage::getModel($indexerModel);
             if(!$indexerModel instanceof Gaboli_Warehouse_Model_Stock_Status_Index_Interface) {
-                Mage::throwException('Invalid Indexer Model ' . get_class($indexes) . ', does not implement Gaboli_Warehouse_Model_Stock_Status_Index_Interface. ');
+                Mage::throwException('Invalid Indexer Model ' . get_class($indexerModel) . ', does not implement Gaboli_Warehouse_Model_Stock_Status_Index_Interface. ');
             }
         }
 
@@ -72,7 +95,20 @@ class Gaboli_Warehouse_Helper_Indexer extends Mage_Core_Helper_Abstract
             . '    dest.store_id = src.store_id'
             . '    AND dest.product_id = src.product_id;';
     }
+    public function getUpdateManageStockIndexQuery($selectQuery) {
+        $stockStatusIndexTable = Mage::getModel('core/resource')->getTableName('gaboli_warehouse/stock_status_index');
 
+        $q = array();
+        $q[] = "UPDATE $stockStatusIndexTable dest,";
+        $q[] = "($selectQuery) src";
+        $q[] = " SET";
+        $q[] = " dest.manage_stock = src.manage_stock";
+        $q[] = "WHERE";
+        $q[] = " dest.store_id = src.store_id";
+        $q[] = " AND dest.product_id = src.product_id";
+
+        return implode("\n", $q);
+    }
 
     /**
      * Get Global Stock Status Select (for use in updates)

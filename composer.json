@@ -5,7 +5,8 @@
     "aoepeople/aoe_scheduler": "1.2.2",
     "wsdl2phpgenerator/wsdl2phpgenerator": "3.*",
     "connect20/gaboli_warehouse": "1.2.0",
-    "onepica/avatax": "2.6.6"
+    "onepica/avatax": "2.6.6",
+    "netzarbeiter/groups-catalog2": "dev-master"
   },
   "repositories": [
     {

@@ -43,6 +43,7 @@
             <?php if(!$this->hasError()): ?>
             <ul class="checkout-types top">
             <?php foreach ($this->getMethods('top_methods') as $method): ?>
+
                 <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
                 <li><?php echo $methodHtml; ?></li>
                 <?php endif; ?>
@@ -51,7 +52,7 @@
             <?php endif; ?>
         </div>
 
-        <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+        <form id="cart_update_form" action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
             <?php echo $this->getBlockHtml('formkey'); ?>
             <table id="shopping-cart-table" class="cart-table data-table">
                 <col width="1" />
@@ -70,7 +71,7 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th rowspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Thumbnail') ?></span></th>
-                        <th class="shopping-cart-desc-head" rowspan="<?php echo $mergedCells; ?>">Descripion</th>
+                        <th class="shopping-cart-desc-head" rowspan="<?php echo $mergedCells; ?>">Description</th>
                         <th class="cart-price-head" colspan="<?php echo $mergedCells; ?>">
     <!--                            <div class="cart-price-placeholder">-->
                                 <span class="nobr"><?php echo $this->__('Unit Price') ?></span>
@@ -105,14 +106,7 @@
                         <td colspan="50" class="a-right cart-footer-actions">
 
                             <!-- Make this button the first responder rather than empty cart -->
-                            <button type="submit" style="visibility:hidden;" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Shopping Cart'); ?>" class="button2 btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
-
                             <button type="submit" name="update_cart_action" value="empty_cart" title="<?php echo $this->__('Empty Cart'); ?>" class="button2 btn-empty" id="empty_cart_button"><span><span><?php echo $this->__('Empty Cart'); ?></span></span></button>
-
-                            <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Shopping Cart'); ?>" class="button2 btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
-
-                            <span class="or">-or-</span>
-
                             <?php if($this->getContinueShoppingUrl()): ?>
                                 <button type="button" title="<?php echo $this->quoteEscape($this->__('Continue Shopping')) ?>" class="button2 btn-continue" onclick="setLocation('<?php echo Mage::helper('core')->quoteEscape($this->getContinueShoppingUrl()) ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
                             <?php endif; ?>
@@ -179,5 +173,9 @@
         <div class="section-title"><h3>Calculate Shipping</h3></div>
         <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     </div>
+
+</div>
+
+<div class="oap-mod">
     <?php echo $this->getChildHtml('crosssell') ?>
 </div>

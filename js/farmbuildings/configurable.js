@@ -38,6 +38,10 @@ aeProduct.Config.prototype = {
                 var newOption = new Option(this.config.options[i]['val'], this.config.options[i]['id']);
                 this.settings[0].options[i+1] = newOption;
             }
+            // disable the rest
+            for(i = 1; i < this.settings.length; i++) {
+                this.settings[i].disabled = true;
+            }
         }
         this.settings.each(function(element) {
             if(this.settings[this.settings.length - 1].id == element.id){
@@ -46,6 +50,11 @@ aeProduct.Config.prototype = {
                 Event.observe(element, 'change', this.configure.bind(this));
             }
         }.bind(this));
+
+        var sp = $$('#ala-product-price-' + aeProductId);
+        if(sp[0]){
+            sp[0].innerHTML = formatCurrency(config.sp, priceFormat);
+        }
     },
     configure: function(event){
 
@@ -70,8 +79,9 @@ aeProduct.Config.prototype = {
             td.innerHTML = "No";
         });
         // clear the price
-        var p = $$('#product-price-' + aeProductId + ' > span.price');
-        if(p[0].innerHTML != formatCurrency(0.0, priceFormat)){
+        //var p = $$('#product-price-' + aeProductId + ' > span.price');
+        var p = $$( 'div.price-box #product-price-' + aeProductId);
+        if(p[0] && p[0].innerHTML != formatCurrency(0.0, priceFormat)){
             p[0].innerHTML = formatCurrency(0.0, priceFormat);
         }
 
@@ -94,6 +104,15 @@ aeProduct.Config.prototype = {
                 for(var i = selector.options.length; i > 1; i--) {
                     selector.remove(i-1);
                 }
+                var alap = $$('div.price-box p.ala-price');
+                var cp = $$('div.price-box p.configured-price');
+                if(alap[0]){
+                    alap.first().style.display = 'inline';
+                }
+                if(cp[0]) {
+                    cp.first().style.display = 'none';
+                }
+
             }
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(var i = 0; i < nextOptions.options.length; ++i ) {
@@ -136,21 +155,46 @@ aeProduct.Config.prototype = {
         })
     },
     updateAttributes: function (res) {
-        var p = $$('#product-price-' + aeProductId + ' > span.price');
-        p[0].innerHTML = formatCurrency(res.price, priceFormat);
-        for(key in res.attribs) {
-            $$('*[data-attribute-id="' + key + '"]').first().innerHTML = res.attribs[key];
+        //var p = $$('#product-price-' + aeProductId + ' > span.price');
+        var p = $$( 'div.price-box #product-price-' + aeProductId);
+
+        if(p[0] && p[0].innerHTML) {
+            p[0].innerHTML = formatCurrency(res.price, priceFormat);
+            p[0].style.display = 'inline';
         }
-        if(parseFloat(res.weight) >= 5000){
-            $$('button[data-id="atc-button"]').first().style.display = 'none';
-            $$('button[data-id="raq-button"]').first().style.display = 'inline';
-        } else {
-            $$('button[data-id="atc-button"]').first().style.display = 'inline';
-            $$('button[data-id="raq-button"]').first().style.display = 'none';
+
+        var alap = $$('div.price-box p.ala-price');
+        var cp = $$('div.price-box p.configured-price');
+        if(alap[0]){
+            alap.first().style.display = 'none';
+        }
+        if(cp[0]) {
+            cp.first().style.display = 'inline';
+        }
+
+        for(key in res.attribs) {
+            var field = $$('*[data-attribute-id="' + key + '"]');
+            if(field && field[0]){
+                field.first().innerHTML = res.attribs[key];
+            }
+        }
+        var atc = $$('button[data-id="atc-button"]');
+        var raq = $$('button[data-id="raq-button"]');
+        if(atc && atc[0] && raq && raq[0]) {
+            if(parseFloat(res.weight) >= 5000){
+                atc.first().style.display = 'none';
+                raq.first().style.display = 'inline';
+            } else {
+                atc.first().style.display = 'inline';
+                raq.first().style.display = 'none';
+            }
         }
     },
     addSkuToRequestForm: function(sku) {
-        $$('input[name="field[28]"]').first().value = sku;
+        var field = $$('input[name="field[28]"]');
+        if(field && field[0]) {
+            field.first().value = sku;
+        }
     },
     requestQuote: function (button) {
         //alert('requesting quote!');

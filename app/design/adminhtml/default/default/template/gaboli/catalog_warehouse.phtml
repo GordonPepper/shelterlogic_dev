@@ -1,8 +1,30 @@
+<?php if ($this->isReadonly()):?>
+    <?php $_readonly = ' disabled="disabled" ';?>
+<?php else: ?>
+    <?php $_readonly = '';?>
+<?php endif; ?>
+
 <div class="entry-edit">
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend">Warehouse Inventory</h4>
     </div>
     <div class="fieldset fieldset-wide">
+        <table cellspacing="0" class="form-list" id="table_cataloginventory">
+            <tr>
+                <td class="label"><label for="inventory_manage_stock"><?php echo Mage::helper('catalog')->__('Manage Stock') ?></label></td>
+                <td class="value"><select id="inventory_manage_stock" name="product[stock_data][manage_stock]" class="select" <?php echo $_readonly;?>>
+                        <option value="1"><?php echo Mage::helper('catalog')->__('Yes') ?></option>
+                        <option value="0"<?php if ($this->getConfigFieldValue('manage_stock') == 0): ?> selected="selected"<?php endif; ?>><?php echo Mage::helper('catalog')->__('No') ?></option>
+                    </select>
+                    <input type="hidden" id="inventory_manage_stock_default" value="<?php echo $this->getDefaultConfigValue('manage_stock'); ?>" />
+
+                    <?php $_checked = ($this->getFieldValue('use_config_manage_stock') || $this->IsNew()) ? 'checked="checked"' : '' ?>
+                    <input type="checkbox" id="inventory_use_config_manage_stock" name="product[stock_data][use_config_manage_stock]" value="1" <?php echo $_checked ?> onclick="toggleValueElements(this, this.parentNode);" class="checkbox" <?php echo $_readonly;?>/>
+                    <label for="inventory_use_config_manage_stock" class="normal"><?php echo Mage::helper('catalog')->__('Use Config Settings') ?></label>
+                    <?php if (!$this->isReadonly()):?><script type="text/javascript">toggleValueElements($('inventory_use_config_manage_stock'), $('inventory_use_config_manage_stock').parentNode);</script><?php endif; ?></td>
+                <td class="value scope-label"><?php echo Mage::helper('adminhtml')->__('[GLOBAL]') ?></td>
+            </tr>
+        </table>
 
         <div>&nbsp;</div>
         <div class="grid">

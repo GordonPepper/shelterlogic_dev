@@ -59,7 +59,8 @@ class Mage_Adminhtml_Model_System_Config_Backend_Catalog_Inventory_Managestock
     protected function _afterSave()
     {
         if ($this->getValue() != $this->getOldValue()) {
-            $this->_stockStatusModel->rebuild();
+            /* AE: this will never finish due to the massively configurable products in this store */
+            //$this->_stockStatusModel->rebuild();
         }
 
         return $this;

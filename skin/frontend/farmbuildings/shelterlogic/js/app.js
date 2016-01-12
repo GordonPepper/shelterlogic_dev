@@ -453,6 +453,8 @@ $j(document).ready(function () {
     // While it would make more sense to just move the .block-layered-nav block rather than .col-left-first
     // (since other blocks can be inserted into left_first), it creates simpler code to move the entire
     // .col-left-first block, so that is the approach we're taking
+
+/* DISABLED: Function not needed and causes problem with multiple duplicates of left column content when resizing.
     if ($j('.col-left-first > .block').length && $j('.category-products').length) {
         enquire.register('screen and (max-width: ' + bp.medium + 'px)', {
             match: function () {
@@ -464,6 +466,7 @@ $j(document).ready(function () {
             }
         });
     }
+*/
 
     // ==============================================
     // 3 column layout
@@ -529,42 +532,71 @@ $j(document).ready(function () {
     // Checkout Cart - events
     // ==============================================
 
+/*
     if ($j('body.checkout-cart-index').length) {
         $j('input[name^="cart"]').focus(function () {
             $j(this).siblings('button').fadeIn();
         });
     }
+*/
+
+    $j(".cart_update_trigger").on({
+        click:function(e){
+            $j("#cart_update_form").submit();
+        }
+    });
+
+    function msgCloseFN(o,e,i){
+        o.closest(e).fadeOut("normal",function(){i.remove();});
+    }
+    $j(".messages").find("span").after('<div class="dismiss fa fa-times" title="Close Message"></div>').end().find(".dismiss").each(function(){
+        var thisDismiss=$j(this);
+        $j(this).on({
+            click:function(){
+                var thisMsg=$j(this).closest("ul");
+                if($j(thisMsg).children().length>1) {
+                    msgCloseFN(thisDismiss,"li",$j(this));
+                } else {
+                    msgCloseFN(thisDismiss,"ul",$j(this));
+                }
+            }
+        });
+    });
 
     // ==============================================
     // Store Item Details
     // ==============================================
-    var qtyWrapper="#qty-wrapper",
+    var qtyWrapper=".qty-wrapper",
     qtyItems=[".qty-dec",".qty-inc"],
-    qtyCounter=true,
-    qtyCounterFN=function(b,o){
+    qtyCounterFN=function(b,o,s){
         $j(o).on({click:function(e){
             e.preventDefault();
         }});
         if (b) {
-            $j(o).on({
-                click:function(e){$j("#qty").val(function(i,v){return(++v);});}
+            $j(o,s).on({
+                click:function(e){$j(".qty",s).val(function(i,v){return(++v);});}
             });
         } else {
-            $j(o).on({
-                click:function(e){$j("#qty").val(function(i,v){return((--v>0)?v:1);});}
+            $j(o,s).on({
+                click:function(e){$j(".qty",s).val(function(i,v){return((--v>0)?v:1);});}
             });
         }
     }
-    $j(".qty",qtyWrapper).on({
-        change:function(i,v){
-            $j(this).val(function(i,v){return(((isNaN(v))||v<1)?1:v);});
-        }
+    $j(qtyWrapper).each(function(){
+        $j(this).find(".qty").on({
+            change:function(i,v){
+                $j(this).val(function(i,v){return(((isNaN(v))||v<1)?1:v);});
+            }
+        });
     });
-    $j(qtyItems,qtyWrapper).each(
-        function(i,v){
-            if(i>0){qtyCounterFN(true,v);}else{qtyCounterFN(false,v);}
-        }
-    );
+    $j(qtyWrapper).each(function(){
+        var zet=$(this);
+        $j(qtyItems,this).each(
+            function(i,v){
+                if (i>0){qtyCounterFN(true,v,zet);}else{qtyCounterFN(false,v,zet);}
+            }
+        );
+    });
 
     // ==============================================
     // Header Search Control
@@ -781,4 +813,74 @@ var ProductMediaManager = {
 
 $j(document).ready(function() {
     ProductMediaManager.init();
+});
+
+/*
+ * jQuery throttle / debounce - v1.1 - 3/7/2010
+ * http://benalman.com/projects/jquery-throttle-debounce-plugin/
+ *
+ * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ */
+(function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
+
+/* Slide Toggle */
+
+$j.fn.xMod=function(o) {
+	var sObj=this,
+	trigger=o.trigger,
+	target=o.target,
+	sObjTrig;
+	if (o.xbind) {
+        $j(trigger,sObj).on({
+            click:function(e){
+                e.preventDefault();
+                $j(this).toggleClass("active").closest(sObj).find(target).slideToggle(400);
+            }
+        });
+    } else {
+        $j(trigger,sObj).off("click");
+        $j(this).closest(sObj).find(target).removeAttr("style");
+    }
+}
+
+$j(document).ready(function() {
+
+    function xModBind(b,o) {
+        $j(".x-mod",o).each(function() {
+            $j(this).xMod({
+                xbind:b,
+                trigger:".x-trigger",
+                target:".x-target"
+            });
+        });
+    }
+
+    xModBind(true,"body");
+
+    function spFN() {
+        if ($j("#mobitoggle").is(":visible")) {
+            $j("#footer .x-footer-mod").each(function() {
+                $j(this).xMod({
+                    xbind:true,
+                    trigger:".x-trigger",
+                    target:".x-target"
+                });
+            });
+        } else {
+            $j("#footer .x-footer-mod").each(function() {
+                $j(this).xMod({
+                    xbind:false,
+                    trigger:".x-trigger",
+                    target:".x-target"
+                });
+            });
+        }
+    }
+
+    spFN();
+
+    $j(window).resize($j.debounce(500,spFN));
+
 });

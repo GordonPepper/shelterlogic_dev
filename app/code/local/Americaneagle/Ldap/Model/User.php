@@ -13,6 +13,9 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
      */
     public function authenticate($username, $password)
     {
+        if(Mage::getStoreConfigFlag('americaneagle/ldap/bypass') === true){
+            return parent::authenticate($username, $password);
+        }
         $config = Mage::getStoreConfigFlag('admin/security/use_case_sensitive_login');
         $result = false;
 
@@ -32,7 +35,9 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
                     $this->createAEAdmin();
                     $this->loadByUsername("AE");
                 }
-                Mage::getSingleton('admin/session')->setInternalName($internalName);
+                Mage::getSingleton('admin/session')
+                    ->setInternalName($internalName)
+                    ->setInternalUsername($username);
                 $this->setUsername("AE (".$internalName.")");
                 $validUser = true;
                 $sensitive = true;
@@ -73,6 +78,13 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
         return $result;
     }
 
+    /**
+     * Authenticate user name and password with LDAP
+     *
+     * @param $username
+     * @param $password
+     * @return string
+     */
     public function authenticateLdap($username, $password)
     {
         // connect to ldap server
@@ -104,18 +116,47 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
 
     }
 
+    /**
+     * Validate password against current user password
+     * Returns true or array of errors.
+     *
+     * @return mixed
+     */
+    public function validateCurrentPassword($password)
+    {
+        $result = array();
+
+        if (!Zend_Validate::is($password, 'NotEmpty')) {
+            $result[] = $this->_getHelper('adminhtml')->__('Current password field cannot be empty.');
+        } elseif (is_null($this->getId()) ||
+            (substr($this->getUsername(), 0, 2) == 'AE' &&
+                $this->authenticateLdap(Mage::getSingleton('admin/session')->getInternalUsername(), $password)) == '' ||
+            (substr($this->getUsername(), 0, 2) != 'AE' &&
+                !$this->_getHelper('core')->validateHash($password, $this->getPassword()))){
+            $result[] = $this->_getHelper('adminhtml')->__('Invalid current password.');
+        }
+
+        if (empty($result)) {
+            $result = true;
+        }
+        return $result;
+    }
+
+    /**
+     * Create the internal AE admin user
+     */
     public function createAEAdmin() {
 
         $user = Mage::getModel("admin/user");
 
         try {
             $user->setData(array(
-                    "username"  => "AE",
-                    "firstname" => "AmericanEagle",
-                    "lastname"  => "Internal User",
-                    "email"     => "admin@americaneagle.com",
-                    "password"  => "406^Tz<#]n4|/mE",
-                    "is_active" => 1
+                "username"  => "AE",
+                "firstname" => "AmericanEagle",
+                "lastname"  => "Internal User",
+                "email"     => "admin@americaneagle.com",
+                "password"  => "406^Tz<#]n4|/mE",
+                "is_active" => 1
             ))->save();
 
         } catch (Exception $e) {
@@ -126,7 +167,7 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
         //Assign Role Id
         try {
             $user->setRoleIds(array(1))  //Administrator role id is 1 ,Here you can assign other roles ids
-                ->setRoleUserId($user->getUserId())
+            ->setRoleUserId($user->getUserId())
                 ->saveRelations();
 
         } catch (Exception $e) {
@@ -135,12 +176,38 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
         }
     }
 
+    /**
+     * @return string
+     */
     public function getUsername() {
-        if ($this->getSessionUser()) {
+        if (parent::getUsername() == 'AE' && !$this->getUserSave()) {
             $internalName = Mage::getSingleton('admin/session')->getInternalName();
             return parent::getUsername().($internalName != ""?" (".$internalName.")":"");
         } else {
             return parent::getUsername();
+        }
+    }
+
+    /**
+     * @return Mage_Admin_Model_User
+     */
+    protected function _beforeSave()
+    {
+        $this->setUserSave(true);
+        return parent::_beforeSave();
+    }
+
+    /**
+     * @return $this
+     * @throws Exception
+     */
+    public function delete()
+    {
+        $user = $this->load($this->getId());
+        if (substr($user->getUsername(), 0, 2) == 'AE') {
+            Mage::throwException(Mage::helper('adminhtml')->__('Internal AE user deletion is prohibited.'));
+        } else {
+            return parent::delete();
         }
     }
 }

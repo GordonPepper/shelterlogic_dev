@@ -30,7 +30,7 @@ class Gaboli_Warehouse_Model_CatalogInventory_Resource_Stock_Item extends Mage_C
         if($data && $stockStatus->getId()) {
             $data['qty']         = $stockStatus->getQty();
             $data['backorders']  = $stockStatus->getBackorders();
-            $data['is_in_stock'] = $stockStatus->getIsInStock();
+            $data['is_in_stock'] = $data['manage_stock'] ? $stockStatus->getIsInStock() : true;
             //@TODO support use_config_backorders
             //$data['use_config_backorders'] = 1;//override...
             //@TODO support manage_stock
