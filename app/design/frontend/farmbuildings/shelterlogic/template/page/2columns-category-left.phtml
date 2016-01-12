@@ -48,9 +48,14 @@
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
 
-        <div class="product-category-banner">
-            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId(Mage::registry('current_category')->getLandingPage())->toHtml(); ?>
-        </div>
+        <?php
+        $lpid = Mage::registry('current_category')->getLandingPage();
+        if ($lpid) {
+            echo '<div class="product-category-banner">';
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId($lpid)->toHtml();
+            echo '</div>';
+        }
+        ?>
 
         <div class="main-container col2-left-layout">
             <div class="main">

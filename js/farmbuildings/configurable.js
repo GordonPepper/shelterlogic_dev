@@ -50,6 +50,11 @@ aeProduct.Config.prototype = {
                 Event.observe(element, 'change', this.configure.bind(this));
             }
         }.bind(this));
+
+        var sp = $$('#ala-product-price-' + aeProductId);
+        if(sp[0]){
+            sp[0].innerHTML = formatCurrency(config.sp, priceFormat);
+        }
     },
     configure: function(event){
 
@@ -99,6 +104,15 @@ aeProduct.Config.prototype = {
                 for(var i = selector.options.length; i > 1; i--) {
                     selector.remove(i-1);
                 }
+                var alap = $$('div.price-box p.ala-price');
+                var cp = $$('div.price-box p.configured-price');
+                if(alap[0]){
+                    alap.first().style.display = 'inline';
+                }
+                if(cp[0]) {
+                    cp.first().style.display = 'none';
+                }
+
             }
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(var i = 0; i < nextOptions.options.length; ++i ) {

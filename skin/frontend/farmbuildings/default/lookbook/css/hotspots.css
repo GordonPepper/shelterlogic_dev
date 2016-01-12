@@ -489,6 +489,7 @@
 }
 .hotspot {
     position:absolute;
+    cursor:cell;
 }
 
 .hotspot:hover .product-info,
@@ -502,28 +503,6 @@
         z-index:101; 
 }
         
-.hotspot .product-info {
-    background: url(../images/info-bg.png) repeat 0 0 transparent;
-    border-top: 2px solid #FFFFFF;
-    color: #686767;
-    overflow:hidden;
-    font: normal 12px Tahoma,Arial;
-    min-width: 100px;
-    max-width: 200px;
-    padding: 12px;
-    position: absolute;
-    /*display:none;*/
-    visibility: hidden;
-    z-index:999; 
-
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-box-shadow: #666 2px 2px 3px;
-    -moz-box-shadow: #666 2px 2px 3px;
-    box-shadow: #666 2px 2px 3px;
-}
-
 #lookbook {
 	position:relative;
 }
@@ -570,24 +549,16 @@
 }
         
 .hotspot .product-info {
-    background: url(../images/info-bg.png) repeat 0 0 transparent;
-    border-top: 2px solid #FFFFFF;
-    color: #686767;
+    background:rgba(0,0,0,0.6);
+    color:#ffffff;
+    font-size:14px;
     overflow:hidden;
-    font: normal 12px Tahoma,Arial;
-    min-width: 100px;
-    max-width: 200px;
+    min-width: 250px;
+    max-width: 350px;
     padding: 12px;
     position: absolute;
     display:none;
     z-index:100; 
-
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-box-shadow: #666 2px 2px 3px;
-    -moz-box-shadow: #666 2px 2px 3px;
-    box-shadow: #666 2px 2px 3px;
 }
 
 .hotspot .product-info a {

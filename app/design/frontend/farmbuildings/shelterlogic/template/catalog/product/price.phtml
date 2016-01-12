@@ -204,6 +204,18 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     <?php echo $_coreHelper->currency($_price + $weeeAmountToDisplay, true, true) ?>
                 </span>
             <?php else: ?>
+                <?php if($_product->isConfigurable()) :?>
+                <p class="ala-price">
+                <span class="ala-price-label">Starting at:</span>
+                <span class="price" id="ala-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                    <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
+                </span>
+                <p class="configured-price" style="display:none">
+                <span class="configured-price-label">As configured: </span>
+                <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                </span>
+                </p>
+                <?php else : ?>
                 <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php if ($_finalPrice == $_price): ?>
                         <?php echo $_coreHelper->formatPrice($_price, true) ?>
@@ -211,6 +223,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                         <?php echo $_coreHelper->formatPrice($_finalPrice, true) ?>
                     <?php endif; ?>
                 </span>
+                <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
     <?php else: /* if ($_finalPrice == $_price): */ ?>
@@ -355,11 +368,11 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
             </p>
         <?php elseif($_product->isConfigurable()) :?>
                 <p class="ala-price">
-                <span class="ala-price-label">As low as:</span>
+                <span class="ala-price-label">Starting at:</span>
                 <span class="price" id="ala-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
                 </span>
-                <p class="configured-price" style="display:none;">
+                <p class="configured-price" style="display:none">
                 <span class="configured-price-label">As configured: </span>
                 <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                 </span>

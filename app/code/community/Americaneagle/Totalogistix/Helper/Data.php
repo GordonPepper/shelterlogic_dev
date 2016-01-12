@@ -35,7 +35,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             foreach ($request->getAllItems() as $item) {
                 if ($item->getProductType() == 'simple') {
                     $xitem = $xItems->addChild('Item');
-                    $xitem->addChild('Class', $item->getProduct()->getClass());
+                    $xitem->addChild('Class', $item->getProduct()->getClass() ? $item->getProduct()->getClass() : '70');
                     if($item->getProduct()->getTlxShipLtl()) {
                         $xitem->addChild('Length', $item->getProduct()->getTlxShipLength());
                         $xitem->addChild('Width', $item->getProduct()->getTlxShipWidth());
@@ -54,17 +54,24 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
             $client = new Zend_Http_Client();
             $client->setUri($this->getServiceUri());
-            $client->setParameterPost('szip', $this->getOriginZip($request));
+            $client->setParameterPost('sZip', $this->getOriginZip($request));
             $client->setParameterPost('AccessID', $this->getAccessId());
-            $client->setParameterPost('service', $this->getAccessorial());
-            $client->setParameterPost('date', $this->getShipDate());
-            $client->setParameterPost('czip', $request->getDestPostcode());
-            $client->setParameterPost('items', $xItems->asXML());
-            $client->setParameterPost('profile', $this->getProfile());
+            $client->setParameterPost('Service', $this->getAccessorial());
+            $client->setParameterPost('Date', $this->getShipDate());
+            $client->setParameterPost('cZip', $request->getDestPostcode());
+            if($request->getDestRegionCode() == 'AK'){
+                $client->setParameterPost('cCity', $request->getDestCity());
+                $client->setParameterPost('cState', $request->getDestRegionCode());
+            }
+            /* if i worked with tlx, i would be embarrased for asking implementers to do this... */
+            $dom = dom_import_simplexml($xItems);
+            $notxml = $dom->ownerDocument->saveXML($dom->ownerDocument->documentElement);
+            $client->setParameterPost('Items', $notxml);
+            $client->setParameterPost('Profile', $this->getProfile());
 
 
             $response = $client->request('POST');
-            Mage::log("TOTALogistix: PostBody: " . $client->getLastRequest());
+            Mage::log("TOTALogistix: PostBody: " . urldecode($client->getLastRequest()));
 
             $xml = simplexml_load_string($response->getBody());
             $status = $xml->xpath('/Response')[0]->{"Status"};
@@ -205,6 +212,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                 if ($item->getProductType() != 'simple') {
                     continue;
                 }
+                if($warehouse['name'] == 'SHELTERLOGIC' && $item->getProduct()->getStockItem()->getManageStock() == false){
+                    return $warehouse['location_id'];
+                }
                 if ($item->getQty() > $item->getWarehouse()[$warehouse['location_id']]) {
                     $found = false;
                     break;
@@ -266,7 +276,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         /** @var Varien_Db_Select $from */
         $from = $select->from(
             array('gwl' => $conn->getTableName('gaboli_warehouse_location')),
-            array('location_id' => 'id', 'zipcode' => 'zipcode')
+            array('location_id' => 'id', 'zipcode' => 'zipcode', 'name' => 'name')
         );
         $from->joinInner(
             array('source' => 'ae_totalogistix_zipcode'),
