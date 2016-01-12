@@ -14,24 +14,12 @@
  */
 
 .magpassion-nav-container {color:#666666;}
-.magpassion-nav-container ul.level0 li a {color:#666666;}
-.magpassion-nav-container ul.level0 li a:hover,
-.magpassion-nav-container ul.level0 li a.over {color:#f0b310;}
-.magpassion-nav-container ul.level0 li a.active {color:#f0b310;}
-.magpassion-nav-container ul li ul li a span {color:#666666;}
 
-.magpassion-nav-container > ul > li > ul {background:#27A1E0;}
-.magpassion-nav-container > ul > li > ul {-webkit-box-shadow:0px 3px 3px -1px rgba(0,0,0,0.25); -moz-box-shadow:0px 3px 3px -1px rgba(0,0,0,0.25); box-shadow:0px 3px 3px -1px rgba(0,0,0,0.25);}
+.magpassion-nav-container ul li a:visited,
+.magpassion-nav-container ul li a {color:#666666;}
 
-/*
-.magpassion-nav-container {display:block;}
-.magpassion-nav-container ul.level0 li a {color:#303030;}
-.magpassion-nav-container ul.level0 li a:hover,
-.magpassion-nav-container ul.level0 li a.over {color:#2882ce;}
-.magpassion-nav-container ul.level0 li a.active {color:#2882ce;}
-.magpassion-nav-container ul li ul li {background:#27A1E0;}
-.magpassion-nav-container ul li ul li a span {color:#D4F0FC !important;}
-.magpassion-nav-container ul li ul li a:hover {background-color:#27A1E0;}
-.magpassion-nav-container ul li ul li a:hover span {color:#FFFFFF !important;}
-.magpassion-nav-container ul li ul li a.active span {color:#FFFFFF !important;}
-*/
+.magpassion-nav-container ul li a:hover,
+.magpassion-nav-container ul li a.over,
+.magpassion-nav-container ul li a.active {color:#f0b310;}
+
+.magpassion-nav-container > ul > li > ul > li {background-color:#ffffff; -webkit-box-shadow:0px 3px 3px -1px rgba(0,0,0,0.25); -moz-box-shadow:0px 3px 3px -1px rgba(0,0,0,0.25); box-shadow:0px 4px 3px 0px rgba(0,0,0,0.25);}
