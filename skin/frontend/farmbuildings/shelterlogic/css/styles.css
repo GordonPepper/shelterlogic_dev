@@ -3969,8 +3969,20 @@ body {
     margin-left:20px;
     margin-top:20px;
     vertical-align:middle;
+    width:75%;
+    max-width:100%;
   }
 }
+
+@media only screen and (min-width:771px) and (max-width:939px) {
+  #header-nav {
+    display:block;
+    margin-left:0;
+    width:100%;
+    max-width:100%;
+  }
+}
+
 /* ============================================ *
  * Nav Primary
  * ============================================ */
