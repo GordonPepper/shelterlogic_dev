@@ -41,6 +41,17 @@ $_taxHelper = $this->helper('tax');
 /* @var $_taxHelper Mage_Tax_Helper_Data */
 
 $_product = $this->getProduct();
+$aeFinalPrice = $_product->getFinalPrice();
+if($_product->canConfigure()) {
+    $tree = Mage::helper('farmbuildings')->getTree($_product->getId());
+    $_product->setPrice($tree['sp']);
+    $aeFinalPrice = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(
+        Mage::getSingleton('customer/session')->getCustomer(),
+        Mage::getModel('catalog/product')->load($tree['spid']),
+        $_product->getId()
+    );
+    $_product->setMinimalPrice($aeFinalPrice);
+}
 $_storeId = $_product->getStoreId();
 $_store = $_product->getStore();
 $_id = $_product->getId();
@@ -49,7 +60,8 @@ $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->dis
 $_minimalPriceValue = $_product->getMinimalPrice();
 $_minimalPriceValue = $_store->roundPrice($_store->convertPrice($_minimalPriceValue));
 $_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simplePricesTax);
-$_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($_product->getFinalPrice()));
+
+$_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($aeFinalPrice));
 $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStoreLabel();
 ?>
 
@@ -168,7 +180,6 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                      <?php echo $_coreHelper->currency($_price + $weeeAmountToDisplay, true, true) ?>
                 </span>
-
                 <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // show description ?>
                     <span class="weee">(
                         <?php foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
@@ -204,25 +215,22 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     <?php echo $_coreHelper->currency($_price + $weeeAmountToDisplay, true, true) ?>
                 </span>
             <?php else: ?>
-                <?php if($_product->isConfigurable()) :?>
-                <p class="ala-price">
-                <span class="ala-price-label">Starting at:</span>
-                <span class="price" id="ala-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
-                </span>
-                <p class="configured-price" style="display:none">
-                <span class="configured-price-label">As configured: </span>
-                <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                </span>
-                </p>
-                <?php else : ?>
-                <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php if ($_finalPrice == $_price): ?>
-                        <?php echo $_coreHelper->formatPrice($_price, true) ?>
-                    <?php else: ?>
-                        <?php echo $_coreHelper->formatPrice($_finalPrice, true) ?>
-                    <?php endif; ?>
-                </span>
+                <?php if($_product->canConfigure()) :?>
+                    <?php $foo = 'bar'; ?>
+                    <p class="ala-price">
+                    <span class="ala-price-label">Starting at:</span>
+                    </p>
+                    <p class="configured-price" style="display:none">
+                    <span class="configured-price-label">As configured: </span>
+                    </span>
+                    </p>
+                <?php endif; ?>
+                <?php if($_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice ) : ?>
+                    <span class="old-price"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
+                    <span class="special-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_minimalPriceValue, true) ?></span>
+                <?php else: ?>
+                    <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
+
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
@@ -366,17 +374,6 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
                 </span>
             </p>
-        <?php elseif($_product->isConfigurable()) :?>
-                <p class="ala-price">
-                <span class="ala-price-label">Starting at:</span>
-                <span class="price" id="ala-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
-                </span>
-                <p class="configured-price" style="display:none">
-                <span class="configured-price-label">As configured: </span>
-                <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                </span>
-                </p>
         <?php else: // excl. ?>
             <?php if ($_taxHelper->displayBothPrices()): ?>
                 <p class="special-price">
@@ -397,24 +394,33 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     </span>
                 </p>
             <?php else: ?>
-                <p class="special-price">
+                <?php if($_product->canConfigure()) :?>
+                    <p class="ala-price">
+                        <span class="ala-price-label">Starting at:</span>
+                    </p>
+                    <p class="configured-price" style="display:none">
+                        <span class="configured-price-label">As configured: </span>
+                        </span>
+                    </p>
+                <?php endif; ?>
+                <p class="old-price">
+                    <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
+                <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                    <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
+                </span>
+                </p>
+                <p class="special-price q">
                     <span class="price-label"><?php echo $_specialPriceStoreLabel ?></span>
                 <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
                 </span>
                 </p>
             <?php endif; ?>
-            <p class="old-price">
-                <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
-                <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
-                </span>
-            </p>
         <?php endif; ?>
 
     <?php endif; /* if ($_finalPrice == $_price): */ ?>
 
-    <?php if ($this->getDisplayMinimalPrice() && $_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice): ?>
+    <?php if (false && $this->getDisplayMinimalPrice() && $_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice): ?>
 
         <?php $_minimalPriceDisplayValue = $_minimalPrice; ?>
         <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, array(0, 1, 4))): ?>
