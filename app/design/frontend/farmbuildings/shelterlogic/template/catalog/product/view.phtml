@@ -42,7 +42,7 @@
 <div class="product-view">
     <?php $categoryImage = Mage::getModel('catalog/layer')->getCurrentCategory()->getImage();
     if ($categoryImage) : ?>
-    <div class="product-view-banner"><img src="<?php echo Mage::getBaseUrl('media').'catalog/category/'.$categoryImage  ?>" /></div>
+    <div class="product-view-banner"><img src="<?php echo Mage::getBaseUrl('media').'catalog/category/'.$categoryImage  ?>" alt="" /></div>
     <?php endif; ?>
     <div class="product-essential">
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
