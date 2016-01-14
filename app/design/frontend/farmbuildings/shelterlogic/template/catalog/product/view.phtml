@@ -41,18 +41,17 @@
 <div class="clear">&nsp;</div>
 <div class="product-view">
     <?php
-    /** @var Mage_Catalog_Model_Resource_Category_Collection $cats */
+   /** @var Mage_Catalog_Model_Resource_Category_Collection $cats */
+    $categoryImage=false;
     $cats = $_product->getCategoryCollection();
-    $cats->addAttributeToSelect('*');
-    $cats->load();
-
+    $cats->addAttributeToSelect('*')->load();
+    $cats;
     foreach ($cats as $cat) {
         if ($cat->getImageUrl()){
             $categoryImage = $cat->getImageUrl();
             break;
         }
     }
-
     if ($categoryImage) : ?>
     <div class="product-view-banner"><img src="<?php echo $categoryImage; ?>" alt="" /></div>
     <?php endif; ?>
