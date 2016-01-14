@@ -124,7 +124,7 @@
                          src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize[0],$_imgSize[1]); ?>"
                          alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
                     <div class="product-info clearfix">
-                        <?php if($_product->isSaleable() && !$_product->canConfigure()): ?>
+                        <?php if($_product->isSaleable()): ?>
                             <div class="product-east">
                                 <?php echo $this->getPriceHtml($_product, true) ?>
                                 <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
