@@ -40,9 +40,21 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="clear">&nsp;</div>
 <div class="product-view">
-    <?php $categoryImage = Mage::getModel('catalog/layer')->getCurrentCategory()->getImage();
+    <?php
+    /** @var Mage_Catalog_Model_Resource_Category_Collection $cats */
+    $cats = $_product->getCategoryCollection();
+    $cats->addAttributeToSelect('*');
+    $cats->load();
+
+    foreach ($cats as $cat) {
+        if ($cat->getImageUrl()){
+            $categoryImage = $cat->getImageUrl();
+            break;
+        }
+    }
+
     if ($categoryImage) : ?>
-    <div class="product-view-banner"><img src="<?php echo Mage::getBaseUrl('media').'catalog/category/'.$categoryImage  ?>" alt="" /></div>
+    <div class="product-view-banner"><img src="<?php echo $categoryImage; ?>" alt="" /></div>
     <?php endif; ?>
     <div class="product-essential">
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
