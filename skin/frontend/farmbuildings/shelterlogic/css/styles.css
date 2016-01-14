@@ -3747,7 +3747,7 @@ body {
   padding:5px 10px;
   text-transform:uppercase;
   position:relative;
-  z-index:901;
+  z-index:1901;
 }
 .header-language-background .header-language-container {
   max-width:1200px;
@@ -3756,7 +3756,7 @@ body {
   text-align:right;
 }
 
-.header-language-container .hlc-item {display:inline-block; text-align:left; line-height:24px;}
+.header-language-container .hlc-item {display:inline-block; position:relative; text-align:left; line-height:24px;}
 .header-language-container .hlc-item ~ .hlc-item {margin-left:10px;}
 
 .header-language-background::after {
@@ -3969,11 +3969,10 @@ body {
     margin-left:20px;
     margin-top:20px;
     vertical-align:middle;
-    width:75%;
+    width:70%;
     max-width:100%;
   }
 }
-
 @media only screen and (min-width:771px) and (max-width:939px) {
   #header-nav {
     display:block;
@@ -4302,7 +4301,7 @@ body {
  * Skip Link - Account
  */
 
-.skip-link.skip-account {display:none; vertical-align:middle; margin-left:2px;}
+.skip-link.skip-account {display:block; vertical-align:middle; margin-left:2px;}
 .skip-account .icon {
   background-position:8px -32px;
   background-color:#f3f3f3;
@@ -4341,6 +4340,9 @@ body {
 /* -------------------------------------------- *
  * Account Links
  */
+
+.header-login #header-account {top:34px;}
+
 #header-account {
   padding:5px 0;
   border:1px solid #cccccc;
@@ -9981,9 +9983,9 @@ div.paypal-logo span > img {
   padding-top:5px;
 }
 #wishlist-table .item-manage .button {
-  color:#FFFFFF;
   font-size:11px;
   padding:3px 5px;
+  line-height:14px;
 }
 #wishlist-table .cart-cell {
   text-align:center;
@@ -10003,6 +10005,7 @@ div.paypal-logo span > img {
 }
 #wishlist-table td.customer-wishlist-item-cart .button {
   font-size:12px;
+  line-height:14px;
   margin-bottom:10px;
   padding:3px 5px;
   width:100%;
