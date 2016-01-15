@@ -3,10 +3,10 @@ class Altima_Lookbook_Block_Single extends Altima_Lookbook_Block_Lookbook
 {
     protected function _construct()
     {
-//        $this->addData(array(
-//            'cache_lifetime' => false,
-//            'cache_tags'     => array(Altima_Lookbook_Model_Lookbook::CACHE_TAG),
-//        ));
+        $this->addData(array(
+            'cache_lifetime' => false,
+            'cache_tags'     => array(Altima_Lookbook_Model_Lookbook::CACHE_TAG),
+        ));
 
         $this->setTemplate('lookbook/single.phtml');
     }
