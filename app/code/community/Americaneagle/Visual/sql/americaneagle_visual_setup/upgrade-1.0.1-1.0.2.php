@@ -59,3 +59,9 @@ $installer->addAttribute('customer', 'phone', array(
 ));
 
 $installer->endSetup();
+
+/** update street to 3 lines */
+$streetAttribute = Mage::getSingleton('eav/config')
+    ->getAttribute('customer_address', 'street')
+    ->setData('multiline_count', 3)
+    ->save();
