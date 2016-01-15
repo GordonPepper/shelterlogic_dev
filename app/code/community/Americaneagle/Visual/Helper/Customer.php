@@ -240,7 +240,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             }
 
             $customer = $res->getSearchCustomerResult()->getCustomers()->getCustomer()[0];
-            return $customer->getCustomerID() == $customerId ? $customer : null;
+            return strcasecmp($customer->getCustomerID(), $customerId) ? $customer : null;
         } catch (Exception $e) {
             $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'CustomerService:SearchCustomer', sprintf('Exception: %s', $e->getMessage()));
             return null;
