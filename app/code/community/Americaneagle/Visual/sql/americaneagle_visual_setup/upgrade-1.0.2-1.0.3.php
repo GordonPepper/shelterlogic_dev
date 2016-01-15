@@ -14,7 +14,8 @@ $installer->addAttribute('customer', 'terms_id', array(
     'input' => 'text',
     'label' => 'Terms ID',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'default' => ''
+    'default' => '',
+    'required' => false
 ));
 
 $installer->endSetup();

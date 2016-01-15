@@ -17,7 +17,8 @@ $installer->addAttribute('customer', 'visual_customer_id', array(
     'input' => 'text',
     'label' => 'Visual Customer ID',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'default' => ''
+    'default' => '',
+    'required' => false
 ));
 
 $installer->addAttribute('customer', 'credit_status', array(
@@ -25,7 +26,8 @@ $installer->addAttribute('customer', 'credit_status', array(
     'input' => 'text',
     'label' => 'Credit Status',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'default' => ''
+    'default' => '',
+    'required' => false
 ));
 
 $installer->addAttribute('customer', 'price_group', array(
@@ -33,7 +35,8 @@ $installer->addAttribute('customer', 'price_group', array(
     'input' => 'text',
     'label' => 'Price Group',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'default' => ''
+    'default' => '',
+    'required' => false
 ));
 
 $installer->addAttribute('customer', 'discount_percent', array(
@@ -41,7 +44,8 @@ $installer->addAttribute('customer', 'discount_percent', array(
     'input' => 'text',
     'label' => 'Discount Percent',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'default' => ''
+    'default' => '',
+    'required' => false
 ));
 
 $installer->addAttribute('customer', 'phone', array(
