@@ -411,18 +411,43 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
                 break;
         }
 		$totalItems += count($items) + count($arrBlockIds);
-		
+
+
 		if ($totalItems > 0) {
-			$width = $totalItems * 201;
+/*
+ 			$width = $totalItems * 201;
 			$html .= '<ul class="level1"><li style="float:left; width:'.$width.'px">';
+*/
+			$html .= '<ul class="level1"><li>';
 		}
 		$count = 0;
+
+        if ($content_type == 'featuredproduct') {
+            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
+            $sku = $menuitem->getFeaturedProduct();
+            $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+            if ($product && $product->getId()) {
+                $html .= '<div class="magpassion-child-content magpassion-child-image">';
+                $html .= $this->getChild('featured_product')->setProduct($product)->setPriceFrom($menuitem->getPriceFrom())->toHtml();
+                $html .= '</div>';
+            }
+        }
+
+        if ($content_type == 'banner') {
+            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
+            if ($menuitem->getBannerImage()) {
+                $html .= '<div class="magpassion-child-content magpassion-child-image">';
+                $html .= $this->getChild('banner_image')->setMenuItem($menuitem)->toHtml();
+                $html .= '</div>';
+            }
+        }
+
 		foreach ($items as $item) {
 			$html .= '<div class="magpassion-child-content';
 			if ($count + 1 == $totalItems) $html .= ' last';
 			$html .= '">';
 			//$html .= '<li'.$class.'>';
-			
+
 			if ($item->getType() == 'category') {
 				$link = $this->getCategoryLink($item->getCategory_id());
 				$linkNoSuffix = str_replace($this->categorySuffix,"", $link);
@@ -476,8 +501,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 			
 			$count++;
 		}
-		
-		
+
 		foreach ($arrBlockIds as $blockId) {
 			$title = $this->getBlockTitle($blockId);
 			if ($title) {
@@ -499,27 +523,6 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 				$count++;
 			}
 		}
-
-        if ($content_type == 'featuredproduct') {
-            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
-            $sku = $menuitem->getFeaturedProduct();
-            $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
-            if ($product && $product->getId()) {
-                $html .= '<div class="magpassion-child-content last">';
-                $html .= $this->getChild('featured_product')->setProduct($product)->setPriceFrom($menuitem->getPriceFrom())->toHtml();
-                $html .= '</div>';
-            }
-        }
-
-        if ($content_type == 'banner') {
-            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
-            if ($menuitem->getBannerImage()) {
-                $html .= '<div class="magpassion-child-content last">';
-                $html .= $this->getChild('banner_image')->setMenuItem($menuitem)->toHtml();
-                $html .= '</div>';
-            }
-        }
-
         if ($totalItems > 0) {
 			$html .= '</li></ul>';
 		}

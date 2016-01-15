@@ -51,9 +51,13 @@ aeProduct.Config.prototype = {
             }
         }.bind(this));
 
-        var sp = $$('#ala-product-price-' + aeProductId);
-        if(sp[0]){
-            sp[0].innerHTML = formatCurrency(config.sp, priceFormat);
+        //var sp = $$('#ala-product-price-' + aeProductId);
+        //if(sp[0]){
+        //    sp[0].innerHTML = formatCurrency(config.sp, priceFormat);
+        //}
+        var pb = $$('div.price-box #product-price-' + aeProductId + ' span.price');
+        if(pb[0] && pb[0].innerHTML) {
+            this.displayPrice = pb[0].innerHTML;
         }
     },
     configure: function(event){
@@ -79,10 +83,9 @@ aeProduct.Config.prototype = {
             td.innerHTML = "No";
         });
         // clear the price
-        //var p = $$('#product-price-' + aeProductId + ' > span.price');
-        var p = $$( 'div.price-box #product-price-' + aeProductId);
-        if(p[0] && p[0].innerHTML != formatCurrency(0.0, priceFormat)){
-            p[0].innerHTML = formatCurrency(0.0, priceFormat);
+        var p = $$('div.price-box #product-price-' + aeProductId + ' span.price');
+        if(p[0] && p[0].innerHTML != formatCurrency(this.config.sp, priceFormat)){
+            p[0].innerHTML = formatCurrency(this.config.sp, priceFormat);
         }
 
         new Ajax.Request('/fbconfig/index', {
@@ -107,7 +110,7 @@ aeProduct.Config.prototype = {
                 var alap = $$('div.price-box p.ala-price');
                 var cp = $$('div.price-box p.configured-price');
                 if(alap[0]){
-                    alap.first().style.display = 'inline';
+                    alap.first().style.display = 'block';
                 }
                 if(cp[0]) {
                     cp.first().style.display = 'none';
@@ -155,12 +158,11 @@ aeProduct.Config.prototype = {
         })
     },
     updateAttributes: function (res) {
-        //var p = $$('#product-price-' + aeProductId + ' > span.price');
-        var p = $$( 'div.price-box #product-price-' + aeProductId);
+        var p = $$( 'div.price-box #product-price-' + aeProductId + ' span.price');
 
-        if(p[0] && p[0].innerHTML) {
+        if(res.price && p[0] && p[0].innerHTML) {
             p[0].innerHTML = formatCurrency(res.price, priceFormat);
-            p[0].style.display = 'inline';
+            //p[0].style.display = 'block';
         }
 
         var alap = $$('div.price-box p.ala-price');
@@ -169,7 +171,7 @@ aeProduct.Config.prototype = {
             alap.first().style.display = 'none';
         }
         if(cp[0]) {
-            cp.first().style.display = 'inline';
+            cp.first().style.display = 'block';
         }
 
         for(key in res.attribs) {

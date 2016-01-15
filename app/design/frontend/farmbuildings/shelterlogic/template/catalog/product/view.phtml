@@ -40,9 +40,21 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="clear">&nsp;</div>
 <div class="product-view">
-    <div class="product-view-banner">
-        <img src="/skin/frontend/farmbuildings/shelterlogic/images/product-item-banner.jpg" alt="" />
-    </div>
+    <?php
+   /** @var Mage_Catalog_Model_Resource_Category_Collection $cats */
+    $categoryImage=false;
+    $cats = $_product->getCategoryCollection();
+    $cats->addAttributeToSelect('*')->load();
+    $cats;
+    foreach ($cats as $cat) {
+        if ($cat->getImageUrl()){
+            $categoryImage = $cat->getImageUrl();
+            break;
+        }
+    }
+    if ($categoryImage) : ?>
+    <div class="product-view-banner"><img src="<?php echo $categoryImage; ?>" alt="" /></div>
+    <?php endif; ?>
     <div class="product-essential">
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <?php echo $this->getBlockHtml('formkey') ?>
@@ -55,7 +67,6 @@
             </div>
 
             <div class="product-item-wrpr">
-
                 <div class="product-shop-wrpr">
                     <div class="product-shop">
                         <div class="mod">

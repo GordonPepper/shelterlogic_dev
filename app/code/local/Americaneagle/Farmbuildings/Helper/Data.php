@@ -71,11 +71,14 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$labelMap = $this->getAttributeLabelMap($attmap);
 		$tree = array();
         $sp = null;
+        $spid = null;
 		foreach($conn->fetchAll($select) as $row){
             if (empty($sp) && $row['price'] > 1.00) {
                 $sp = $row['price'];
+                $spid = $row['id'];
             } elseif ($row['price'] > 1.00 && $sp > $row['price']) {
                 $sp = $row['price'];
+                $spid = $row['id'];
             }
 
 			$root = &$tree;
@@ -99,8 +102,8 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			}
 			$root['id'] = $lastid;
 		}
-        $product->setPrice($sp);
-        $tree['sp'] = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product);
+        $tree['sp'] = $sp;
+        $tree['spid'] = $spid;
 		return $tree;
 	}
 
