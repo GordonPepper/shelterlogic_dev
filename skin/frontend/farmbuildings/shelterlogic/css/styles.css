@@ -5062,12 +5062,7 @@ opacity:1;
   border-top:1px solid #f0f0f0;
 }
 
-.products-grid .product-info .product-west {
-  display:block;
-  padding:5px 10px;
-  height:60px;
-  max-height:60px;
-}
+.products-grid .product-info .product-west {display:table-cell; vertical-align:middle; padding:5px 10px; height:60px; max-height:60px;}
 
 .products-grid .product-info .product-east {
   display:block;
@@ -5534,8 +5529,6 @@ opacity:1;
   left:7px;
   top:7px;
 }
-
-.block-layered-nav .block-content > dl > dt:first-child {display:none;}
 
 .block-layered-nav .block-content > dl > dd {
   display:block;
