@@ -121,7 +121,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
             return false;
         }
         if (!$category->isInRootCategoryList()) {
-            return false;
+            //return false;
         }
 
         return true;

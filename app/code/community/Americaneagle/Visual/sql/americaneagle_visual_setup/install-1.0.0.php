@@ -15,7 +15,7 @@ $installer->addAttribute('order', 'ae_sent_to_visual', array(
 	'label' => 'Sent to VISUAL',
 	'global' => 1,
 	'unsigned'  => true,
-    'default'   => '0',
+	'default'   => '0',
 ));
 
 $installer->addAttribute('order', 'ae_visual_push_attempt', array(
@@ -32,14 +32,6 @@ foreach($collection as $order) {
 	$order->setAeSentToVisual(1);
 	$order->save();
 }
-
-$installer->addAttribute('customer', 'visual_customer_id', array(
-		'type' => 'text',
-		'input' => 'text',
-		'label' => 'Visual Customer ID',
-		'global' => 1,
-		'default' => ''
-));
 
 /* Sample Code
 $installer->addAttribute('customer_address', 'is_residential', array(

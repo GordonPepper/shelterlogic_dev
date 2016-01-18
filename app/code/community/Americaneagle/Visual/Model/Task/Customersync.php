@@ -107,7 +107,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setPassword($customer->generatePassword())
                     ->setVisualCustomerId($vCustomer->getCustomerID())
                     ->setCreditStatus($vCustomer->getCreditStatus())
-                    ->setDiscountPercent($vCustomer->getDiscountPercent());
+                    ->setDiscountPercent($vCustomer->getDiscountPercent())
+                    ->setTermsId($vCustomer->getTermsID());
 
                 try{
                     $customer->save();

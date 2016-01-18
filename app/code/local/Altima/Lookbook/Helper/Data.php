@@ -238,13 +238,7 @@ class Altima_Lookbook_Helper_Data extends Mage_Core_Helper_Abstract
 
                 if ($product_details) {
                     $_p_name = $product_details->getName();
-                    $html_content .= 'width: ' . strlen($_p_name) * 8 . 'px;';
-                } else {
-                    $html_content .= 'width: 200px;';
-                }
-
-                $html_content .= '">';
-                if ($product_details) {
+                    $html_content .= 'width: ' . strlen($_p_name) * 8 . 'px;">';
                     $_p_price = $_coreHelper->currency($product_details->getFinalPrice(), true, false);
                     if ($product_details->isAvailable()) {
                         $_p_url = $product_details->getProductUrl();
@@ -261,8 +255,9 @@ class Altima_Lookbook_Helper_Data extends Mage_Core_Helper_Abstract
                         }
                         $html_content .= '<div class="price">' . $_p_price . '</div>';
                     }
-                } else {
-                    $html_content .= '<div>Product with SKU "' . $value['text'] . '" doesn\'t exists.</div>';
+                } else { // Content hotspot but does have image
+                    $html_content .= 'width: 200px;">';
+                    $html_content .= "<div>{$value['text']}</div>";
                 }
             }
 

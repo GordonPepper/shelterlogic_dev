@@ -8,8 +8,8 @@ Test:
   - develop
 Deploy to Design:
   script:
-  - rsync -avxO --chmod=D775,F664 . --exclude='/includes/*' --exclude='app/etc/local.xml' --exclude='app/etc/local.xml.local' --exclude='var/*' --exclude='media/*' --exclude='.git*' --delete design_usr@cl-mgnto-4vap02:/wwwroot/farmbuildings-design.com/http
-  - ssh design_usr@cl-mgnto-4vap02 'chmod +x /wwwroot/farmbuildings-design.com/http/*cron.sh'
+  - rsync -avxO --chmod=D775,F664 . --exclude='/includes/*' --exclude='app/etc/local.xml' --exclude='app/etc/local.xml.local' --exclude='var/*' --exclude='media/*' --exclude='.git*' --delete design_usr@cl-mgnto-4vap02:/wwwroot/farmbuildings-design.com/http/shop
+  - ssh design_usr@cl-mgnto-4vap02 'chmod +x /wwwroot/farmbuildings-design.com/http/shop/*cron.sh'
   type: deploy
   tags:
   only:

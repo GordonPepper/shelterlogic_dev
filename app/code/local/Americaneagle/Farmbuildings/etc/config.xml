@@ -10,6 +10,11 @@
             <farmbuildings>
                 <class>Americaneagle_Farmbuildings_Helper</class>
             </farmbuildings>
+            <catalog>
+                <rewrite>
+                    <category>Americaneagle_Farmbuildings_Helper_Catalog_Category</category>
+                </rewrite>
+            </catalog>
         </helpers>
         <blocks>
             <americaneagle_farmbuildings>
