@@ -34,15 +34,18 @@
 
 <ol>
 <?php foreach ($this->getItems() as $_item): ?>
+    <?php
+    if($_item->getFilter() instanceof Mage_Catalog_Model_Layer_Filter_Category){
+        if(in_array($_item->getValue(), array(81,75))){
+            continue;
+        }
+        $url = Mage::getModel('catalog/category')->load($_item->getValue())->getUrl();
+    } else {
+        $url = $_item->getUrl();
+    }
+    ?>
     <li>
         <?php if ($_item->getCount() > 0): ?>
-            <?php
-                if($_item->getFilter() instanceof Mage_Catalog_Model_Layer_Filter_Category){
-                    $url = Mage::getModel('catalog/category')->load($_item->getValue())->getUrl();
-                } else {
-                    $url = $_item->getUrl();
-                }
-            ?>
             <a href="<?php echo $this->urlEscape($url) ?>">
                 <?php echo $_item->getLabel() ?>
                 <?php if ($this->shouldDisplayProductCount()): ?>
