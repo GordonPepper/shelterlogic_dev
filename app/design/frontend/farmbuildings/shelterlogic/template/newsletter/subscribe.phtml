@@ -31,23 +31,39 @@
         </div>
         <div class="x-target">
             <p>Sign up to receive periodic emails featuring our latest product news, contest giveaways, and more.</p>
-            <form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+            <form method="post" action="https://app.icontact.com/icp/signup.php" name="icpsignup" id="icpsignup9953" accept-charset="UTF-8" onsubmit="return verifyRequired9953();" >
+                <input type="hidden" name="redirect" value="http://www.shelterlogic.com/subscribe-thanks/">
+                <input type="hidden" name="listid" value="59713">
+                <input type="hidden" name="specialid:59713" value="4179">
+                <input type="hidden" name="clientid" value="941024">
+                <input type="hidden" name="formid" value="9953">
+                <input type="hidden" name="reallistid" value="1">
+                <input type="hidden" name="doubleopt" value="0">
+                <input type="hidden" name="errorredirect" value="http://www.shelterlogic.com/subscribe-error/">
                 <div class="block-content">
                     <div class="form-subscribe-header">
-                        <label for="newsletter"><?php echo $this->__('Sign Up for Our Newsletter:') ?></label>
+                        <label for="newsletter">Sign Up for Our Newsletter:</label>
                     </div>
                     <div class="input-box">
-                       <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="email" id="newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" placeholder="ENTER YOUR E-MAIL" />
+                        <input type="text" name="fields_email" placeholder="Your Email Address" title="Sign up for our newsletter" class="input-text required-entry validate-email" placeholder="ENTER YOUR E-MAIL">
                     </div>
                     <div class="actions">
-                        <button type="submit" title="<?php echo $this->__('SIGN UP') ?>" class="button"><span><span><?php echo $this->__('SIGN UP') ?></span></span></button>
+                        <button type="submit" title="SIGN UP" class="button"><span><span>SIGN UP</span></span></button>
                     </div>
                 </div>
             </form>
-        </div>
-        <script type="text/javascript">
-        //<![CDATA[
-            var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
-        //]]>
-        </script>
+            <script type="text/javascript">
+                var icpForm9953 = document.getElementById('icpsignup9953');
+                var newsletterSubscriberFormDetail = new VarienForm(icpForm9953);
+                if (document.location.protocol === "https:") icpForm9953.action = "https://app.icontact.com/icp/signup.php";
+                function verifyRequired9953() {
+                    if (icpForm9953["fields_email"].value == "") {
+                        icpForm9953["fields_email"].focus();
+                        $(".error").css("display", "block");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+    </div>
 </div>
