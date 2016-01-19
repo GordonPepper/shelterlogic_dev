@@ -1079,7 +1079,7 @@ function filterExport() {
 
     $writer->appendRow($reader->getHeader());
     while($reader->nextRow()){
-        if($reader->item('weight') >= "150"){
+        if($reader->item('weight') < "150"){
             $writer->appendRow($reader->getRow());
         }
     }
