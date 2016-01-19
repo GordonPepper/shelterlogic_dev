@@ -5529,7 +5529,11 @@ opacity:1;
   margin-bottom:15px;
   margin-top:10px;
 }
-.block-layered-nav dl dd ol > li > span, .block-layered-nav dl dd ol > li > a {
+
+.block-layered-nav dl dd ul > li > span,
+.block-layered-nav dl dd ul > li > a,
+.block-layered-nav dl dd ol > li > span,
+.block-layered-nav dl dd ol > li > a {
   display:block;
   padding:2px 5px;
   color:#666666;
