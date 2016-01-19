@@ -34,11 +34,7 @@ $accountUrl = Mage::helper('customer')->getAccountUrl();
 
     <div class="header-language-background">
         <div id="hlc" class="header-language-container">
-            <ul class="hdr-icons">
-                <li class="fb"><a class="fa fa-facebook" target="_blank" href="http://www.facebook.com/"><span class="visuallyHidden">Visit us on Facebook</span></a></li>
-                <li class="tt"><a class="fa fa-twitter" target="_blank" href="http://www.twitter.com/"><span class="visuallyHidden">Visit us on Twitter<span></a></li>
-                <li class="yt"><a class="fa fa-youtube-play" target="_blank" href="http://www.youtube.com/"><span class="visuallyHidden">Visit us on Youtube<span></a></li>
-            </ul>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_header_social_icons')->toHtml();?>
             <div class="store-language-container hlc-item">
                 <?php echo $this->getChildHtml('store_language') ?>
             </div>
