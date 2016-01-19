@@ -6011,7 +6011,7 @@ opacity:1;
 .product-recommended-items .price-box .price {line-height:20px;}
 
 @media only screen and (max-width:1139px) {
-    .product-recommended-items .col-grid > li {display:block; float:left; margin:0 1.75%; width:46.5%;}
+    .product-recommended-items .col-grid > li {display:inline-block; vertical-align:top; float:none; margin:0 1.75%; width:46%;}
     .product-related-accessories .products-grid > li {display:inline-block; vertical-align:top; float:left; width:46.5%; margin:0 1.75% 20px 1.75%;}
     .product-related-accessories .products-grid .category-products-image {display:block; float:left; padding:0 20px 0 0; width:95px; height:75px;}
     .product-related-accessories .products-grid > li a img {max-width:100%; height:auto; max-height:100%;}
