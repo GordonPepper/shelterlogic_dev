@@ -433,14 +433,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
             }
         }
 
-        if ($content_type == 'banner') {
-            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
-            if ($menuitem->getBannerImage()) {
-                $html .= '<div class="magpassion-child-content magpassion-child-image">';
-                $html .= $this->getChild('banner_image')->setMenuItem($menuitem)->toHtml();
-                $html .= '</div>';
-            }
-        }
+		$html .= '<div class="magpassion-child-content-wrpr">';
 
 		foreach ($items as $item) {
 			$html .= '<div class="magpassion-child-content';
@@ -501,6 +494,17 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 			
 			$count++;
 		}
+
+		$html .= '</div>';
+
+        if ($content_type == 'banner') {
+            $menuitem = Mage::getModel('advancedmenu/menuitem')->load($parent_id);
+            if ($menuitem->getBannerImage()) {
+                $html .= '<div class="magpassion-child-image-wrpr"><div class="magpassion-child-content magpassion-child-image">';
+                $html .= $this->getChild('banner_image')->setMenuItem($menuitem)->toHtml();
+                $html .= '</div></div>';
+            }
+        }
 
 		foreach ($arrBlockIds as $blockId) {
 			$title = $this->getBlockTitle($blockId);

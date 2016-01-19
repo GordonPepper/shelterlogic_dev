@@ -132,7 +132,6 @@
                         <?php endif; ?>
                         <div class="product-west">
                             <h2 class="product-name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
-                            <div class="product-category">Top Level Category</div>
                             <?php
                                 $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
                                 foreach($_nameAfterChildren as $_nameAfterChildName):

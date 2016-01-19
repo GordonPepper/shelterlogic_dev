@@ -5062,12 +5062,7 @@ opacity:1;
   border-top:1px solid #f0f0f0;
 }
 
-.products-grid .product-info .product-west {
-  display:block;
-  padding:5px 10px;
-  height:60px;
-  max-height:60px;
-}
+.products-grid .product-info .product-west {display:table-cell; vertical-align:middle; padding:5px 10px; height:60px; max-height:60px;}
 
 .products-grid .product-info .product-east {
   display:block;
@@ -5535,8 +5530,6 @@ opacity:1;
   top:7px;
 }
 
-.block-layered-nav .block-content > dl > dt:first-child {display:none;}
-
 .block-layered-nav .block-content > dl > dd {
   display:block;
 }
@@ -5829,7 +5822,7 @@ opacity:1;
 
 .product-view-layout {display:block;}
 .product-view-layout .product-view {display:block; position:relative;}
-.product-view-layout .product-view-banner {display:block; position:absolute; height:390px; overflow:hidden; left:0; right:0; top:0; bottom:auto; margin:0;}
+.product-view-layout .product-view-banner {display:block; position:absolute; height:450px; overflow:hidden; left:0; right:0; top:0; bottom:auto; margin:0;}
 .product-view-layout .product-view-banner img {display:block; position:relative; min-width:1400px; width:100%; height:auto; -webkit-transition:left 0.2s ease, margin-left 0.2s ease; -moz-transition:left 0.2s ease, margin-left 0.2s ease; transition:left 0.2s ease, margin-left 0.2s ease;}
 
 @media (max-width:1399px) {
@@ -5860,8 +5853,8 @@ opacity:1;
 
 .product-item-wrpr .product-pricing {display:block;}
 
-.product-item-wrpr .product-shop-wrpr {display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:auto; width:100%; height:390px;}
-.product-item-wrpr .product-shop {display:table-cell; padding:10px 0; vertical-align:middle}
+.product-item-wrpr .product-shop-wrpr {display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:auto; width:100%; height:450px;}
+.product-item-wrpr .product-shop {display:table-cell; padding:0; vertical-align:middle}
 .product-item-wrpr .product-shop .mod {display:block;  padding:20px; max-height:370px; overflow:auto; background-color:#ffffff;}
 .product-item-wrpr .product-shop .product-name {display:block;}
 
@@ -6107,7 +6100,7 @@ s.product-recommended-items .col-grid a:focus {text-decoration:none; -webkit-box
 }
 .product-img-box .product-image img {
   max-width:100%;
-  max-height:350px;
+  max-height:450px;
   margin:0px auto;
 }
 
@@ -11100,8 +11093,8 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 @media only screen and (min-width:771px) {
 	.product-img-box .product-image {
 		display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:fixed; width:100%;
-		margin:20px 0;
-		height:350px;
+		margin:0 auto;
+		height:450px;
 	}
 	.product-image-gallery {
 		display:table-cell; padding:0; vertical-align:middle;
@@ -11109,7 +11102,6 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     .product-item-wrpr .product-name {margin-bottom:10px;}
     .product-item-wrpr .product-name h1.h1 {max-height:65px; padding-right:10px; overflow:hidden;}
     .product-view .product-shop .product-category {padding-left:5px;}
-    .product-img-box {padding-top:5%;}
 
     .flex-block {display:block; position:relative; z-index:101; padding:0 30px; margin:0 auto 15px auto; max-width:1140px; overflow:hidden;}
     .flex-block .x-trigger {display:none;}
@@ -11143,7 +11135,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 	.product-img-box .product-image {
 		display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:fixed; width:100%;
 		margin:20px 0;
-		height:350px;
+		height:450px;
 	}
 	.product-image-gallery {
 		display:table-cell; padding:0; vertical-align:middle;
@@ -11178,7 +11170,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 }
 
 @media only screen and (min-width:1400px) {
-    .product-view-layout .product-view {background-size:100% 390px;}
+    .product-view-layout .product-view {background-size:100% 450px;}
     .product-features-benefits .head {background-size:cover;}
 }
 
