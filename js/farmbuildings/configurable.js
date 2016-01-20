@@ -141,7 +141,7 @@ aeProduct.Config.prototype = {
         for(key in res.attribs) {
             $$('*[data-attribute-id="' + key + '"]').first().innerHTML = res.attribs[key];
         }
-        if(parseFloat(res.weight) >= 5000){
+        if((parseFloat(res.weight) + parseFloat(aeCurrentCartWeight)) >= 5000){
             $$('button[data-id="atc-button"]').first().style.display = 'none';
             $$('button[data-id="raq-button"]').first().style.display = 'inline';
         } else {

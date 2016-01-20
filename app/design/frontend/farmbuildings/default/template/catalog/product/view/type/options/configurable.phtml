@@ -4,6 +4,12 @@ $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
 $_jsonConfig = $this->getJsonConfig();
 $_renderers = $this->getChild('attr_renderers')->getSortedChildren();
 $_super_att_index = 1;
+
+$currentCartWeight = 0;
+$cartItems = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
+foreach ($cartItems as $cartItem) {
+    $currentCartWeight += $cartItem->getRowWeight();
+}
 ?>
 <?php if ($_product->isSaleable() && count($_attributes)):?>
     <dl>
@@ -38,6 +44,7 @@ $_super_att_index = 1;
     </dl>
     <script type="text/javascript">
 		var aeProductId = <?php echo $_product->getId(); ?>;
+        var aeCurrentCartWeight = <?php echo $currentCartWeight; ?>;
 		var priceFormat = <?php echo $this->helper('tax')->getPriceFormat($this->getStore()); ?>;
 		var aeConfig = new aeProduct.Config(<?php echo $_jsonConfig ?>);
 	</script>
