@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'filterExport',
     'findEmptyCategories',
     'prepImageImport',
     'findDuplicateSku',
@@ -87,6 +88,7 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->endBody()->endHtml();
 	exit;
 }
+
 
 function findEmptyCategories() {
     global $html;
@@ -1064,6 +1066,24 @@ function reviewSimpleImport() {
 	}
 	$infile->close();
 }
+function filterExport() {
+    global $html;
+    $fn = $_SERVER['DOCUMENT_ROOT'] . '/var/export/weight.csv';
+    $html->para(sprintf('using file: %s', $fn));
+    if(!file_exists($fn)){
+        $html->para(sprintf("file '%s' does not exist, exiting"));
+    }
+
+    $reader = new CsvReader($fn, ',', true);
+    $writer = new CsvWriter($fn . 'filtered.csv', ',');
+
+    $writer->appendRow($reader->getHeader());
+    while($reader->nextRow()){
+        if($reader->item('weight') < "150"){
+            $writer->appendRow($reader->getRow());
+        }
+    }
+}
 
 function cleanImportFile() {
 	global $html;
@@ -1241,20 +1261,28 @@ class CsvReader {
 	private $hMap;
 	private $delimiter;
 	private $data;
+    private $header;
 
-	public function __construct($fn, $d, $head) {
+
+    /**
+     * CsvReader constructor.
+     * @param $fn
+     * @param $d
+     * @param $head
+     */
+    public function __construct($fn, $d, $head) {
 		$this->fileName = $fn;
 		$this->delimiter = $d;
 		$this->handle = fopen($this->fileName, "r");
 		if ($this->handle !== false) {
 			if ($head) {
 				$map = array();
-				$fields = fgetcsv($this->handle, 0, $this->delimiter);
-				if ($fields === false) {
+				$this->header = fgetcsv($this->handle, 0, $this->delimiter);
+				if ($this->header === false) {
 					return false;
 				}
-				for ($i = 0; $i < count($fields); $i++) {
-					$map[$fields[$i]] = $i;
+				for ($i = 0; $i < count($this->header); $i++) {
+					$map[$this->header[$i]] = $i;
 				}
 				$this->hMap = $map;
 			}
@@ -1263,6 +1291,12 @@ class CsvReader {
 		}
 	}
 
+    public function getRow(){
+        return $this->data;
+    }
+    public function getHeader(){
+        return $this->header;
+    }
 	public function nextRow() {
 		$this->data = fgetcsv($this->handle, 0, $this->delimiter);
 		return $this->data;

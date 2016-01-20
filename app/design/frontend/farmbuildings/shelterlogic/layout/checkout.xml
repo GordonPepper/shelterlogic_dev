@@ -461,7 +461,7 @@ One page checkout main layout
         <remove name="right"/>
         <remove name="left"/>
 
-        <block type="checkout/onepage_payment_methods" name="root" output="toHtml" template="checkout/onepage/payment/methods.phtml">
+        <block type="paymentterms/onepage_payment_methods" name="root" output="toHtml" template="checkout/onepage/payment/methods.phtml">
             <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
             <block type="core/template" name="checkout.onepage.payment.methods.scripts" as="scripts" />
             <block type="core/template" name="checkout.onepage.payment.methods.additional" as="additional" />
