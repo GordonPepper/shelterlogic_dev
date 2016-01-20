@@ -49,7 +49,7 @@ class Americaneagle_Farmbuildings_Checkout_CartController extends
             }
         }
         if($currentCartWeight > 5000)    {
-            $this->_getSession()->addError(Mage::helper('core')->escapeHtml("Cannot update item, total cart weight would be over limit"));
+            $this->_getSession()->addError(Mage::helper('core')->escapeHtml("We cannot update your order because the total order weight exceeds 5,000 pounds. Please call 1-800-421-6474 for a custom shipping quote."));
             $this->_goBack();
             return null;
         }
