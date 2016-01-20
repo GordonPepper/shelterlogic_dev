@@ -85,8 +85,6 @@ class Americaneagle_Visual_Model_Task_Ordersync
                     }
                 }
 
-            } else {
-
             }
 
             $billingAddress = $order->getBillingAddress();

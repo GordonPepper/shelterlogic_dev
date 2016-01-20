@@ -31,6 +31,7 @@
         'Visual\SalesOrderService\ArrayOfUDFValue' => __DIR__ .'/ArrayOfUDFValue.php',
         'Visual\SalesOrderService\UDFValue' => __DIR__ .'/UDFValue.php',
         'Visual\SalesOrderService\ArrayOfCustomerOrderLine' => __DIR__ .'/ArrayOfCustomerOrderLine.php',
+        'Visual\SalesOrderService\NewOrderPayment' => __DIR__ .'/NewOrderPayment.php',
         'Visual\SalesOrderService\CreateSalesOrderResponse' => __DIR__ .'/CreateSalesOrderResponse.php',
         'Visual\SalesOrderService\CustomerOrderDataResponse' => __DIR__ .'/CustomerOrderDataResponse.php',
         'Visual\SalesOrderService\BaseDataResponse' => __DIR__ .'/BaseDataResponse.php',

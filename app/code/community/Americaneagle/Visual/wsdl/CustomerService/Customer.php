@@ -306,6 +306,11 @@ class Customer extends ExternalReference
     protected $PriceGroup = null;
 
     /**
+     * @var boolean $TaxExempt
+     */
+    protected $TaxExempt = null;
+
+    /**
      * @var string $CustomerType
      */
     protected $CustomerType = null;
@@ -1437,6 +1442,24 @@ class Customer extends ExternalReference
     public function setPriceGroup($PriceGroup)
     {
       $this->PriceGroup = $PriceGroup;
+      return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getTaxExempt()
+    {
+      return $this->TaxExempt;
+    }
+
+    /**
+     * @param boolean $TaxExempt
+     * @return \Visual\CustomerService\Customer
+     */
+    public function setTaxExempt($TaxExempt)
+    {
+      $this->TaxExempt = $TaxExempt;
       return $this;
     }
 

@@ -250,6 +250,11 @@ class CustomerOrderHeader extends ExternalReference
      */
     protected $Lines = null;
 
+    /**
+     * @var NewOrderPayment $OrderPayment
+     */
+    protected $OrderPayment = null;
+
     
     public function __construct()
     {
@@ -1195,6 +1200,24 @@ class CustomerOrderHeader extends ExternalReference
     public function setLines($Lines)
     {
       $this->Lines = $Lines;
+      return $this;
+    }
+
+    /**
+     * @return NewOrderPayment
+     */
+    public function getOrderPayment()
+    {
+      return $this->OrderPayment;
+    }
+
+    /**
+     * @param NewOrderPayment $OrderPayment
+     * @return \Visual\SalesOrderService\CustomerOrderHeader
+     */
+    public function setOrderPayment($OrderPayment)
+    {
+      $this->OrderPayment = $OrderPayment;
       return $this;
     }
 
