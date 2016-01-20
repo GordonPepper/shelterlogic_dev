@@ -188,6 +188,15 @@
 		</ul>
 		<?php } ?>
 
+		<?php if (Mage::helper('paymentterms')->isCreditCardTerm(Mage::getSingleton('checkout/session')->getQuote()->getCustomer()->getTermsId())): ?>
+		<li>
+			<label for="po_number_cc" class="required"><em>*</em><?php echo $this->__('Purchase Order Number') ?></label>
+			<div class="input-box">
+				<input type="text" id="po_number_cc" name="payment[po_number]" title="<?php echo $this->__('Purchase Order Number') ?>" class="input-text required-entry" value="<?php echo $this->escapeHtml($this->getInfoData('po_number')) ?>" />
+			</div>
+		</li>
+		<?php endif; ?>
+
 	</ul>
 </dd>
 
