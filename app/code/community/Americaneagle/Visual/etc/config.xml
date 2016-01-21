@@ -15,6 +15,11 @@
             <americaneagle_visual>
                 <class>Americaneagle_Visual_Helper</class>
             </americaneagle_visual>
+            <avatax>
+                <rewrite>
+                    <data>Americaneagle_Visual_Helper_Rewrite_AvaTax_Data</data>
+                </rewrite>
+            </avatax>
         </helpers>
         <models>
             <americaneagle_visual>
