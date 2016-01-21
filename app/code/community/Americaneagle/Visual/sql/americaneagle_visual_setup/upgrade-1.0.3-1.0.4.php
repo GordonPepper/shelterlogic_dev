@@ -10,7 +10,7 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->addAttribute('customer', 'tax_exempt', array(
-    'type' => 'smallint',
+    'type' => 'int',
     'input' => 'boolean',
     'label' => 'Tax Exempt',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
