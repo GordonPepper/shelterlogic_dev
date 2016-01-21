@@ -46,7 +46,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     ->addFieldToFilter('oi.order_id', array('eq' => $order->getId()))
                     ->load();
 
-            foreach ($order->getAllItems() as $item) {
+            foreach ($order->getAllItems() as $index => $item) {
                 if ($item->getProductType() == 'simple' && $item->getParentItem() != null) {
                     continue;
                 }
@@ -71,7 +71,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setLineStatus('A')
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())
-                            ->setFreightCost($order->getShippingAmount())
+                            ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
                             ->setWarehouseID($stockItem->getWarehouseCode());
 
                         if ($item->getProductType() == 'simple' && $product->getProductCode()) {
@@ -113,6 +113,13 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                         ->getFirstItem();
                     $cardType = $ccInfo->getCardType();
                     $cardNumber = $ccInfo->getNumber();
+                } else {
+                    $cardType = $orderPayment->getCcType();
+                    if ($cardType == 'AX') {
+                        $cardNumber = "XXXX-XXXXXX-X{$orderPayment->getCcLast4()}";
+                    } else {
+                        $cardNumber = "XXXX-XXXX-XXXX-{$orderPayment->getCcLast4()}";
+                    }
                 }
                 $paymentTransaction = $orderPayment->getAuthorizationTransaction();
                 /** adding the payment to the order */
@@ -122,8 +129,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     ->setCustomerOrderID($order->getIncrementId())
                     ->setSequenceId(1)
                     ->setPaymentType("CC")
-                    ->setCardType($cardType ? $cardType : $orderPayment->getCcType())
-                    ->setCardReference($cardNumber ? $cardNumber : $orderPayment->getCcLast4())
+                    ->setCardType($cardType)
+                    ->setCardReference($cardNumber)
                     ->setAuthorizationCode($orderPayment->getCcTransId())
                     ->setBankId("")
                     ->setCustProfileId($customerProfileId)
