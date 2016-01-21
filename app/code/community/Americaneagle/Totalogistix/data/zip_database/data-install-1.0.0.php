@@ -4,6 +4,8 @@
  * User: mageuser
  * Date: 11/30/15
  * Time: 2:04 PM
+ *
+ * database sourced from: http://federalgovernmentzipcodes.us/free-zipcode-database-Primary.csv
  */
 /** @var $this Mage_Core_Model_Resource_Setup */
 
