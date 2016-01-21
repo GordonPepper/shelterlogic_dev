@@ -40,11 +40,13 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
         $parameters = $schedule->getParameters();
         $this->store = Mage::getModel('core/store');
+
+        $message = '';
+
         if ($parameters) {
             $parameters = json_decode($parameters);
-            if ($parameters->store_id) {
-                $this->store->load($parameters->store_id);
-                $this->orderHelper->getConfig()->setStore($this->store);
+            if ($parameters->store_ids) {
+                $store_ids = $parameters->store_ids;
             } else {
                 return false;
             }
@@ -52,76 +54,85 @@ class Americaneagle_Visual_Model_Task_Ordersync
             return false;
         }
 
-        $startTime = microtime(true);
+        foreach ($store_ids as $storeId) {
+            $this->store->load($storeId);
+            $this->orderHelper->getConfig()->setStore($this->store);
+            $this->customerHelper->getConfig()->setStore($this->store);
 
-        $orderCollection = Mage::getModel('sales/order')->getCollection();
-        $orderCollection->addAttributeToFilter('store_id', array('eq' => $this->store->getId()));
-        $orderCollection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
+            $startTime = microtime(true);
 
-        if($orderCollection->count() == 0){
-            return 'AE Visual: No orders to push';
-        }
+            $orderCollection = Mage::getModel('sales/order')->getCollection();
+            $orderCollection->addAttributeToFilter('store_id', array('eq' => $this->store->getId()));
+            $orderCollection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
 
-        //increment push attempts, send failure notifications
-        $this->orderHelper->auditCollectionPush($orderCollection);
-
-        /** @var Mage_Sales_Model_Order $order */
-        foreach ($orderCollection as $order) {
-            $vCustomer = null;
-            $customer = Mage::getModel("customer/customer");
-
-            if ($order->getCustomerId()) {
-                /** @var Mage_Customer_Model_Customer $customer */
-                $customer->load($order->getCustomerId());
-
-                /*
-                 * update customer info
-                 */
-                if (!$customer->getVisualCustomerId() && $customer->getEmail()) {
-                    $vCustomer = $this->customerHelper->getVisualCustomerByEmail($customer->getEmail());
-                    if ($vCustomer) {
-                        $customer->setVisualCustomerId($vCustomer->getCustomerID());
-                        $customer->save();
-                    }
-                }
-
-            } else {
-
-            }
-
-            $billingAddress = $order->getBillingAddress();
-            $vCustomer = $this->customerHelper->createVisualCustomer($customer, $billingAddress);
-            if (is_null($vCustomer)) {
-                $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create customer ' . $customer->getEmail() . ' in VISUAL');
+            if($orderCollection->count() == 0){
+                $message .= 'Store ' . $storeId . ' - No orders to push';
                 continue;
             }
 
-            $shippingAddress = $order->getShippingAddress();
-            $shipToId = $this->customerHelper->getShipToId($vCustomer->getCustomerID(), $shippingAddress);
+            //increment push attempts, send failure notifications
+            $this->orderHelper->auditCollectionPush($orderCollection);
 
-            if (is_null($shipToId)) {
-                $address = $this->customerHelper->addNewAddress($shippingAddress, $vCustomer->getCustomerID());
-                if (is_null($address)) {
-                    $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create address for ' . $vCustomer->getCustomerID() . ' in VISUAL');
+            /** @var Mage_Sales_Model_Order $order */
+            foreach ($orderCollection as $order) {
+                $vCustomer = null;
+                $customer = Mage::getModel("customer/customer");
+
+                if ($order->getCustomerId()) {
+                    /** @var Mage_Customer_Model_Customer $customer */
+                    $customer->load($order->getCustomerId());
+
+                    /*
+                     * update customer info
+                     */
+                    if (!$customer->getVisualCustomerId() && $customer->getEmail()) {
+                        $vCustomer = $this->customerHelper->getVisualCustomerByEmail($customer->getEmail());
+                        if ($vCustomer) {
+                            $customer->setVisualCustomerId($vCustomer->getCustomerID());
+                            $customer->save();
+                        }
+                    }
+
+                }
+
+                $billingAddress = $order->getBillingAddress();
+                $vCustomer = $this->customerHelper->createVisualCustomer($customer, $billingAddress);
+                if (is_null($vCustomer)) {
+                    $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create customer ' . $customer->getEmail() . ' in VISUAL');
                     continue;
                 }
-                $shipToId = $address->getShipToID();
+
+                $shippingAddress = $order->getShippingAddress();
+                $shipToId = $this->customerHelper->getShipToId($vCustomer->getCustomerID(), $shippingAddress);
+
+                if (is_null($shipToId)) {
+                    $address = $this->customerHelper->addNewAddress($shippingAddress, $vCustomer->getCustomerID());
+                    if (is_null($address)) {
+                        $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create address for ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                        continue;
+                    }
+                    $shipToId = $address->getShipToID();
+                }
+
+                $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId);
+                if (is_null($vOrder)) {
+                    $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                    continue;
+                }
+                $order->setAeSentToVisual(1);
+                $order->save();
+                $this->count++;
             }
 
-            $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId);
-            if (is_null($vOrder)) {
-                $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
-                continue;
+            if (count($this->errors) > 0) {
+                $message .= 'Store ' . $storeId . ' - Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT) . "\r\n";
+            } else {
+                $message .= 'Store ' . $storeId . ' - Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . "\r\n";
             }
-            $order->setAeSentToVisual(1);
-            $order->save();
-            $this->count++;
+            $this->count = 0;
+            $this->errors = array();
         }
 
-        if (count($this->errors) > 0) {
-            return 'Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT);
-        } else {
-            return 'Orders pushed: ' . $this->count . ' Time:' . (microtime(true)-$startTime);
-        }
+        return $message;
     }
 }

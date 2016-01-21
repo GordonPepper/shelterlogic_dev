@@ -42,11 +42,13 @@ class Americaneagle_Visual_Model_Task_Customersync
         $date = new DateTime();
         $date->sub(new DateInterval('P1D'));
         $this->startDate = $date->format('Y-m-d');
+
+        $message = '';
+
         if ($parameters) {
             $parameters = json_decode($parameters);
-            if ($parameters->store_id) {
-                $this->store->load($parameters->store_id);
-                $this->helper->getConfig()->setStore($this->store);
+            if ($parameters->store_ids) {
+                $store_ids = $parameters->store_ids;
             } else {
                 return false;
             }
@@ -59,16 +61,26 @@ class Americaneagle_Visual_Model_Task_Customersync
         } else {
             return false;
         }
-        $this->startDate = null;
-        $startTime = microtime(true);
 
-        $this->getRecursiveCustomers(0);
+        foreach ($store_ids as $storeId) {
+            $this->store->load($storeId);
+            $this->helper->getConfig()->setStore($this->store);
 
-        if (count($this->errors) > 0) {
-            return 'Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT);
-        } else {
-            return 'Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime);
+            $startTime = microtime(true);
+
+            $this->getRecursiveCustomers(0);
+
+            if (count($this->errors) > 0) {
+                $message .= 'Store ' . $storeId . ' - Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT) . "\r\n";
+            } else {
+                $message .= 'Store ' . $storeId . ' - Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . "\r\n";
+            }
+
+            $this->count = 0;
+            $this->errors = array();
         }
+
+        return $message;
     }
 
 
@@ -108,7 +120,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setVisualCustomerId($vCustomer->getCustomerID())
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
-                    ->setTermsId($vCustomer->getTermsID());
+                    ->setTermsId($vCustomer->getTermsID())
+                    ->setTaxExempt($vCustomer->getTaxExempt());
 
                 try{
                     $customer->save();

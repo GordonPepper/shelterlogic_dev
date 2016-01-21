@@ -37,11 +37,13 @@ class Americaneagle_Visual_Model_Task_Pricesync
 
         $parameters = $schedule->getParameters();
         $this->store = Mage::getModel('core/store');
+
+        $message = '';
+
         if ($parameters) {
             $parameters = json_decode($parameters);
-            if ($parameters->store_id) {
-                $this->store->load($parameters->store_id);
-                $this->helper->getConfig()->setStore($this->store);
+            if ($parameters->store_ids) {
+                $store_ids = $parameters->store_ids;
             } else {
                 return false;
             }
@@ -52,34 +54,46 @@ class Americaneagle_Visual_Model_Task_Pricesync
             return false;
         }
 
-        $startTime = microtime(true);
+        foreach ($store_ids as $storeId) {
+            $this->store->load($storeId);
+            $this->helper->getConfig()->setStore($this->store);
 
-        $cache = Mage::getSingleton('core/cache');
-        $key = 'products-sku-product-id-array' . $this->store->getId();
+            $startTime = microtime(true);
 
-        if(!$data = $cache->load($key)){
-            $productsCollection = Mage::getResourceModel('catalog/product_collection')
-                ->addAttributeToSelect('SKU');
-            $productsCollection->load();
+            $cache = Mage::getSingleton('core/cache');
+            $key = 'products-sku-product-id-array' . $this->store->getId();
 
-            foreach($productsCollection->getItems() as $product){
-                $this->productSkuList[$product->getSku()] = $product->getId();
+            if(!$data = $cache->load($key)){
+                $productsCollection = Mage::getResourceModel('catalog/product_collection')
+                    ->addAttributeToSelect('SKU');
+                $productsCollection->load();
+
+                foreach($productsCollection->getItems() as $product){
+                    $this->productSkuList[$product->getSku()] = $product->getId();
+                }
+                $data = serialize($this->productSkuList);
+                $cache->save($data, $key, array(Mage_Catalog_Model_Product::CACHE_TAG));
+            } else {
+                $this->productSkuList = unserialize($data);
             }
-            $data = serialize($this->productSkuList);
-            $cache->save($data, $key, array(Mage_Catalog_Model_Product::CACHE_TAG));
-        } else {
-            $this->productSkuList = unserialize($data);
+
+            printf('Magento Products loading time: %d', (microtime(true)-$startTime));
+
+            $this->getRecursiveItems(0);
+
+            if (count($this->errors) > 0) {
+                $message .= 'Store ' . $storeId . ' - Items updated: ' . $this->count . ' Time: ' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT) . "\r\n";
+            } else {
+                $message .= 'Store ' . $storeId . ' - Items updated: ' . $this->count . ' Time: ' . (microtime(true)-$startTime) . "\r\n";
+            }
+            $this->count = 0;
+            $this->errors = array();
         }
 
-        printf('Magento Products loading time: %d', (microtime(true)-$startTime));
+        $process = Mage::getModel('index/indexer')->getProcessByCode('catalog_product_price');
+        $process->reindexAll();
 
-        $this->getRecursiveItems(0);
-
-        if (count($this->errors) > 0) {
-            return 'Items updated: ' . $this->count . ' Time: ' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT);
-        } else {
-            return 'Items updated: ' . $this->count . ' Time: ' . (microtime(true)-$startTime);
-        }
+        return $message;
     }
 
     /**

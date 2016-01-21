@@ -34,6 +34,7 @@ class SalesOrderService extends \SoapClient
       'ArrayOfUDFValue' => 'Visual\\SalesOrderService\\ArrayOfUDFValue',
       'UDFValue' => 'Visual\\SalesOrderService\\UDFValue',
       'ArrayOfCustomerOrderLine' => 'Visual\\SalesOrderService\\ArrayOfCustomerOrderLine',
+      'NewOrderPayment' => 'Visual\\SalesOrderService\\NewOrderPayment',
       'CreateSalesOrderResponse' => 'Visual\\SalesOrderService\\CreateSalesOrderResponse',
       'CustomerOrderDataResponse' => 'Visual\\SalesOrderService\\CustomerOrderDataResponse',
       'BaseDataResponse' => 'Visual\\SalesOrderService\\BaseDataResponse',

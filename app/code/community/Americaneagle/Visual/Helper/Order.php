@@ -91,10 +91,47 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             /** return nothing if there are no line items. */
             if (count($lines) == 0) {
                 return null;
-            } else {}
+            }
 
             /** @var Mage_Sales_Model_Order_Address $billingAddress */
             $billingAddress = $order->getBillingAddress();
+
+            /** @var Mage_Sales_Model_Order_Payment $orderPayment */
+            $orderPayment = $order->getPayment();
+
+            /** check if PO or credit card */
+            if ($orderPayment->getMethod() == 'purchaseorder') {
+                $poNumber = $orderPayment->getPoNumber();
+            } else {
+                list($customerProfileId, $paymentProfileId) = explode('-', $orderPayment->getPoNumber());
+
+                /** read out the auth cim records */
+                if ($customerProfileId && $paymentProfileId) {
+                    $ccInfo = Mage::getModel('morecc/morecc')->getCollection()
+                        ->addFieldToFilter('profile_id', array('eq' => $customerProfileId))
+                        ->addFieldToFilter('pay_id', array('eq' => $paymentProfileId))
+                        ->getFirstItem();
+                    $cardType = $ccInfo->getCardType();
+                    $cardNumber = $ccInfo->getNumber();
+                }
+                $paymentTransaction = $orderPayment->getAuthorizationTransaction();
+                /** adding the payment to the order */
+                $orderHeaderPayment = (new SalesOrderService\NewOrderPayment(
+                                    new DateTime($paymentTransaction->getCreatedAt()),
+                                    $orderPayment->getAmountAuthorized()))
+                    ->setCustomerOrderID($order->getIncrementId())
+                    ->setSequenceId(1)
+                    ->setPaymentType("CC")
+                    ->setCardType($cardType ? $cardType : $orderPayment->getCcType())
+                    ->setCardReference($cardNumber ? $cardNumber : $orderPayment->getCcLast4())
+                    ->setAuthorizationCode($orderPayment->getCcTransId())
+                    ->setBankId("")
+                    ->setCustProfileId($customerProfileId)
+                    ->setPaymentProfileId($paymentProfileId);
+                if ($orderPayment->getAdditionalData()) {
+                    $poNumber = $orderPayment->getAdditionalData()['po_number'];
+                }
+            }
 
             /** @var SalesOrderService\CustomerOrderHeader $newOrderHeader */
             $newOrderHeader = (new SalesOrderService\CustomerOrderHeader())
@@ -112,11 +149,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setContactEmail($billingAddress->getEmail())
                 ->setSiteID($this->getConfig()->getSiteId())
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
-                ->setCustomerPurchaseOrderID($order->getPayment()->getCcTransId())
+                ->setCustomerPurchaseOrderID($poNumber)
                 ->setFOB($this->getConfig()->getFob())
                 ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
-                    ->setCustomerOrderLine($lines));
+                    ->setCustomerOrderLine($lines))
+                ->setOrderPayment($orderHeaderPayment);
 
             $newOrderData = (new SalesOrderService\CustomerOrderData())
                 ->setOrders((new SalesOrderService\ArrayOfCustomerOrderHeader())
