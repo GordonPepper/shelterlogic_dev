@@ -7,6 +7,8 @@
  */ 
 class Americaneagle_Visual_Helper_Rewrite_AvaTax_Data extends OnePica_AvaTax_Helper_Data
 {
+    protected $_cachedResult = array();
+
     public function isAddressActionable($address, $storeId, $filterMode = OnePica_AvaTax_Model_Config::REGIONFILTER_ALL,
                                         $isAddressValidation = false
     )
@@ -14,8 +16,12 @@ class Americaneagle_Visual_Helper_Rewrite_AvaTax_Data extends OnePica_AvaTax_Hel
         $isExempt = false;
         $customerId = $address->getCustomerId();
         if ($customerId) {
-            $customer = Mage::getModel('customer/customer')->load($customerId);
-            $isExempt = $customer->getId() && $customer->getTaxExempt();
+            if (!isset($this->_cachedResult[$customerId])) {
+                $customer = Mage::getModel('customer/customer')->load($customerId);
+                $this->_cachedResult[$customerId] = ($customer->getId() && $customer->getTaxExempt());
+            }
+
+            $isExempt = $this->_cachedResult[$customerId];
         }
 
         return !$isExempt && parent::isAddressActionable($address, $storeId, $filterMode, $isAddressValidation);
