@@ -88,7 +88,7 @@ aeProduct.Config.prototype = {
             p[0].innerHTML = formatCurrency(this.config.sp, priceFormat);
         }
 
-        new Ajax.Request('/fbconfig/index', {
+        new Ajax.Request(aeConfigUrl, {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
             postBody: Object.toJSON(params),
@@ -146,7 +146,7 @@ aeProduct.Config.prototype = {
                 "spid": aeProductId
             }
         );
-        new Ajax.Request('/fbconfig/index/product', {
+        new Ajax.Request(aePriceUrl, {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
             postBody: Object.toJSON(params),
