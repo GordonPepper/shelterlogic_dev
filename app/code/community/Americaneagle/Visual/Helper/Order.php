@@ -28,7 +28,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
      * @param null $shipVIA
      * @return bool|SalesOrderService\CreateSalesOrderResponse
      */
-    public function addNewOrderForAddress(Mage_Sales_Model_Order $order, $customerId, $shipToId, $shipVIA = null)
+    public function addNewOrderForAddress(Mage_Sales_Model_Order $order, $customerId, $shipToId, $shipVIA = null, $isCT = false)
     {
         try {
             $lines = array();
@@ -162,6 +162,10 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
                     ->setCustomerOrderLine($lines))
                 ->setOrderPayment($orderHeaderPayment);
+
+            if ($isCT) {
+                $newOrderHeader->setSalesTaxID("CT_SLSTX");
+            }
 
             $newOrderData = (new SalesOrderService\CustomerOrderData())
                 ->setOrders((new SalesOrderService\ArrayOfCustomerOrderHeader())
