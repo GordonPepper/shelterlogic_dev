@@ -121,10 +121,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                         $cardNumber = "XXXX-XXXX-XXXX-{$orderPayment->getCcLast4()}";
                     }
                 }
-                $paymentTransaction = $orderPayment->getAuthorizationTransaction();
                 /** adding the payment to the order */
                 $orderHeaderPayment = (new SalesOrderService\NewOrderPayment(
-                                    new DateTime($paymentTransaction->getCreatedAt()),
+                                    new DateTime($order->getCreatedAt()),
                                     $orderPayment->getAmountAuthorized()))
                     ->setCustomerOrderID($order->getIncrementId())
                     ->setSequenceId(1)
@@ -132,7 +131,6 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     ->setCardType($cardType)
                     ->setCardReference($cardNumber)
                     ->setAuthorizationCode($orderPayment->getCcTransId())
-                    ->setBankId("")
                     ->setCustProfileId($customerProfileId)
                     ->setPaymentProfileId($paymentProfileId);
                 if ($orderPayment->getAdditionalData()) {

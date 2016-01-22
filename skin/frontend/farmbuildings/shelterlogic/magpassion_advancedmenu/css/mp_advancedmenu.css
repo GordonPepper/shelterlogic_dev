@@ -47,13 +47,11 @@
 .magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
 .magpassion-nav-container > ul > li > a.hasChild:after {content:""; display:block; opacity:0; position:absolute; z-index:2001; width:16px; height:16px; left:50%; right:0; bottom:-19px; border-width:1px; border-style:none solid solid none; background-color:#ffffff; border-color:#f0f0f0; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg); -webkit-transition:opacity 0.3s ease 0.1s; -moz-transition:opacity 0.3s ease 0.1s; transition:opacity 0.3s ease 0.1s;}
 .magpassion-nav-container > ul > li:hover > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
-.magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 15px;}
 .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; margin-top:4px; right:10px; width:0; height:0; border-bottom:4px solid #666666; border-left:4px solid transparent;}
 .magpassion-nav-container > ul > li:hover > a.hasChild span.mp-menu-title::after {border-bottom-color:#f0b310;}
 
 /* 1st Level */
 
-.magpassion-nav-container > ul > li > ul {position:absolute; left:-10000px; right:10000px; top:56px; padding-top:12px; opacity:0; -webkit-transition:left 0s ease 0.4s, right 0s ease 0.4s, opacity 0.3s ease 0.1s; -moz-transition:left 0s ease 0.4s, right 0s ease 0.4s, opacity 0.3s ease 0.1s; transition:left 0s ease 0.4s, right 0s ease 0.4s, opacity 0.3s ease 0.1s;}
 .magpassion-nav-container > ul > li > ul > li {display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:auto; float:none !important; margin:0;}
 .magpassion-nav-container > ul > li > ul > li:after {content:""; display:table; clear:both;}
 .magpassion-nav-container > ul > li > ul > li > a,
@@ -87,21 +85,26 @@ ul.magpassion-menu-dropdown li .shown-sub ul.shown-sub,
 ul.magpassion-menu-dropdown li .shown-sub li div.shown-sub {left:101.4%;}
 ul.magpassion-menu-dropline li .shown-sub ul.shown-sub,
 ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
-ul.magpassion-menu-mega li:hover ul.level1 {left:auto; right:auto; z-index:999; opacity:1; -webkit-transition:left 0s ease 0s, right 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:left 0s ease 0s, right 0s ease 0s, opacity 0.2s ease 0s; transition:left 0s ease 0s, right 0s ease 0s, opacity 0.2s ease 0s;}
 
 /* title */
 
 .magpassion-nav-container span.hasImg {background-repeat:no-repeat; background-position:1% 10%; padding-left:28px !important;}
 .magpassion-nav-container span.hasImg {background-position:1% 40% !important; padding-left:32px !important;}
 
-@media only screen and (min-width:771px) and (max-width:1140px) {
-    .magpassion-child-content {min-width:0; width:20%;}
+@media only screen and (min-width:771px) {
+    .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 15px;}
+    .magpassion-nav-container > ul > li > ul {position:absolute; left:-10000px; right:10000px; top:54px; padding-top:12px; opacity:0; -webkit-transition:left 0s ease 0.4s, right 0s ease 0.4s, opacity 0.3s ease 0.1s; -moz-transition:left 0s ease 0.4s, right 0s ease 0.4s, opacity 0.3s ease 0.1s; transition:left 0s ease 0.4s, right 0s ease 0.4s, opacity 0.3s ease 0.1s;}
+    ul.magpassion-menu-mega li:hover ul.level1 {left:auto; right:auto; z-index:999; opacity:1; -webkit-transition:left 0s ease 0s, right 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:left 0s ease 0s, right 0s ease 0s, opacity 0.2s ease 0s; transition:left 0s ease 0s, right 0s ease 0s, opacity 0.2s ease 0s;}
 }
 
 @media only screen and (max-width:770px) {
-    .magpassion-child-image {display:none;}
-    .magpassion-child-content {min-width:0;}
-    .magpassion-nav-container > ul > li > ul {top:28px;}
-    .magpassion-nav-container > ul > li > ul > li {background-color:#ededed;}
-    .magpassion-nav-container > ul > li > a.hasChild:after {display:none;}
+    .magpassion-menu-mega {height:auto;}
+    .magpassion-nav-container > ul > li {float:none;}
+    .magpassion-nav-container > ul > li > a {float:none;}
+    .magpassion-nav-container > ul > li ~ li {margin-left:0;}
+    .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 0px;}
+
+    .magpassion-nav-container > ul > li > ul {display:none;}
+    ul.magpassion-menu-mega li:hover ul.level1 {display:block;}
+
 }
