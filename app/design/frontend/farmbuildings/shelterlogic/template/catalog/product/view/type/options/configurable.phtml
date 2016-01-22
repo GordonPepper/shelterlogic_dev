@@ -39,6 +39,8 @@ $_super_att_index = 1;
     </dl>
     <script type="text/javascript">
 		var aeProductId = <?php echo $_product->getId(); ?>;
+        var aeConfigUrl = <?php echo sprintf("'%s'", $this->getUrl('fbconfig/index')); ?>;
+        var aePriceUrl = <?php echo sprintf("'%s'", $this->getUrl('fbconfig/index/product')); ?>;
 		var priceFormat = <?php echo $this->helper('tax')->getPriceFormat($this->getStore()); ?>;
 		var aeConfig = new aeProduct.Config(<?php echo $_jsonConfig ?>);
 	</script>
