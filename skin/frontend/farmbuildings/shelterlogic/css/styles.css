@@ -1822,13 +1822,9 @@ a.button2:hover {
   position:relative;
   padding-left:0;
   padding-right:30px;
-  border-right:1px solid #f0f0f0;
   /* Remove the 15px padding */
   clear:left;
 }
-
-.col-left-div {display:block; position:absolute; width:30px; height:50px; top:16px; right:-26px; overflow:hidden; -webkit-transform:scale(0.75,1); -moz-transform:scale(0.75,1); transform:scale(0.75,1);}
-.col-left-div::after {content:""; display:block; position:relative; width:30px; height:30px; left:-15px; top:9px; border-width:1px; border-style:solid solid solid solid; background-color:#ffffff; border-color:#f0f0f0; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg);}
 
 .col-left img {
   max-width:100%;
@@ -3975,9 +3971,7 @@ body {
 }
 @media only screen and (min-width:771px) and (max-width:939px) {
   #header-nav {
-    display:block;
-    margin-left:0;
-    width:100%;
+    display:inline-block;
     max-width:100%;
   }
 }
@@ -11086,6 +11080,10 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 /* MEDIA QUERY */
 
 @media only screen and (min-width:771px) {
+
+    .col-left-div {display:block; position:absolute; width:30px; height:50px; top:16px; right:-26px; overflow:hidden; -webkit-transform:scale(0.75,1); -moz-transform:scale(0.75,1); transform:scale(0.75,1);}
+    .col-left-div::after {content:""; display:block; position:relative; width:30px; height:30px; left:-15px; top:9px; border-width:1px; border-style:solid solid solid solid; background-color:#ffffff; border-color:#f0f0f0; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg);}
+
 	.product-img-box .product-image {
 		display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:fixed; width:100%;
 		margin:0 auto;
@@ -11101,6 +11099,9 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     .flex-block {display:block; position:relative; z-index:101; padding:0 30px; margin:0 auto 15px auto; max-width:1140px; overflow:hidden;}
     .flex-block .x-trigger {display:none;}
     .flex-block .x-target {display:block !important;}
+
+    .col-left {border-right:1px solid #f0f0f0;}
+
 }
 
 @media only screen and (min-width:771px) and (max-width:959px) {
@@ -11110,10 +11111,13 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 
 @media only screen and (max-width:770px) {
 
-    .page-header-cmlla {display:block; position:relative; width:100%; height:115px; background-color:#ffffff; z-index:2001;}
-    .page-header-ctrl {display:block; position:fixed; width:100%; background-color:#ffffff; z-index:2001;}
+    .col-left-div {display:none;}
+
+    .page-header-cmlla {display:block; position:relative; width:100%; height:auto; background-color:#ffffff; z-index:2001;}
+    .page-header-ctrl {display:block; position:static; width:100%; background-color:#ffffff; z-index:2001;}
 
     .hdr-icons {display:none;}
+    .header-language-background {padding-top:10px; padding-bottom:10px;}
     .header-language-background .header-language-container {text-align:center;}
     #header-cart.skip-active,
     #search_mini_form .input-box,
@@ -11122,6 +11126,12 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     #header-nav,
     #header-account {margin-top:10px;}
     #header-cart.skip-active {top:65px;}
+
+    #header-nav.skip-content {background-color:transparent; border:none;}
+
+    .page-header-container .store-language-container {display:none;}
+    .page-header-container .skip-links {margin:10px 0;}
+
     #search_mini_form .input-box {left:auto; top:65px;}
     #search_mini_form .input-box .input-text {width:260px;}
     .product-view-layout .product-view .product-essential {padding-bottom:10px;}
