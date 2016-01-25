@@ -11083,7 +11083,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 
 @media only screen and (min-width:771px) {
 
-    .col-left-div {display:block; position:absolute; width:30px; height:50px; top:16px; right:-26px; overflow:hidden; -webkit-transform:scale(0.75,1); -moz-transform:scale(0.75,1); transform:scale(0.75,1);}
+    .col-left-div {display:block; position:absolute; width:30px; height:50px; top:16px; right:-26px; overflow:hidden; z-index:1; -webkit-transform:scale(0.75,1); -moz-transform:scale(0.75,1); transform:scale(0.75,1);}
     .col-left-div::after {content:""; display:block; position:relative; width:30px; height:30px; left:-15px; top:9px; border-width:1px; border-style:solid solid solid solid; background-color:#ffffff; border-color:#f0f0f0; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg);}
 
 	.product-img-box .product-image {
@@ -11102,13 +11102,22 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     .flex-block .x-trigger {display:none;}
     .flex-block .x-target {display:block !important;}
 
-    .col-left {border-right:1px solid #f0f0f0;}
-
     #checkout-review-table thead th:nth-child(1) {width:10%;}
     #checkout-review-table thead th:nth-child(2) {width:60%;}
     #checkout-review-table thead th:nth-child(3) {width:10%;}
     #checkout-review-table thead th:nth-child(4) {width:10%;}
     #checkout-review-table thead th:nth-child(5) {width:10%;}
+
+    .col2-left-layout .col-main::before {
+        content:"";
+        position:absolute;
+        left:auto;
+        right:auto;
+        top:0;
+        bottom:0;
+        border-left:1px solid #f0f0f0;
+        margin-left:-30px;
+    }
 
 }
 
