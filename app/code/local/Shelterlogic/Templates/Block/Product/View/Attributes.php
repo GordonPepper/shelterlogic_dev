@@ -7,6 +7,9 @@ class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_
     {
         $data = array();
         $product = $this->getProduct();
+        if($product->getAttributeSetId() == "10"){
+            return parent::getAdditionalData($excludeAttr);
+        }
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
             /** @var Mage_Catalog_Model_Entity_Attribute $attribute */
