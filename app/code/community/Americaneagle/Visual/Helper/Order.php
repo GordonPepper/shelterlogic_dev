@@ -105,6 +105,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             } else {
                 list($customerProfileId, $paymentProfileId) = explode('-', $orderPayment->getPoNumber());
 
+                $cardType = null;
+                $cardNumber = null;
+
                 /** read out the auth cim records */
                 if ($customerProfileId && $paymentProfileId) {
                     $ccInfo = Mage::getModel('morecc/morecc')->getCollection()
@@ -113,8 +116,11 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                         ->getFirstItem();
                     $cardType = $ccInfo->getCardType();
                     $cardNumber = $ccInfo->getNumber();
-                } else {
+                }
+                if (is_null($cardType)) {
                     $cardType = $orderPayment->getCcType();
+                }
+                if (is_null($cardNumber)) {
                     if ($cardType == 'AX') {
                         $cardNumber = "XXXX-XXXXXX-X{$orderPayment->getCcLast4()}";
                     } else {
