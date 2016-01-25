@@ -883,4 +883,41 @@ $j(document).ready(function() {
 
     $j(window).resize($j.debounce(500,spFN));
 
+/* Recommended Products - Match Height - Begin */
+
+	function recommendedProductsFN(){
+        if ($j("#mobitoggle").is(":visible")) {
+        	$j("#product-recommended-items").recommendedProducts(false);
+        } else {
+        	$j("#product-recommended-items").recommendedProducts(true);
+        }
+	}
+	$j.fn.recommendedProducts=function(b) {
+		var sObj=$j(this).find("ul ul>li>a");
+		var rpMinH=0;
+    	var rpTmpH=0;
+		if (b) {
+			sObj.each(function(){
+                $j(this).css("min-height","0px");
+				rpTmpH=$j(this).innerHeight();
+				rpMinH=(rpTmpH>rpMinH)?rpTmpH:rpMinH;
+			});
+			sObj.css("min-height",rpMinH+"px");
+		} else {
+			sObj.each(function(){
+				$j(this).css("min-height","0px");
+			});
+		}
+	}
+	recommendedProductsFN();
+	$j(window).resize($j.debounce(500,recommendedProductsFN));
+    $j(".flex-block .x-trigger").on({
+        click:function(){
+            setTimeout(function(){
+            	recommendedProductsFN();
+            },500);
+        }
+    });
+/* Recommended Products - Match Height - End */
+
 });
