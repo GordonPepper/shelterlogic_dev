@@ -539,11 +539,14 @@ $j(document).ready(function () {
         });
     }
 */
-
+    var QtyHasChanged = false;
     $j(".cart_update_trigger").on({
+
         click:function(e){
+            QtyHasChanged = false;
             $j("#cart_update_form").submit();
         }
+
     });
 
     function msgCloseFN(o,e,i){
@@ -566,19 +569,34 @@ $j(document).ready(function () {
     // ==============================================
     // Store Item Details
     // ==============================================
+
     var qtyWrapper=".qty-wrapper",
     qtyItems=[".qty-dec",".qty-inc"],
     qtyCounterFN=function(b,o,s){
+        debugger;
+        var url = window.location.href;
+        var cart_url = "/checkout/cart/";
+
         $j(o).on({click:function(e){
             e.preventDefault();
         }});
         if (b) {
             $j(o,s).on({
-                click:function(e){$j(".qty",s).val(function(i,v){return(++v);});}
+                click:function(e){$j(".qty",s).val(function(i,v){
+                    if (url.indexOf(cart_url) > -1){
+                        QtyHasChanged = true;
+                    }
+                    return(++v);
+                });}
             });
         } else {
             $j(o,s).on({
-                click:function(e){$j(".qty",s).val(function(i,v){return((--v>0)?v:1);});}
+                click:function(e){$j(".qty",s).val(function(i,v){
+                    if (url.indexOf(cart_url) > -1){
+                        QtyHasChanged = true;
+                    }
+
+                    return((--v>0)?v:1);});}
             });
         }
     }
@@ -596,6 +614,12 @@ $j(document).ready(function () {
                 if (i>0){qtyCounterFN(true,v,zet);}else{qtyCounterFN(false,v,zet);}
             }
         );
+    });
+
+    $j(window).on('beforeunload', function() {
+        if (QtyHasChanged){
+            return 'You have changed the quantity and did not save ...';
+        }
     });
 
     // ==============================================
