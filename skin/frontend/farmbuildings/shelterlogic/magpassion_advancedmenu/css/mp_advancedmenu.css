@@ -33,7 +33,9 @@
 .megamenu-banner-image-wrpr {display:block; position:relative; max-width:100%; overflow:hidden;}
 .megamenu-banner-image-wrpr img {display:block; max-width:100%;}
 .megamenu-banner-image-wrpr .megamenu-banner-image-td-wrpr {display:block; position:absolute; margin:10px 20px; left:0; right:0; top:auto; bottom:0; color:#ffffff;}
+
 .megamenu-banner-image-wrpr .megamenu-banner-image-td-wrpr:after {content:""; display:block; position:absolute; z-index:2001; width:16px; height:16px; left:-30px; right:auto; top:50%; bottom:0; margin-top:-7px; border-width:1px; border-style:none solid solid none; background-color:#ffffff; border-color:#ffffff; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg);}
+
 .megamenu-banner-image-wrpr .megamenu-banner-title {display:block; font-weight:700;}
 .megamenu-banner-image-wrpr .megamenu-banner-desc {display:block; text-transform:none; margin-top:5px; padding-top:2px; border-top:1px solid #ffffff;}
 
@@ -42,9 +44,21 @@
 .magpassion-nav-container > ul > li {float:left;}
 .magpassion-nav-container > ul > li ~ li {margin-left:5px;}
 .magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
+
+/* BEGIN - CLICK TESTING
 .magpassion-nav-container > ul > li:hover > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
+*/ .magpassion-nav-container > ul > li.active > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
+
 .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:10px; width:0; height:0;}
+
+/* CLICK TESTING
 .magpassion-nav-container > ul > li:hover > a.hasChild span.mp-menu-title::after {border-bottom-color:#f0b310;}
+*/ .magpassion-nav-container > ul > li.active > a.hasChild span.mp-menu-title::after {border-bottom-color:#f0b310;}
+
+
+
+
+
 
 /* 1st Level */
 
@@ -103,7 +117,10 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
     .magpassion-nav-container > ul > li ~ li {margin-left:0;}
     .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 0px;}
     .magpassion-nav-container > ul > li > ul {display:none; margin:20px 0; border-bottom:2px solid #f0f0f0;}
+/* BEGIN - CLICK TESTING
     ul.magpassion-menu-mega li:hover ul.level1 {display:block;}
+*/ ul.magpassion-menu-mega li.active ul.level1 {display:block;}
+
     .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {margin-top:0px; border-bottom:8px solid #666666; border-left:8px solid transparent;}
     .magpassion-nav-container > ul > li > ul > li {display:block;}
     .magpassion-child-content-wrpr {display:block;}

@@ -946,16 +946,12 @@ $j(document).ready(function() {
 /* Magpassion Menu - Emulate Mobile Touch Event - Begin */
     function magFN(b){
         if (b) {
-        console.log(true);
-            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").on("touchstart.mag",function(e) {
+            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").on("click.mag",function(e) {
                 e.preventDefault();
                 $j(this).parent().toggleClass("active");
-            }).on("click.mag",function(e){
-                e.preventDefault();
             });
         } else {
-        console.log(false);
-            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").off("touchstart.mag click.mag");
+            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").off("click.mag");
         }
     }
     function magInitFN() {
