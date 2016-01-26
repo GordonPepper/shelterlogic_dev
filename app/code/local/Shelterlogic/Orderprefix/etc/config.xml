@@ -64,6 +64,7 @@
         <shelterlogic>
             <orderprefix>
                 <order></order>
+                <startnumber></startnumber>
             </orderprefix>
         </shelterlogic>
     </default>
@@ -72,6 +73,7 @@
             <shelterlogic>
                 <orderprefix>
                     <order>FB</order>
+                    <startnumber></startnumber>
                 </orderprefix>
             </shelterlogic>
         </base>
@@ -79,6 +81,7 @@
             <shelterlogic>
                 <orderprefix>
                     <order>W</order>
+                    <startnumber></startnumber>
                 </orderprefix>
             </shelterlogic>
         </shelterlogic>
