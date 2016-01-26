@@ -42,6 +42,13 @@ $_taxHelper = $this->helper('tax');
 
 $_product = $this->getProduct();
 $aeFinalPrice = $_product->getFinalPrice();
+if(!$aeFinalPrice){
+    if($_product->getSpecialPrice() && $_product->getSpecialPrice() < $_product->getPrice()){
+        $aeFinalPrice = $_product->getSpecialPrice();
+    } else {
+        $aeFinalPrice = $_product->getPrice();
+    }
+}
 if($_product->canConfigure()) {
     $tree = Mage::helper('farmbuildings')->getTree($_product->getId());
     $_product->setPrice($tree['sp']);
@@ -217,12 +224,11 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
             <?php else: ?>
                 <?php if($_product->canConfigure()) :?>
                     <?php $foo = 'bar'; ?>
-                    <p class="ala-price">
-                    <span class="ala-price-label">Starting at:</span>
+                    <p class="ala-price-label">
+                        Starting at:
                     </p>
-                    <p class="configured-price" style="display:none">
-                    <span class="configured-price-label">As configured: </span>
-                    </span>
+                    <p class="configured-price-label" style="display:none">
+                        As configured:
                     </p>
                 <?php endif; ?>
                 <?php if($_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice ) : ?>
@@ -395,25 +401,25 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 </p>
             <?php else: ?>
                 <?php if($_product->canConfigure()) :?>
-                    <p class="ala-price">
-                        <span class="ala-price-label">Starting at:</span>
+                    <p class="ala-price-label">
+                        Starting at:
                     </p>
-                    <p class="configured-price" style="display:none">
-                        <span class="configured-price-label">As configured: </span>
-                        </span>
+                    <p class="configured-price-label" style="display:none">
+                        As configured:
                     </p>
                 <?php endif; ?>
                 <p class="old-price">
                     <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
-                <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
-                </span>
+                    <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                        <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?></span>
                 </p>
-                <p class="special-price q">
+                <p class="special-price">
                     <span class="price-label"><?php echo $_specialPriceStoreLabel ?></span>
-                <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
-                </span>
+                    <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+                        <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?></span>
+                </p>
+                <p class="configured-price">
+                    <span class="price" id="configured-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"></span>
                 </p>
             <?php endif; ?>
         <?php endif; ?>

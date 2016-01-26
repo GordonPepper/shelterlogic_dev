@@ -35,7 +35,7 @@
                 <div class="button-wrapper">
                     <button type="button" title="<?php echo $this->__('Apply Coupon') ?>" class="button" onclick="discountForm.submit(false)" value="<?php echo $this->__('Apply') ?>"><span><span><?php echo $this->__('Apply Coupon') ?></span></span></button>
                     <?php if(strlen($this->getCouponCode())): ?>
-                        <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button cancel-coupon" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel') ?>"><span><span><?php echo $this->__('Cancel') ?></span></span>
+                        <button style="margin-left:0; margin-top:15px;" type="button" title="<?php echo $this->__('Cancel') ?>" class="button cancel-coupon" onclick="discountForm.submit(true)" value="<?php echo $this->__('Remove') ?>"><span><span><?php echo $this->__('Remove') ?></span></span>
                         </button>
                     <?php endif;?>
                 </div>

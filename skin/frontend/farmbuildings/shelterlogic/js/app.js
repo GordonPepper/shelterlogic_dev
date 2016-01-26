@@ -573,7 +573,6 @@ $j(document).ready(function () {
     var qtyWrapper=".qty-wrapper",
     qtyItems=[".qty-dec",".qty-inc"],
     qtyCounterFN=function(b,o,s){
-        debugger;
         var url = window.location.href;
         var cart_url = "/checkout/cart/";
 
@@ -943,5 +942,16 @@ $j(document).ready(function() {
         }
     });
 /* Recommended Products - Match Height - End */
+
+/* Magpassion Menu - Emulate Mobile Touch Event - Begin */
+
+    $j("#magpassion-nav-container").find(">ul>li>a").on("touchstart",function(e) {
+        e.preventDefault();
+        $j(this).parent().toggleClass("active");
+    }).on("click",function(e) {
+        e.preventDefault();
+    });
+
+/* Magpassion Menu - Emulate Mobile Touch Event - End */
 
 });

@@ -3220,7 +3220,7 @@ input:-moz-placeholder {
 /* -------------------------------------------- *
  * Validation
  */
-p.required, .validation-advice {margin:0; padding:5px 4px; color:#ffffff; font-size:13px; font-weight:700;}
+p.required, .validation-advice {margin:0; padding:5px 4px; color:#red; font-size:13px; font-weight:700;}
 
 /* ============================================ *
  * Form List
@@ -5844,7 +5844,7 @@ opacity:1;
 
 .product-item-wrpr .product-shop-wrpr {display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:auto; width:100%; height:450px;}
 .product-item-wrpr .product-shop {display:table-cell; padding:0; vertical-align:middle}
-.product-item-wrpr .product-shop .mod {display:block;  padding:20px; max-height:370px; overflow:auto; background-color:#ffffff;}
+.product-item-wrpr .product-shop .mod {display:block;  padding:20px; max-height:410px; overflow:auto; background-color:#ffffff;}
 .product-item-wrpr .product-shop .product-name {display:block;}
 
 .qty-dec,
@@ -6483,10 +6483,9 @@ opacity:1;
 .product-options dd {
   display:block;
   padding:0;
-  margin:0;
 }
 
-.product-options dl {display:inline-block; vertical-align:top;}
+.product-options dl {display:block; vertical-align:top;}
 
 .product-options dl.last dd.last {
   border-bottom:0;
@@ -8489,7 +8488,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 
 .product-view .product-options dd .input-box {display:inline-block; width:100%; height:25px; position:relative; padding:0; font-size:13px; font-weight:400; line-height:23px; font-family:"open sans"; color:#999999; text-transform:uppercase; border:1px solid #eeeeee; overflow:hidden;}
 .product-view .product-options dd .input-box::after {content:"\f107"; display:block; position:absolute; right:10px; top:50%; margin-top:-12px; font-family:FontAwesome; font-size:13px; line-height:23px; color:#999999;}
-.product-options dd select {display:block; position:relative; width:120%; height:23px; padding-right:25px; margin:0; background-color:transparent; border-style:none; color:#999999; font-size:inherit; z-index:12; text-transform:uppercase; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -o-appearance:none; appearance:none;}
+.product-options dd select {display:block; position:relative; width:100%; height:23px; padding-right:25px; margin:0; background-color:transparent; border-style:none; color:#999999; font-size:inherit; z-index:12; text-transform:uppercase; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -o-appearance:none; appearance:none;}
 .product-options dd select::-ms-expand {display: none;}
 .product-options dd select:-moz-focusring {
     color: transparent;
@@ -11051,9 +11050,9 @@ div.calendar table td.button {
 }
 
 .header-language-container .store-language-container,
-.header-language-container .currency-switcher {margin-right:5px;}
+.header-language-container .currency-switcher {margin-right:5px; display:none;}
 
-.hdr-icons {display:inline-block; position:relative; list-style-type:none; margin:0 14px 0 0; padding:0 14px 0 0; text-align:left;}
+.hdr-icons {display:inline-block; position:relative; list-style-type:none; margin:0 4px 0 0; padding:0 14px 0 0; text-align:left;}
 .hdr-icons::after {content:""; position:absolute; right:0; top:4px; bottom:4px; border-right:1px solid #eeeeee;}
 .hdr-icons li {display:inline-block; vertical-align:middle; text-align:center;}
 .hdr-icons li a {display:block; width:28px; height:20px; line-height:20px; color:#888888; font-size:14px;}
@@ -11180,7 +11179,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 
     .product-options {display:block; margin-top:15px;}
     .product-options dl {display:block;}
-    .product-options dd {display:block;}
+    .product-options dd {display:block; margin-bottom:10px;}
     .product-view .product-options dd .input-box {display:block; height:28px;}
     .product-options dd select {display:block; width:100%; height:28px;}
 
@@ -11239,4 +11238,13 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 @media only screen and (min-width:640px) {
     .footer .column .x-target {display:block !important;}
     .mobitoggle {display:none;}
+}
+
+@media only screen and (min-width:771px) and (max-width:959px) {
+    .product-options dd { margin-bottom:2px;}
+    .product-options-bottom {padding:0px;}
+}
+
+@media only screen and (min-width:960px) {
+    .product-options dd {float:left; width:32%; margin:0 1% 0 0;}
 }
