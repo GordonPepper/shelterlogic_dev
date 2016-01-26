@@ -948,7 +948,7 @@ $j(document).ready(function() {
         if (b) {
             $j("#magpassion-nav-container").find(">ul>li>a.hasChild").on("click.mag",function(e) {
                 e.preventDefault();
-                $j(this).parent().toggleClass("active");
+                $j(this).parent().toggleClass("active").siblings().removeClass("active");
             });
         } else {
             $j("#magpassion-nav-container").find(">ul>li>a.hasChild").off("click.mag");
