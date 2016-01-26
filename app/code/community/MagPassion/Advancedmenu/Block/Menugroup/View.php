@@ -155,13 +155,29 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 	 * @author MagPassion.com
 	 */
 	public function isLinkActive($link) {
+        $t = $this->getBaseUrl();
+        $c = $this->currentUrl;
 		if ($this->currentUrl == $this->getBaseUrl()) {
-			if ($link == $this->getBaseUrl()) return true;
-			return false;
+			if ($link == $this->getBaseUrl()) {
+                return true;
+            }
+			else {
+                return false;
+            }
 		}
-		elseif ($link == $this->getBaseUrl()) return false;
-		if (strpos($this->currentUrl, $link) === false) return false;
-		else return true;
+		elseif ($link == $this->getBaseUrl()) return true;
+		if (strpos($this->currentUrl, $link) === false){
+
+            return false;
+        }
+		else{
+
+            $base_url = str_replace('shop/', '',$this->getBaseUrl());
+            if ($link == $base_url){
+                return false;
+            }else{ return true;}
+
+       }
 	}
 	
 	/**
@@ -583,7 +599,9 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 						$link = $this->getBaseUrl().$item->getUrl();
 					$class = $item->getClass();
 					if ($this->hasChildMenuItems($item->getId())) $class .= ' hasChild';
-					if ($this->isLinkActive($link)) $class .= ' active';
+					if ($this->isLinkActive($link))
+                    { $class .= ' active';}
+
 					if ($class) $class = ' class="'.$class.'" ';
 					$rel = '';
 					if ($item->getRel()) $rel = ' rel="'.$item->getRel().'"';

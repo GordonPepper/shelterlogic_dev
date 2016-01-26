@@ -573,7 +573,6 @@ $j(document).ready(function () {
     var qtyWrapper=".qty-wrapper",
     qtyItems=[".qty-dec",".qty-inc"],
     qtyCounterFN=function(b,o,s){
-        debugger;
         var url = window.location.href;
         var cart_url = "/checkout/cart/";
 
