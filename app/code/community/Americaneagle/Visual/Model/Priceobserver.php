@@ -125,7 +125,16 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
             }
         }
         if($customer->hasDiscountPercent()) {
-            return $product->getPrice() * ((100 - $customer->getDiscountPercent()) / 100);
+            $actionPrice = $product->getPrice();
+            if($product->getMinimalPrice()) {
+                $actionPrice = $product->getMinimalPrice();
+            } else {
+                if($product->getSpecialPrice() && $product->getSpecialPrice() < $product->getPrice()){
+                    $actionPrice = $product->getSpecialPrice();
+                }
+            }
+            return $actionPrice * ((100 - $customer->getDiscountPercent()) / 100);
+
         }
 
         return $product->getPrice();

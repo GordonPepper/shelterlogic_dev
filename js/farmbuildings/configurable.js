@@ -107,13 +107,27 @@ aeProduct.Config.prototype = {
                 for(var i = selector.options.length; i > 1; i--) {
                     selector.remove(i-1);
                 }
-                var alap = $$('div.price-box p.ala-price');
-                var cp = $$('div.price-box p.configured-price');
+                // labels
+                var alap = $$('div.price-box p.ala-price-label');
+                var cp = $$('div.price-box p.configured-price-label');
+                if(cp[0]) {
+                    cp.first().style.display = 'none';
+                }
                 if(alap[0]){
                     alap.first().style.display = 'block';
                 }
-                if(cp[0]) {
-                    cp.first().style.display = 'none';
+                // prices
+                var oldPrice = $$('div.price-box p.old-price');
+                var prodPrice = $$('div.price-box p.special-price');
+                var configPrice = $$('div.price-box p.configured-price');
+                if(oldPrice[0]){
+                    oldPrice.first().style.display = 'inline-block';
+                }
+                if(prodPrice[0]){
+                    prodPrice.first().style.display = 'inline-block';
+                }
+                if(configPrice[0]){
+                    configPrice.first().style.display = 'none';
                 }
 
             }
@@ -165,13 +179,29 @@ aeProduct.Config.prototype = {
             //p[0].style.display = 'block';
         }
 
-        var alap = $$('div.price-box p.ala-price');
-        var cp = $$('div.price-box p.configured-price');
+        // labels
+        var alap = $$('div.price-box p.ala-price-label');
+        var cp = $$('div.price-box p.configured-price-label');
         if(alap[0]){
             alap.first().style.display = 'none';
         }
         if(cp[0]) {
             cp.first().style.display = 'block';
+        }
+
+        //prices
+        var oldPrice = $$('div.price-box p.old-price');
+        var prodPrice = $$('div.price-box p.special-price');
+        var configPrice = $$('div.price-box p.configured-price');
+        if(oldPrice[0]){
+            oldPrice.first().style.display = 'none';
+        }
+        if(prodPrice[0]){
+            prodPrice.first().style.display = 'none';
+        }
+        if(configPrice[0]){
+            configPrice.first().style.display = 'inline-block';
+            configPrice.first().innerHTML = formatCurrency(res.price, priceFormat);
         }
 
         for(key in res.attribs) {
