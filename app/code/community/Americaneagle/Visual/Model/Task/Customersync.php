@@ -15,7 +15,8 @@ class Americaneagle_Visual_Model_Task_Customersync
 
     private $pageSize = 1000;
     private $productSkuList = array();
-    private $count = 0;
+    private $countInsert = 0;
+    private $countUpdate = 0;
     private $errors = array();
     private $startDate;
 
@@ -71,12 +72,13 @@ class Americaneagle_Visual_Model_Task_Customersync
             $this->getRecursiveCustomers(0);
 
             if (count($this->errors) > 0) {
-                $message .= 'Store ' . $storeId . ' - Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT) . "\r\n";
+                $message .= 'Store ' . $storeId . ' - Items imported: ' . $this->countInsert . ' - Items updated: ' . $this->countUpdate .  ' Time:' . (microtime(true)-$startTime) . ' Errors:(' . count($this->errors) . ')' . json_encode($this->errors, JSON_PRETTY_PRINT) . "\r\n";
             } else {
-                $message .= 'Store ' . $storeId . ' - Items imported: ' . $this->count . ' Time:' . (microtime(true)-$startTime) . "\r\n";
+                $message .= 'Store ' . $storeId . ' - Items imported: ' . $this->countInsert . ' - Items updated: ' . $this->countUpdate .' Time:' . (microtime(true)-$startTime) . "\r\n";
             }
 
-            $this->count = 0;
+            $this->countInsert = 0;
+            $this->countUpdate = 0;
             $this->errors = array();
         }
 
@@ -101,11 +103,11 @@ class Americaneagle_Visual_Model_Task_Customersync
 
         for ($i = 0; $i < count($customerList); $i++) {
             $customerItem = $customerList[$i];
+            /** @var Mage_Customer_Model_Customer $customer */
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
 
             if ($customer == null) {
-                /** @var Mage_Customer_Model_Customer $customer */
                 $customer = Mage::getModel("customer/customer");
                 $customer
                     ->setWebsiteId($this->store->getWebsiteId())
@@ -123,11 +125,10 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt());
 
-                try{
+                try {
                     $customer->save();
-                    $this->count++;
+                    $this->countInsert++;
                 }
-
                 catch (Exception $e) {
                     $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                     $fail = true;
@@ -155,7 +156,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                             ->setIsDefaultShipping('0')
                             ->setSaveInAddressBook('1');
 
-                        try{
+                        try {
                             $address->save();
                         }
                         catch (Exception $e) {
@@ -181,12 +182,27 @@ class Americaneagle_Visual_Model_Task_Customersync
                         ->setIsDefaultShipping('1')
                         ->setSaveInAddressBook('1');
 
-                    try{
+                    try {
                         $address->save();
                     }
                     catch (Exception $e) {
                         $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                     }
+                }
+            } else {
+                $customer
+                    ->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
+                    ->setCreditStatus($vCustomer->getCreditStatus())
+                    ->setDiscountPercent($vCustomer->getDiscountPercent())
+                    ->setTermsId($vCustomer->getTermsID())
+                    ->setTaxExempt($vCustomer->getTaxExempt());
+
+                try {
+                    $customer->save();
+                    $this->countUpdate++;
+                }
+                catch (Exception $e) {
+                    $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                 }
             }
             $this->helper->progressBar($i + 1, count($customerList));
