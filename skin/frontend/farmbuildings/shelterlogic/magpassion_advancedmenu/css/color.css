@@ -23,6 +23,6 @@
 .magpassion-nav-container ul li a.over,
 .magpassion-nav-container ul li a.active {color:#f0b310; background-color:transparent;}
 
-.magpassion-nav-container ul li a:hover:active {background-color:transparent;}
+.magpassion-nav-container ul li a:active {background-color:transparent;}
 
 .magpassion-nav-container > ul > li > ul > li {background-color:#ffffff;}
