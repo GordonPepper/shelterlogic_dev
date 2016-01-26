@@ -24,7 +24,7 @@
 .magpassion-nav-container ul li.over {z-index:998;}
 .magpassion-nav-container ul li a {display:block; position:relative;}
 .magpassion-nav-container ul li a,
-.magpassion-nav-container ul li a:hover {display:block; text-decoration:none;}
+.magpassion-nav-container ul li a:hover {text-decoration:none;}
 .magpassion-nav-container ul li span {display:block; cursor:pointer; white-space:nowrap;}
 .magpassion-nav-container ul li ul span {white-space:normal;}
 .magpassion-nav-container li span.mp-menu-title {position:relative;}
@@ -44,9 +44,21 @@
 .magpassion-nav-container > ul > li {float:left;}
 .magpassion-nav-container > ul > li ~ li {margin-left:5px;}
 .magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
+
+/* BEGIN - CLICK TESTING
 .magpassion-nav-container > ul > li:hover > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
+*/ .magpassion-nav-container > ul > li.active > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
+
 .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:10px; width:0; height:0;}
+
+/* CLICK TESTING
 .magpassion-nav-container > ul > li:hover > a.hasChild span.mp-menu-title::after {border-bottom-color:#f0b310;}
+*/ .magpassion-nav-container > ul > li.active > a.hasChild span.mp-menu-title::after {border-bottom-color:#f0b310;}
+
+
+
+
+
 
 /* 1st Level */
 
@@ -105,7 +117,10 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
     .magpassion-nav-container > ul > li ~ li {margin-left:0;}
     .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 0px;}
     .magpassion-nav-container > ul > li > ul {display:none; border-bottom:2px solid #f0f0f0;}
+/* BEGIN - CLICK TESTING
     ul.magpassion-menu-mega li:hover ul.level1 {display:block;}
+*/ ul.magpassion-menu-mega li.active ul.level1 {display:block;}
+
     .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {margin-top:0px; border-bottom:8px solid #666666; border-left:8px solid transparent;}
     .magpassion-nav-container > ul > li > ul > li {display:block;}
     .magpassion-child-content-wrpr {display:block;}
