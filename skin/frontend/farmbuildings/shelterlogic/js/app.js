@@ -944,4 +944,17 @@ $j(document).ready(function() {
     });
 /* Recommended Products - Match Height - End */
 
+/* Magpassion Menu - Emulate Mobile Touch Event - Begin */
+
+    $j("#magpassion-nav-container").find(">ul>li").on("touchstart",function(e) {
+        e.preventDefault();
+        $j(this).toggleClass("active");
+    }).find(">a").on({
+        click:function(e){
+            e.preventDefault();
+        }
+    });
+
+/* Magpassion Menu - Emulate Mobile Touch Event - End */
+
 });
