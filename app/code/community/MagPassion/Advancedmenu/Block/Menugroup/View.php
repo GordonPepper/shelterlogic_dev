@@ -645,7 +645,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 		$this->initMenuGroup();
 		$this->currentUrl = Mage::helper('core/url')->getCurrentUrl();
 		$html = '';
-		$html .= '<div class="magpassion-nav-container">';
+		$html .= '<div id="magpassion-nav-container" class="magpassion-nav-container">';
 			$menu_class = 'magpassion-menu-dropdown';
 			if ($menu_type == 'dropline') $menu_class = 'magpassion-menu-dropline';
 			elseif ($menu_type == 'mega') $menu_class = 'magpassion-menu-mega';
