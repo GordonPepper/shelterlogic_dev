@@ -855,16 +855,18 @@ $j.fn.xMod=function(o) {
 	trigger=o.trigger,
 	target=o.target,
 	sObjTrig;
-	if (o.xbind) {
-        $j(trigger,sObj).on({
+	if (!o.xbind) {
+        $j(sObj).removeClass("x-active").find(trigger).off("click");
+        $j(this).closest(sObj).find(target).removeAttr("style");
+    } else if ($j(sObj).hasClass("x-active")) {
+        return;
+    } else {
+        $j(sObj).addClass("x-active").find(trigger).on({
             click:function(e){
                 e.preventDefault();
                 $j(this).toggleClass("active").closest(sObj).find(target).slideToggle(400);
             }
         });
-    } else {
-        $j(trigger,sObj).off("click");
-        $j(this).closest(sObj).find(target).removeAttr("style");
     }
 }
 
@@ -872,6 +874,7 @@ $j(document).ready(function() {
 
     function xModBind(b,o) {
         $j(".x-mod",o).each(function() {
+
             $j(this).xMod({
                 xbind:b,
                 trigger:".x-trigger",
