@@ -27,7 +27,7 @@ class OnePica_AvaTax_Helper_Tax_Data extends Mage_Tax_Helper_Data
     /**
      * Avatax shipping tax class
      */
-    const AVATAX_SHIPPING_TAX_CLASS = 'FR020100';
+    const AVATAX_SHIPPING_TAX_CLASS = 'NOSHIPTX';
 
     /**
      * Items should not include tax so that AvaTax can calculate it
