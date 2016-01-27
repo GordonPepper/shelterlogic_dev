@@ -75,7 +75,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
             $xml = simplexml_load_string($response->getBody());
             $status = $xml->xpath('/Response')[0]->{"Status"};
-            Mage::log('TOTALogistix: received status: ' . $status->asXML());
+            Mage::log('TOTALogistix: received response: ' . $xml->asXML());
             if ($status === false) {
                 Mage::logException("Failed to load response from TOTALogistix");
             }
