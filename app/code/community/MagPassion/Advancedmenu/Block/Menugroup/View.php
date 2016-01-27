@@ -155,13 +155,29 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 	 * @author MagPassion.com
 	 */
 	public function isLinkActive($link) {
+        $t = $this->getBaseUrl();
+        $c = $this->currentUrl;
 		if ($this->currentUrl == $this->getBaseUrl()) {
-			if ($link == $this->getBaseUrl()) return true;
-			return false;
+			if ($link == $this->getBaseUrl()) {
+                return true;
+            }
+			else {
+                return false;
+            }
 		}
-		elseif ($link == $this->getBaseUrl()) return false;
-		if (strpos($this->currentUrl, $link) === false) return false;
-		else return true;
+		elseif ($link == $this->getBaseUrl()) return true;
+		if (strpos($this->currentUrl, $link) === false){
+
+            return false;
+        }
+		else{
+
+            $base_url = str_replace('shop/', '',$this->getBaseUrl());
+            if ($link == $base_url){
+                return false;
+            }else{ return true;}
+
+       }
 	}
 	
 	/**
@@ -583,7 +599,9 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 						$link = $this->getBaseUrl().$item->getUrl();
 					$class = $item->getClass();
 					if ($this->hasChildMenuItems($item->getId())) $class .= ' hasChild';
-					if ($this->isLinkActive($link)) $class .= ' active';
+					if ($this->isLinkActive($link))
+                    { $class .= ' active';}
+
 					if ($class) $class = ' class="'.$class.'" ';
 					$rel = '';
 					if ($item->getRel()) $rel = ' rel="'.$item->getRel().'"';
@@ -627,7 +645,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 		$this->initMenuGroup();
 		$this->currentUrl = Mage::helper('core/url')->getCurrentUrl();
 		$html = '';
-		$html .= '<div class="magpassion-nav-container">';
+		$html .= '<div id="magpassion-nav-container" class="magpassion-nav-container">';
 			$menu_class = 'magpassion-menu-dropdown';
 			if ($menu_type == 'dropline') $menu_class = 'magpassion-menu-dropline';
 			elseif ($menu_type == 'mega') $menu_class = 'magpassion-menu-mega';

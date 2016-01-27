@@ -573,7 +573,6 @@ $j(document).ready(function () {
     var qtyWrapper=".qty-wrapper",
     qtyItems=[".qty-dec",".qty-inc"],
     qtyCounterFN=function(b,o,s){
-        debugger;
         var url = window.location.href;
         var cart_url = "/checkout/cart/";
 
@@ -943,5 +942,27 @@ $j(document).ready(function() {
         }
     });
 /* Recommended Products - Match Height - End */
+
+/* Magpassion Menu - Emulate Mobile Touch Event - Begin */
+    function magFN(b){
+        if (b) {
+            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").on("click.mag",function(e) {
+                e.preventDefault();
+                $j(this).parent().toggleClass("active").siblings().removeClass("active");
+            });
+        } else {
+            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").off("click.mag");
+        }
+    }
+    function magInitFN() {
+        if ($j("#header [href*='header-nav']").is(":visible")) {
+            magFN(true);
+        } else {
+            magFN(false);
+        }
+    }
+    magInitFN();
+    $j(window).resize($j.debounce(500,magInitFN));
+/* Magpassion Menu - Emulate Mobile Touch Event - End */
 
 });

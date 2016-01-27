@@ -16,10 +16,13 @@
 .magpassion-nav-container {color:#666666;}
 
 .magpassion-nav-container ul li a:visited,
-.magpassion-nav-container ul li a {color:#666666;}
+.magpassion-nav-container ul li a {color:#666666; background-color:transparent;}
 
+.magpassion-nav-container > ul > li:hover > a,
 .magpassion-nav-container ul li a:hover,
 .magpassion-nav-container ul li a.over,
-.magpassion-nav-container ul li a.active {color:#f0b310;}
+.magpassion-nav-container ul li a.active {color:#f0b310; background-color:transparent;}
+
+.magpassion-nav-container ul li a:active {background-color:transparent;}
 
 .magpassion-nav-container > ul > li > ul > li {background-color:#ffffff;}
