@@ -59,10 +59,10 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             $client->setParameterPost('Service', $this->getAccessorial());
             $client->setParameterPost('Date', $this->getShipDate());
             $client->setParameterPost('cZip', $request->getDestPostcode());
-            if($request->getDestRegionCode() == 'AK'){
+           // if($request->getDestRegionCode() == 'AK'){
                 $client->setParameterPost('cCity', $request->getDestCity());
                 $client->setParameterPost('cState', $request->getDestRegionCode());
-            }
+           // }
             /* if i worked with tlx, i would be embarrased for asking implementers to do this... */
             $dom = dom_import_simplexml($xItems);
             $notxml = $dom->ownerDocument->saveXML($dom->ownerDocument->documentElement);
