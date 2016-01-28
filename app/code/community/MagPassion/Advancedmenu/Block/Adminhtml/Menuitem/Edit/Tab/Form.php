@@ -321,6 +321,12 @@ class MagPassion_Advancedmenu_Block_Adminhtml_Menuitem_Edit_Tab_Form extends Mag
             'name'      => 'banner_desc',
         ));
 
+        $fieldset->addField('banner_url', 'text', array(
+            'label'     => Mage::helper('advancedmenu')->__('Banner URL'),
+            'required'  => false,
+            'name'      => 'banner_url',
+        ));
+
 
         $fieldset->addField('status', 'select', array(
 			'label' => Mage::helper('advancedmenu')->__('Status'),
