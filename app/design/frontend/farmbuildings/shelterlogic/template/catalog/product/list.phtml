@@ -132,7 +132,9 @@
                         <?php endif; ?>
                         <div class="product-west">
                             <h2 class="product-name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
+                            <?php if (!$_product->isConfigurable() ): ?>
                             <span style="color: #a0a0a0;font-size: 10px;text-transform: uppercase;">Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'SKU') ?></span>
+                            <?php endif; ?>
                             <?php
                                 $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
                                 foreach($_nameAfterChildren as $_nameAfterChildName):
