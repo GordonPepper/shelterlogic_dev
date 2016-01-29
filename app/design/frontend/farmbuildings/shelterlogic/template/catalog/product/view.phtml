@@ -78,7 +78,11 @@
                                 <h1 class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                             </div>
                             <div class="extra-info">
-                               <span style="color: #a0a0a0;font-size: 11px;text-transform: uppercase;float: left;">MODEL #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'sku') ?></span>
+                                <span class="sku-details-label" style="color: #a0a0a0;font-size: 11px;text-transform: uppercase;float: left;">
+                                <?php if (!$_product->isConfigurable() ): ?>
+                                        Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'sku') ?>
+                                <?php endif ; ?>
+                                </span>
                             </div>
                             <div class="extra-info">
                                 <?php echo $this->getChildHtml('product_type_availability'); ?>

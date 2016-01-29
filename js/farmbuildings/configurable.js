@@ -110,11 +110,17 @@ aeProduct.Config.prototype = {
                 // labels
                 var alap = $$('div.price-box p.ala-price-label');
                 var cp = $$('div.price-box p.configured-price-label');
+                var sku = $$('div.extra-info span.sku-details-label');
+
                 if(cp[0]) {
                     cp.first().style.display = 'none';
                 }
                 if(alap[0]){
                     alap.first().style.display = 'block';
+                }
+                if(sku[0]) {
+                    sku.first().style.display = 'none';
+                    sku.first().innerHTML = '';
                 }
                 // prices
                 var oldPrice = $$('div.price-box p.old-price');
@@ -182,6 +188,7 @@ aeProduct.Config.prototype = {
         // labels
         var alap = $$('div.price-box p.ala-price-label');
         var cp = $$('div.price-box p.configured-price-label');
+
         if(alap[0]){
             alap.first().style.display = 'none';
         }
@@ -224,9 +231,17 @@ aeProduct.Config.prototype = {
     },
     addSkuToRequestForm: function(sku) {
         var field = $$('input[name="field[28]"]');
+
         if(field && field[0]) {
             field.first().value = sku;
         }
+
+        var _sku = $$('div.extra-info span.sku-details-label');
+        if (_sku[0]){
+            _sku.first().style.display = 'block';
+            _sku.first().innerHTML = 'Model #' + sku;
+        }
+
     },
     requestQuote: function (button) {
         //alert('requesting quote!');
