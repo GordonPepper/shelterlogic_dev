@@ -113,8 +113,10 @@
                 <title>TOTALogistix</title>
                 <sort_order>10</sort_order>
                 <sallowspecific>0</sallowspecific>
+                <rate_cache>0</rate_cache>
             </totalogistix>
         </carriers>
+
     </default>
     <adminhtml>
         <layout>

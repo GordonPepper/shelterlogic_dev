@@ -23,7 +23,8 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         $this->req = $request;
         $cartcs = $this->getCartChecksum();
         $sess = Mage::getSingleton('core/session');
-        if (false && $sess->getTlxPriceSheet()
+        if (Mage::getStoreConfigFlag('carriers/totalogistix/rate_cache')
+            && $sess->getTlxPriceSheet()
             && $sess->getTlxPriceSheet()['hash'] == $cartcs
             && $sess->getTlxPriceSheet()['sheet']
             && isset($sess->getTlxPriceSheet()['expires'])
@@ -178,11 +179,15 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
          */
         $quoteMap = array();
         foreach ($request->getAllItems() as $item) {
+            if($item->getProduct()->getTypeId() != "simple"){
+                continue;
+            }
             $bestWarehouse = 0;
             $totalFilled = 0;
             $fill = array(); // [{qty: #, warehouse: location_id}, {...},...], save the fill in the product
             for ($i = 0; $i < count($warehouses); $i++) {
                 $bestWarehouse = max($i, $bestWarehouse);
+
                 $available = $item->getWarehouse()[$warehouses[$i]['location_id']];
                 if ($available >= $item->getQty()) {
                     $fill = array(array('qty' => $item->getQty(), 'location_id' => $warehouses[$i]['location_id']));
@@ -195,6 +200,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if ($totalFilled < $item->getQty()) {
+
                 Mage::throwException('Failed to fill full cart quantity from all warehouses');
             }
             $quoteMap[$item->getId()] = $fill;
