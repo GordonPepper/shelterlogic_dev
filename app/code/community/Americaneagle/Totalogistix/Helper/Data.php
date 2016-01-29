@@ -23,7 +23,8 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         $this->req = $request;
         $cartcs = $this->getCartChecksum();
         $sess = Mage::getSingleton('core/session');
-        if ( $sess->getTlxPriceSheet()
+        if (Mage::getStoreConfigFlag('carriers/totalogistix/rate_cache')
+            && $sess->getTlxPriceSheet()
             && $sess->getTlxPriceSheet()['hash'] == $cartcs
             && $sess->getTlxPriceSheet()['sheet']
             && isset($sess->getTlxPriceSheet()['expires'])
