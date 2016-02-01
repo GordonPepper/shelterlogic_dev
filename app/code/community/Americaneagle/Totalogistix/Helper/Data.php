@@ -321,8 +321,15 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
         $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
 
-        $query = "SELECT * FROM " . $conn->getTableName('ae_totalogistix_city') . " where city='" . $alaskacity . "'";
-        $count = count($conn->fetchAll($query));
+        $select = $conn->select();
+        /** @var Varien_Db_Select $from */
+        $from = $select->from(
+            array('aetc' => $conn->getTableName('ae_totalogistix_city')),
+            array('city_id' => 'city_id', 'city' => 'city')
+        );
+        $from->where(sprintf("city = '%s')",$alaskacity));
+
+        $count = count($conn->fetchAll($select));
 
         if ($count > 0 )
             return true;
