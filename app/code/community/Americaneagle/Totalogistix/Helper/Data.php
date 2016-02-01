@@ -53,6 +53,15 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
                 }
             }
+            if($request->getDestRegionCode() == 'AK'){
+               $isValid = $this->isValidAlaskaCity($request->getDestCity());
+                if (!$isValid){
+                    //throw new Exception('Wrong City');
+                    mage::getSingleton('core/session')->addError('Wrong Shipping City');
+                    return false;
+                }
+            }
+
 
             $client = new Zend_Http_Client();
             $client->setUri($this->getServiceUri());
@@ -307,4 +316,19 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
     private function getServiceUri() {
         return Mage::getStoreConfig('carriers/totalogistix/service_url');
     }
+
+    private function isValidAlaskaCity ($alaskacity) {
+
+        $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+
+        $query = "SELECT * FROM " . $conn->getTableName('ae_totalogistix_city') . " where city='" . $alaskacity . "'";
+        $count = count($conn->fetchAll($query));
+
+        if ($count > 0 )
+            return true;
+        else
+            return false;
+
+    }
+
 }

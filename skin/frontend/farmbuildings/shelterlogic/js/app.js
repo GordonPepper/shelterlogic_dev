@@ -617,7 +617,7 @@ $j(document).ready(function () {
 
     $j(window).on('beforeunload', function() {
         if (QtyHasChanged){
-            return 'You have changed the quantity and did not save ...';
+            return 'You have changed the quantity of items in your cart. You must click "Update Cart" to save these changes.';
         }
     });
 
