@@ -53,6 +53,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
                 }
             }
+
             if($request->getDestRegionCode() == 'AK'){
                $isValid = $this->isValidAlaskaCity($request->getDestCity());
                 if (!$isValid){
@@ -327,7 +328,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             array('aetc' => $conn->getTableName('ae_totalogistix_city')),
             array('city_id' => 'city_id', 'city' => 'city')
         );
-        $from->where(sprintf("city = '%s')",$alaskacity));
+       $from->where("city = ? ",$alaskacity);
 
         $count = count($conn->fetchAll($select));
 
