@@ -729,20 +729,21 @@ var ProductMediaManager = {
             return;
         }
 
-        if(image[0].naturalWidth && image[0].naturalHeight) {
-            var widthDiff = image[0].naturalWidth - image.width() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
-            var heightDiff = image[0].naturalHeight - image.height() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
-
-            if(widthDiff < 0 && heightDiff < 0) {
-                //image not big enough
-
-                image.parents('.product-image').removeClass('zoom-available');
-
-                return;
-            } else {
-                image.parents('.product-image').addClass('zoom-available');
-            }
-        }
+        // UPDATE: In Shelterlogic, the zoomed image always have adequate size
+        //if(image[0].naturalWidth && image[0].naturalHeight) {
+        //    var widthDiff = image[0].naturalWidth - image.width() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
+        //    var heightDiff = image[0].naturalHeight - image.height() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
+        //
+        //    if(widthDiff < 0 && heightDiff < 0) {
+        //        //image not big enough
+        //
+        //        image.parents('.product-image').removeClass('zoom-available');
+        //
+        //        return;
+        //    } else {
+        //        image.parents('.product-image').addClass('zoom-available');
+        //    }
+        //}
 
         image.elevateZoom();
     },

@@ -38,25 +38,28 @@
 ?>
 <div class="product-image product-image-zoom">
     <div class="product-image-gallery">
+        <?php $_mainImage = $this->helper('catalog/image')->init($_product, 'image'); ?>
         <img id="image-main"
              class="gallery-image visible"
-             src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(600,450) ?>"
+             src="<?php echo $_mainImage->resize(600,450) ?>"
              alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>"
-             title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>" />
+             title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>"
+             data-zoom-image="<?php echo $_mainImage->resize(1200,900) ?>" />
 
         <?php
             $i=0;
             foreach ($this->getGalleryImages() as $_image):
-                $_imageUrl = $this->helper('catalog/image')
+                $_image = $this->helper('catalog/image')
                                   ->init($_product, 'image', $_image->getFile())
                                   ->keepFrame(false)
-                                  ->constrainOnly(true)
-                                  ->resize(1200);
+                                  ->constrainOnly(true);
+                $_imageSrc = $_image->resize(600, 450)->__toString();
+                $_zoomImageSrc = $_image->resize(1200, 900)->__toString();
         ?>
             <img id="image-<?php echo $i; ?>"
                  class="gallery-image"
-                 src="<?php echo $_imageUrl; ?>"
-                 data-zoom-image="<?php echo  $_imageUrl; ?>" />
+                 src="<?php echo $_imageSrc; ?>"
+                 data-zoom-image="<?php echo  $_zoomImageSrc; ?>" />
         <?php
             $i++;
             endforeach;
@@ -68,7 +71,14 @@
 <div class="more-views">
     <div class="expand"><span><?php echo $this->__('Zoom') ?></span></div>
     <ul class="product-image-thumbs">
-    <?php $i=0; foreach ($this->getGalleryImages() as $_image): ?>
+        <li>
+            <a class="thumb-link" href="#" data-image-index="main">
+                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(75) ?>"
+                     width="75" height="75" />
+            </a>
+        </li>
+
+        <?php $i=0; foreach ($this->getGalleryImages() as $_image): ?>
         <?php
         if (($filterClass = $this->getGalleryFilterHelper()) && ($filterMethod = $this->getGalleryFilterMethod()) && !Mage::helper($filterClass)->$filterMethod($_product, $_image)):
             continue;
