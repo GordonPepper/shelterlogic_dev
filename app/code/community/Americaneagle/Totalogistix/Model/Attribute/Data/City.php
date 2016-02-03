@@ -36,7 +36,7 @@ class Americaneagle_Totalogistix_Model_Attribute_Data_City extends Mage_Eav_Mode
         if ($count > 0 ){
             return parent::validateValue($value);
         } else {
-            return array(sprintf('We do not recognize the city "%s", please check the value you entered.', $value));
+            return array('Please check the spelling of your City');
         }
     }
 

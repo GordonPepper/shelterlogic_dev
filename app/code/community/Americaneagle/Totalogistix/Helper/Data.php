@@ -318,7 +318,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig('carriers/totalogistix/service_url');
     }
 
-    private function isValidAlaskaCity ($alaskacity) {
+    public function isValidAlaskaCity ($alaskacity) {
 
         $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
 
