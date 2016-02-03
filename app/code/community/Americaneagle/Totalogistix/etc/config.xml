@@ -123,6 +123,17 @@
             <!--</sales_quote_address_collect_totals_before>-->
         <!--</events>-->
     <!--</frontend>-->
+    <frontend>
+        <routers>
+            <citycheck>
+                <use>standard</use>
+                <args>
+                    <module>Americaneagle_Totalogistix</module>
+                    <frontName>citycheck</frontName>
+                </args>
+            </citycheck>
+        </routers>
+    </frontend>
     <default>
         <carriers>
             <totalogistix>

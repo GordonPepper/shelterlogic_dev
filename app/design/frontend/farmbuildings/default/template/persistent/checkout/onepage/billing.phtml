@@ -86,13 +86,13 @@
 							<div class="field">
 								<label for="billing:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
 								<div class="input-box">
-									<input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?>" id="billing:city" />
+									<input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text validate-AL-city <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?>" id="billing:city" />
 								</div>
 							</div>
 							<div class="field">
 								<label for="billing:region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
 								<div class="input-box">
-									<select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+									<select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select " style="display:none;">
 										<option value=""><?php echo $this->__('Please select region, state or province') ?></option>
 									</select>
 									<script type="text/javascript">
@@ -240,6 +240,8 @@
 </form>
 <script type="text/javascript">
 	//<![CDATA[
+    var aeCheckCityUrl = <?php echo sprintf("'%s'", $this->getUrl('citycheck/index/check')); ?>;
+
 	var billing = new Billing('co-billing-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>');
 	var billingForm = new VarienForm('co-billing-form');
 
