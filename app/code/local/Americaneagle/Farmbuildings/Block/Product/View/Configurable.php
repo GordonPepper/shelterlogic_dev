@@ -37,7 +37,12 @@ class Americaneagle_Farmbuildings_Block_Product_View_Configurable
 			$keys = array_keys($tree);
 
 			foreach ($tree[$keys[0]]['options'] as $optid => $option) {
-				$firstOption[] = array('id' => $optid, 'val' => $option['val'], 'pos' => $option['pos']);
+				//$firstOption[] = array('id' => $optid, 'val' => $option['val'], 'pos' => $option['pos']);
+                if(isset($option['children']['id'])){
+                    $firstOption[] = array('id' => $optid, 'val' => $option['val'], 'pos' => $option['pos'],  'pid' => $option['children']['id']);
+                } else {
+                    $firstOption[] = array('id' => $optid, 'val' => $option['val'], 'pos' => $option['pos']);
+                }
 			}
 			usort($firstOption, function ($a, $b) {
 				return ($a['pos'] > $b['pos']);
