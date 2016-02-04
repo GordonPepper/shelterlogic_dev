@@ -63,7 +63,7 @@
                     ?>
                     <label for="city" class="visuallyHidden"></label>
                     <div class="input-box">
-                        <input class="input-text required-entry" id="city" type="text" name="estimate_city" value="<?php echo $this->escapeHtml($this->getEstimateCity()) ?>" placeholder="City" />
+                        <input class="input-text required-entry validate-AL-city" id="city" type="text" name="estimate_city" value="<?php echo $this->escapeHtml($this->getEstimateCity()) ?>" placeholder="City" />
                     </div>
                 </li>
             <?php //endif; ?>
@@ -129,7 +129,7 @@
         //<![CDATA[
             var coShippingMethodForm = new VarienForm('shipping-zip-form');
             var countriesWithOptionalZip = <?php echo $this->helper('directory')->getCountriesWithOptionalZip(true) ?>;
-
+            var aeCheckCityUrl = <?php echo sprintf("'%s'", $this->getUrl('citycheck/index/check')); ?>;
             coShippingMethodForm.submit = function () {
                 var country = $F('country');
                 var optionalZip = false;

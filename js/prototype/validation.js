@@ -410,11 +410,16 @@ Object.extend(Validation, {
 
         if (t.indexOf('billing') >= 0 )
         {
-            elm2 = document.getElementById("billing:region_id")
+            elm2 = document.getElementById("billing:region_id");
 
         }else{
-            elm2 = document.getElementById("shipping:region_id")
+            elm2 = document.getElementById("shipping:region_id");
 
+        }
+        //if elm2 is undefined then we are on the cart page and we should use the dropdown having id "region_Id"
+        if (elm2 == undefined){
+
+            elm2 = document.getElementById("region_id");
         }
 
         var v2 = elm2.options[elm2.selectedIndex].text.toLowerCase();
