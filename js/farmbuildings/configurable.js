@@ -10,7 +10,6 @@ aeProduct.Config.prototype = {
     initialize: function(config) {
         this.config = config;
         this.settings = $$('.super-attribute-select');
-
         var self = this;
         if(this.config.hasOwnProperty('reconfigure') && this.config.reconfigure == "true") {
             var attributeId = '';
@@ -37,6 +36,9 @@ aeProduct.Config.prototype = {
             for (i = 0; i < this.config['options'].length; i++) {
                 var newOption = new Option(this.config.options[i]['val'], this.config.options[i]['id']);
                 this.settings[0].options[i+1] = newOption;
+                if (this.config.options[i]['pid'] !== "undefined"){
+                    this.settings[0].options[i+1].writeAttribute('data-pid',this.config.options[i]['pid']);
+                }
             }
             // disable the rest
             for(i = 1; i < this.settings.length; i++) {
@@ -140,6 +142,7 @@ aeProduct.Config.prototype = {
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(var i = 0; i < nextOptions.options.length; ++i ) {
                     selector.options[i+1] = new Option(nextOptions.options[i]['val'], nextOptions.options[i]['id']);
+                    debugger;
                     if(typeof nextOptions.options[i].pid !== "undefined"){
                         selector.options[i+1].writeAttribute('data-pid', nextOptions.options[i].pid);
                     }
