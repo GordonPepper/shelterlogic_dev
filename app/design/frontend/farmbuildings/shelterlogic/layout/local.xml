@@ -27,9 +27,6 @@
             <action method="insert">
                 <block>shelterlogic.category.block</block>
             </action>
-            <action method="insert">
-                <block>shelterlogic.category.banner</block>
-            </action>
         </reference>
 
         <reference name="product_list_toolbar">
