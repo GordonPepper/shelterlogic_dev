@@ -67,7 +67,6 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
                 array('price' => 'at_price.value')
             );
 		$from->where(implode(' AND ', $where));
-		file_put_contents('/tmp/full_select.sql', $select->__toString());
 		$labelMap = $this->getAttributeLabelMap($attmap);
 		$tree = array();
         $sp = null;
