@@ -142,7 +142,6 @@ aeProduct.Config.prototype = {
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(var i = 0; i < nextOptions.options.length; ++i ) {
                     selector.options[i+1] = new Option(nextOptions.options[i]['val'], nextOptions.options[i]['id']);
-                    debugger;
                     if(typeof nextOptions.options[i].pid !== "undefined"){
                         selector.options[i+1].writeAttribute('data-pid', nextOptions.options[i].pid);
                     }
