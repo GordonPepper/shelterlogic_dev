@@ -58,7 +58,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                $isValid = $this->isValidAlaskaCity($request->getDestCity());
                 if (!$isValid){
                     //throw new Exception('Wrong City');
-                    Mage::getSingleton('core/session')->addError('Wrong Shipping City');
+                    Mage::getSingleton('core/session')->addError('Please check the spelling of your city.');
                     return false;
                 }
             }
