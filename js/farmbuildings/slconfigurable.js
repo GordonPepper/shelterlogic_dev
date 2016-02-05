@@ -232,12 +232,7 @@ aeProduct.Config.prototype = {
         }
     },
     addSkuToRequestForm: function(sku) {
-        var field = $$('input[name="field[28]"]');
-
-        if(field && field[0]) {
-            field.first().value = sku;
-        }
-
+        this.sku = sku;
         var _sku = $$('div.extra-info span.sku-details-label');
         if (_sku[0]){
             _sku.first().style.display = 'block';
@@ -245,7 +240,7 @@ aeProduct.Config.prototype = {
         }
 
     },
-    requestQuote: function (button) {
-        //alert('requesting quote!');
+    requestQuote: function (button, location) {
+        window.location.href = location + '?sku=' + this.sku;
     }
 };

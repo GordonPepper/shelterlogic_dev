@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout>
+    <requestquote_index_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="shelterlogic_templates/requestquote" name="request.quote" template="shelterlogic/requestquote.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <file>webforms/logic.js</file>
+            </action>
+            <action method="addJs">
+                <file>prototype/window.js</file>
+            </action>
+        </reference>
+    </requestquote_index_index>
+
+</layout>
