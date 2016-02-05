@@ -4,7 +4,12 @@ class Shelterlogic_Scene7_Block_Catalog_Product_View_Media extends Mage_Catalog_
     public function getGalleryImages()
     {
         $gallery = array();
-        if ($additionalImages = $this->getProduct()->getScene7Addition()) {
+        $product = $this->getProduct();
+        $searchProduct = Mage::registry('searchProduct');
+        if(isset($searchProduct)) {
+            $product = $searchProduct;
+        }
+        if ($additionalImages = $product->getScene7Addition()) {
             $additionalImages = explode("\n", $additionalImages);
             foreach ($additionalImages as $image) {
                 // Ignore image that the same as main one

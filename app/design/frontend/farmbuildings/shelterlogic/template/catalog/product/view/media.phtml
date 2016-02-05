@@ -35,10 +35,15 @@
 <?php
     $_product = $this->getProduct();
     $_helper = $this->helper('catalog/output');
+    $productResource = $_product;
+    $searchProduct = Mage::registry('searchProduct');
+    if(isset($searchProduct)) {
+        $productResource = $searchProduct;
+    }
 ?>
 <div class="product-image product-image-zoom">
     <div class="product-image-gallery">
-        <?php $_mainImage = $this->helper('catalog/image')->init($_product, 'image'); ?>
+        <?php $_mainImage = $this->helper('catalog/image')->init($productResource, 'image'); ?>
         <img id="image-main"
              class="gallery-image visible"
              src="<?php echo $_mainImage->resize(600,450) ?>"
@@ -50,7 +55,7 @@
             $i=0;
             foreach ($this->getGalleryImages() as $_image):
                 $_image = $this->helper('catalog/image')
-                                  ->init($_product, 'image', $_image->getFile())
+                                  ->init($productResource, 'image', $_image->getFile())
                                   ->keepFrame(false)
                                   ->constrainOnly(true);
                 $_imageSrc = $_image->resize(600, 450)->__toString();
@@ -73,7 +78,7 @@
     <ul class="product-image-thumbs">
         <li>
             <a class="thumb-link" href="#" data-image-index="main">
-                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(75) ?>"
+                <img src="<?php echo $this->helper('catalog/image')->init($productResource, 'image')->resize(75) ?>"
                      width="75" height="75" />
             </a>
         </li>
@@ -86,7 +91,7 @@
         ?>
         <li>
             <a class="thumb-link" href="#" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" data-image-index="<?php echo $i; ?>">
-                <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(75); ?>"
+                <img src="<?php echo $this->helper('catalog/image')->init($productResource, 'thumbnail', $_image->getFile())->resize(75); ?>"
                      width="75" height="75" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
             </a>
         </li>
