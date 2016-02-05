@@ -10,7 +10,6 @@ aeProduct.Config.prototype = {
     initialize: function(config) {
         this.config = config;
         this.settings = $$('.super-attribute-select');
-
         var self = this;
         if(this.config.hasOwnProperty('reconfigure') && this.config.reconfigure == "true") {
             var attributeId = '';
@@ -37,6 +36,13 @@ aeProduct.Config.prototype = {
             for (i = 0; i < this.config['options'].length; i++) {
                 var newOption = new Option(this.config.options[i]['val'], this.config.options[i]['id']);
                 this.settings[0].options[i+1] = newOption;
+                if (this.config.options[i]['pid'] !== "undefined"){
+                    this.settings[0].options[i+1].writeAttribute('data-pid',this.config.options[i]['pid']);
+                }
+            }
+            // disable the rest
+            for(i = 1; i < this.settings.length; i++) {
+                this.settings[i].disabled = true;
             }
         }
         this.settings.each(function(element) {
@@ -46,6 +52,15 @@ aeProduct.Config.prototype = {
                 Event.observe(element, 'change', this.configure.bind(this));
             }
         }.bind(this));
+
+        //var sp = $$('#ala-product-price-' + aeProductId);
+        //if(sp[0]){
+        //    sp[0].innerHTML = formatCurrency(config.sp, priceFormat);
+        //}
+        var pb = $$('div.price-box #product-price-' + aeProductId + ' span.price');
+        if(pb[0] && pb[0].innerHTML) {
+            this.displayPrice = pb[0].innerHTML;
+        }
     },
     configure: function(event){
 
@@ -70,12 +85,12 @@ aeProduct.Config.prototype = {
             td.innerHTML = "No";
         });
         // clear the price
-        var p = $$('#product-price-' + aeProductId + ' > span.price');
-        if(p[0].innerHTML != formatCurrency(0.0, priceFormat)){
-            p[0].innerHTML = formatCurrency(0.0, priceFormat);
+        var p = $$('div.price-box #product-price-' + aeProductId + ' span.price');
+        if(p[0] && p[0].innerHTML != formatCurrency(this.config.sp, priceFormat)){
+            p[0].innerHTML = formatCurrency(this.config.sp, priceFormat);
         }
 
-        new Ajax.Request('/fbconfig/index', {
+        new Ajax.Request(aeConfigUrl, {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
             postBody: Object.toJSON(params),
@@ -94,6 +109,35 @@ aeProduct.Config.prototype = {
                 for(var i = selector.options.length; i > 1; i--) {
                     selector.remove(i-1);
                 }
+                // labels
+                var alap = $$('div.price-box p.ala-price-label');
+                var cp = $$('div.price-box p.configured-price-label');
+                var sku = $$('div.extra-info span.sku-details-label');
+
+                if(cp[0]) {
+                    cp.first().style.display = 'none';
+                }
+                if(alap[0]){
+                    alap.first().style.display = 'block';
+                }
+                if(sku[0]) {
+                    sku.first().style.display = 'none';
+                    sku.first().innerHTML = '';
+                }
+                // prices
+                var oldPrice = $$('div.price-box p.old-price');
+                var prodPrice = $$('div.price-box p.special-price');
+                var configPrice = $$('div.price-box p.configured-price');
+                if(oldPrice[0]){
+                    oldPrice.first().style.display = 'inline-block';
+                }
+                if(prodPrice[0]){
+                    prodPrice.first().style.display = 'inline-block';
+                }
+                if(configPrice[0]){
+                    configPrice.first().style.display = 'none';
+                }
+
             }
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(var i = 0; i < nextOptions.options.length; ++i ) {
@@ -124,7 +168,7 @@ aeProduct.Config.prototype = {
                 "spid": aeProductId
             }
         );
-        new Ajax.Request('/fbconfig/index/product', {
+        new Ajax.Request(aePriceUrl, {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
             postBody: Object.toJSON(params),
@@ -136,21 +180,70 @@ aeProduct.Config.prototype = {
         })
     },
     updateAttributes: function (res) {
-        var p = $$('#product-price-' + aeProductId + ' > span.price');
-        p[0].innerHTML = formatCurrency(res.price, priceFormat);
-        for(key in res.attribs) {
-            $$('*[data-attribute-id="' + key + '"]').first().innerHTML = res.attribs[key];
+        var p = $$( 'div.price-box #product-price-' + aeProductId + ' span.price');
+
+        if(res.price && p[0] && p[0].innerHTML) {
+            p[0].innerHTML = formatCurrency(res.price, priceFormat);
+            //p[0].style.display = 'block';
         }
-        if(parseFloat(res.weight) >= 5000){
-            $$('button[data-id="atc-button"]').first().style.display = 'none';
-            $$('button[data-id="raq-button"]').first().style.display = 'inline';
-        } else {
-            $$('button[data-id="atc-button"]').first().style.display = 'inline';
-            $$('button[data-id="raq-button"]').first().style.display = 'none';
+
+        // labels
+        var alap = $$('div.price-box p.ala-price-label');
+        var cp = $$('div.price-box p.configured-price-label');
+
+        if(alap[0]){
+            alap.first().style.display = 'none';
+        }
+        if(cp[0]) {
+            cp.first().style.display = 'block';
+        }
+
+        //prices
+        var oldPrice = $$('div.price-box p.old-price');
+        var prodPrice = $$('div.price-box p.special-price');
+        var configPrice = $$('div.price-box p.configured-price');
+        if(oldPrice[0]){
+            oldPrice.first().style.display = 'none';
+        }
+        if(prodPrice[0]){
+            prodPrice.first().style.display = 'none';
+        }
+        if(configPrice[0]){
+            configPrice.first().style.display = 'inline-block';
+            configPrice.first().innerHTML = formatCurrency(res.price, priceFormat);
+        }
+
+        for(key in res.attribs) {
+            var field = $$('*[data-attribute-id="' + key + '"]');
+            if(field && field[0]){
+                field.first().innerHTML = res.attribs[key];
+            }
+        }
+        var atc = $$('button[data-id="atc-button"]');
+        var raq = $$('button[data-id="raq-button"]');
+        if(atc && atc[0] && raq && raq[0]) {
+            if(parseFloat(res.weight) >= 5000){
+                atc.first().style.display = 'none';
+                raq.first().style.display = 'inline';
+            } else {
+                atc.first().style.display = 'inline';
+                raq.first().style.display = 'none';
+            }
         }
     },
     addSkuToRequestForm: function(sku) {
-        $$('input[name="field[28]"]').first().value = sku;
+        var field = $$('input[name="field[28]"]');
+
+        if(field && field[0]) {
+            field.first().value = sku;
+        }
+
+        var _sku = $$('div.extra-info span.sku-details-label');
+        if (_sku[0]){
+            _sku.first().style.display = 'block';
+            _sku.first().innerHTML = 'Model #' + sku;
+        }
+
     },
     requestQuote: function (button) {
         //alert('requesting quote!');
