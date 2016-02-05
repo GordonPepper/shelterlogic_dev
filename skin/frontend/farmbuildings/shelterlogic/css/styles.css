@@ -5920,6 +5920,7 @@ opacity:0;
 }
 
 .product-view .product-shop .extra-info {display:block; float:left; margin-bottom:25px;}
+.product-view .product-shop .extra-info .sku-details-label {color:#a0a0a0; font-size:12px; text-transform:uppercase; float:left; margin-right:10px;}
 .product-view .product-shop .product-category {display:block; float:right; margin-bottom:20px; text-transform:uppercase;}
 
 .product-view .product-shop .price-info {margin-bottom:20px;}
@@ -8458,7 +8459,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 }
 
 /* CUSTOM */
-.availability.out-of-stock span {color:#ff0000; margin:10px;}
+.availability.out-of-stock span {color:#ff0000;}
 
 .product-view .add-to-cart button.out-of-stock {
   background-position:-80px -362px;

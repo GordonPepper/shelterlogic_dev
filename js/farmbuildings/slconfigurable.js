@@ -112,7 +112,7 @@ aeProduct.Config.prototype = {
                 // labels
                 var alap = $$('div.price-box p.ala-price-label');
                 var cp = $$('div.price-box p.configured-price-label');
-                var sku = $$('div.extra-info span.sku-details-label');
+                var sku = $$('div.extra-info');
 
                 if(cp[0]) {
                     cp.first().style.display = 'none';
@@ -233,10 +233,20 @@ aeProduct.Config.prototype = {
     },
     addSkuToRequestForm: function(sku) {
         this.sku = sku;
-        var _sku = $$('div.extra-info span.sku-details-label');
-        if (_sku[0]){
+
+        var field = $$('input[name="field[28]"]');
+
+        if(field && field[0]) {
+            field.first().value = sku;
+        }
+
+        var _sku = $$('div.extra-info');
+
+        if (!(_sku[0]) || sku===null){
+            _sku.first().style.display = 'none';
+        } else {
             _sku.first().style.display = 'block';
-            _sku.first().innerHTML = 'Model #' + sku;
+            _sku.first().innerHTML = '<span class="sku-details-label">Model #' + sku + '</span>';
         }
 
     },
