@@ -5927,12 +5927,7 @@ opacity:0;
 .product-view .product-shop .ratings {
   margin-bottom:8px;
 }
-.product-view .product-shop .availability {
-  font-size:12px;
-  font-weight:700;
-  color:#666666;
-  padding-top:5px;
-}
+.product-view .product-shop .availability {display:inline-block; vertical-align:top; font-size:12px; font-weight:700; color:#666666;}
 .product-view .product-shop .price-box .old-price {font-size:21px;}
 .product-view .product-shop .price-box .old-price,
 .product-view .product-shop .price-box .special-price,
@@ -8463,10 +8458,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 }
 
 /* CUSTOM */
-.availability.out-of-stock span {
-  color:#666666;
-  margin:5px 0;
-}
+.availability.out-of-stock span {color:#ff0000; margin:10px;}
 
 .product-view .add-to-cart button.out-of-stock {
   background-position:-80px -362px;
