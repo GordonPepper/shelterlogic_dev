@@ -121,14 +121,16 @@
                 <a class="<?php echo $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : ''; ?>" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php
                         $_imgSize = array(260,195);
-                        $productResource = $_product;
-                        $searchProduct = Mage::registry('searchProduct');
-                        if(isset($searchProduct)) {
-                            $productResource = $searchProduct;
+                        $product = Mage::getModel('catalog/product')->load($_product->getID());
+                        if($product->getVisibility() == 3) {
+                            $configurable_product = Mage::getModel('catalog/product_type_configurable');
+                            $parentIdArray = $configurable_product->getParentIdsByChild($product->getId());
+                            $parentProduct = Mage::getModel('catalog/product')->load(current($parentIdArray));
+                            $product = $parentProduct;
                         }
                     ?>
                     <img id="product-collection-image-<?php echo $_product->getId(); ?>"
-                         src="<?php echo $this->helper('catalog/image')->init($productResource, 'small_image')->resize($_imgSize[0],$_imgSize[1]); ?>"
+                         src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize($_imgSize[0],$_imgSize[1]); ?>"
                          alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
                     <div class="product-info clearfix">
                         <?php if($_product->isSaleable()): ?>
