@@ -64,6 +64,14 @@ class Americaneagle_Farmbuildings_IndexController
 				}
 			}
 
+			// Sort the width selection
+			$sortedOpts = array();
+			foreach ($nextOpts as $key => $row)
+			{
+				$sortedOpts[$key] = $row['val'];
+			}
+			array_multisort($sortedOpts, SORT_ASC, $nextOpts);
+
 			/*
 			 * new third step: the frontend will pre-select the first option in
 			 * the $nextOpts array as a sort of default value. we need to transmit

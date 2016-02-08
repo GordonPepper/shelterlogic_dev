@@ -69,5 +69,21 @@
                 </observers>
             </controller_action_layout_generate_blocks_before>
         </events>
+        <routers>
+            <requestquote>
+                <use>standard</use>
+                <args>
+                    <module>Shelterlogic_Templates</module>
+                    <frontName>request-quote</frontName>
+                </args>
+            </requestquote>
+        </routers>
+        <layout>
+            <updates>
+                <shelterlogic_templates>
+                    <file>shelterlogic/templates.xml</file>
+                </shelterlogic_templates>
+            </updates>
+        </layout>
     </frontend>
 </config>

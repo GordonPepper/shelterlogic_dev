@@ -617,7 +617,7 @@ $j(document).ready(function () {
 
     $j(window).on('beforeunload', function() {
         if (QtyHasChanged){
-            return 'You have changed the quantity and did not save ...';
+            return 'You have changed the quantity of items in your cart. You must click "Update Cart" to save these changes.';
         }
     });
 
@@ -729,20 +729,21 @@ var ProductMediaManager = {
             return;
         }
 
-        if(image[0].naturalWidth && image[0].naturalHeight) {
-            var widthDiff = image[0].naturalWidth - image.width() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
-            var heightDiff = image[0].naturalHeight - image.height() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
-
-            if(widthDiff < 0 && heightDiff < 0) {
-                //image not big enough
-
-                image.parents('.product-image').removeClass('zoom-available');
-
-                return;
-            } else {
-                image.parents('.product-image').addClass('zoom-available');
-            }
-        }
+        // UPDATE: In Shelterlogic, the zoomed image always have adequate size
+        //if(image[0].naturalWidth && image[0].naturalHeight) {
+        //    var widthDiff = image[0].naturalWidth - image.width() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
+        //    var heightDiff = image[0].naturalHeight - image.height() - ProductMediaManager.IMAGE_ZOOM_THRESHOLD;
+        //
+        //    if(widthDiff < 0 && heightDiff < 0) {
+        //        //image not big enough
+        //
+        //        image.parents('.product-image').removeClass('zoom-available');
+        //
+        //        return;
+        //    } else {
+        //        image.parents('.product-image').addClass('zoom-available');
+        //    }
+        //}
 
         image.elevateZoom();
     },
@@ -855,16 +856,18 @@ $j.fn.xMod=function(o) {
 	trigger=o.trigger,
 	target=o.target,
 	sObjTrig;
-	if (o.xbind) {
-        $j(trigger,sObj).on({
+	if (!o.xbind) {
+        $j(sObj).removeClass("x-active").find(trigger).off("click");
+        $j(this).closest(sObj).find(target).removeAttr("style");
+    } else if ($j(sObj).hasClass("x-active")) {
+        return;
+    } else {
+        $j(sObj).addClass("x-active").find(trigger).on({
             click:function(e){
                 e.preventDefault();
                 $j(this).toggleClass("active").closest(sObj).find(target).slideToggle(400);
             }
         });
-    } else {
-        $j(trigger,sObj).off("click");
-        $j(this).closest(sObj).find(target).removeAttr("style");
     }
 }
 
@@ -872,6 +875,7 @@ $j(document).ready(function() {
 
     function xModBind(b,o) {
         $j(".x-mod",o).each(function() {
+
             $j(this).xMod({
                 xbind:b,
                 trigger:".x-trigger",
@@ -944,14 +948,25 @@ $j(document).ready(function() {
 /* Recommended Products - Match Height - End */
 
 /* Magpassion Menu - Emulate Mobile Touch Event - Begin */
-
-    $j("#magpassion-nav-container").find(">ul>li>a").on("touchstart",function(e) {
-        e.preventDefault();
-        $j(this).parent().toggleClass("active");
-    }).on("click",function(e) {
-        e.preventDefault();
-    });
-
+    function magFN(b){
+        if (b) {
+            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").on("click.mag",function(e) {
+                e.preventDefault();
+                $j(this).parent().toggleClass("active").siblings().removeClass("active");
+            });
+        } else {
+            $j("#magpassion-nav-container").find(">ul>li>a.hasChild").off("click.mag");
+        }
+    }
+    function magInitFN() {
+        if ($j("#header [href*='header-nav']").is(":visible")) {
+            magFN(true);
+        } else {
+            magFN(false);
+        }
+    }
+    magInitFN();
+    $j(window).resize($j.debounce(500,magInitFN));
 /* Magpassion Menu - Emulate Mobile Touch Event - End */
 
 });

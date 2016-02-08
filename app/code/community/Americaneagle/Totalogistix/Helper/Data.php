@@ -23,7 +23,8 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         $this->req = $request;
         $cartcs = $this->getCartChecksum();
         $sess = Mage::getSingleton('core/session');
-        if (false && $sess->getTlxPriceSheet()
+        if (Mage::getStoreConfigFlag('carriers/totalogistix/rate_cache')
+            && $sess->getTlxPriceSheet()
             && $sess->getTlxPriceSheet()['hash'] == $cartcs
             && $sess->getTlxPriceSheet()['sheet']
             && isset($sess->getTlxPriceSheet()['expires'])
@@ -47,10 +48,21 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                         }
                     } else {
                         $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
-
                     }
+                    $xitem->addChild('Quantity', $item->getQty());
+
                 }
             }
+
+            if($request->getDestRegionCode() == 'AK'){
+               $isValid = $this->isValidAlaskaCity($request->getDestCity());
+                if (!$isValid){
+                    //throw new Exception('Wrong City');
+                    Mage::getSingleton('core/session')->addError('Please check the spelling of your city.');
+                    return false;
+                }
+            }
+
 
             $client = new Zend_Http_Client();
             $client->setUri($this->getServiceUri());
@@ -59,10 +71,10 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             $client->setParameterPost('Service', $this->getAccessorial());
             $client->setParameterPost('Date', $this->getShipDate());
             $client->setParameterPost('cZip', $request->getDestPostcode());
-            if($request->getDestRegionCode() == 'AK'){
+           // if($request->getDestRegionCode() == 'AK'){
                 $client->setParameterPost('cCity', $request->getDestCity());
                 $client->setParameterPost('cState', $request->getDestRegionCode());
-            }
+           // }
             /* if i worked with tlx, i would be embarrased for asking implementers to do this... */
             $dom = dom_import_simplexml($xItems);
             $notxml = $dom->ownerDocument->saveXML($dom->ownerDocument->documentElement);
@@ -75,7 +87,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
             $xml = simplexml_load_string($response->getBody());
             $status = $xml->xpath('/Response')[0]->{"Status"};
-            Mage::log('TOTALogistix: received status: ' . $status->asXML());
+            Mage::log('TOTALogistix: received response: ' . $xml->asXML());
             if ($status === false) {
                 Mage::logException("Failed to load response from TOTALogistix");
             }
@@ -177,11 +189,15 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
          */
         $quoteMap = array();
         foreach ($request->getAllItems() as $item) {
+            if($item->getProduct()->getTypeId() != "simple"){
+                continue;
+            }
             $bestWarehouse = 0;
             $totalFilled = 0;
             $fill = array(); // [{qty: #, warehouse: location_id}, {...},...], save the fill in the product
             for ($i = 0; $i < count($warehouses); $i++) {
                 $bestWarehouse = max($i, $bestWarehouse);
+
                 $available = $item->getWarehouse()[$warehouses[$i]['location_id']];
                 if ($available >= $item->getQty()) {
                     $fill = array(array('qty' => $item->getQty(), 'location_id' => $warehouses[$i]['location_id']));
@@ -194,6 +210,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if ($totalFilled < $item->getQty()) {
+
                 Mage::throwException('Failed to fill full cart quantity from all warehouses');
             }
             $quoteMap[$item->getId()] = $fill;
@@ -300,4 +317,26 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
     private function getServiceUri() {
         return Mage::getStoreConfig('carriers/totalogistix/service_url');
     }
+
+    public function isValidAlaskaCity ($alaskacity) {
+
+        $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+
+        $select = $conn->select();
+        /** @var Varien_Db_Select $from */
+        $from = $select->from(
+            array('aetc' => $conn->getTableName('ae_totalogistix_city')),
+            array('city_id' => 'city_id', 'city' => 'city')
+        );
+       $from->where("city = ? ",$alaskacity);
+
+        $count = count($conn->fetchAll($select));
+
+        if ($count > 0 )
+            return true;
+        else
+            return false;
+
+    }
+
 }

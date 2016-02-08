@@ -3,7 +3,14 @@ $_menuitem = $this->getMenuItem();
 ?>
 
 <div class="megamenu-banner-image-wrpr">
+    <?php if ($_menuitem->getBannerUrl()): ?>
+        <a href="<?php echo $_menuitem->getBannerUrl() ?>">
+    <?php endif; ?>
     <img class="megamenu-banner-image" src="<?php echo Mage::helper('advancedmenu/menuitem_image')->getImageBaseUrl() . $_menuitem->getBannerImage() ?>">
+    <?php if ($_menuitem->getBannerUrl()): ?>
+            </a>
+    <?php endif; ?>
+
     <div class="megamenu-banner-image-td-wrpr">
         <?php if ($_menuitem->getBannerTitle()): ?>
             <div class="megamenu-banner-title"><?php echo $_menuitem->getBannerTitle() ?></div>

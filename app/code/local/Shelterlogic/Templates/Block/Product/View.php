@@ -7,9 +7,14 @@ class Shelterlogic_Templates_Block_Product_View extends Mage_Catalog_Block_Produ
     public function getMarketingBullets()
     {
         $result = array();
+        $product = $this->getProduct();
+        $searchProduct = Mage::registry('searchProduct');
+        if(isset($searchProduct)) {
+            $product = $searchProduct;
+        }
 
         for ($i = 1; $i <= 9; $i++) {
-            $marketingBullet = $this->getProduct()->getData('marketing_bullet_' . $i);
+            $marketingBullet = $product->getData('marketing_bullet_' . $i);
             if (!$marketingBullet) continue;
             $marketingBullet = explode('||', $marketingBullet);
             $title = count($marketingBullet) == 2 ? $marketingBullet[0] : '';
@@ -25,7 +30,13 @@ class Shelterlogic_Templates_Block_Product_View extends Mage_Catalog_Block_Produ
 
     public function getMarketingTitle()
     {
-        $marketingTitle = trim($this->getProduct()->getData('marketing_block_title'));
+        $product = $this->getProduct();
+        $searchProduct = Mage::registry('searchProduct');
+        if(isset($searchProduct)) {
+            $product = $searchProduct;
+        }
+
+        $marketingTitle = trim($product->getData('marketing_block_title'));
         if (!$marketingTitle) {
             $marketingTitle = Mage::getStoreConfig(self::XML_PATH_MARKETING_TITLE);
         }
@@ -35,7 +46,13 @@ class Shelterlogic_Templates_Block_Product_View extends Mage_Catalog_Block_Produ
 
     public function getMarketingDescription()
     {
-        $marketingDesc = trim($this->getProduct()->getData('marketing_block_description'));
+        $product = $this->getProduct();
+        $searchProduct = Mage::registry('searchProduct');
+        if(isset($searchProduct)) {
+            $product = $searchProduct;
+        }
+
+        $marketingDesc = trim($product->getData('marketing_block_description'));
         if (!$marketingDesc) {
             $marketingDesc = Mage::getStoreConfig(self::XML_PATH_MARKETING_DESC);
         }

@@ -402,6 +402,51 @@ Object.extend(Validation, {
     get : function(name) {
         return  Validation.methods[name] ? Validation.methods[name] : Validation.methods['_LikeNoIDIEverSaw_'];
     },
+    isValideCity : function(elm) {
+        var t = elm.name;
+        var v = elm.value;
+        var elm2;
+
+        if (t.indexOf('billing') >= 0 )
+        {
+            elm2 = document.getElementById("billing:region_id");
+        }else{
+            elm2 = document.getElementById("shipping:region_id");
+        }
+        //if elm2 is undefined then we are on the cart page and we should use the dropdown having id "region_Id"
+        if (elm2 == undefined){
+            elm2 = document.getElementById("region_id");
+        }
+
+        var v2 = elm2.options[elm2.selectedIndex].text.toLowerCase();
+        if (v2 == 'alaska'){
+            var ret = Validation.makeAjaxCall(v);
+            return ret;
+        }else {
+            return true;
+        }
+
+    },
+    makeAjaxCall : function(city){
+        var params = [];
+        params.push(
+            {
+                "city": city
+            }
+        );
+        var _result = false;
+        new Ajax.Request(aeCheckCityUrl, {
+            method: 'post',
+            asynchronous : false,
+            requestHeaders: {Accept: 'application/json'},
+            postBody: Object.toJSON(params),
+            onSuccess: function(transport) {
+                var result = transport.responseText.evalJSON(true);
+                _result= result;
+            }
+        })
+        return _result;
+    },
     methods : {
         '_LikeNoIDIEverSaw_' : new Validator('_LikeNoIDIEverSaw_','',{})
     }
@@ -494,6 +539,24 @@ Validation.addAllThese([
     ['validate-phoneStrict', 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.', function(v) {
                 return Validation.get('IsEmpty').test(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
             }],
+    ['validate-AL-city', 'Please check the spelling of your city.', function(v,elm) {
+        return Validation.get('IsEmpty').test(v) || Validation.isValideCity(elm);
+    }],
+   /* ['validate-AL-city-select', 'Please check the spelling of your City.', function(v,elm) {
+        var name = elm.name;
+        if (name.indexOf('billing')>=0){
+            elm = document.getElementById('billing:city');
+            v = elm.value;
+            return Validation.get('IsEmpty').test(v) ||Validation.isValideCity(elm);
+        }else {
+            elm = document.getElementById('shipping:city');
+            v = elm.value;
+            return Validation.get('IsEmpty').test(v) ||Validation.isValideCity(elm);
+        }
+
+
+
+    }],*/
     ['validate-phoneLax', 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.', function(v) {
                 return Validation.get('IsEmpty').test(v) || /^((\d[-. ]?)?((\(\d{3}\))|\d{3}))?[-. ]?\d{3}[-. ]?\d{4}$/.test(v);
             }],

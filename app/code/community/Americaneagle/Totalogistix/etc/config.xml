@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Totalogistix>
-            <version>1.0.3</version>
+            <version>1.0.5</version>
         </Americaneagle_Totalogistix>
     </modules>
     <global>
@@ -31,6 +31,18 @@
                     </zip>
                 </entities>
             </americaneagle_totalogistix_zip_resource>
+
+            <americaneagle_totalogistix_city>
+                <class>Americaneagle_Totalogistix_Model_Resource</class>
+                <resourceModel>americaneagle_totalogistix_city_resource</resourceModel>
+            </americaneagle_totalogistix_city>
+            <americaneagle_totalogistix_city_resource>
+                <entities>
+                    <city>
+                        <table>ae_totalogistix_city</table>
+                    </city>
+                </entities>
+            </americaneagle_totalogistix_city_resource>
 
             <!--<sales>-->
                 <!--<rewrite>-->
@@ -66,6 +78,12 @@
                     <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
             </zip_database>
+            <city_database>
+                <setup>
+                    <module>Americaneagle_Totalogistix</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </city_database>
         </resources>
         <sales>
             <quote>
@@ -105,6 +123,17 @@
             <!--</sales_quote_address_collect_totals_before>-->
         <!--</events>-->
     <!--</frontend>-->
+    <frontend>
+        <routers>
+            <citycheck>
+                <use>standard</use>
+                <args>
+                    <module>Americaneagle_Totalogistix</module>
+                    <frontName>citycheck</frontName>
+                </args>
+            </citycheck>
+        </routers>
+    </frontend>
     <default>
         <carriers>
             <totalogistix>
@@ -113,8 +142,10 @@
                 <title>TOTALogistix</title>
                 <sort_order>10</sort_order>
                 <sallowspecific>0</sallowspecific>
+                <rate_cache>0</rate_cache>
             </totalogistix>
         </carriers>
+
     </default>
     <adminhtml>
         <layout>

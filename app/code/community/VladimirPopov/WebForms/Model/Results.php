@@ -167,6 +167,9 @@ class VladimirPopov_WebForms_Model_Results
             }
         }
         $file_list = $this->getFiles();
+        if(is_array($email)){
+            $email = current($email);
+        }
         if (strstr(strval($email), ',') && $recipient == 'admin') {
             $email_array = explode(',', $email);
             foreach ($email_array as $email) {

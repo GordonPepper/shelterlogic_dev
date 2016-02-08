@@ -23,9 +23,12 @@
  * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+$_product = $this->getProduct();
+$buttonTitle = $this->__('Add to Cart');
+$raqTitle = $this->__('Request Quote');
+$raqTarget = $this->getUrl('requestquote', array('_type' => Mage_Core_Model_Store::URL_TYPE_LINK));
 ?>
-<?php $_product = $this->getProduct(); ?>
-<?php $buttonTitle = $this->__('Add to Cart'); ?>
 <?php if($_product->isSaleable()): ?>
     <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
@@ -37,7 +40,8 @@
         </div>
         <?php endif; ?>
         <div class="add-to-cart-buttons">
-            <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <button data-id="atc-button" type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <button style="display:none;" data-id="raq-button" type="button" title="<?php echo $raqTitle ?>" class="button btn-cart" onclick="aeConfig.requestQuote(this, '<?php echo $raqTarget ?>')"><span><span><?php echo $raqTitle ?></span></span></button>
             <?php echo $this->getChildHtml('', true, true) ?>
         </div>
     </div>

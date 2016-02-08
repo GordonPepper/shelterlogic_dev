@@ -79,8 +79,17 @@
                             </div>
 
                             <div class="extra-info">
+                            <?php if (!$_product->isConfigurable() ): ?>
+                                <span class="sku-details-label">
+                                    Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'sku') ?>
+                                </span>
+                            <?php endif ; ?>
+                            </div>
+
+                            <div class="extra-info">
                                 <?php echo $this->getChildHtml('product_type_availability'); ?>
                             </div>
+
 
                             <div class="product-category">
                                 <ul>

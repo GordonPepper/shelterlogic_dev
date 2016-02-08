@@ -16,6 +16,19 @@
         </reference>
     </catalog_category_default>
     <catalog_category_layered>
+        <block type="core/text" name="shelterlogic.category.block"/>
+        <block type="enterprise_banner/widget_banner" name="shelterlogic.category.banner"
+               template="banner/widget/block.phtml">
+            <action method="setDisplayMode">
+                <value>fixed</value>
+            </action>
+        </block>
+        <reference name="content">
+            <action method="insert">
+                <block>shelterlogic.category.block</block>
+            </action>
+        </reference>
+
         <reference name="product_list_toolbar">
             <action method="disableViewSwitcher"/>
         </reference>
@@ -29,6 +42,12 @@
         </reference>
     </catalog_category_layered>
     <catalog_category_view>
+        <!--<reference name="content">-->
+            <!--<action method="insert">-->
+                <!--<block>my.custom.block</block>-->
+            <!--</action>-->
+        <!--</reference>-->
+
         <reference name="root">
             <action method="setTemplate">
                 <template>page/2columns-category-left.phtml</template>
@@ -38,7 +57,7 @@
     <catalog_product_view translate="label">
         <reference name="head">
             <action method="addJs">
-                <script>farmbuildings/configurable.js</script>
+                <script>farmbuildings/slconfigurable.js</script>
             </action>
             <action method="removeItem">
                 <type>js</type>
