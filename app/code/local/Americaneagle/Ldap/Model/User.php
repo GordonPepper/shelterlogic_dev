@@ -130,7 +130,7 @@ class Americaneagle_Ldap_Model_User extends Mage_Admin_Model_User
             $result[] = $this->_getHelper('adminhtml')->__('Current password field cannot be empty.');
         } elseif (is_null($this->getId()) ||
             (substr($this->getUsername(), 0, 2) == 'AE' &&
-                $this->authenticateLdap(Mage::getSingleton('admin/session')->getInternalUsername(), $password)) == '' ||
+                $this->authenticateLdap(Mage::getSingleton('admin/session')->getInternalUsername(), $password) == '') ||
             (substr($this->getUsername(), 0, 2) != 'AE' &&
                 !$this->_getHelper('core')->validateHash($password, $this->getPassword()))){
             $result[] = $this->_getHelper('adminhtml')->__('Invalid current password.');
