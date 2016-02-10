@@ -31,7 +31,7 @@ class Shelterlogic_Templates_Block_Product_Recommended extends Mage_Catalog_Bloc
         $collection   = Mage::getResourceModel('reports/product_collection')
             ->addOrderedQty()
             ->addAttributeToSelect('*')
-            ->addAttributeToSelect(array('name', 'price', 'small_image'))
+//            ->addAttributeToSelect(array('name', 'price', 'small_image'))
             ->setStoreId($storeId)
             ->addStoreFilter($storeId)
             ->addViewsCount();

@@ -7,7 +7,12 @@
     <h3><span><?php echo $this->getTitle() ?></span></h3>
     <ul>
         <?php foreach ($_collection as $_product): ?>
-        <?php /** @var Mage_Catalog_Model_Product $_product */ ?>
+        <?php
+            /** @var Mage_Catalog_Model_Product $_product */
+            $_product->unsUrl();
+            $_product->unsRequestPath();
+            $_product->setDoNotUseCategoryId(true);
+            ?>
         <li>
             <a class="clearfix" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_parentBlock->escapeHtml($_product->getName()) ?>">
                 <div class="product-west">
