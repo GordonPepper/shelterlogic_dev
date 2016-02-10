@@ -28,6 +28,10 @@ $_product = $this->getProduct();
 $buttonTitle = $this->__('Add to Cart');
 $raqTitle = $this->__('Request Quote');
 $raqTarget = $this->getUrl('requestquote', array('_type' => Mage_Core_Model_Store::URL_TYPE_LINK));
+$raqOnly = false;
+if($_product->getTypeId() == 'simple' && $_product->getWeight() >= 5000){
+    $raqOnly = true;
+}
 ?>
 <?php if($_product->isSaleable()): ?>
     <div class="add-to-cart">
@@ -40,8 +44,16 @@ $raqTarget = $this->getUrl('requestquote', array('_type' => Mage_Core_Model_Stor
         </div>
         <?php endif; ?>
         <div class="add-to-cart-buttons">
+            <?php if(!$raqOnly): ?>
             <button data-id="atc-button" type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
-            <button style="display:none;" data-id="raq-button" type="button" title="<?php echo $raqTitle ?>" class="button btn-cart" onclick="aeConfig.requestQuote(this, '<?php echo $raqTarget ?>')"><span><span><?php echo $raqTitle ?></span></span></button>
+            <?php else: ?>
+            <button data-id="raq-button" type="button" title="<?php echo $raqTitle ?>" class="button btn-cart" onclick="requestQuote()"><span><span><?php echo $raqTitle ?></span></span></button>
+            <script type="text/javascript">
+                function requestQuote() {
+                    window.location.href = '<?php echo sprintf("%s?sku=%s", $raqTarget, $_product->getSku()); ?>';
+                }
+            </script>
+            <?php endif; ?>
             <?php echo $this->getChildHtml('', true, true) ?>
         </div>
     </div>
