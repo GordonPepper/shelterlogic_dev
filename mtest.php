@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'runStockImport',
     'changeChildVis',
     'filterExport',
     'findEmptyCategories',
@@ -89,6 +90,13 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	$html->endBody()->endHtml();
 	exit;
 }
+
+function runStockImport(){
+    global $html;
+    $stockImport = Mage::getModel('stockimport/observer');
+    $stockImport->import();
+}
+
 
 function changeChildVis(){
     global $html;

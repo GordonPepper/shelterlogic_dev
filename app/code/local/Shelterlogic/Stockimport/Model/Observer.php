@@ -6,6 +6,7 @@ class Shelterlogic_Stockimport_Model_Observer
     const XML_PATH_WAREHOUSEID_MAPPING  = 'shelterlogic/stockimport/warehouseid_mapping';
     const XML_PATH_ENABLE_ARCHIVE       = 'shelterlogic/stockimport/enable_archive';
     const XML_PATH_ARCHIVE_FOLDER       = 'shelterlogic/stockimport/archive_folder';
+    const XML_PATH_CORE_MANAGE_STOCK = '';
 
     /**
      * @var Magento_Db_Adapter_Pdo_Mysql
@@ -59,6 +60,18 @@ class Shelterlogic_Stockimport_Model_Observer
                             ));
                     }
                     $totalUpdated++;
+                    /*
+                     * ok, so if the product is in the stock file, we need to
+                     * set the system to manage stock on the product regardless
+                     * if the stock is 0 or more
+                     */
+                    $product = Mage::getModel('catalog/product')->load($productId);
+                    if($product->getId() == $productId) {
+                        if($product->getStockItem()->getManageStock() != 1) {
+                            $product->getStockItem()->setManageStock(1)->setUseConfigManageStock(0)->save();
+                        }
+                    }
+
                 } else {
                     $notExistedSku[] = $sku;
                 }
