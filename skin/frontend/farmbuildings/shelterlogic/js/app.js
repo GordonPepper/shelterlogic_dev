@@ -959,6 +959,7 @@ $j(document).ready(function() {
                 magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
                     e.preventDefault();
                     oneEventCtrl(false); /* On first click: Unbind prevent default so second click will go to url */
+                    return false;
                 });
             } else {
                 magNavContainer.find(">ul>li>a.hasChild").off("click.mag");
