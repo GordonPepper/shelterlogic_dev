@@ -7,21 +7,34 @@ class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_
     {
         $data = array();
         $product = $this->getProduct();
-        if($product->getAttributeSetId() == "10"){
-            return parent::getAdditionalData($excludeAttr);
-        }
+//        if($product->getAttributeSetId() == "10"){
+//            return parent::getAdditionalData($excludeAttr);
+//        }
         $attributes = $product->getAttributes();
+        $parent = Mage::registry('searchProduct');
+
         foreach ($attributes as $attribute) {
             /** @var Mage_Catalog_Model_Entity_Attribute $attribute */
             $attrCode = $attribute->getAttributeCode();
             if ($attribute->getIsVisibleOnFront() && !in_array($attrCode, $excludeAttr)) {
                 if ($attribute->getSource() instanceof Mage_Eav_Model_Entity_Attribute_Source_Boolean) {
-                    if (!$product->hasData($attrCode)) continue;
+                    if (!$product->hasData($attrCode)) {
+                        if($parent && $parent->hasData($attrCode)){
+                            $value = $attribute->getFrontend()->getValue($parent);
+                        } else {
+                            continue;
+                        }
+                    }
                 } elseif (!$product->getData($attrCode)) {
-                    continue;
+                    if($parent && $parent->getData($attrCode)) {
+                        $value = $attribute->getFrontend()->getValue($parent);
+                    } else {
+                        continue;
+                    }
+                } else {
+                    $value = $attribute->getFrontend()->getValue($product);
                 }
 
-                $value = $attribute->getFrontend()->getValue($product);
                 if ((string)$value == '') {
                     continue;
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
