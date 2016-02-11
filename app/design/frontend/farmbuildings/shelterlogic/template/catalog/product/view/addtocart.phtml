@@ -46,6 +46,7 @@ if($_product->getTypeId() == 'simple' && $_product->getWeight() >= 5000){
         <div class="add-to-cart-buttons">
             <?php if(!$raqOnly): ?>
             <button data-id="atc-button" type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+            <button style="display:none;" data-id="raq-button" type="button" title="<?php echo $raqTitle ?>" class="button btn-cart" onclick="requestQuote()"><span><span><?php echo $raqTitle ?></span></span></button>
             <?php else: ?>
             <button data-id="raq-button" type="button" title="<?php echo $raqTitle ?>" class="button btn-cart" onclick="requestQuote()"><span><span><?php echo $raqTitle ?></span></span></button>
             <script type="text/javascript">
