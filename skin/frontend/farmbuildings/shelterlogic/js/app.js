@@ -959,27 +959,22 @@ $j(document).ready(function() {
                 magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
                     e.preventDefault();
                     oneEventCtrl(false); /* On first click: Unbind prevent default so second click will go to url */
-                    return false;
                 });
             } else {
                 magNavContainer.find(">ul>li>a.hasChild").off("click.mag");
             }
         }
 
-        /* Check if viewport navigation is displayed for mobile or desktop  */
-        if (b) {
-            magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
-                e.preventDefault();
-                $j(this).parent().toggleClass("active").siblings().removeClass("active");
-            });
-        } else {
-            magNavContainer.find(">ul>li>a.hasChild").on("mouseenter",function(e) {
-                oneEventCtrl(false);
-            }).on("mouseleave",function(e) {
-                oneEventCtrl(true);
-            });
-            oneEventCtrl(true);
-        }
+        oneEventCtrl(true);
+
+        magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
+            $j(this).parent().toggleClass("active").siblings().removeClass("active");
+        });
+
+        magNavContainer.find(">ul>li>a.hasChild").on("mouseenter",function(e) {
+            oneEventCtrl(false);
+        });
+
     }
 
     /* Initialize navigation check mobile vs desktop */
