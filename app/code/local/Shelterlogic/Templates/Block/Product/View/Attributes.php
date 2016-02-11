@@ -17,8 +17,10 @@ class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_
             /** @var Mage_Catalog_Model_Entity_Attribute $attribute */
             $attrCode = $attribute->getAttributeCode();
             if ($attribute->getIsVisibleOnFront() && !in_array($attrCode, $excludeAttr)) {
+                $value = $attribute->getFrontend()->getValue($product);
                 if ($attribute->getSource() instanceof Mage_Eav_Model_Entity_Attribute_Source_Boolean) {
                     if (!$product->hasData($attrCode)) {
+//                        continue;
                         if($parent && $parent->hasData($attrCode)){
                             $value = $attribute->getFrontend()->getValue($parent);
                         } else {
@@ -26,15 +28,13 @@ class Shelterlogic_Templates_Block_Product_View_Attributes extends Mage_Catalog_
                         }
                     }
                 } elseif (!$product->getData($attrCode)) {
+//                    continue;
                     if($parent && $parent->getData($attrCode)) {
                         $value = $attribute->getFrontend()->getValue($parent);
                     } else {
                         continue;
                     }
-                } else {
-                    $value = $attribute->getFrontend()->getValue($product);
                 }
-
                 if ((string)$value == '') {
                     continue;
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
