@@ -95,14 +95,28 @@ class Shelterlogic_Stockimport_Model_Observer
 
     protected function getStockDataFile()
     {
-        $filePath = Mage::getStoreConfig(self::XML_PATH_DATA_FILE_PATH);
-        if (file_exists($filePath) && !is_readable($filePath)) {
-            Mage::throwException(sprintf('Data file [%s] exists but is not readable', $filePath));
-        } elseif( !file_exists($filePath) ) {
-            return null;
+        /*
+         * ok, changing this to accept arbitrary "*.csv" files,
+         * reusing the "DATA_FILE_PATH" as a directory
+         */
+        $dirPath = dirname(Mage::getStoreConfig(self::XML_PATH_DATA_FILE_PATH));
+        if(is_dir($dirPath)){
+            if($dh = opendir($dirPath)){
+                while(($file = readdir($dh)) !== false ){
+                    $inf = pathinfo($file);
+                    if(strtolower($inf['extension']) == "csv"){
+                        return implode('/', array($dirPath, $file));
+                    }
+                }
+            }
         }
-
-        return $filePath;
+//        if (file_exists($filePath) && !is_readable($filePath)) {
+//            Mage::throwException(sprintf('Data file [%s] exists but is not readable', $filePath));
+//        } elseif( !file_exists($filePath) ) {
+//            return null;
+//        }
+//
+//        return $filePath;
     }
 
     protected function archiveStockDataFile($file)
