@@ -103,8 +103,8 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
     .magpassion-nav-container > ul > li > a {float:none;}
     .magpassion-nav-container > ul > li ~ li {margin-left:0;}
     .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 0px;}
-    .magpassion-nav-container > ul > li > ul {display:none; margin:20px 0; border-bottom:2px solid #f0f0f0;}
-    ul.magpassion-menu-mega li.active ul.level1 {display:block;}
+    .magpassion-nav-container > ul > li > ul {display:none; opacity:0; margin:20px 0; border-bottom:2px solid #f0f0f0;}
+    ul.magpassion-menu-mega li.active ul.level1 {display:block; opacity:1;}
     .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {margin-top:0px; border-bottom:8px solid #666666; border-left:8px solid transparent;}
     .magpassion-nav-container > ul > li > ul > li {display:block;}
     .magpassion-child-content-wrpr {display:block;}
