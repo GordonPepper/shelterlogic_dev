@@ -66,6 +66,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
 
             $client = new Zend_Http_Client();
             $client->setUri($this->getServiceUri());
+            $client->setConfig(array('timeout' => 60));
             $client->setParameterPost('sZip', $this->getOriginZip($request));
             $client->setParameterPost('AccessID', $this->getAccessId());
             $client->setParameterPost('Service', $this->getAccessorial());
