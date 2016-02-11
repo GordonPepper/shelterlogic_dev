@@ -950,39 +950,23 @@ $j(document).ready(function() {
 /* Magpassion Menu - Emulate Mobile Touch Event - Begin */
     function magFN(b){
 
-        /* Main Nav Container */
         var magNavContainer=$j("#magpassion-nav-container");
 
-        /* One click control - mouse hover in(unbind) and out(bind) */
-        function oneEventCtrl(b) {
-            if (b) {
-                magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
-                    e.preventDefault();
-                    oneEventCtrl(false); /* On first click: Unbind prevent default so second click will go to url */
-                });
-            } else {
-                magNavContainer.find(">ul>li>a.hasChild").off("click.mag");
-            }
-        }
-
-        oneEventCtrl(true);
-
         magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
-            $j(this).parent().toggleClass("active").siblings().removeClass("active");
+            if ($j(this).parent().find(">ul").css("opacity")==0) {
+                e.preventDefault();
+            }
+            $j(this).parent().addClass("active").siblings().removeClass("active");
         });
-
-//        magNavContainer.find(">ul>li>a.hasChild").on("mouseenter",function(e) {
-//            oneEventCtrl(false);
-//        });
 
     }
 
     /* Initialize navigation check mobile vs desktop */
     function magInitFN() {
         if ($j("#header [href*='header-nav']").is(":visible")) {
-            magFN(true);
+            magFN();
         } else {
-            magFN(false);
+            magFN();
         }
     }
     magInitFN();
