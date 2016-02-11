@@ -42,12 +42,12 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                         $xitem->addChild('Width', $item->getProduct()->getTlxShipWidth());
                         $xitem->addChild('Height', $item->getProduct()->getTlxShipHeight());
                         if($item->getProduct()->getTlxPalletWeight()) {
-                            $xitem->addChild('Weight', intval(($item->getWeight() + $item->getProduct()->getTlxPalletWeight()) * $item->getQty()));
+                            $xitem->addChild('Weight', intval(($item->getWeight() + $item->getProduct()->getTlxPalletWeight()) ));
                         } else {
-                            $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
+                            $xitem->addChild('Weight', intval($item->getWeight() ));
                         }
                     } else {
-                        $xitem->addChild('Weight', intval($item->getWeight() * $item->getQty()));
+                        $xitem->addChild('Weight', intval($item->getWeight() ));
                     }
                     $xitem->addChild('Quantity', $item->getQty());
 
