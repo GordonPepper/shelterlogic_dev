@@ -82,7 +82,7 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
 .magpassion-nav-container span.hasImg {background-repeat:no-repeat; background-position:1% 10%; padding-left:28px !important;}
 .magpassion-nav-container span.hasImg {background-position:1% 40% !important; padding-left:32px !important;}
 
-@media only screen and (min-width:71px) {
+@media only screen and (min-width:771px) {
     .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 15px;}
     .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:auto; right:auto; top:-9999em; padding-top:12px; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
     ul.magpassion-menu-mega li.active ul.level1,
@@ -97,7 +97,7 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
     .magpassion-child-image-wrpr {display:table-cell; padding:0; vertical-align:top;}
 }
 
-@media only screen and (max-width:70px) {
+@media only screen and (max-width:770px) {
     .magpassion-menu-mega {height:auto;}
     .magpassion-nav-container > ul > li {float:none;}
     .magpassion-nav-container > ul > li > a {float:none;}
