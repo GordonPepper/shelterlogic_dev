@@ -238,6 +238,8 @@ aeProduct.Config.prototype = {
 
         if(field && field[0]) {
             field.first().value = sku;
+        } else {
+            aeProductSku = sku;
         }
 
         var _sku = $$('div.extra-info');

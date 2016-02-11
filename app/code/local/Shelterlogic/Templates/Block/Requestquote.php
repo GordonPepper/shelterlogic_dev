@@ -16,6 +16,7 @@ class Shelterlogic_Templates_Block_Requestquote extends Mage_Core_Block_Template
         $sku = $this->getRequest()->getParam('sku');
         if ($sku) {
             $this->product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+
             $pid = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($this->product->getId());
             $this->parent = Mage::getModel('catalog/product')->load(current($pid));
         }
@@ -30,14 +31,17 @@ class Shelterlogic_Templates_Block_Requestquote extends Mage_Core_Block_Template
     }
     public function getConfigAttributes() {
         $map = array();
-        $atts = $this->parent->getTypeInstance(true)->getConfigurableAttributes($this->parent);
+        if($this->parent->getId()) {
+            $atts = $this->parent->getTypeInstance(false)->getConfigurableAttributes($this->parent);
+        }else{
+            $atts  = $this->product->getTypeInstance(false)->getConfigurableAttributes($this->product);
+        }
         /** @var Mage_Catalog_Model_Product_Type_Configurable_Attribute $att */
         foreach ($atts as $att) {
             $map[$att->getProductAttribute()->getFrontendLabel()] =
                 $this->product
                     ->getResource()
-                    ->getAttribute($att->getProductAttribute()
-                        ->getAttributeCode())
+                    ->getAttribute($att->getProductAttribute()->getAttributeCode())
                     ->getFrontend()
                     ->getValue($this->product);
         }

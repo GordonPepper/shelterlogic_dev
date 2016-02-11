@@ -51,8 +51,9 @@ if($_product->getTypeId() == 'simple' && $_product->getWeight() >= 5000){
             <button data-id="raq-button" type="button" title="<?php echo $raqTitle ?>" class="button btn-cart" onclick="requestQuote()"><span><span><?php echo $raqTitle ?></span></span></button>
             <?php endif; ?>
             <script type="text/javascript">
+                var aeProductSku = '<?php echo $_product->getSku(); ?>';
                 function requestQuote() {
-                    window.location.href = '<?php echo sprintf("%s?sku=%s", $raqTarget, $_product->getSku()); ?>';
+                    window.location.href = '<?php echo sprintf("%s?sku=", $raqTarget); ?>' + aeProductSku;
                 }
             </script>
             <?php echo $this->getChildHtml('', true, true) ?>
