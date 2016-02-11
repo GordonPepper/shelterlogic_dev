@@ -156,8 +156,8 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
         //Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
 
         $additional = array();
-		foreach($this->getSpAttributes($sproduct) as $adds) {
-			$additional[$adds['code']] = $product->getData($adds['code']);
+		foreach($this->getSpAttributes($product, $sproduct) as $adds) {
+			$additional[$adds['code']] = $adds['value'];
 		}
         $fp = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product, $spid);
 
@@ -170,33 +170,37 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 		return $vals;
 	}
-	public function getSpAttributes($product)
+	public function getSpAttributes($product, $sproduct)
 	{
-		$data = array();
-		$attributes = $product->getAttributes();
-		foreach ($attributes as $attribute) {
-//            if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
-			if ($attribute->getIsVisibleOnFront()) {
-				$value = $attribute->getFrontend()->getValue($product);
-
-				if (!$product->hasData($attribute->getAttributeCode())) {
-					$value = Mage::helper('catalog')->__('N/A');
-				} elseif ((string)$value == '') {
-					$value = Mage::helper('catalog')->__('No');
-				} elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
-					$value = Mage::app()->getStore()->convertPrice($value, true);
-				}
-
-				if (is_string($value) && strlen($value)) {
-					$data[$attribute->getAttributeCode()] = array(
-						'label' => $attribute->getStoreLabel(),
-						'value' => $value,
-						'code'  => $attribute->getAttributeCode()
-					);
-				}
-			}
-		}
-		return $data;
+        $block = Mage::getBlockSingleton('shelterlogic_templates/product_view_attributes');
+        Mage::register('product', $product, true);
+        Mage::register('searchProduct', $sproduct, true);
+        return $block->getAdditionalData();
+//		$data = array();
+//		$attributes = $product->getAttributes();
+//		foreach ($attributes as $attribute) {
+////            if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
+//			if ($attribute->getIsVisibleOnFront()) {
+//				$value = $attribute->getFrontend()->getValue($product);
+//
+//				if (!$product->hasData($attribute->getAttributeCode())) {
+//					$value = Mage::helper('catalog')->__('N/A');
+//				} elseif ((string)$value == '') {
+//					$value = Mage::helper('catalog')->__('No');
+//				} elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
+//					$value = Mage::app()->getStore()->convertPrice($value, true);
+//				}
+//
+//				if (is_string($value) && strlen($value)) {
+//					$data[$attribute->getAttributeCode()] = array(
+//						'label' => $attribute->getStoreLabel(),
+//						'value' => $value,
+//						'code'  => $attribute->getAttributeCode()
+//					);
+//				}
+//			}
+//		}
+//		return $data;
 	}
 
 }
