@@ -956,7 +956,7 @@ $j(document).ready(function() {
             if ($j(this).parent().find(">ul").css("opacity")==0) {
                 e.preventDefault();
             }
-            $j(this).parent().toggleClass("active").siblings().removeClass("active");
+            $j(this).parent().addClass("active").siblings().removeClass("active");
         });
 
     }
