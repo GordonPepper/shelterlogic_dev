@@ -971,9 +971,9 @@ $j(document).ready(function() {
             $j(this).parent().toggleClass("active").siblings().removeClass("active");
         });
 
-        magNavContainer.find(">ul>li>a.hasChild").on("mouseenter",function(e) {
-            oneEventCtrl(false);
-        });
+//        magNavContainer.find(">ul>li>a.hasChild").on("mouseenter",function(e) {
+//            oneEventCtrl(false);
+//        });
 
     }
 
