@@ -985,7 +985,7 @@ $j(document).ready(function() {
     /* Initialize navigation check mobile vs desktop */
     function magInitFN() {
         if ($j("#header [href*='header-nav']").is(":visible")) {
-            magFN(true);
+            magFN(false);
         } else {
             magFN(false);
         }
