@@ -94,11 +94,13 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             $status = $xml->xpath('/Response')[0]->{"Status"};
             Mage::log('TOTALogistix: received response: ' . $xml->asXML());
             if ($status === false) {
-                Mage::logException("Failed to load response from TOTALogistix");
+                Mage::logException(new Exception("Failed to load response from TOTALogistix"));
             }
             $prices = $xml->xpath('/Response/PriceSheet');
-            if ($prices === false) {
-                Mage::logException("Failed to load shipping price sheets");
+            if ($prices === false || count($prices) == 0) {
+                //Mage::logException(new Exception("Failed to load shipping price sheets"));
+                $sess->addError("Please call Shelterlogic Customer Service at 1-800-560-8383");
+                return false;
             }
             $sheets = array();
             foreach ($prices as $price) {
