@@ -952,21 +952,30 @@ $j(document).ready(function() {
 
         var magNavContainer=$j("#magpassion-nav-container");
 
-        magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
-            if ($j(this).parent().find(">ul").css("opacity")==0) {
+        magNavContainer.find(">ul>li>a.hasChild").off("click.mag");
+
+        if (b) {
+            magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
                 e.preventDefault();
-            }
-            $j(this).parent().addClass("active").siblings().removeClass("active");
-        });
+                $j(this).parent().toggleClass("active").siblings().removeClass("active");
+            });
+        } else {
+            magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
+                if ($j(this).parent().find(">ul").css("opacity")==0) {
+                    e.preventDefault();
+                }
+                $j(this).parent().addClass("active").siblings().removeClass("active");
+            });
+        }
 
     }
 
     /* Initialize navigation check mobile vs desktop */
     function magInitFN() {
         if ($j("#header [href*='header-nav']").is(":visible")) {
-            magFN();
+            magFN(true);
         } else {
-            magFN();
+            magFN(false);
         }
     }
     magInitFN();
