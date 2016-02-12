@@ -49,7 +49,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                     } else {
                         $xitem->addChild('Weight', intval($item->getWeight() ));
                     }
-                    $xitem->addChild('Quantity', $item->getQty());
+                    $xitem->addChild('Quantity', $item->getParentItem()->getQty());
 
                 }
             }
