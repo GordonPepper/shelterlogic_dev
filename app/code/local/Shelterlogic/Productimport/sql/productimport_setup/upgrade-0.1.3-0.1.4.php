@@ -3,9 +3,10 @@
 $installer = $this;
 
 $installer->startSetup();
-
+/** @var AvS_FastSimpleImport_Model_Import $import */
 $import = Mage::getModel('fastsimpleimport/import');
-$import->processCategoryImport(array(
+
+$data = array(
     array(
         '_root' => 'ShelterLogic',
         '_category' => 'Featured',
@@ -24,6 +25,18 @@ $import->processCategoryImport(array(
         'available_sort_by' => null,
         'default_sort_by' => null,
         'is_anchor' => 'no'),
-));
+);
+
+/*
+ * need to check that the indicated categories exist before running
+ */
+/** @var Mage_Catalog_Model_Category $category */
+$category = Mage::getModel('catalog/category');
+if($category->loadByAttribute('name', 'ShelterLogic')) {
+    $import->processCategoryImport($data);
+}
+
+
+
 
 $installer->endSetup();
