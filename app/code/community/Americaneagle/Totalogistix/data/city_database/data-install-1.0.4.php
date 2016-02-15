@@ -9,7 +9,7 @@
  */
 /** @var $this Mage_Core_Model_Resource_Setup */
 if(!class_exists('CsvReader')){
-    require_once('CsvReader.php');
+    require_once(__DIR__ . '/CsvReader.php');
 }
 $csv = new CsvReader(__DIR__ . '/alaska-cities.csv', ',', true);
 $fieldMap = array(
