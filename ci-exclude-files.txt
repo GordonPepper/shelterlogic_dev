@@ -1,10 +1,10 @@
 /merge_databases
 /includes/*
-/app/etc/local.xml
+/app/etc/local.xml*
 /var/*
 /media/*
 /.git*
-/master-exclude-files.txt
+/exclude-files*
 /.htaccess.sample
 /composer*
 /generator.php
