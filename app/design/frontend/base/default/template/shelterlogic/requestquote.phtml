@@ -1,0 +1,58 @@
+<?php
+/** @var $this Shelterlogic_Templates_Block_Requestquote */
+$buildDesc = 'I would like a quote on a ';
+if($this->getProduct()->getId() == 0) : ?>
+<h1>Please shop for a product before requesting a quote.</h1>
+
+<?php else : ?>
+    <div class="row">
+        <div class="small-12 medium-10 large-8 small-centered columns">
+            <?php echo $this->getModalHeader(); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-10 large-8 small-centered columns">
+            <div class="small-12 meduim-7 large-7 columns">
+                <div class="border-right webforms">
+                    <?php echo $this->getFormHtml(); ?>
+                </div>
+            </div>
+
+            <div class="small-12 meduim-5 large-5 columns" id="infoTable">
+                <dl class="accordion show-for-large-up" data-accordion="" data-options="multi_expand:false;toggleable: false" id="quoteAccordion">
+                    <dd class="accordion-navigation UITop nopadd" id="detailsAccordion">
+                        <a class="panelnav" href="#panel1">Order Summary <i class="fa fa-chevron-down right"></i></a>
+                        <div class="content active" id="panel1">
+                            <?php foreach ($this->getConfigAttributes() as $name => $value) : ?>
+                                <?php $buildDesc .= sprintf('%s - %s, ', $name, $value); ?>
+                                <div class="spacing" id="StyleSelected">
+                                    <span class="cap"><?php echo $name; ?></span> <span class="attribute right"><?php echo $value; ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </dd>
+                </dl>
+                <div class="align-right totals">
+                    <span class="subtotal">Subtotal</span><span class="calcPrice"><?php echo $this->getFormattedPrice(); ?> </span>
+                </div>
+                <div class="small-2 columns">OR</div>
+                <div class="small-10 columns">
+                    <span>Speak with a live representative</span><br>
+                    <i class="fa fa-mobile"></i> <span class="phone"><?php echo Mage::getStoreConfig('general/store_information/phone'); ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery('input[name="field[28]"]').val('<?php echo $this->getProduct()->getSku(); ?>');
+        jQuery('input[name="field[29]"]').val('<?php echo sprintf("%s building", $buildDesc); ?>');
+    </script>
+    <?php
+    /*
+     * I would like a quote on a Style - Round Frame,
+     * Width - 30, Height - 19, Length - 100,
+     * FabricMaterial - Standard PE 9 oz,
+     * FabricColor - Green, building
+     */
+    ?>
+<?php endif; ?>

@@ -3,19 +3,25 @@
 /mtest.php
 /media
 /app/etc/local.xml
-/app/etc/composer.lock
-/app/etc/vendor
-/.htaccess
+/composer.lock
+/vendor
 
 .idea
 .DS_Store
 
-/includes
+/includes/src
+/includes/config.php
+
 /image_collections/images/*
 
 skin/frontend/farmbuildings/default/bower_components/
 skin/frontend/farmbuildings/default/node_modules/
 skin/frontend/farmbuildings/default/HTC/
+
+/app/code/local/Extendware/EWEntityIncrement/var/extendware/system/serials/Extendware_EWEntityIncrement.serialized
+/app/code/local/Extendware/EWEntityIncrement/var/extendware/system/licenses/Extendware_EWEntityIncrement.serialized
+/app/code/local/Extendware/EWCore/var/extendware/system/licenses/Extendware_EWCore.serialized
+/app/code/local/Extendware/EWCore/var/extendware/system/serials/Extendware_EWCore.serialized
 
 # unfortunately, we need to track these files otherwise new devs cannot pull down a
 # working instance of the project

@@ -391,7 +391,7 @@ class BlueAcorn_UniversalAnalytics_Model_Monitor {
      * @param string $attribute
      * @return mixed
      */
-    protected function findAttributeValue($product, $attribute) {
+    protected function  findAttributeValue($product, $attribute) {
         $newValue = null;
 
         foreach (Array('getListAttributeValue', 'getNormalAttributeValue') as $method) {

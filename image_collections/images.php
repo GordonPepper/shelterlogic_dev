@@ -15,7 +15,7 @@
  * @copyright   Copyright (c) 2014 Typoglyphic Studios
  * @license     http://www.typoglyphic.com 
  */
-
+date_default_timezone_set('America/New_York');
 if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') { die("Direct Access Is Not Allowed"); }
 
 	// Scene 7 Ajax for images
@@ -139,7 +139,7 @@ if(empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUE
 		|--------------------------------------------------------------------------
 		*/
 	    public function _save($raw,$mode = 'w+') {
-	    	if(file_exists($this->local)){
+	    	if(file_exists($this->local) && file_exists($this->data->save_as)){
 		        unlink($this->data->save_as);
 		    }
 		    file_put_contents($this->local, $raw);

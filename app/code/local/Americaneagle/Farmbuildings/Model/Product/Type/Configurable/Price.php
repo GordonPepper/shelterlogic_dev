@@ -15,8 +15,15 @@ class Americaneagle_Farmbuildings_Model_Product_Type_Configurable_Price extends
 		}
 		$sp = $product->getCustomOption('simple_product');
 		if (isset($sp)){
-			$relatedProduct = Mage::getModel('catalog/product')->load($sp->getProduct()->getId());
-			$finalPrice = $relatedProduct->getPrice();
+            if($sp instanceof Mage_Wishlist_Model_Item_Option) {
+                $spid = $sp->getProductId();
+            } else {
+                $spid = $sp->getProduct()->getId();
+            }
+			$relatedProduct = Mage::getModel('catalog/product')->load($spid);
+            $finalPrice = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $relatedProduct, $product->getId());
+
+            //$finalPrice = $relatedProduct->getPrice();
 			$product->setFinalPrice($finalPrice);
 			return $finalPrice;
 		}

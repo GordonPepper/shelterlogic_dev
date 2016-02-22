@@ -5,13 +5,21 @@ class Aumd_Acimpro_Block_Adminhtml_Customer_Edit_Tabs extends Mage_Adminhtml_Blo
      * Insert the Customer Save card Tab
      */
     protected function _beforeToHtml() {
-	
-        if (Mage::registry('current_customer')->getId()) {
-            $this->addTab('customer_cc', array(
-                'label' => Mage::helper('acimpro')->__('Authorize.net CIM Details'),
-                'content' => $this->getLayout()->createBlock('acimpro/adminhtml_customer_edit_tab_customercard')->toHtml(),
-                'after' => 'tags'
-            ));
+
+        $customer = Mage::registry('current_customer');
+
+        if ($customer->getId()) {
+            $defaultStoreId = Mage::app()
+                ->getWebsite($customer->getWebsiteId())
+                ->getDefaultGroup()
+                ->getDefaultStoreId();
+            if (Mage::getStoreConfig('payment/acimpro/active', $defaultStoreId)){
+                $this->addTab('customer_cc', array(
+                    'label' => Mage::helper('acimpro')->__('Authorize.net CIM Details'),
+                    'content' => $this->getLayout()->createBlock('acimpro/adminhtml_customer_edit_tab_customercard')->toHtml(),
+                    'after' => 'tags'
+                ));
+            }
         }else{
 		/*
 		   $this->addTab('customer_cc', array(

@@ -36,6 +36,11 @@ class Americaneagle_Totalogistix_Model_Carrier
 		}
 		$result = Mage::getModel('shipping/rate_result');
 		$prices = Mage::helper('americaneagle_totalogistix')->getPriceSheets($request);
+
+       if (is_bool($prices)){
+            return $result;
+       }
+
 		foreach($prices as $price) {
 			$rate = Mage::getModel('shipping/rate_result_method');
 			$rate->setCarrier($this->_code);

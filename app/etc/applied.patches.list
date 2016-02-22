@@ -197,7 +197,7 @@ patching file lib/Unserialize/Reader/Str.php
 patching file lib/Varien/Data/Collection/Db.php
 
 
-2016-01-21 17:34:06 UTC | SUPEE-7405-EE-1-14-0-1 | EE_1.14.0.1 | v1 | 549e64a4236888f2b3ff6187d8351cef44e18d9f | Tue Jan 19 14:33:03 2016 +0200 | e994deb6dc..549e64a423
+2016-01-22 20:12:48 UTC | SUPEE-7405-EE-1-14-0-1 | EE_1.14.0.1 | v1 | 549e64a4236888f2b3ff6187d8351cef44e18d9f | Tue Jan 19 14:33:03 2016 +0200 | e994deb6dc..549e64a423
 patching file app/code/core/Enterprise/Checkout/Block/Adminhtml/Manage/Form/Coupon.php
 patching file app/code/core/Enterprise/PageCache/etc/config.xml
 patching file app/code/core/Enterprise/Pbridge/etc/config.xml

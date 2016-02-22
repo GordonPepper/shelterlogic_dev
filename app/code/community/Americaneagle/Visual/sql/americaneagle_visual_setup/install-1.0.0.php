@@ -15,7 +15,7 @@ $installer->addAttribute('order', 'ae_sent_to_visual', array(
 	'label' => 'Sent to VISUAL',
 	'global' => 1,
 	'unsigned'  => true,
-    'default'   => '0',
+	'default'   => '0',
 ));
 
 $installer->addAttribute('order', 'ae_visual_push_attempt', array(

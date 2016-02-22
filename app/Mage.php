@@ -53,6 +53,14 @@ if (defined('COMPILER_INCLUDE_PATH')) {
 
 Varien_Autoload::register();
 
+/** AUTOLOADER PATCH **/
+if (file_exists($autoloaderPath = BP . DS . '../vendor/autoload.php') ||
+    file_exists($autoloaderPath = BP . DS . 'vendor/autoload.php')
+) {
+    require $autoloaderPath;
+}
+/** AUTOLOADER PATCH **/
+
 /**
  * Main Mage hub class
  *
@@ -896,13 +904,13 @@ final class Mage
             }
 
             print $e->getMessage() . "\n\n";
-            print $e->getTraceAsString();
+            print getExceptionTraceAsString($e);
             print '</pre>';
         } else {
 
             $reportData = array(
                 !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
-                $e->getTraceAsString()
+                getExceptionTraceAsString($e)
             );
 
             // retrieve server data

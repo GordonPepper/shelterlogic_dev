@@ -47,7 +47,7 @@ Default layout, loads most of the pages
         <!-- Mage_Catalog -->
         <reference name="left">
             <!--<block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">-->
-                <!--<action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>-->
+                <!--<action method="setImgSrc"><src>images/media/col_left_scallout.jpg</src></action>-->
                 <!--<action method="setImgAlt" translate="alt" module="catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>-->
                 <!--<action method="setLinkUrl"><url>checkout/cart</url></action>-->
             <!--</block>-->
@@ -142,7 +142,7 @@ Category layered navigation layout
                             <action method="addPagerLimit" translate="label"><mode>grid</mode><limit>all</limit><label>All</label></action>
                         -->
                     </block>
-                    <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout></layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>

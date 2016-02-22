@@ -8,8 +8,9 @@ $_super_att_index = 1;
 $currentCartWeight = 0;
 $cartItems = Mage::getModel('checkout/cart')->getQuote()->getAllVisibleItems();
 foreach ($cartItems as $cartItem) {
-    $currentCartWeight += $cartItem->getRowWeight();
-}
+        $currentCartWeight += $cartItem->getRowWeight();
+    }
+
 ?>
 <?php if ($_product->isSaleable() && count($_attributes)):?>
     <dl>
@@ -45,7 +46,8 @@ foreach ($cartItems as $cartItem) {
     <script type="text/javascript">
 		var aeProductId = <?php echo $_product->getId(); ?>;
         var aeCurrentCartWeight = <?php echo $currentCartWeight; ?>;
-		var priceFormat = <?php echo $this->helper('tax')->getPriceFormat($this->getStore()); ?>;
+
+        var priceFormat = <?php echo $this->helper('tax')->getPriceFormat($this->getStore()); ?>;
 		var aeConfig = new aeProduct.Config(<?php echo $_jsonConfig ?>);
 	</script>
     <?php echo $this->getChildHtml('after') ?>

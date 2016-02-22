@@ -10,6 +10,11 @@
             <farmbuildings>
                 <class>Americaneagle_Farmbuildings_Helper</class>
             </farmbuildings>
+            <catalog>
+                <rewrite>
+                    <category>Americaneagle_Farmbuildings_Helper_Catalog_Category</category>
+                </rewrite>
+            </catalog>
         </helpers>
         <blocks>
             <americaneagle_farmbuildings>
@@ -46,6 +51,11 @@
                     <product_type_configurable_price>Americaneagle_Farmbuildings_Model_Product_Type_Configurable_Price</product_type_configurable_price>
                 </rewrite>
             </catalog>
+            <catalogsearch>
+                <rewrite>
+                    <layer>Americaneagle_Farmbuildings_Model_CatalogSearch_Layer</layer>
+                </rewrite>
+            </catalogsearch>
         </models>
     </global>
     <frontend>
@@ -66,4 +76,11 @@
             </checkout>
         </routers>
     </frontend>
+    <default>
+        <checkout>
+            <options>
+                <allow_registered_checkout>1</allow_registered_checkout>
+            </options>
+        </checkout>
+    </default>
 </config>

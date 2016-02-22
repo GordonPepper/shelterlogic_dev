@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <checkout>
+            <groups>
+                <options translate="label">
+                    <fields>
+                        <allow_registered_checkout translate="label">
+                            <label>Allow Registered Users</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><guest_checkout>1</guest_checkout></depends>
+                            <comment>Set to 'No' for guest only checkout</comment>
+                        </allow_registered_checkout>
+                    </fields>
+                </options>
+            </groups>
+        </checkout>
+    </sections>
+</config>

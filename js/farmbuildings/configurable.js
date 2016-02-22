@@ -139,7 +139,10 @@ aeProduct.Config.prototype = {
         var p = $$('#product-price-' + aeProductId + ' > span.price');
         p[0].innerHTML = formatCurrency(res.price, priceFormat);
         for(key in res.attribs) {
-            $$('*[data-attribute-id="' + key + '"]').first().innerHTML = res.attribs[key];
+            var node = $$('*[data-attribute-id="' + key + '"]');
+            if(node.length > 0){
+                node.first().innerHTML = res.attribs[key];
+            }
         }
         if((parseFloat(res.weight) + parseFloat(aeCurrentCartWeight)) >= 5000){
             $$('button[data-id="atc-button"]').first().style.display = 'none';
