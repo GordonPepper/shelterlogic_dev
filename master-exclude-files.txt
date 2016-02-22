@@ -1,0 +1,17 @@
+/merge_databases
+/includes/*
+/app/etc/local.xml
+/var/*
+/media/*
+/.git*
+/master-exclude-files.txt
+/.htaccess.sample
+/composer*
+/generator.php
+/imagescript.php
+/index.php.sample
+/mtest.php
+/php.ini.sample
+/phpinfo.php
+/remove_test_orders.php
+/update.php
