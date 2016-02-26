@@ -18,8 +18,8 @@ Deploy to Design:
 Deploy to Updates:
   script:
   - rsync -avxO --chmod=D775,F664 . --exclude-from='ci-exclude-files.txt' --delete design_usr@cl-mgnto-4vap02:/wwwroot/farmbuildings-updates.idevdesign.net/http/shop
-  - ssh design_usr@cl-mgnto-4vap02 'chmod +x /wwwroot/farmbuildings-updates.idevdesign.net/http/*cron.sh'
-  - ssh design_usr@cl-mgnto-4vap02 'cd /wwwroot/farmbuildings-updates.com/http/shop; /usr/local/bin/n98 cache:flush; /usr/local/bin/n98 cache:clean; /usr/local/bin/n98 index:reindex:all'
+  - ssh design_usr@cl-mgnto-4vap02 'chmod +x /wwwroot/farmbuildings-updates.idevdesign.net/http/shop/*cron.sh'
+  - ssh design_usr@cl-mgnto-4vap02 'cd /wwwroot/farmbuildings-updates.idevdesign.net/http/shop; /usr/local/bin/n98 cache:flush; /usr/local/bin/n98 cache:clean; /usr/local/bin/n98 index:reindex:all'
   type: deploy
   tags:
   only:

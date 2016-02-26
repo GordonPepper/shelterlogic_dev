@@ -65,7 +65,9 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
             "hardware kit" => "hardware_kit",
             "cords of wood" => "cords_of_wood",
             "manage_stock" => "manage_stock",
-            "use_config_manage_stock" => "use_config_manage_stock"
+            "use_config_manage_stock" => "use_config_manage_stock",
+            "status" => "status",
+            "size (imperial)" => "size"
 // TODO: uncomment these after get exact columns name
 //            "???" => "marketing_block_title",
 //            "???" => "marketing_block_description",
@@ -228,6 +230,13 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
                         $value = trim($value, '/');
                         $this->validateCategory($value);
                     } else {
+                        if ($attrCode == 'status') {
+                            if (strtolower($value) == 'disabled') {
+                                $value = Mage_Catalog_Model_Product_Status::STATUS_DISABLED;
+                            } elseif (strtolower($value) == 'enabled') {
+                                $value = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+                            }
+                        }
                         $this->validateAttributeOption($attrCode, $value);
                     }
                     $product[$attrCode] = trim($value) ?: null;

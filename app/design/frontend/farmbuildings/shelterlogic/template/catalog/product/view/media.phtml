@@ -38,6 +38,7 @@
     $productResource = $_product;
     $searchProduct = Mage::registry('searchProduct');
     if(isset($searchProduct) && is_null($productResource->getScene7Addition())) {
+
         $productResource = $searchProduct;
     }
 ?>

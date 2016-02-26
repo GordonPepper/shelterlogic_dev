@@ -28,6 +28,7 @@ if($crumbs['home']){
     $crumbs['home']['title'] = Mage::helper('catalog')->__('Go to Home Page');
 }
 ?>
+
 <?php if ($crumbs && is_array($crumbs)):
     if (Mage::registry('current_product')) {
         array_pop($crumbs);
