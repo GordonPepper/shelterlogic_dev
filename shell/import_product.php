@@ -320,6 +320,13 @@ class ShelterLogic_Product_Import extends Mage_Shell_Abstract
                     if ($attrCode == '_category') {
                         $this->validateCategory($value);
                     } else {
+                        if ($attrCode == 'status') {
+                            if (strtolower($value) == 'disabled') {
+                                $value = Mage_Catalog_Model_Product_Status::STATUS_DISABLED;
+                            } elseif (strtolower($value) == 'enabled') {
+                                $value = Mage_Catalog_Model_Product_Status::STATUS_ENABLED;
+                            }
+                        }
                         $this->validateAttributeOption($attrCode, $value);
                     }
 
