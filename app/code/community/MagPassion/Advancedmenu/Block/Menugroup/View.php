@@ -306,6 +306,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 		else {
                 $arrBlockIds = explode(",", $blockIds);
         }
+
 		$totalItems = count($items) + count($arrBlockIds);
 		
 		if ($totalItems > 0) {
@@ -313,10 +314,18 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 		}
 		$count = 0;
 		foreach ($items as $item) {
+			$dealersGroup = false;
+			if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+				// Get group Id
+				$groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+				if ($groupId == 1 || $groupId == 4) {
+					$dealersGroup = true;
+				}
+			}
 			$html .= '<li';
 			if ($level > 2) $html .= ' class="li-child'.$level.'"';
 			$html .= '>';
-			
+
 			if ($item->getType() == 'category') {
 				$link = $this->getCategoryLink($item->getCategory_id());
 				$linkNoSuffix = str_replace($this->categorySuffix,"", $link);
@@ -326,21 +335,31 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 				if ($class) $class = ' class="'.$class.'" ';
 				$rel = '';
 				if ($item->getRel()) $rel = ' rel="'.$item->getRel().'"';
-				$html .= '<a '.$class.$rel.' target="_'.$item->getLink_target().'" href="'.$link.'" title="'.$item->getTitle().'">';
-				
+
+				if ($dealersGroup && strtolower($item->getCategory()) != 'on clearance')
+					$html .= '<a '.$class.$rel.' target="_'.$item->getLink_target().'" href="'.$link.'" title="'.$item->getTitle().'">';
+
+				if (!$dealersGroup)
+					$html .= '<a '.$class.$rel.' target="_'.$item->getLink_target().'" href="'.$link.'" title="'.$item->getTitle().'">';
+
 				$html .= '<span class="mp-menu';
 				if ($item->getImage_icon()) {
 					$html .= ' hasImg" style="background-image:url('.Mage::helper('advancedmenu/menuitem_image')->init($item, 'image_icon')->keepTransparency(true)->resize(24, 24).');">';
 				}
 				else $html .= '">';
-				$html .= '<span class="mp-menu-title">'.$item->getTitle().'</span>';
+				if ($dealersGroup && strtolower($item->getCategory()) != 'on clearance')
+					$html .= '<span class="mp-menu-title">'.$item->getTitle().'</span>';
+
+				if (!$dealersGroup)
+					$html .= '<span class="mp-menu-title">'.$item->getTitle().'</span>';
+
 				if ($item->getDescription()) $html .= '<span class="mp-menu-des">'.$item->getDescription().'</span>';
 				$html .= '</span>';
 				$html .= '</a>';
 			}
 			elseif ($item->getType() == 'custom') {
 				if (strpos($item->getUrl(), 'http:') !== false) $link = $item->getUrl();
-				else 
+				else
 					$link = $this->getBaseUrl().$item->getUrl();
 				$class = $item->getClass();
 				if ($this->hasChildMenuItems($item->getId())) $class .= ' hasChild';
@@ -349,7 +368,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 				$rel = '';
 				if ($item->getRel()) $rel = ' rel="'.$item->getRel().'"';
 				$html .= '<a '.$class.$rel.' target="_'.$item->getLink_target().'" href="'.$link.'" title="'.$item->getTitle().'">';
-				
+
 				$html .= '<span class="mp-menu';
 				if ($item->getImage_icon()) {
 					$html .= ' hasImg" style="background-image:url('.Mage::helper('advancedmenu/menuitem_image')->init($item, 'image_icon')->keepTransparency(true)->resize(24, 24).');">';
@@ -363,7 +382,7 @@ class MagPassion_Advancedmenu_Block_Menugroup_View extends Mage_Core_Block_Templ
 			else {
                 // Hide link
             }
-			$html .= $this->getMenuMegaLevelTwo( $item->getId(), $level + 1, $item->getSubmenu_content(), $item->getBlock() ); 
+			$html .= $this->getMenuMegaLevelTwo( $item->getId(), $level + 1, $item->getSubmenu_content(), $item->getBlock() );
 			$html .= '</li>';
 			$count++;
 		}
