@@ -137,7 +137,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     ->setCardType($cardType)
                     ->setCardReference($cardNumber)
                     ->setAuthorizationCode($orderPayment->getCcTransId())
-                    ->setBankId("Credit Cards W")
+                    ->setBankId("Credit Cards Wa")
                     ->setCustProfileId($customerProfileId)
                     ->setPaymentProfileId($paymentProfileId);
                 if ($orderPayment->getAdditionalData()) {
