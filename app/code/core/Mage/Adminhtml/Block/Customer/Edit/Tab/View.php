@@ -220,4 +220,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View
     {
         return Mage::helper('core');
     }
+
+    public function getCustomerTerms()
+    {
+        if ($this->getCustomer()->getCustomerTerms() != NULL) {
+            return $this->getCustomer()->getCustomerTerms();
+        } else {
+            return NULL;
+        }
+    }
 }
