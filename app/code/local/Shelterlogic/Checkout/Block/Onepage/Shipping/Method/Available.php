@@ -16,7 +16,6 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
             if ($customerTerms == 'National Freight') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
                 $totalFreightCost = 0;
-                $changePrice = true;
                 foreach ($cart->getAllItems() as $item) {
                     $productId = $item->getProduct()->getId();
                     $storeId = Mage::app()->getStore()->getStoreId();
@@ -29,9 +28,9 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
                         return NULL;
                     }
                 }
-                if ($changePrice) {
-                    return $totalFreightCost;
-                }
+                return $totalFreightCost;
+            } elseif ($customerTerms == '3rd Party Bill') {
+                return '3rd-party';
             }
         }
     }
@@ -40,6 +39,9 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
     {
         if ($this->checkShippingCost() != NULL) {
             return 'Shipping Cost';
+        }
+        if ($this->checkShippingCost() == '3rd-party') {
+            return 'Shipped by 3rd party';
         }
         if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
@@ -51,7 +53,9 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
     {
         if ($this->checkShippingCost() != NULL) {
             $price = $this->checkShippingCost();
-            Mage::register('shipping_cost', $price);
+        }
+        if ($this->checkShippingCost() == '3rd-party') {
+            $price = 0;
         }
         return $this->getQuote()->getStore()->convertPrice(Mage::helper('tax')->getShippingPrice($price, $flag, $this->getAddress()), true);
     }
