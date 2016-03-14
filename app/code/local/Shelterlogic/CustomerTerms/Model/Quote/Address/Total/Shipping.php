@@ -8,18 +8,14 @@
  */
 class Shelterlogic_CustomerTerms_Model_Quote_Address_Total_Shipping extends Mage_Sales_Model_Quote_Address_Total_Shipping
 {
-
-    private $shippingCost;
-    private function checkShippingCost()
+    public function checkShippingCost()
     {
-        $this->shippingCost = 0;
         if (Mage::getSingleton('customer/session')->isLoggedIn() && (Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 1 || Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 4)) {
             $customerTerms = Mage::getSingleton('customer/session')->getCustomer()->getCustomerTerms();
 
             if ($customerTerms == 'National Freight') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
-//                $totalFreightCost = 0;
-//                $changePrice = true;
+                $totalFreightCost = 0;
                 foreach ($cart->getAllItems() as $item) {
                     $productId = $item->getProduct()->getId();
                     $storeId = Mage::app()->getStore()->getStoreId();
@@ -27,14 +23,17 @@ class Shelterlogic_CustomerTerms_Model_Quote_Address_Total_Shipping extends Mage
 
                     if ($freightCost) {
                         $freightCost = number_format((float)$freightCost, 2, '.', '');
-                        $this->shippingCost = $this->shippingCost + $freightCost;
+                        if($item->getQty() > 1) {
+                            $freightCost = $freightCost * $item->getQty();
+                        }
+                        $totalFreightCost = $totalFreightCost + $freightCost;
                     } else {
                         return NULL;
                     }
                 }
-//                if ($changePrice) {
-                    return $this->shippingCost;
-//                }
+                return $totalFreightCost;
+            } elseif ($customerTerms == '3rd party bill') {
+                return '3rd-party';
             }
         }
     }
@@ -172,17 +171,17 @@ class Shelterlogic_CustomerTerms_Model_Quote_Address_Total_Shipping extends Mage
             foreach ($address->getAllShippingRates() as $rate) {
                 if ($rate->getCode()==$method) {
                     $amountPrice = $address->getQuote()->getStore()->convertPrice($rate->getPrice(), false);
-                    if($this->shippingCost > 0) {
-                        $amountPrice = $this->shippingCost;
-                    } elseif ($this->shippingCost == 0) {
+                    if($this->checkShippingCost() != NULL && $this->checkShippingCost() != '3rd-party') {
+                        $amountPrice = $this->checkShippingCost();
+                    } elseif ($this->checkShippingCost() == '3rd-party') {
                         $amountPrice = 0;
                     }
                     $this->_setAmount($amountPrice);
                     $this->_setBaseAmount($rate->getPrice());
                     $shippingDescription = $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle();
-                    if($this->shippingCost > 0) {
+                    if($this->checkShippingCost() != NULL && $this->checkShippingCost() != '3rd-party') {
                         $shippingDescription = 'Flat Rate Shipping';
-                    } elseif ($this->shippingCost == 0) {
+                    } elseif ($this->checkShippingCost() == '3rd-party') {
                         $shippingDescription = 'Shipped by 3rd party';
                     }
                     $address->setShippingDescription(trim($shippingDescription, ' -'));
@@ -191,30 +190,6 @@ class Shelterlogic_CustomerTerms_Model_Quote_Address_Total_Shipping extends Mage
             }
         }
 
-        return $this;
-    }
-
-
-    /**
-     * Add shipping totals information to address object
-     *
-     * @param Mage_Sales_Model_Quote_Address $address
-     * @return Mage_Sales_Model_Quote_Address_Total_Shipping
-     */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
-    {
-        $amount = $address->getShippingAmount();
-        if ($amount != 0 || $address->getShippingDescription()) {
-            $title = Mage::helper('sales')->__('Shipping & Handling');
-            if ($address->getShippingDescription()) {
-                $title .= ' (' . $address->getShippingDescription() . ')';
-            }
-            $address->addTotal(array(
-                'code' => $this->getCode(),
-                'title' => $title,
-                'value' => $address->getShippingAmount()
-            ));
-        }
         return $this;
     }
 }

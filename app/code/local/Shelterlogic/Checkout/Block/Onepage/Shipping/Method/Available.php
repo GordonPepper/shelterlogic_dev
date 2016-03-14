@@ -23,13 +23,16 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
 
                     if ($freightCost) {
                         $freightCost = number_format((float)$freightCost, 2, '.', '');
+                        if($item->getQty() > 1) {
+                            $freightCost = $freightCost * $item->getQty();
+                        }
                         $totalFreightCost = $totalFreightCost + $freightCost;
                     } else {
                         return NULL;
                     }
                 }
                 return $totalFreightCost;
-            } elseif ($customerTerms == '3rd Party Bill') {
+            } elseif ($customerTerms == '3rd party bill') {
                 return '3rd-party';
             }
         }
