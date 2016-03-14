@@ -35,7 +35,17 @@
 <div class="block block-layered-nav<?php if (!$this->getLayer()->getState()->getFilters()): ?> block-layered-nav--no-filters<?php endif; ?>">
     <dl class="narrow-by-list-top">
         <dd>
-        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_left_nav_top')->toHtml();?>
+            <?php $staticBlockHtml = $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_left_nav_top')->toHtml();
+            // Check Customer is loggedin or not
+            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+                // Get group Id
+                $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+                if ($groupId == 1 || $groupId == 4) {
+                    $staticBlockHtml = preg_replace('/<a href=\"(.*?)\">On Clearance<\/a>/', "", $staticBlockHtml);
+                }
+            }
+            echo $staticBlockHtml;
+            ?>
         </dd>
     </dl>
     <div class="block-content toggle-content">
