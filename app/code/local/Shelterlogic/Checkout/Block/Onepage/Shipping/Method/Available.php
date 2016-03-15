@@ -13,7 +13,7 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
         if (Mage::getSingleton('customer/session')->isLoggedIn() && (Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 1 || Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 4)) {
             $customerTerms = Mage::getSingleton('customer/session')->getCustomer()->getCustomerTerms();
 
-            if ($customerTerms == 'National Freight') {
+            if ($customerTerms == 'NATIONAL FREIGHT') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
                 $totalFreightCost = 0;
                 foreach ($cart->getAllItems() as $item) {

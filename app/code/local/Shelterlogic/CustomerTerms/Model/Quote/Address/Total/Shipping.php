@@ -13,7 +13,7 @@ class Shelterlogic_CustomerTerms_Model_Quote_Address_Total_Shipping extends Mage
         if (Mage::getSingleton('customer/session')->isLoggedIn() && (Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 1 || Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 4)) {
             $customerTerms = Mage::getSingleton('customer/session')->getCustomer()->getCustomerTerms();
 
-            if ($customerTerms == 'National Freight') {
+            if ($customerTerms == 'NATIONAL FREIGHT') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
                 $totalFreightCost = 0;
                 foreach ($cart->getAllItems() as $item) {
