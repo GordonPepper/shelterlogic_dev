@@ -13,7 +13,7 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
         if (Mage::getSingleton('customer/session')->isLoggedIn() && (Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 1 || Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 4)) {
             $customerTerms = Mage::getSingleton('customer/session')->getCustomer()->getCustomerTerms();
 
-            if ($customerTerms == 'NATIONAL FREIGHT') {
+            if (strtolower($customerTerms) == 'national freight') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
                 $totalFreightCost = 0;
                 foreach ($cart->getAllItems() as $item) {
@@ -32,7 +32,7 @@ class Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available extends Mage
                     }
                 }
                 return $totalFreightCost;
-            } elseif ($customerTerms == '3rd party bill') {
+            } elseif (strtolower($customerTerms) == '3rd party bill') {
                 return '3rd-party';
             }
         }
