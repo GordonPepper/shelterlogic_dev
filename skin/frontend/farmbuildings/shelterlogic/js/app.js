@@ -960,14 +960,14 @@ $j(document).ready(function() {
                 $j(this).parent().toggleClass("active").siblings().removeClass("active");
             });
         } else {
-            magNavContainer.find(">ul>li>a.hasChild").on("click.mag",function(e) {
-                if ($j(this).parent().find(">ul").css("opacity")==0) {
-                    e.preventDefault();
-                }
-                $j(this).parent().addClass("active").siblings().removeClass("active");
+            magNavContainer.find(">ul>li>a.hasChild")
+                .on("click.mag touchstart touchend",function(e) {
+                    if ($j(this).parent().find(">ul").css("opacity")==0) {
+                        e.preventDefault();
+                    }
+                    $j(this).parent().addClass("active").siblings().removeClass("active");
             });
         }
-
     }
 
     /* Initialize navigation check mobile vs desktop */
