@@ -33,20 +33,7 @@
     </dt>
     <dd class="<?php echo $completeClass ?>">
         <?php if ($this->getCheckout()->getStepData('shipping', 'complete')): ?>
-            <address>
-                <?php //echo $this->getShipping()->format('html') ?>
-                <?php echo $this->getShipping()->getFirstname() ." ". $this->getShipping()->getLastname() ."</br>"?>
-                <?php echo current($this->getShipping()->getStreet()) . "</br>"; ?>
-                <?php echo $this->getShipping()->getCity() .',  '. $this->getShipping()->getRegion() .", ". $this->getShipping()->getPostcode() ."</br>"; ?>
-                <?php
-                if($this->getShipping()->getCountry_id() == 'US') {
-                    echo "United States" . "</br>";
-                } else {
-                    echo $this->getShipping()->getCountry_id();
-                }
-                ?>
-                <?php echo "T: " . $this->getShipping()->getTelephone() . "</br>"; ?>
-            </address>
+            <address><?php echo $this->getShipping()->format('html') ?></address>
         <?php endif; ?>
     </dd>
 <?php else: ?>
