@@ -156,8 +156,16 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
         //Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
 
         $additional = array();
-		foreach($this->getSpAttributes($product, $sproduct) as $adds) {
-			$additional[$adds['code']] = $adds['value'];
+		foreach ($this->getSpAttributes($product, $sproduct) as $adds) {
+			if ($adds['code'] == 'scene7_manual') {
+				$url = '<a href="' . $adds["value"] . '" target="_blank">Download (PDF)</a>';
+				$additional[$adds['code']] = $url;
+			} elseif ($adds['code'] == 'video_url') {
+				$url = '<a href="' . $adds["value"] . '" target="_blank">Click here</a>';
+				$additional[$adds['code']] = $url;
+			} else {
+				$additional[$adds['code']] = $adds['value'];
+			}
 		}
         $fp = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product, $spid);
 

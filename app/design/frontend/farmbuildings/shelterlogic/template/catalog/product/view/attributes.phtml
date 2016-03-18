@@ -44,10 +44,12 @@
             <tr>
                 <th class="label"><?php echo $this->escapeHtml($this->__($_data['label'])) ?></th>
                 <td class="data" data-attribute-id="<?php echo $_data['code'] ?>">
-                    <?php if ($this->isUrlAttribute($_data['code'])): ?>
-                        <a href="<?php echo $_data['value'] ?>" target="_blank"><?php echo $this->__('Click here') ?></a>
-                    <?php else: ?>
-                        <?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?>
+                    <?php if ($this->isUrlAttribute($_data['code']) && $_data['code'] == 'scene7_manual'): ?>
+                        <a href="<?php echo $_data['value'] ?>" target="_blank"><?php echo $this->__('Download (PDF)') ?></a>
+                        <?php elseif($this->isUrlAttribute($_data['code'])): ?>
+                            <a href="<?php echo $_data['value'] ?>" target="_blank"><?php echo $this->__('Click here') ?></a>
+                        <?php else: ?>
+                            <?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?>
                     <?php endif; ?>
                 </td>
             </tr>
