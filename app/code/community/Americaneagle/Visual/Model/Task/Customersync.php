@@ -123,7 +123,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
-                    ->setTaxExempt($vCustomer->getTaxExempt());
+                    ->setTaxExempt($vCustomer->getTaxExempt())
+                    ->setCustomerTerms($vCustomer->getUserDefined3());
 
                 try {
                     $customer->save();
@@ -195,7 +196,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
-                    ->setTaxExempt($vCustomer->getTaxExempt());
+                    ->setTaxExempt($vCustomer->getTaxExempt())
+                    ->setCustomerTerms($vCustomer->getUserDefined3());
 
                 try {
                     $customer->save();

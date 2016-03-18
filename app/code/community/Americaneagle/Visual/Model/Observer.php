@@ -125,7 +125,8 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 				->setDiscountPrecent($vCustomer->getDiscountPercent())
 				->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->config->getExclusiveGroupId() : $this->config->getGeneralGroupId())
 				->setTermId($vCustomer->getTermsID())
-				->setTaxExempt($vCustomer->getTaxExempt());
+				->setTaxExempt($vCustomer->getTaxExempt())
+				->setCustomerTerms($vCustomer->getUserDefined3());
 			$customer->save();
 		}
 	}

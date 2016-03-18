@@ -165,15 +165,25 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
         if (!$billing) return null;
 
         $vCustomer = (new CustomerService\Customer())
-            ->setBillingName($billing->getName())
-            ->setBillingAddress1($billing->getStreet1())
-            ->setBillingAddress2($billing->getStreet2())
-            ->setBillingAddress3($customer->getPhone())
-            ->setBillingCity($billing->getCity())
+            ->setBillingName(strtoupper($billing->getName()))
+            ->setBillingAddress1(strtoupper($billing->getStreet1()))
+            ->setBillingAddress2(strtoupper($billing->getStreet2()))
+            ->setBillingAddress3(strtoupper($customer->getPhone()))
+            ->setBillingCity(strtoupper($billing->getCity()))
             ->setBillingZipCode($billing->getPostcode())
-            ->setBillingState($this->findRegionCode($billing->getRegionId()))
-            ->setBillingCountry($this->findCountryIso3Code($billing->getCountry()))
-            ->setUserDefined1($customer->getId());
+            ->setBillingState(strtoupper($this->findRegionCode($billing->getRegionId())))
+            ->setBillingCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
+            ->setUserDefined1($customer->getId())
+            ->setCustomerName(strtoupper($billing->getName()))
+            ->setAddress1(strtoupper($billing->getStreet1()))
+            ->setAddress2(strtoupper($billing->getStreet2()))
+            ->setCity(strtoupper($billing->getCity()))
+            ->setState(strtoupper($billing->getRegionCode()))
+            ->setCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
+            ->setContactFirstName(strtoupper($billing->getFirstname()))
+            ->setContactMiddleInitial($billing->getMiddlename() ? strtoupper(substr($billing->getMiddlename(),0,1)) : null)
+            ->setContactLastName(strtoupper($billing->getLastname()));
+
 
         if ($customer->getId()) {
             $vCustomer->setUserDefined1($customer->getId());
@@ -191,17 +201,17 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 $phone = $billing->getTelephone();
             }
             $vCustomer
-                ->setCustomerName($billing->getName())
-                ->setAddress1($billing->getStreet1())
-                ->setAddress2($billing->getStreet2())
+                ->setCustomerName(strtoupper($billing->getName()))
+                ->setAddress1(strtoupper($billing->getStreet1()))
+                ->setAddress2(strtoupper($billing->getStreet2()))
                 ->setAddress3($phone)
-                ->setCity($billing->getCity())
+                ->setCity(strtoupper($billing->getCity()))
                 ->setZipCode($billing->getPostcode())
-                ->setState($billing->getRegionCode())
-                ->setCountry($this->findCountryIso3Code($billing->getCountry()))
-                ->setContactFirstName($billing->getFirstname())
-                ->setContactMiddleInitial($billing->getMiddlename() ? substr($billing->getMiddlename(),0,1) : null)
-                ->setContactLastName($billing->getLastname())
+                ->setState(strtoupper($billing->getRegionCode()))
+                ->setCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
+                ->setContactFirstName(strtoupper($billing->getFirstname()))
+                ->setContactMiddleInitial($billing->getMiddlename() ? strtoupper(substr($billing->getMiddlename(),0,1)) : null)
+                ->setContactLastName(strtoupper($billing->getLastname()))
                 ->setContactMobileNumber($billing->getTelephone())
                 ->setContactEmail($customer ? $customer->getEmail() : $billing->getEmail())
                 ->setCustomerID(preg_replace("/[^0-9]/", '', $phone));
