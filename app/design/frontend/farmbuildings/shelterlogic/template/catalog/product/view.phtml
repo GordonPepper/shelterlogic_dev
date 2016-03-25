@@ -97,7 +97,12 @@
 
                             <div class="clear">&nbsp;</div>
 
+                            <?php echo $this->getChildHtml('bv_reviewsummary') ?>
+                            <?php echo $this->getChildHtml('bv_reviews') ?>
+
+
                             <div class="price-info">
+                                <?php echo $this->getChildHtml('bv_reviews') ?>
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>
                                 <?php echo $this->getTierPriceHtml() ?>
