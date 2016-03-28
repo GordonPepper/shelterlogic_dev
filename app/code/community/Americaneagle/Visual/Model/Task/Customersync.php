@@ -107,6 +107,9 @@ class Americaneagle_Visual_Model_Task_Customersync
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
 
+            $customerHelper = Mage::helper('americaneagle_visual/userDefinedFieldService');
+            $customerHelper->getWebLogin();
+
             if ($customer == null) {
                 $customer = Mage::getModel("customer/customer");
                 $customer
