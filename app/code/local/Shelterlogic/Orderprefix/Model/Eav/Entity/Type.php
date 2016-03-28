@@ -1,8 +1,11 @@
 <?php
 class Shelterlogic_Orderprefix_Model_Eav_Entity_Type extends Mage_Eav_Model_Entity_Type
 {
-    const XML_PATH_ORDER_PREFIX = 'shelterlogic/orderprefix/order';
+    const XML_PATH_ORDER_PREFIX       = 'shelterlogic/orderprefix/order';
     const XML_PATH_ORDER_START_NUMBER = 'shelterlogic/orderprefix/startnumber';
+    const XML_PATH_DEALER_ENABLED     = 'shelterlogic/orderprefix/dealer_prefix_enabled';
+    const XML_PATH_DEALER_PREFIX      = 'shelterlogic/orderprefix/dealer_prefix';
+    const XML_PATH_DEALER_GROUP       = 'shelterlogic/orderprefix/dealer_group';
 
     protected $_allowEntities = array('order');
 
@@ -22,9 +25,28 @@ class Shelterlogic_Orderprefix_Model_Eav_Entity_Type extends Mage_Eav_Model_Enti
                 }
             }
 
-            $originalIncrementId = Mage::getStoreConfig(self::XML_PATH_ORDER_PREFIX, $storeId) . $originalIncrementId;
+            $originalIncrementId = $this->getCustomOrderPrefix($storeId) . $originalIncrementId;
         }
 
         return $originalIncrementId;
+    }
+
+    protected function getCustomOrderPrefix($storeId)
+    {
+        $prefix = false;
+        if (Mage::getStoreConfigFlag(self::XML_PATH_DEALER_ENABLED, $storeId)) {
+            $session = Mage::getSingleton('checkout/session');
+            if ($session->hasQuote() && ($customerGroup = $session->getQuote()->getCustomerGroupId())) {
+                if ($customerGroup == Mage::getStoreConfig(self::XML_PATH_DEALER_GROUP, $storeId)) {
+                    $prefix = Mage::getStoreConfig(self::XML_PATH_DEALER_PREFIX, $storeId);
+                }
+            }
+        }
+
+        if ($prefix === false) {
+            $prefix = Mage::getStoreConfig(self::XML_PATH_ORDER_PREFIX, $storeId);
+        }
+
+        return $prefix;
     }
 }

@@ -36,6 +36,38 @@
                             <show_in_store>1</show_in_store>
                             <comment>Set the minimum order number</comment>
                         </startnumber>
+                        <dealer_prefix_enabled>
+                            <label>Use different prefix for Dealer</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dealer_prefix_enabled>
+                        <dealer_group>
+                            <label>Customer group for Dealer</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <dealer_prefix_enabled>1</dealer_prefix_enabled>
+                            </depends>
+                        </dealer_group>
+                        <dealer_prefix>
+                            <label>Dealer order prefix</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <dealer_prefix_enabled>1</dealer_prefix_enabled>
+                            </depends>
+                        </dealer_prefix>
                     </fields>
                 </orderprefix>
             </groups>
