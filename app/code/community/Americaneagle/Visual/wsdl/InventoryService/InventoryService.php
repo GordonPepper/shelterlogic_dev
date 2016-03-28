@@ -100,7 +100,7 @@ class InventoryService extends \SoapClient
      * @param array $options A array of config values
      * @param string $wsdl The wsdl file to use
      */
-    public function __construct(array $options = array(), $wsdl = 'https://slvisual.shelterlogicdirect.com/derp/InventoryService.asmx?wsdl')
+    public function __construct(array $options = array(), $wsdl = null)
     {
       foreach (self::$classmap as $key => $value) {
         if (!isset($options['classmap'][$key])) {
@@ -110,6 +110,9 @@ class InventoryService extends \SoapClient
       $options = array_merge(array (
       'features' => 1,
     ), $options);
+      if (!$wsdl) {
+        $wsdl = 'https://slvisual.shelterlogicdirect.com/derp/InventoryService.asmx?wsdl';
+      }
       parent::__construct($wsdl, $options);
     }
 
