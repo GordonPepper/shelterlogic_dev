@@ -20,6 +20,9 @@ class Americaneagle_Visual_Model_Task_Customersync
     private $errors = array();
     private $startDate;
 
+    /** @var  Americaneagle_Visual_Helper_UserDefinedFieldService $customerHelper */
+    private $customerHelper;
+
     /** @var  Mage_Core_Model_Store store */
     private $store;
 
@@ -107,8 +110,7 @@ class Americaneagle_Visual_Model_Task_Customersync
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
 
-            $customerHelper = Mage::helper('americaneagle_visual/userDefinedFieldService');
-            $customerHelper->getWebLogin();
+            $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
             if ($customer == null) {
                 $customer = Mage::getModel("customer/customer");
@@ -128,6 +130,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
                     ->setCustomerTerms($vCustomer->getUserDefined3());
+                if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
+                    $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 
                 try {
                     $customer->save();
@@ -201,6 +205,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
                     ->setCustomerTerms($vCustomer->getUserDefined3());
+                    if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
+                        $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 
                 try {
                     $customer->save();
