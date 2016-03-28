@@ -24,3 +24,10 @@ $generator->generate(
         'namespaceName' => 'Visual\InventoryService'
     ))
 );
+$generator->generate(
+    new \Wsdl2PhpGenerator\Config(array(
+        'inputFile' => 'https://slvisual.shelterlogicdirect.com/derp/UserDefinedFieldService.asmx?wsdl',
+        'outputDir' => 'app/code/community/Americaneagle/Visual/wsdl/UserDefinedFieldService',
+        'namespaceName' => 'Visual\UserDefinedFieldService'
+    ))
+);
