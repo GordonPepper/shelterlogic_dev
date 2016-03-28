@@ -23,7 +23,7 @@ class Americaneagle_Visual_Helper_UserDefinedFieldService extends Americaneagle_
     }
 
     /**
-     * @param $documentId, $programId, $fieldId
+     * @param String $clientID
      * @return null|string
      */
     public function getWebLogin($clientID) {
@@ -51,6 +51,42 @@ class Americaneagle_Visual_Helper_UserDefinedFieldService extends Americaneagle_
 
             $this->soapLog($this->userDefinedFieldService, 'UserDefinedFieldService:SearchUserDefined', sprintf('Get the email address %s', print_r($data, true)));
             return $webLogin != null ? $webLogin : null;
+        } catch (Exception $e) {
+            $this->soapLogException(isset($this->userDefinedFieldService) ? $this->userDefinedFieldService : null, 'UserDefinedFieldService:SearchUserDefined', sprintf('Exception: %s', $e->getMessage()));
+            //throw $e;
+            return null;
+        }
+    }
+
+    /**
+     * @param String $clientID
+     * @return null|string
+     */
+    public function getCustomerTerms($clientID) {
+        try {
+            $udfvalue = new UserDefinedFieldService\UDFValue();
+            $udfvalue->setDocumentID($clientID)
+                ->setProgramID("VMCUSMNT")
+                ->setID("UDF-0000067");
+
+            $udfarray = new UserDefinedFieldService\ArrayOfUDFValue();
+            $udfarray->setUDFValue(array($udfvalue));
+
+            $udfdata = new UserDefinedFieldService\UDFData();
+            $udfdata->setUDFValueList($udfarray);
+
+            $data = new UserDefinedFieldService\SearchUserDefined();
+            $data->setData($udfdata);
+
+            $res = $this->userDefinedFieldService->SearchUserDefined($data);
+            if($res->getSearchUserDefinedResult()->getUDFValues()->getUDFValueResponse() != null) {
+                $customerTerms = current($res->getSearchUserDefinedResult()->getUDFValues()->getUDFValueResponse())->getUDFValue()->getStringValue();
+            } else {
+                $customerTerms = null;
+            }
+
+            $this->soapLog($this->userDefinedFieldService, 'UserDefinedFieldService:SearchUserDefined', sprintf('Get the email address %s', print_r($data, true)));
+            return $customerTerms;
         } catch (Exception $e) {
             $this->soapLogException(isset($this->userDefinedFieldService) ? $this->userDefinedFieldService : null, 'UserDefinedFieldService:SearchUserDefined', sprintf('Exception: %s', $e->getMessage()));
             //throw $e;
