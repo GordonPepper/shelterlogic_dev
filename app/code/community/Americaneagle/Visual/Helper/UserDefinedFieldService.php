@@ -43,11 +43,16 @@ class Americaneagle_Visual_Helper_UserDefinedFieldService extends Americaneagle_
             $data->setData($udfdata);
 
             $res = $this->userDefinedFieldService->SearchUserDefined($data);
+            if($res->getSearchUserDefinedResult()->getUDFValues()->getUDFValueResponse() != null) {
+                $webLogin = current($res->getSearchUserDefinedResult()->getUDFValues()->getUDFValueResponse())->getUDFValue()->getStringValue();
+            } else {
+                $webLogin = null;
+            }
 
-            $this->soapLog($this->customerService, 'UserDefinedFieldService:SearchUserDefined', sprintf('Get the email address %s', print_r($data, true)));
-            return $res->getSaveUserDefinedResult() ? $res->getSaveUserDefinedResult() : null;
+            $this->soapLog($this->userDefinedFieldService, 'UserDefinedFieldService:SearchUserDefined', sprintf('Get the email address %s', print_r($data, true)));
+            return $webLogin != null ? $webLogin : null;
         } catch (Exception $e) {
-            $this->soapLogException(isset($this->customerService) ? $this->customerService : null, 'UserDefinedFieldService:SearchUserDefined', sprintf('Exception: %s', $e->getMessage()));
+            $this->soapLogException(isset($this->userDefinedFieldService) ? $this->userDefinedFieldService : null, 'UserDefinedFieldService:SearchUserDefined', sprintf('Exception: %s', $e->getMessage()));
             //throw $e;
             return null;
         }
