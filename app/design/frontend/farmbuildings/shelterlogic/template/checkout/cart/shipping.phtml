@@ -105,7 +105,7 @@
                                     <input name="estimate_method" type="radio" value="<?php echo $this->escapeHtml($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
                                    <?php $checkShippingCost = $this->checkShippingCost(); ?>
                                    <?php if($checkShippingCost != NULL && $checkShippingCost != '3rd-party'): ?>
-                                             <label for="s_method_shipping_cost">FLATE RATE
+                                             <label for="s_method_shipping_cost">FLAT RATE
                                     <?php elseif($checkShippingCost == '3rd-party'): ?>
                                         <label for="s_method_shipping_cost">SHIPPED BY 3RD PARTY
                                     <?php else:?>
