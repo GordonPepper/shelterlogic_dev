@@ -36,8 +36,14 @@ class Shelterlogic_Orderprefix_Model_Eav_Entity_Type extends Mage_Eav_Model_Enti
         $prefix = false;
         if (Mage::getStoreConfigFlag(self::XML_PATH_DEALER_ENABLED, $storeId)) {
             $session = Mage::getSingleton('checkout/session');
-            if ($session->hasQuote() && ($customerGroup = $session->getQuote()->getCustomerGroupId())) {
-                if ($customerGroup == Mage::getStoreConfig(self::XML_PATH_DEALER_GROUP, $storeId)) {
+            if ($session->hasQuote()) {
+                $customerGroup = $session->getQuote()->getCustomerGroupId();
+                $dealerGroups = Mage::getStoreConfig(self::XML_PATH_DEALER_GROUP, $storeId);
+                if ($dealerGroups) {
+                    $dealerGroups = explode(',', $dealerGroups);
+                }
+
+                if ($customerGroup && $dealerGroups && in_array($customerGroup, $dealerGroups)) {
                     $prefix = Mage::getStoreConfig(self::XML_PATH_DEALER_PREFIX, $storeId);
                 }
             }
