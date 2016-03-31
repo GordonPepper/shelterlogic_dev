@@ -98,8 +98,6 @@
                             <div class="clear">&nbsp;</div>
 
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
-                            <?php echo $this->getChildHtml('bv_reviews') ?>
-
 
                             <div class="price-info">
                                 <?php echo $this->getChildHtml('bv_reviews') ?>
@@ -166,6 +164,7 @@
                             <?php endforeach;?>
                         </dl>
                     <?php endif; ?>
+                    <?php echo $this->getChildHtml('bv_reviews') ?>
                 </div>
 
                 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic-item-social-icons')->toHtml(); ?>
