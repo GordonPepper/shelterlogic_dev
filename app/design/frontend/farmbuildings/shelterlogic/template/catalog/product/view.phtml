@@ -100,7 +100,6 @@
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
 
                             <div class="price-info">
-                                <?php echo $this->getChildHtml('bv_reviews') ?>
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>
                                 <?php echo $this->getTierPriceHtml() ?>
@@ -162,9 +161,10 @@
                                     <div class="tab-content"><?php echo $html ?></div>
                                 </dd>
                             <?php endforeach;?>
+                            <dt class="tab"><span>Reviews</span></dt>
+                            <dd class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_reviews') ?> </div> </dd>
                         </dl>
                     <?php endif; ?>
-                    <?php echo $this->getChildHtml('bv_reviews') ?>
                 </div>
 
                 <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic-item-social-icons')->toHtml(); ?>
