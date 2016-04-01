@@ -98,7 +98,15 @@
                             <div class="clear">&nbsp;</div>
 
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
-
+                            <div id="BVRRContainer"></div>
+                            <script type="text/javascript">
+                                $BV.ui( 'rr', 'show_reviews', {
+                                    doShowContent : function () {
+                                        $('ul li.current').removeClass('current');
+                                        $( ".last").addClass('current');
+                                    }
+                                });
+                            </script>
                             <div class="price-info">
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>
