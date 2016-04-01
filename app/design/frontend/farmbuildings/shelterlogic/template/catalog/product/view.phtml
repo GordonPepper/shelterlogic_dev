@@ -98,15 +98,7 @@
                             <div class="clear">&nbsp;</div>
 
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
-<!--                            <div id="BVRRContainer"></div>-->
-<!--                            <script type="text/javascript">-->
-<!--                                $BV.ui( 'rr', 'show_reviews', {-->
-<!--                                    doShowContent : function () {-->
-<!--                                        $('ul li.current').removeClass('current');-->
-<!--                                        $( ".last").addClass('current');-->
-<!--                                    }-->
-<!--                                });-->
-<!--                            </script>-->
+
                             <div class="price-info">
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>
@@ -172,6 +164,19 @@
                             <dt class="tab"><span>Reviews</span></dt>
                             <dd class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_reviews') ?> </div> </dd>
 
+                            <div id="BVRRContainer"></div>
+                            <script type="text/javascript">
+                                $BV.ui( 'rr', 'show_reviews', {
+                                    doShowContent : function () {
+                                        $('ul li.current').removeClass('current');
+                                        $('li.last').addClass('current');
+                                        $('dt.current').removeClass('current');
+                                        $('dt.last').addClass('current');
+                                        $('dd.current').removeClass('current');
+                                        $('dd.last').addClass('current');
+                                    }
+                                });
+                            </script>
                         </dl>
                     <?php endif; ?>
                 </div>
