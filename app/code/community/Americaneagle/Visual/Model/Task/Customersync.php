@@ -127,7 +127,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setEmail($vCustomer->getContactEmail())
                     ->setPhone($vCustomer->getContactPhoneNumber())
                     ->setPassword($customer->generatePassword())
-                    ->setVisualCustomerId($vCustomer->getCustomerID())
+                    ->setVisualCustomerId(strtoupper($vCustomer->getCustomerID()))
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
