@@ -34,7 +34,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 ->setName($address->getName())
                 ->setAddress1($address->getStreet1())
                 ->setAddress2($address->getStreet2())
-                ->setAddress3($address->getStreet3())
+                ->setAddress3($address->getTelephone())
                 ->setCity($address->getCity())
                 ->setState($address->getRegionCode())
                 ->setZipCode($address->getPostcode())
