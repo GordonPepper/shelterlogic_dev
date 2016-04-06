@@ -108,6 +108,9 @@ class Americaneagle_Visual_Model_Task_Customersync
             $customerItem = $customerList[$i];
             /** @var Mage_Customer_Model_Customer $customer */
             $customer = $this->findCustomerByVisualId($customerItem->getID());
+            if($customerItem->getID() == 'a666333') {
+                $test = 'test';
+            }
             $vCustomer = $customerItem->getCustomer();
 
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
@@ -199,6 +202,10 @@ class Americaneagle_Visual_Model_Task_Customersync
                 }
             } else {
                 $customer
+                    ->setFirstname($vCustomer->getContactFirstName())
+                    ->setMiddlename($vCustomer->getContactMiddleInitial())
+                    ->setLastname($vCustomer->getContactLastName())
+                    ->setPhone($vCustomer->getContactPhoneNumber())
                     ->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
