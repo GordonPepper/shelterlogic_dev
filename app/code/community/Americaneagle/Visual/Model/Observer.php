@@ -10,6 +10,9 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 	/** @var  Americaneagle_Visual_Helper_Data helper */
 	private $config;
 
+	/** @var  Americaneagle_Visual_Helper_UserDefinedFieldService $customerHelper */
+	private $customerHelper;
+
     public function __construct()
     {
         $this->config = Mage::helper('americaneagle_visual');
@@ -107,6 +110,8 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 			return $this;
 		}
 
+		$this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
+
 		/** @var Mage_Customer_Model_Customer $customer*/
 		$customer = $event->getModel();
 
@@ -126,7 +131,7 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 				->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->config->getExclusiveGroupId() : $this->config->getGeneralGroupId())
 				->setTermId($vCustomer->getTermsID())
 				->setTaxExempt($vCustomer->getTaxExempt())
-				->setCustomerTerms($vCustomer->getUserDefined3());
+				->setCustomerTerms($this->customerHelper->getCustomerTerms($vCustomer->getCustomerID()));
 			$customer->save();
 		}
 	}
