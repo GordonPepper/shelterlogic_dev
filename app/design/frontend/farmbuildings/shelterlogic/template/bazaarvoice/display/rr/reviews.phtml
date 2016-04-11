@@ -10,6 +10,12 @@ $seoContent = $this->getSEOContent();
   $BV.ui( 'rr', 'show_reviews', {
     doShowContent : function () {
       <?php echo $doShowContentJs ?>
+      jQuery('.toggle-tabs li.current').removeClass('current');
+      jQuery('.toggle-tabs li.last').addClass('current');
+      jQuery('.collateral-tabs dt.current').removeClass('current');
+      jQuery('.collateral-tabs dt.last').addClass('current');
+      jQuery('.collateral-tabs dd.current').removeClass('current');
+      jQuery('.collateral-tabs dd.last').addClass('current');
     }
   });    
 </script>
