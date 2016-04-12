@@ -98,6 +98,7 @@
                             <div class="clear">&nbsp;</div>
 
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
+                            <br/>
 
                             <div class="price-info">
                                 <?php echo $this->getPriceHtml($_product); ?>
@@ -161,8 +162,10 @@
                                     <div class="tab-content"><?php echo $html ?></div>
                                 </dd>
                             <?php endforeach;?>
-                            <dt class="tab"><span>Reviews</span></dt>
-                            <dd class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_reviews') ?> </div> </dd>
+                            <dt id="dt_tab_reviews" class="tab"><span>Reviews</span></dt>
+                            <dd id="dd_tab_reviews" class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_reviews') ?> </div> </dd>
+                            <dt id="dt_tab_qa" class="tab"><span>Q&A</span></dt>
+                            <dd id="dd_tab_qa" class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_questions') ?> </div> </dd>
                         </dl>
                     <?php endif; ?>
                 </div>
