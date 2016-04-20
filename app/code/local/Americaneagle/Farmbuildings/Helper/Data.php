@@ -67,6 +67,10 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
                 array('price' => 'at_price.value')
             );
 
+		if ($_POST){
+			$showAvailable = $_POST['showAvailableProducts'];
+		}
+
 		$showAvailableProducts = true;
 		if($showAvailableProducts && $sid == 7) {
 			$from->joinInner(

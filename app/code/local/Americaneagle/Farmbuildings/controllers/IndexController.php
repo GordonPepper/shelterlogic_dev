@@ -31,6 +31,9 @@ class Americaneagle_Farmbuildings_IndexController
 		 * A Third step is being added to provide default values to the frontend.
 		 */
 		try {
+			if ($_POST){
+				$showAvailable = $_POST['showAvailableProducts'];
+			}
 			$postVars = json_decode(file_get_contents('php://input'));
 
 			$tree = Mage::helper('farmbuildings')->getTree($postVars->pid);
