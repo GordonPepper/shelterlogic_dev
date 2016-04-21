@@ -65,14 +65,58 @@
 
 <!-- conversion value and order id -->
 <?php 
+if ($this->getOrderId() && $this->getCanViewOrder()):
     $order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
     $total = $order->getGrandTotal();
-?>
 
-<script>
-    var ORDERID = "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>";
-    var CONVERSIONVALUE =  <?php echo $total; ?>;
-</script>
-<!-- .end order confirmation inclusion -->
-<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('conversion-pixels')->toHtml(); ?>
-<!-- .end order confirmation inclusion -->
+    // Affiliation, shipping and tax
+    $trans = array('id' => $orderID,'revenue' => $total);
+
+    // List of Items Purchased
+    $items = array(); 
+    foreach ($order->getAllItems() as $item){
+        // SKU and category
+        $items[] = array('name' => $item->getName(),
+        'price' => $item->getPrice(),
+        'quantity' => $item->getQtyOrdered());
+    }
+
+
+     // Function to return the JavaScript representation of a TransactionData object.
+    function getTransactionJs(&$trans) {
+        return "ga('ecommerce:addTransaction', {
+                'id': '{$trans['id']}',
+                'revenue': '{$trans['revenue']}'
+            });";
+    }
+
+          // Function to return the JavaScript representation of an ItemData object.
+    function getItemJs(&$transId, &$item) {
+        return "ga('ecommerce:addItem', {
+                'id': '$transId',
+                'name': '{$item['name']}',
+                'price': '{$item['price']}',
+                'quantity': '{$item['quantity']}'
+            });";
+      }
+     ?>
+
+    <script>
+        ga('require', 'ecommerce', 'ecommerce.js');
+
+        <?php echo getTransactionJs($trans); ?>
+        <?php foreach ($items as &$item) {
+            echo getItemJs($trans['id'], $item);
+        }?>
+
+        ga('ecommerce:send');
+    </script>
+    <?php endif;?>
+    <script>
+        var ORDERID = "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>";
+        var CONVERSIONVALUE =  <?php echo $total; ?>;
+    </script>
+    <!-- .end order confirmation inclusion -->
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('conversion-pixels')->toHtml(); ?>
+    <!-- .end order confirmation inclusion -->
+<?php //endif; ?>
