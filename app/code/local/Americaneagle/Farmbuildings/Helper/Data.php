@@ -67,24 +67,29 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
                 array('price' => 'at_price.value')
             );
 
-		if ($_POST){
-			$showAvailable = $_POST['showAvailableProducts'];
-		}
+        $postVars = json_decode(file_get_contents('php://input'));
 
-		$showAvailableProducts = true;
-		if($showAvailableProducts && $sid == 7) {
+        if (is_null($postVars) || is_null($postVars->showAvailableProducts) || ($postVars->showAvailableProducts && $sid == 8)) {
+            $from->joinInner(
+                array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
+                'warehouse.product_id = e.entity_id AND warehouse.qty > 0 AND warehouse.is_in_stock = 1 AND warehouse.store_id = 8',
+                array());
 			$from->joinInner(
-				array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-				'warehouse.product_id = e.entity_id AND warehouse.qty > 0 AND warehouse.is_in_stock = 1 AND warehouse.store_id = 8',
+				array('location' => $conn->getTableName('gaboli_warehouse_stores')),
+				'location.store_id = warehouse.store_id AND location.location_id = 5',
 				array());
-		}
+        }
 
-		if(!$showAvailableProducts && $sid == 7) {
+        if (!is_null($postVars->showAvailableProducts) && !$postVars->showAvailableProducts && $sid == 8) {
+            $from->joinInner(
+                array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
+                'warehouse.product_id = e.entity_id AND warehouse.qty <= 0 AND warehouse.is_in_stock = 0 AND warehouse.store_id = 8',
+                array());
 			$from->joinInner(
-				array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-				'warehouse.product_id = e.entity_id AND warehouse.qty <= 0 AND warehouse.is_in_stock = 0 AND warehouse.store_id = 8',
+				array('location' => $conn->getTableName('gaboli_warehouse_stores')),
+				'location.store_id = warehouse.store_id AND location.location_id = 5',
 				array());
-		}
+        }
 
 		$from->where(implode(' AND ', $where));
 		$labelMap = $this->getAttributeLabelMap($attmap);
@@ -156,18 +161,18 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 	}
 
 	public function getTree($pid) {
-		$cache = Mage::app()->getCache();
-		$key = 'attributeTree_' . $pid . '_' . Mage::app()->getStore()->getId();
-
-		$tree = $cache->load($key);
-		if($tree === false) {
+//		$cache = Mage::app()->getCache();
+//		$key = 'attributeTree_' . $pid . '_' . Mage::app()->getStore()->getId();
+//
+//		$tree = $cache->load($key);
+//		if($tree === false) {
 			$product = Mage::getModel('catalog/product')->load($pid);
 			$tree = $this->getAttributeTree($product);
-			$cache->save(serialize($tree), $key);
+//			$cache->save(serialize($tree), $key);
 			return $tree;
-		} else {
-			return unserialize($tree);
-		}
+//		} else {
+//			return unserialize($tree);
+//		}
 	}
 
 	public function getAdditionalData($pid, $spid) {

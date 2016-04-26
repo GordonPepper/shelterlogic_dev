@@ -1,32 +1,45 @@
 
-$(document).on('click', '#myonoffswitch', function() {
+jQuery(document).on('click', '#myonoffswitch', function() {
     if (jQuery("#myonoffswitch").attr("checked")) {
         var showAvailable = true;
     } else {
         var showAvailable = false;
     }
+    var params = {showAvailableProducts:showAvailable, pid: aeProductId, options: []};
     console.log(showAvailable);
+    new Ajax.Request(aeConfigUrl, {
+        method: 'post',
+        requestHeaders: {Accept: 'application/json'},
+        postBody: Object.toJSON(params),
 
-    var pathname = window.location.pathname;
+        onSuccess: function(transport) {
+            var result = transport.responseText.evalJSON(true);
+            var select = document.getElementById("attribute" + result.attributeid);
+            while (select.options.length > 0) {
+                select.remove(0);
+            }
 
-    //function callController(){
-        new Ajax.Request(aeConfigUrl, {
-            //method: 'Post',
-            //parameters: {"showAvailableProducts":showAvailable},
-            //onComplete: function(transport) {
-            //
-            //    alert(transport.responseText);
-            //
-            //}
-            method:'Post',
-            parameters: {showAvailableProducts:showAvailable},
-            onSuccess: function(parameters) {
-                //var response = transport.responseText || "no response text";
-                //alert("Success! \n\n" ); //+ response);
-                var showAvailableProducts = showAvailable;
-                //alert('Success' + parameters);
-            },
-            onFailure: function() { alert('Something went wrong...'); }
-        });
-    //}
+            var opt = document.createElement('option');
+            opt.innerHTML = 'STYLE';
+            select.appendChild(opt);
+
+            for(var i in result.options) {
+                if (result.options.hasOwnProperty(i)) {
+                    var attr = result.options[i];
+                    var opt = document.createElement('option');
+                    opt.value = attr.id;
+                    opt.innerHTML = attr.val;
+                    opt.setAttribute('data-pid', 'data-pid');
+                    select.appendChild(opt);
+                }
+            }
+            if(!showAvailable) {
+                jQuery('[data-id=atc-button]').hide();
+                jQuery('#span_id').show();
+            } else {
+                jQuery('[data-id=atc-button]').show();
+                jQuery('#span_id').hide();
+            }
+        }
+    });
 });
