@@ -12,33 +12,32 @@ jQuery(document).on('click', '#myonoffswitch', function() {
         requestHeaders: {Accept: 'application/json'},
         postBody: Object.toJSON(params),
 
-        onSuccess: function(transport) {
+        onSuccess: function (transport) {
             var result = transport.responseText.evalJSON(true);
-            var select = document.getElementById("attribute" + result.attributeid);
-            while (select.options.length > 0) {
-                select.remove(0);
-            }
+            if (result.options.length > 0) {
+                var select = document.getElementById("attribute" + result.attributeid);
+                jQuery('option', select).not(':eq(0)').remove();
 
-            var opt = document.createElement('option');
-            opt.innerHTML = 'STYLE';
-            select.appendChild(opt);
-
-            for(var i in result.options) {
-                if (result.options.hasOwnProperty(i)) {
-                    var attr = result.options[i];
-                    var opt = document.createElement('option');
-                    opt.value = attr.id;
-                    opt.innerHTML = attr.val;
-                    opt.setAttribute('data-pid', 'data-pid');
-                    select.appendChild(opt);
+                for (var i in result.options) {
+                    if (result.options.hasOwnProperty(i)) {
+                        var attr = result.options[i];
+                        var opt = document.createElement('option');
+                        opt.value = attr.id;
+                        opt.innerHTML = attr.val;
+                        opt.setAttribute('data-pid', 'data-pid');
+                        select.appendChild(opt);
+                    }
                 }
-            }
-            if(!showAvailable) {
-                jQuery('[data-id=atc-button]').hide();
-                jQuery('#span_id').show();
+                if (!showAvailable) {
+                    jQuery('[data-id=atc-button]').hide();
+                    jQuery('#span_id').show();
+                } else {
+                    jQuery('[data-id=atc-button]').show();
+                    jQuery('#span_id').hide();
+                }
             } else {
-                jQuery('[data-id=atc-button]').show();
-                jQuery('#span_id').hide();
+                jQuery("#myonoffswitch").attr("checked", true);
+                alert('All products are available');
             }
         }
     });
