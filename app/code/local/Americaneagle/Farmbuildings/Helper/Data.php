@@ -80,16 +80,18 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 				array());
         }
 
-        if (!is_null($postVars->showAvailableProducts) && !$postVars->showAvailableProducts && $sid == 8) {
-            $from->joinInner(
-                array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-                'warehouse.product_id = e.entity_id AND warehouse.qty <= 0 AND warehouse.is_in_stock = 0 AND warehouse.store_id = 8',
-                array());
-			$from->joinInner(
-				array('location' => $conn->getTableName('gaboli_warehouse_stores')),
-				'location.store_id = warehouse.store_id AND location.location_id = 5',
-				array());
-        }
+		if (!is_null($postVars)) {
+			if (!is_null($postVars->showAvailableProducts) && !$postVars->showAvailableProducts && $sid == 8) {
+				$from->joinInner(
+					array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
+					'warehouse.product_id = e.entity_id AND warehouse.qty <= 0 AND warehouse.is_in_stock = 0 AND warehouse.store_id = 8',
+					array());
+				$from->joinInner(
+					array('location' => $conn->getTableName('gaboli_warehouse_stores')),
+					'location.store_id = warehouse.store_id AND location.location_id = 5',
+					array());
+			}
+		}
 
 		$from->where(implode(' AND ', $where));
 		$labelMap = $this->getAttributeLabelMap($attmap);
