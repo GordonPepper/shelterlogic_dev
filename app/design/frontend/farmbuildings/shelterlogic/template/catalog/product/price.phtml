@@ -40,7 +40,10 @@ $_taxHelper = $this->helper('tax');
 /* @var $_weeeHelper Mage_Weee_Helper_Data */
 /* @var $_taxHelper Mage_Tax_Helper_Data */
 
-$_product = $this->getProduct();
+$product = $this->getProduct();
+$storeId    = Mage::app()->getStore()->getId();
+$_product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($product->getID());
+
 $aeFinalPrice = $_product->getFinalPrice();
 if(!$aeFinalPrice){
     if($_product->getSpecialPrice() && $_product->getSpecialPrice() < $_product->getPrice()){
@@ -237,7 +240,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 <?php else: ?>
                     <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
 
-                    <?php if($_product->stock_item->is_in_stock === true && $_product->getTypeId() == 'simple'):?>
+                    <?php if($product->stock_item->is_in_stock === true && $product->getTypeId() == 'simple'):?>
                         <span id="span_id" style="color:red"><strong>&nbsp;&nbsp;OUT OF STOCK</strong> - Call Customer Service at 1-800-560-8383</span>
                         <script type="text/javascript">
                             console.log('test');
