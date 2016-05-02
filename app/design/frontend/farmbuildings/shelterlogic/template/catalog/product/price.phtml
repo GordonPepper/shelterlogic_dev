@@ -52,7 +52,7 @@ if(!$aeFinalPrice){
         $aeFinalPrice = $_product->getPrice();
     }
 }
-if($_product->canConfigure()) {
+if($_product->canConfigure() && !$aeFinalPrice) {
     $tree = Mage::helper('farmbuildings')->getTree($_product->getId());
     $_product->setPrice($tree['sp']);
     $aeFinalPrice = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(

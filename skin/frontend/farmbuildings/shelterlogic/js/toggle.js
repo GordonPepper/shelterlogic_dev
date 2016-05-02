@@ -14,6 +14,10 @@ jQuery(document).on('click', '#myonoffswitch', function() {
 
         onSuccess: function (transport) {
             var result = transport.responseText.evalJSON(true);
+            if( typeof result.options == 'undefined') {
+                var select = jQuery("select[data-index=1]");
+                jQuery('option', select).not(':eq(0)').remove();
+            }
             if (result.options.length > 0) {
                 var select = document.getElementById("attribute" + result.attributeid);
                 jQuery('option', select).not(':eq(0)').remove();
