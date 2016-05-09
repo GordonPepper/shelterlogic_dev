@@ -70,7 +70,7 @@
                 <div class="product-shop-wrpr">
                     <div class="product-shop">
                         <div class="mod">
-                            <div class="product-name" style="margin-bottom: 0">
+                            <div class="product-name" style="margin-bottom: 10px">
                                 <ul class="product-item-nav">
 <!--                                    <li class="prev"><a href="#"></a></li>-->
 <!--                                    <li class="next"><a href="#"></a></li>-->
@@ -78,7 +78,7 @@
                                 <h1 class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                             </div>
 
-                            <div class="extra-info" style="margin-bottom: 0">
+                            <div class="extra-info" style="margin-bottom: 10px">
                             <?php if (!$_product->isConfigurable() ): ?>
                                 <span class="sku-details-label">
                                     Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'sku') ?>
@@ -86,12 +86,12 @@
                             <?php endif ; ?>
                             </div>
 
-                            <div class="extra-info" style="margin-bottom: 0">
+                            <div class="extra-info" style="margin-bottom: 10px">
                                 <?php echo $this->getChildHtml('product_type_availability'); ?>
                             </div>
 
 
-                            <div class="product-category" style="margin-bottom: 0">
+                            <div class="product-category" style="margin-bottom: 10px">
                                 <?php echo $this->getChildHtml('breadcrumbs'); ?>
                             </div>
 
