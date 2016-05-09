@@ -239,8 +239,8 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     <span class="special-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_minimalPriceValue, true) ?></span>
                 <?php else: ?>
                     <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
-
-                    <?php if(Mage::registry('current_product') && $product->stock_item->is_in_stock == 0 && $product->getTypeId() == 'simple'):?>
+                    <?php $currentProduct = Mage::registry('current_product'); ?>
+                    <?php if($currentProduct && $currentProduct->getID() == $product->getID() && !is_null($product->stock_item->qty) && $product->stock_item->qty <= 0 && $product->getTypeId() == 'simple'):?>
                         <span id="span_id" style="color:red"><strong>&nbsp;&nbsp;OUT OF STOCK</strong> - Call Customer Service at 1-800-560-8383</span>
                     <?php endif; ?>
 
