@@ -118,7 +118,12 @@
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
             <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
-                <a class="<?php echo $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : ''; ?>" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                <?php
+                    if($_product->getMinimalPrice() > 0) {
+                        $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
+                    }
+                ?>
+                <a class="<?php echo $onSaleCSS; ?>" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php
                         $_imgSize = array(260,195);
                         $product = Mage::getModel('catalog/product')->load($_product->getID());
@@ -136,7 +141,10 @@
                         <?php if($_product->isSaleable()): ?>
                             <div class="product-east">
                                 <?php echo $this->getPriceHtml($_product, true) ?>
+                            <?php $stockQty = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(); ?>
+                            <?php if($stockQty > 0) :?>
                                 <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                            <?php endif; ?>
                             </div>
                         <?php endif; ?>
                         <div class="product-west">
