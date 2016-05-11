@@ -126,7 +126,11 @@
                        href="<?php echo $_product->getProductUrl() ?>"
                        title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                 <?php else: ?>
-                    <a class="<?php echo $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : ''; ?>"
+                        <?php if($_product->getMinimalPrice() > 0) {
+                            $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
+                        }
+                        ?>
+                    <a class="<?php echo $onSaleCSS; ?>"
                        href="<?php echo $_product->getProductUrl() ?>"
                        title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                 <?php endif; ?>
