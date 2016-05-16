@@ -667,7 +667,7 @@ $j(document).ready(function () {
                 $j.each(this, function () {
                     // Since this function is called every time the page is resized, we need to remove the min-height
                     // so each cell can return to its natural size before being measured.
-                    $j(this).find('.product-info').css('min-height', '');
+                    $j(this).find('.product-info').css('height', '');
                     // We are checking the height of .product-info (rather than the entire li), because the images
                     // will not be loaded when this JS is run.
                     elHeight = parseInt($j(this).find('.product-info').css('height'));
@@ -677,7 +677,7 @@ $j(document).ready(function () {
                 });
                 // Set the height of all .product-info elements in a row to the tallest height
                 $j.each(this, function () {
-                    $j(this).find('.product-info').css('minHeight', tallestHeight);
+                    $j(this).find('.product-info').css('height', tallestHeight);
                 });
             });
         }

@@ -70,7 +70,7 @@
                 <div class="product-shop-wrpr">
                     <div class="product-shop">
                         <div class="mod">
-                            <div class="product-name">
+                            <div class="product-name" style="margin-bottom: 10px">
                                 <ul class="product-item-nav">
 <!--                                    <li class="prev"><a href="#"></a></li>-->
 <!--                                    <li class="next"><a href="#"></a></li>-->
@@ -78,7 +78,7 @@
                                 <h1 class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                             </div>
 
-                            <div class="extra-info">
+                            <div class="extra-info" style="margin-bottom: 10px">
                             <?php if (!$_product->isConfigurable() ): ?>
                                 <span class="sku-details-label">
                                     Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'sku') ?>
@@ -86,16 +86,19 @@
                             <?php endif ; ?>
                             </div>
 
-                            <div class="extra-info">
+                            <div class="extra-info" style="margin-bottom: 10px">
                                 <?php echo $this->getChildHtml('product_type_availability'); ?>
                             </div>
 
 
-                            <div class="product-category">
+                            <div class="product-category" style="margin-bottom: 10px">
                                 <?php echo $this->getChildHtml('breadcrumbs'); ?>
                             </div>
 
                             <div class="clear">&nbsp;</div>
+
+                            <?php echo $this->getChildHtml('bv_reviewsummary') ?>
+                            <br/>
 
                             <div class="price-info">
                                 <?php echo $this->getPriceHtml($_product); ?>
@@ -159,6 +162,10 @@
                                     <div class="tab-content"><?php echo $html ?></div>
                                 </dd>
                             <?php endforeach;?>
+                            <dt id="dt_tab_reviews" class="tab"><span>Reviews</span></dt>
+                            <dd id="dd_tab_reviews" class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_reviews') ?> </div> </dd>
+                            <dt id="dt_tab_qa" class="tab"><span>Q&A</span></dt>
+                            <dd id="dd_tab_qa" class="tab-container"> <div class="tab-content"> <?php echo $this->getChildHtml('bv_questions') ?> </div> </dd>
                         </dl>
                     <?php endif; ?>
                 </div>

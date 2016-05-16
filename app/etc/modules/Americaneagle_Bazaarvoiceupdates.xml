@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Americaneagle_Bazaarvoiceupdates>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Bazaarvoice_Connector/>
+            </depends>
+        </Americaneagle_Bazaarvoiceupdates>
+    </modules>
+
+    <global>
+        <models>
+            <bazaarvoice>
+                <rewrite>
+                    <productFeed_product>Americaneagle_Bazaarvoiceupdates_Model_ProductImages</productFeed_product>
+                </rewrite>
+            </bazaarvoice>
+        </models>
+    </global>
+</config>
