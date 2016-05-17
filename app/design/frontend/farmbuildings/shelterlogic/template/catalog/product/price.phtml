@@ -40,10 +40,7 @@ $_taxHelper = $this->helper('tax');
 /* @var $_weeeHelper Mage_Weee_Helper_Data */
 /* @var $_taxHelper Mage_Tax_Helper_Data */
 
-$product = $this->getProduct();
-$storeId    = Mage::app()->getStore()->getId();
-$_product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($product->getID());
-
+$_product = $this->getProduct();
 $aeFinalPrice = $_product->getFinalPrice();
 if(!$aeFinalPrice){
     if($_product->getSpecialPrice() && $_product->getSpecialPrice() < $_product->getPrice()){
@@ -52,7 +49,7 @@ if(!$aeFinalPrice){
         $aeFinalPrice = $_product->getPrice();
     }
 }
-if($_product->canConfigure() && !$aeFinalPrice) {
+if($_product->canConfigure()) {
     $tree = Mage::helper('farmbuildings')->getTree($_product->getId());
     $_product->setPrice($tree['sp']);
     $aeFinalPrice = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(
@@ -86,13 +83,13 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
     <?php $_weeeTaxAmountInclTaxes = $_store->roundPrice($_store->convertPrice($_weeeTaxAmountInclTaxes)); ?>
 
     <div class="price-box">
-    <?php $_convertedPrice = $_store->roundPrice($_store->convertPrice($_product->getPrice())); ?>
-    <?php $_price = $_taxHelper->getPrice($_product, $_convertedPrice); ?>
-    <?php $_regularPrice = $_taxHelper->getPrice($_product, $_convertedPrice, $_simplePricesTax); ?>
-    <?php $_finalPrice = $_taxHelper->getPrice($_product, $_convertedFinalPrice) ?>
-    <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_convertedFinalPrice, true) ?>
-    <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
-    <?php if ($_finalPrice >= $_price): ?>
+        <?php $_convertedPrice = $_store->roundPrice($_store->convertPrice($_product->getPrice())); ?>
+        <?php $_price = $_taxHelper->getPrice($_product, $_convertedPrice); ?>
+        <?php $_regularPrice = $_taxHelper->getPrice($_product, $_convertedPrice, $_simplePricesTax); ?>
+        <?php $_finalPrice = $_taxHelper->getPrice($_product, $_convertedFinalPrice) ?>
+        <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_convertedFinalPrice, true) ?>
+        <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
+        <?php if ($_finalPrice >= $_price): ?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
                 <span class="price-excluding-tax">
@@ -240,7 +237,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 <?php else: ?>
                     <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
                     <?php $currentProduct = Mage::registry('current_product'); ?>
-                    <?php if($currentProduct && $currentProduct->getID() == $product->getID() && !is_null($product->stock_item->qty) && $product->stock_item->qty <= 0 && $product->getTypeId() == 'simple'):?>
+                    <?php if($currentProduct && $currentProduct->getID() == $_product->getID() && !is_null($_product->stock_item->qty) && $_product->stock_item->qty <= 0 && $_product->getTypeId() == 'simple'):?>
                         <span id="span_id" style="color:red"><strong>&nbsp;&nbsp;OUT OF STOCK</strong> - Call Customer Service at 1-800-560-8383</span>
                     <?php endif; ?>
 
@@ -433,7 +430,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
 
     <?php endif; /* if ($_finalPrice == $_price): */ ?>
 
-    <?php if (false && $this->getDisplayMinimalPrice() && $_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice): ?>
+        <?php if (false && $this->getDisplayMinimalPrice() && $_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice): ?>
 
         <?php $_minimalPriceDisplayValue = $_minimalPrice; ?>
         <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, array(0, 1, 4))): ?>
