@@ -201,7 +201,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 $phone = $billing->getTelephone();
             }
             $vCustomer
-                ->setCustomerName(strtoupper($billing->getName()))
+//                ->setCustomerName(strtoupper($billing->getName()))
                 ->setAddress1(strtoupper($billing->getStreet1()))
                 ->setAddress2(strtoupper($billing->getStreet2()))
                 ->setAddress3($phone)
