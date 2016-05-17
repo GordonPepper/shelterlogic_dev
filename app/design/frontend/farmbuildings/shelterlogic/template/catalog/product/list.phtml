@@ -138,7 +138,7 @@
                         $_imgSize = array(260,195);
                         $product = Mage::getModel('catalog/product')->load($_product->getID());
 
-                        if($product->getVisibility() == 3 && is_null($product->getScene7Addition())) {
+                        if($product->getVisibility() == 3 && is_null($product->getScene7Main())) {
                             $configurable_product = Mage::getModel('catalog/product_type_configurable');
                             $parentIdArray = $configurable_product->getParentIdsByChild($product->getId());
                             $parentProduct = Mage::getModel('catalog/product')->load(current($parentIdArray));

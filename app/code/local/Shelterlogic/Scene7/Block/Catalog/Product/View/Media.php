@@ -7,7 +7,7 @@ class Shelterlogic_Scene7_Block_Catalog_Product_View_Media extends Mage_Catalog_
         $product = $this->getProduct();
         $searchProduct = Mage::registry('searchProduct');
 
-        if(isset($searchProduct) && is_null($product->getScene7Addition())) {
+        if(isset($searchProduct) && is_null($product->getScene7Main())) {
             $product = $searchProduct;
         }
         if ($additionalImages = $product->getScene7Addition()) {
