@@ -117,7 +117,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         }
     }
 
-    private function getAccessorial() {
+    protected function getAccessorial() {
         $vals = explode(',', Mage::getStoreConfig('carriers/totalogistix/accessorial'));
         if ($this->req->getIsResidential() == 1) {
             $vals[] = 'REP';

@@ -5,6 +5,7 @@
             <version>1.0.0</version>
         </Shelterlogic_Checkout>
     </modules>
+
     <global>
         <blocks>
             <checkout>
@@ -14,4 +15,17 @@
             </checkout>
         </blocks>
     </global>
+
+    <frontend>
+        <routers>
+            <checkout> <!-- must match the router config you are trying to override -->
+                <args>
+                    <modules>
+                        <Shelterlogic_Checkout before="Mage_Checkout">Shelterlogic_Checkout</Shelterlogic_Checkout>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+
 </config>
