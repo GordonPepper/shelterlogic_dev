@@ -120,72 +120,74 @@
     <?php $_columnCount = $this->getColumnCount(); ?>
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
-            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
-                <?php if ($_product->getTypeId() == 'configurable'): ?>
-                    <a class=''
-                       href="<?php echo $_product->getProductUrl() ?>"
-                       title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
-                <?php else: ?>
-                        <?php if($_product->getMinimalPrice() > 0) {
-                            $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
-                        }
-                        ?>
-                    <a class="<?php echo $onSaleCSS; ?>"
-                       href="<?php echo $_product->getProductUrl() ?>"
-                       title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
-                <?php endif; ?>
-                    <?php
-                        $_imgSize = array(260,195);
-                        $product = Mage::getModel('catalog/product')->load($_product->getID());
-
-                        if($product->getVisibility() == 3 && is_null($product->getScene7Main())) {
-                            $configurable_product = Mage::getModel('catalog/product_type_configurable');
-                            $parentIdArray = $configurable_product->getParentIdsByChild($product->getId());
-                            $parentProduct = Mage::getModel('catalog/product')->load(current($parentIdArray));
-                            $product = $parentProduct;
-                        }
-                    ?>
-                    <img id="product-collection-image-<?php echo $_product->getId(); ?>"
-                         src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize($_imgSize[0],$_imgSize[1]); ?>"
-                         alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
-                    <div class="product-info clearfix">
-                        <div class="product-west">
-                            <h2 class="product-name" style="margin-bottom: 10px"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
-                            <div id="BVRRInlineRating-<?php echo $_bvHelper->getProductId($_product) ?>"></div>
-                            <?php if (!$_product->isConfigurable() ): ?>
-                                <span style="color: #a0a0a0;font-size: 10px;text-transform: uppercase;">Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'SKU') ?></span>
-                            <?php endif; ?>
-                            <?php
-                                $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
-                                foreach($_nameAfterChildren as $_nameAfterChildName):
-                                    $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
-                                    $_nameAfterChild->setProduct($_product);
+            <?php if($_product->getStatus() == 1) :?>
+                <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                    <?php if ($_product->getTypeId() == 'configurable'): ?>
+                        <a class=''
+                           href="<?php echo $_product->getProductUrl() ?>"
+                           title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                    <?php else: ?>
+                            <?php if($_product->getMinimalPrice() > 0) {
+                                $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
+                            }
                             ?>
-                            <?php echo $_nameAfterChild->toHtml(); ?>
-                            <?php endforeach; ?>
-                            <?php if($_product->getRatingSummary()): ?>
-                                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-                            <?php endif; ?>
-                        </div>
-                        <?php if($_product->isSaleable()): ?>
-                            <div class="product-east">
-                                <?php echo $this->getPriceHtml($_product, true) ?>
-                                <?php $stockQty = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(); ?>
-                                <?php if($stockQty > 0) :?>
-                                    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        <a class="<?php echo $onSaleCSS; ?>"
+                           href="<?php echo $_product->getProductUrl() ?>"
+                           title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
+                    <?php endif; ?>
+                        <?php
+                            $_imgSize = array(260,195);
+                            $product = Mage::getModel('catalog/product')->load($_product->getID());
+
+                            if($product->getVisibility() == 3 && is_null($product->getScene7Main())) {
+                                $configurable_product = Mage::getModel('catalog/product_type_configurable');
+                                $parentIdArray = $configurable_product->getParentIdsByChild($product->getId());
+                                $parentProduct = Mage::getModel('catalog/product')->load(current($parentIdArray));
+                                $product = $parentProduct;
+                            }
+                        ?>
+                        <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                             src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize($_imgSize[0],$_imgSize[1]); ?>"
+                             alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        <div class="product-info clearfix">
+                            <div class="product-west">
+                                <h2 class="product-name" style="margin-bottom: 10px"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
+                                <div id="BVRRInlineRating-<?php echo $_bvHelper->getProductId($_product) ?>"></div>
+                                <?php if (!$_product->isConfigurable() ): ?>
+                                    <span style="color: #a0a0a0;font-size: 10px;text-transform: uppercase;">Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'SKU') ?></span>
+                                <?php endif; ?>
+                                <?php
+                                    $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                    foreach($_nameAfterChildren as $_nameAfterChildName):
+                                        $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                        $_nameAfterChild->setProduct($_product);
+                                ?>
+                                <?php echo $_nameAfterChild->toHtml(); ?>
+                                <?php endforeach; ?>
+                                <?php if($_product->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                                 <?php endif; ?>
                             </div>
-                        <?php endif; ?>
-                    </div>
-                    <div class="fa wishlist-toggle" title="Add to wishlist"
-                         id="wishlist-toggle-<?php echo $_product->getId() ?>"
-                         data-id="<?php echo $_product->getId() ?>"
-                         data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_product) ?>"
-                        >
-                        <span class="visuallyHidden">Wishlist: Add or Remove</span>
-                    </div>
-                </a>
-            </li>
+                            <?php if($_product->isSaleable()): ?>
+                                <div class="product-east">
+                                    <?php echo $this->getPriceHtml($_product, true) ?>
+                                    <?php $stockQty = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(); ?>
+                                    <?php if($stockQty > 0) :?>
+                                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="fa wishlist-toggle" title="Add to wishlist"
+                             id="wishlist-toggle-<?php echo $_product->getId() ?>"
+                             data-id="<?php echo $_product->getId() ?>"
+                             data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_product) ?>"
+                            >
+                            <span class="visuallyHidden">Wishlist: Add or Remove</span>
+                        </div>
+                    </a>
+                </li>
+            <?php endif; ?>
         <?php endforeach ?>
     </ul>
     <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
