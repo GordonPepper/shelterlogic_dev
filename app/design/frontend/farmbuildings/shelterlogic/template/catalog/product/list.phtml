@@ -120,6 +120,7 @@ $_bvHelper = $this->helper('bazaarvoice');
         <?php $_columnCount = $this->getColumnCount(); ?>
             <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
                 <?php $i=0; foreach ($_productCollection as $_product): ?>
+                <?php if($_product->getStatus() == 1) :?>
                     <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                         <?php if ($_product->getTypeId() == 'configurable'): ?>
                         <a class=''
@@ -186,6 +187,7 @@ $_bvHelper = $this->helper('bazaarvoice');
                                 </div>
                             </a>
                     </li>
+                <?php endif; ?>
                 <?php endforeach ?>
             </ul>
             <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
