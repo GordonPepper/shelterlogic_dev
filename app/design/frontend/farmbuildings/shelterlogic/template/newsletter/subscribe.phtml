@@ -26,44 +26,5 @@
 ?>
 
 <div class="column newsletter clearfix<?php // block block-subscribe ?> x-footer-mod">
-        <div class="block-title x-trigger">
-            <span><?php echo $this->__('Newsletter Sign Up') ?></span>
-        </div>
-        <div class="x-target">
-            <p>Sign up to receive periodic emails featuring our latest product news, contest giveaways, and more.</p>
-            <form method="post" action="https://app.icontact.com/icp/signup.php" name="icpsignup" id="icpsignup9953" accept-charset="UTF-8" onsubmit="return verifyRequired9953();" >
-                <input type="hidden" name="redirect" value="http://www.shelterlogic.com/subscribe-thanks/">
-                <input type="hidden" name="listid" value="59713">
-                <input type="hidden" name="specialid:59713" value="4179">
-                <input type="hidden" name="clientid" value="941024">
-                <input type="hidden" name="formid" value="9953">
-                <input type="hidden" name="reallistid" value="1">
-                <input type="hidden" name="doubleopt" value="0">
-                <input type="hidden" name="errorredirect" value="http://www.shelterlogic.com/subscribe-error/">
-                <div class="block-content">
-                    <div class="form-subscribe-header">
-                        <label for="newsletter">Sign Up for Our Newsletter:</label>
-                    </div>
-                    <div class="input-box">
-                        <input type="text" name="fields_email" placeholder="Your Email Address" title="Sign up for our newsletter" class="input-text required-entry validate-email" placeholder="ENTER YOUR E-MAIL">
-                    </div>
-                    <div class="actions">
-                        <button type="submit" title="SIGN UP" class="button"><span><span>SIGN UP</span></span></button>
-                    </div>
-                </div>
-            </form>
-            <script type="text/javascript">
-                var icpForm9953 = document.getElementById('icpsignup9953');
-                var newsletterSubscriberFormDetail = new VarienForm(icpForm9953);
-                if (document.location.protocol === "https:") icpForm9953.action = "https://app.icontact.com/icp/signup.php";
-                function verifyRequired9953() {
-                    if (icpForm9953["fields_email"].value == "") {
-                        icpForm9953["fields_email"].focus();
-                        $(".error").css("display", "block");
-                        return false;
-                    }
-                    return true;
-                }
-            </script>
-    </div>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_footer_emails')->toHtml(); ?>
 </div>
