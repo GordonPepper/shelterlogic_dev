@@ -103,7 +103,15 @@
                                     <?php echo $this->escapeHtml($_rate->getErrorMessage()) ?>
                                <?php else: ?>
                                     <input name="estimate_method" type="radio" value="<?php echo $this->escapeHtml($_rate->getCode()) ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" />
+                                   <?php $checkShippingCost = $this->checkShippingCost(); ?>
+                                   <?php if($checkShippingCost != NULL && $checkShippingCost != '3rd-party'): ?>
+                                             <label for="s_method_shipping_cost">FLAT RATE
+                                    <?php elseif($checkShippingCost == '3rd-party'): ?>
+                                        <label for="s_method_shipping_cost">SHIPPED BY 3RD PARTY
+                                    <?php else:?>
+
                                     <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                                        <?php endif;?>
                                     <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
                                     -
                                     <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>

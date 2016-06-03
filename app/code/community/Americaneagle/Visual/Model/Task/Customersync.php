@@ -129,7 +129,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
-                    ->setCustomerTerms($vCustomer->getUserDefined3());
+                    ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
                 if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
                     $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
                 if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
@@ -206,7 +206,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
-                    ->setCustomerTerms($vCustomer->getUserDefined3());
+                    ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
                     if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
                         $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
                     if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
