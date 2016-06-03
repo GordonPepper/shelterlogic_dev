@@ -117,6 +117,10 @@ class Americaneagle_Visual_Model_Priceobserver extends Mage_CatalogRule_Model_Ob
             if($spid !== null) {
                 $searchId = $spid;
             }
+            $parentIdArray = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($searchId);
+            if( current($parentIdArray)) {
+                $searchId = current($parentIdArray);
+            }
             if(in_array($searchId, $ids) === true) {
                 $found = true;
             }
