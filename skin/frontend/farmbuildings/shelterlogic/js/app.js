@@ -374,7 +374,7 @@ $j(document).ready(function () {
     // ==============================================
     // UI Pattern - Toggle Content (tabs and accordions in one setup)
     // ==============================================
-    
+
     $j('.toggle-content').each(function () {
         var wrapper = jQuery(this);
 
@@ -677,7 +677,7 @@ $j(document).ready(function () {
                 });
                 // Set the height of all .product-info elements in a row to the tallest height
                 $j.each(this, function () {
-                    $j(this).find('.product-info').css('height', tallestHeight);
+                    $j(this).find('.product-info').css('height', tallestHeight+20);
                 });
             });
         }
