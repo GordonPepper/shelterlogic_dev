@@ -225,8 +225,9 @@ class Bazaarvoice_Connector_Model_ExportProductFeed extends Mage_Core_Model_Abst
 
         // Upload feed
 //        $this->uploadFeed($productFeedFileName, $website->getDefaultStore());
-
-        fopen("var/export/bvfeeds/bv-lock.txt", "w");
+        $baseDir = Mage::getBaseDir();
+        $bvfeedsDir = $baseDir.DS.'var'.DS.'export'.DS.'bvfeeds';
+        fopen($bvfeedsDir.DS."bv-lock.txt", "w");
 
     }
 
@@ -270,7 +271,9 @@ class Bazaarvoice_Connector_Model_ExportProductFeed extends Mage_Core_Model_Abst
         // Upload feed
 //        $this->uploadFeed($productFeedFileName, $group->getDefaultStore());
 
-        fopen("var/export/bvfeeds/bv-lock.txt", "w");
+        $baseDir = Mage::getBaseDir();
+        $bvfeedsDir = $baseDir.DS.'var'.DS.'export'.DS.'bvfeeds';
+        fopen($bvfeedsDir.DS."bv-lock.txt", "w");
 
     }
 
@@ -313,7 +316,9 @@ class Bazaarvoice_Connector_Model_ExportProductFeed extends Mage_Core_Model_Abst
         // Upload feed
 //        $this->uploadFeed($productFeedFileName, $store);
 
-        fopen("var/export/bvfeeds/bv-lock.txt", "w");
+        $baseDir = Mage::getBaseDir();
+        $bvfeedsDir = $baseDir.DS.'var'.DS.'export'.DS.'bvfeeds';
+        fopen($bvfeedsDir.DS."bv-lock.txt", "w");
 
     }
 
