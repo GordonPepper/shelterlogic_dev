@@ -25,8 +25,26 @@
  */
 /** @var Mage_Checkout_Block_Onepage_Billing $this */
 ?>
-<style class="cp-pen-styles">
+<style type="text/css">
 <!--
+span.tooltip-checkout a {
+	display: inline-block;
+	color: #636363;
+	padding-left: 3px;
+	text-decoration: none;
+}
+span.circle {
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	-khtml-border-radius: 50%;
+	border: 1px solid #636363;
+	display: block;
+	width: 18px;
+	height: 18px;
+	line-height: 16px;
+	text-align: center;
+}
 [data-tooltip] {
 	position: relative;
 	z-index: 2;
@@ -42,12 +60,12 @@
 }
 [data-tooltip]:before {
 	position: absolute;
-	bottom: 150%;
+	bottom: 85%;
 	left: 50%;
 	margin-bottom: 5px;
 	margin-left: -80px;
 	padding: 7px;
-	width: 160px;
+	width: 300px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -56,14 +74,14 @@
 	color: #fff;
 	content: attr(data-tooltip);
 	text-align: center;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 1.2;
 }
 [data-tooltip]:after {
 	position: absolute;
-	bottom: 150%;
+	bottom: 86%;
 	left: 50%;
-	margin-left: -5px;
+	margin-left: -4px;
 	width: 0;
 	border-top: 5px solid #000;
 	border-top: 5px solid hsla(0, 0%, 20%, 0.9);
@@ -282,10 +300,10 @@
 					<?php if ($groupId == 1 || $groupId == 4): ?>
 						<div id="tlx_checkboxes">
 							<strong><p>Select a shipping delivery option.</p></strong>
-							<input type="checkbox" id="billing:is_notify" checked="checked" name="billing[is_notify]" value="NYF" title="Carrier will contact the consignee for a delivery appointment by phone/email."/><strong> Notify </strong></input><span class="tooltip-checkout"><a href="#" data-tooltip="Carrier will contact the consignee for a delivery appointment by phone/email.">?</a></span> </br>
-							<input type="checkbox" id="billing:is_residential" name="billing[is_residential]" value="REP" title="Delivery to a residential address that does not have a commercial dock." /><strong> Residential </strong></input> </br>
-							<input type="checkbox" id="billing:is_lift_gate" name="billing[is_lift_gate]" value="LFT" title="Hydraulic gate that lowers the skids from the truck down to the ground in the absence of a commercial dock. ***Freight longer than 7.5' feet will not fit on the gate, may be subject to driver assist fees." /><strong> Lift Gate </strong></input> </br>
-							<input type="checkbox" id="billing:is_inside_delivery" name="billing[is_inside_delivery]" value="IDL" title="Carrier will deliver freight into the building or residential dwelling." /><strong> Inside Delivery </strong></input> </br>
+							<input type="checkbox" id="billing:is_notify" checked="checked" name="billing[is_notify]" value="NYF" /><strong> Notify </strong></input><span class="tooltip-checkout"><a href="#" data-tooltip="Carrier will contact the consignee for a delivery appointment by phone/email."><span class="circle">?</span></a></span></br>
+							<input type="checkbox" id="billing:is_residential" name="billing[is_residential]" value="REP" /><strong> Residential </strong></input><span class="tooltip-checkout"><a href="#" data-tooltip="Delivery to a residential address that does not have a commercial dock."><span class="circle">?</span></a></span></br>
+							<input type="checkbox" id="billing:is_lift_gate" name="billing[is_lift_gate]" value="LFT" /><strong> Lift Gate </strong></input><span class="tooltip-checkout"><a href="#" data-tooltip="Hydraulic gate that lowers the skids from the truck down to the ground in the absence of a commercial dock. ***Freight longer than 7.5' feet will not fit on the gate, may be subject to driver assist fees."><span class="circle">?</span></a></span></br>
+							<input type="checkbox" id="billing:is_inside_delivery" name="billing[is_inside_delivery]" value="IDL" /><strong> Inside Delivery </strong></input><span class="tooltip-checkout"><a href="#" data-tooltip="Carrier will deliver freight into the building or residential dwelling."><span class="circle">?</span></a></span></br>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
