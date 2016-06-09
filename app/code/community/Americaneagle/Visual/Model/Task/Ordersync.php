@@ -12,6 +12,9 @@ class Americaneagle_Visual_Model_Task_Ordersync
     /** @var  Americaneagle_Visual_Helper_Order $orderHelper */
     private $orderHelper;
 
+    /** @var  Americaneagle_Visual_Helper_NotationService $notationServiceHelper */
+    private $notationServiceHelper;
+
     /** @var  Americaneagle_Visual_Helper_Customer $customerHelper */
     private $customerHelper;
 
@@ -31,6 +34,7 @@ class Americaneagle_Visual_Model_Task_Ordersync
     public function run(Aoe_Scheduler_Model_Schedule $schedule)
     {
         $this->orderHelper = Mage::helper('americaneagle_visual/order');
+        $this->notationServiceHelper = Mage::helper('americaneagle_visual/notationService');
 
         if($this->orderHelper->getConfig()->getEnabled() == 0) {
             return $this;
@@ -113,6 +117,10 @@ class Americaneagle_Visual_Model_Task_Ordersync
                     }
                     $shipToId = $address->getShipToID();
                 }
+
+                $orderInfo = $order->getOrigData();
+                $notation = 'Order Authorization Code: ' . $order->getPayment()->getData()['cc_trans_id'] .' Dollar Amount: '. $orderInfo['total_due'] .' Order Date: '. $orderInfo['created_at'];
+                $this->notationServiceHelper->addNotation($orderInfo['increment_id'], $notation);
 
                 $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId, null, $shippingAddress->getRegionCode() == "CT");
                 if (is_null($vOrder)) {

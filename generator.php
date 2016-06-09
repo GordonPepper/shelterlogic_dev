@@ -31,3 +31,10 @@ $generator->generate(
         'namespaceName' => 'Visual\UserDefinedFieldService'
     ))
 );
+$generator->generate(
+    new \Wsdl2PhpGenerator\Config(array(
+        'inputFile' => 'https://slvisual.shelterlogicdirect.com/derp/NotationService.asmx?wsdl',
+        'outputDir' => 'app/code/community/Americaneagle/Visual/wsdl/NotationService',
+        'namespaceName' => 'Visual\NotationService'
+    ))
+);
