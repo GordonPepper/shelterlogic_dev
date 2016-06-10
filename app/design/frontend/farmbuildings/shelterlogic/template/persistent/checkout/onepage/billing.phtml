@@ -297,7 +297,7 @@ span.circle {
 			<?php if ($this->canShip()): ?>
 				<?php if (Mage::getSingleton('customer/session')->isLoggedIn()): ?>
 					<?php $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId(); ?>
-					<?php if ($groupId == 1 || $groupId == 4): ?>
+					<?php if (($groupId == 1 || $groupId == 4) && is_null($this->checkShippingCost())): ?>
 						<div id="tlx_checkboxes">
 							<strong><p>Select a shipping delivery option.</p></strong>
 							<input type="checkbox" id="billing:is_notify" checked="checked" name="billing[is_notify]" value="NYF" /><strong> Notify </strong></input><span class="tooltip-checkout"><a href="#" data-tooltip="Carrier will contact the consignee for a delivery appointment by phone/email."><span class="circle">?</span></a></span></br>
