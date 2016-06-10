@@ -8,33 +8,27 @@
 
 class Shelterlogic_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Billing
 {
-    public function checkShippingCost()
+    public function displayShippingOptions()
     {
         if (Mage::getSingleton('customer/session')->isLoggedIn() && (Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 1 || Mage::getSingleton('customer/session')->getCustomer()->getGroupId() == 4)) {
-            $customerTerms = Mage::getSingleton('customer/session')->getCustomer()->getCustomerTerms();
+            $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
+            $customerObj  = Mage::getModel('customer/customer')->load($customerId);
+            $customerTerms = $customerObj->getData('customer_terms');
 
-            if (strtolower($customerTerms) == 'national freight') {
+            if (strtolower($customerTerms) == 'quote by zip') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
-                $totalFreightCost = 0;
                 foreach ($cart->getAllItems() as $item) {
                     $productId = $item->getProduct()->getId();
                     $storeId = Mage::app()->getStore()->getStoreId();
                     $freightCost = Mage::getResourceModel('catalog/product')->getAttributeRawValue($productId, 'freight_cost', $storeId);
-
                     if ($freightCost) {
-                        $freightCost = number_format((float)$freightCost, 2, '.', '');
-                        if($item->getQty() > 1) {
-                            $freightCost = $freightCost * $item->getQty();
-                        }
-                        $totalFreightCost = $totalFreightCost + $freightCost;
+                        return true;
                     } else {
-                        return NULL;
+                        return false;
                     }
                 }
-                return $totalFreightCost;
-            } elseif (strtolower($customerTerms) == '3rd party bill') {
-                return '3rd-party';
             }
         }
+        return false;
     }
 }
