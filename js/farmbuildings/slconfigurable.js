@@ -189,13 +189,13 @@ aeProduct.Config.prototype = {
                     var showAvailable = false;
                 }
 
-                if(!showAvailable) {
-                    jQuery('[data-id=atc-button]').hide();
-                    jQuery('#span_id').show();
-                } else {
-                    jQuery('[data-id=atc-button]').show();
-                    jQuery('#span_id').hide();
-                }
+                //if(!showAvailable) {
+                //    jQuery('[data-id=atc-button]').hide();
+                //    jQuery('#span_id').show();
+                //} else {
+                //    jQuery('[data-id=atc-button]').show();
+                //    jQuery('#span_id').hide();
+                //}
             }
         })
     },
