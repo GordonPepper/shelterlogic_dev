@@ -15,7 +15,7 @@ class Shelterlogic_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_On
             $customerObj  = Mage::getModel('customer/customer')->load($customerId);
             $customerTerms = $customerObj->getData('customer_terms');
 
-            if (strtolower($customerTerms) == 'quote by zip') {
+            if (strtolower($customerTerms) == 'national freight') {
                 $cart = Mage::getModel('checkout/cart')->getQuote();
                 foreach ($cart->getAllItems() as $item) {
                     $productId = $item->getProduct()->getId();
@@ -25,6 +25,8 @@ class Shelterlogic_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_On
                         return true;
                     }
                 }
+            } elseif (strtolower($customerTerms) == 'quote by zip') {
+                return true;
             }
         }
         return false;
