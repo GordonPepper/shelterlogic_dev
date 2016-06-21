@@ -119,7 +119,7 @@ class Americaneagle_Visual_Model_Task_Ordersync
                 }
 
                 $orderInfo = $order->getOrigData();
-                $notation = 'Order Authorization Code: ' . $order->getPayment()->getData()['cc_trans_id'] .' Dollar Amount: '. $orderInfo['total_due'] .' Order Date: '. $orderInfo['created_at'];
+                $notation = 'Order Authorization Code: ' . $order->getPayment()->getData()['cc_trans_id'] .' Dollar Amount: '. $orderInfo['grand_total'] .' Order Date: '. $orderInfo['created_at'];
                 $this->notationServiceHelper->addNotation($orderInfo['increment_id'], $notation);
 
                 $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId, null, $shippingAddress->getRegionCode() == "CT");
