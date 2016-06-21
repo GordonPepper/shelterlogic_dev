@@ -168,9 +168,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     ->setCustomerOrderLine($lines))
                 ->setOrderPayment($orderHeaderPayment);
 
-            if ($isCT) {
-                $newOrderHeader->setSalesTaxID("CT_SLSTX");
-            }
+//            if ($isCT) {
+//                $newOrderHeader->setSalesTaxID("CT_SLSTX");
+//            }
 
             $newOrderData = (new SalesOrderService\CustomerOrderData())
                 ->setOrders((new SalesOrderService\ArrayOfCustomerOrderHeader())
