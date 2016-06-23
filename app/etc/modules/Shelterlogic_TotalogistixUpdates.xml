@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Shelterlogic_TotalogistixUpdates>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Shelterlogic_TotalogistixUpdates>
+        <depends>
+            <Americaneagle_Totalogistix />
+        </depends>
+    </modules>
+</config>
