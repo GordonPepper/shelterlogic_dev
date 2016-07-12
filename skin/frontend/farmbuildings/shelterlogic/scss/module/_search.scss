@@ -28,12 +28,13 @@
  * ============================================ */
 
 .search-autocomplete {
-    left: 0 !important;
+    left: 5px !important;
     overflow: visible !important;
     position: relative !important;
-    top: 15px !important;
-    width: 100% !important;
+    top: 45px !important;
+    width: 300px !important;
     z-index: 200;
+
 
     ul {
         @include border-radius(2px);
