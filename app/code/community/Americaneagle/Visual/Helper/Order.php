@@ -91,6 +91,31 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
                             ->setWarehouseID($stockItem->getWarehouseCode());
 
+                        $customer  = Mage::getModel('customer/customer')->load($order->getCustomerId());
+                        $discountPercent = $customer->getDiscountPercent();
+
+                        //********************************//
+                        //********************************//
+                        $spid = null;
+                        $fpg = explode(',', Mage::getStoreConfig('aevisual/restricted_products/fixed_discount_groups'));
+                        if (in_array($customer->getGroupId(),$fpg) === true ) {
+                            $ids = array_filter(explode(',',Mage::getStoreConfig('aevisual/restricted_products/entity_ids')));
+                            $parentIdArray = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+                            $productParentId = current($parentIdArray);
+                            if ($productParentId && in_array($productParentId, $ids) === true) {
+                              $discountPercentExclusive = Mage::getStoreConfig('aevisual/restricted_products/fixed_discount_amount');
+                            }
+                        }
+                        //********************************//
+                        //********************************//
+                        if (!is_null($discountPercent) && $discountPercent > $discountPercentExclusive) {
+                            $lineItem->setDiscountPercent($discountPercent);
+                        } elseif (!is_null($discountPercentExclusive)) {
+                            $lineItem->setDiscountPercent($discountPercentExclusive);
+                        } else {
+                            $lineItem->setDiscountPercent(0.00);
+                        }
+
                         if ($item->getProductType() == 'simple' && $product->getProductCode()) {
                             $lineItem->setProductCode($product->getProductCode());
                         } elseif (!is_null($childItem)) {
