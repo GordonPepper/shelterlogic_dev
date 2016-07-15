@@ -89,7 +89,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())
                             ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
-                            ->setWarehouseID($stockItem->getWarehouseCode());
+                            ->setWarehouseID($stockItem->getWarehouseCode())
+                            ->setDiscountPercent(round($item->getDiscountAmount(), 2));
 
 //                        $customer  = Mage::getModel('customer/customer')->load($order->getCustomerId());
 //                        $discountPercent = $customer->getDiscountPercent();
