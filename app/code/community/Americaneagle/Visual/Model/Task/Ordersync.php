@@ -120,7 +120,7 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
                 $orderInfo = $order->getOrigData();
                 $authorizationCode = $order->getPayment()->getData()['cc_trans_id'];
-                $dollarAmount = round($orderInfo['grand_total'], 2);
+                $dollarAmount = number_format((float)$orderInfo['grand_total'], 2, '.', '');
                 $orderDate = $orderInfo['created_at'];
                 $notation = "Order Authorization Code: $authorizationCode \n Dollar Amount: $dollarAmount \n Order Date:  $orderDate";
                 $this->notationServiceHelper->addNotation($orderInfo['increment_id'], $notation);
