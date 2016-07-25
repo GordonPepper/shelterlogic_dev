@@ -114,7 +114,7 @@ if ($this->getOrderId() && $this->getCanViewOrder()):
     <?php endif;?>
     <script>
         var ORDERID = "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>";
-        var CONVERSIONVALUE =  <?php echo $total; ?>;
+        var CONVERSIONVALUE =  <?php (($total ? $total : {$item['price']}) ? ($total ? $total : {$item['price']}) : "0.00"); ?>;
     </script>
     <!-- .end order confirmation inclusion -->
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('conversion-pixels')->toHtml(); ?>
