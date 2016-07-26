@@ -35,7 +35,7 @@
     $_product = $this->getProduct()
 ?>
 <?php if($_additional = $this->getAdditionalData()): ?>
-    <h2><?php echo $this->__('Additional Information') ?></h2>
+    <h2><?php echo $this->__('Specifications') ?></h2>
     <table class="data-table" id="product-attribute-specs-table">
         <col width="25%" />
         <col />
@@ -47,7 +47,7 @@
                     <?php if ($this->isUrlAttribute($_data['code']) && $_data['code'] == 'scene7_manual'): ?>
                         <a href="<?php echo $_data['value'] ?>" target="_blank"><?php echo $this->__('Download (PDF)') ?></a>
                     <?php elseif($this->isUrlAttribute($_data['code'])): ?>
-                        <a href="<?php echo $_data['value'] ?>" target="_blank"><?php echo $this->__('Click here') ?></a>
+                        <a href="<?php echo $_data['value'] ?>" target="_blank"><?php echo $this->__('Watch the video') ?></a>
                     <?php else: ?>
                         <?php echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?>
                     <?php endif; ?>
