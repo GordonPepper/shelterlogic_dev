@@ -234,7 +234,7 @@ Product view
                         <group>detailed_info</group>
                     </action>
                     <action method="setTitle" translate="value">
-                        <value>Description</value>
+                        <value>Product Overview</value>
                     </action>
                 </block>
                 <block type="shelterlogic_templates/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml">
@@ -242,7 +242,7 @@ Product view
                         <group>detailed_info</group>
                     </action>
                     <action method="setTitle" translate="value">
-                        <value>Additional Information</value>
+                        <value>Specifications</value>
                     </action>
                 </block>
                 <block type="catalog/product_list_related" name="catalog.product.related" as="related_products" template="catalog/product/list/related.phtml"/>
