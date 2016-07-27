@@ -232,8 +232,8 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     </p>
                 <?php endif; ?>
                 <?php if($_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice ) : ?>
-                    <span class="old-price"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
                     <span class="special-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_minimalPriceValue, true) ?></span>
+                    <span class="old-price"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
                 <?php else: ?>
                     <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo $_coreHelper->formatPrice($_convertedFinalPrice, true) ?></span>
                     <?php $currentProduct = Mage::registry('current_product'); ?>

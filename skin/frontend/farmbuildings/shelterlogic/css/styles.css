@@ -8475,7 +8475,7 @@ body:not(.opc-has-progressed-from-login) .opc.opc-firststep-login .section#opc-l
 
 .product-view .product-options dd .input-box {display:inline-block; width:100%; height:25px; position:relative; padding:0; font-size:13px; font-weight:400; line-height:23px; font-family:"open sans"; color:#999999; text-transform:uppercase; border:1px solid #eeeeee; overflow:hidden;}
 .product-view .product-options dd .input-box::after {content:"\f107"; display:block; position:absolute; right:10px; top:50%; margin-top:-12px; font-family:FontAwesome; font-size:13px; line-height:23px; color:#999999;}
-.product-options dd select {display:block; position:relative; width:100%; height:23px; padding-right:25px; margin:0; background-color:transparent; border-style:none; color:#999999; font-size:inherit; z-index:12; text-transform:uppercase; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -o-appearance:none; appearance:none;}
+.product-options dd select {display:block; position:relative; width:100%; height:23px; padding-right:25px; padding-left: 5px; margin:0; background-color:transparent; border-style:none; color:#999999; font-size:inherit; z-index:12; text-transform:uppercase; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -o-appearance:none; appearance:none;}
 .product-options dd select::-ms-expand {display: none;}
 .product-options dd select:-moz-focusring {
     color: transparent;
@@ -10516,11 +10516,11 @@ div.paypal-logo span > img {
  * Search - Auto Suggest
  * ============================================ */
 .search-autocomplete {
-  left:0 !important;
+  left:5px !important;
   overflow:visible !important;
   position:relative !important;
-  top:15px !important;
-  width:100% !important;
+  top:45px !important;
+  width:300px !important;
   z-index:200;
 }
 .search-autocomplete ul {
@@ -11203,7 +11203,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
 	.qty-inc {font-size:28px; line-height:24px;}
 	.product-item-wrpr .add-to-cart-buttons {display:block; margin-top:14px;}
     .qty-wrapper .input-text.qty {width:60px; height:30px; margin:0 20px;}
-    .product-view .product-shop .price-info {margin-bottom:14px; text-align:center;}
+    .product-view .product-shop .price-info {margin-bottom:14px;}
     .product-item-wrpr .add-to-cart-buttons button.button,
     .product-view .add-to-links a {height:30px; line-height:27px;}
     .products-grid > li {display:block; float:none;}
