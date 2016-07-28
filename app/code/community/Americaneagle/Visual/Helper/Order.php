@@ -74,6 +74,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
                             ->setWarehouseID($stockItem->getWarehouseCode());
 
+                        $discountPercent = ($item->getDiscountAmount() / $item->getPrice()) * 100;
+                        $lineItem->setDiscountPercent(number_format((float)$discountPercent, 2, '.', ''));
+
                         if ($item->getProductType() == 'simple' && $product->getProductCode()) {
                             $lineItem->setProductCode($product->getProductCode());
                         } elseif (!is_null($childItem)) {
@@ -166,7 +169,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
                     ->setCustomerOrderLine($lines))
-                ->setOrderPayment($orderHeaderPayment);
+                ->setOrderPayment($orderHeaderPayment)
+                ->setDiscountCodeID($order->getCouponCode());
 
             if ($isCT) {
                 $newOrderHeader->setSalesTaxID("CT_SLSTX");
