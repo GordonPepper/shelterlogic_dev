@@ -34,6 +34,16 @@ class Shelterlogic_Stockimport_Model_Observer
             if(null === $dataFile) {
                 Mage::log('No import file available', Zend_Log::DEBUG, self::LOG_FILE);
                 Mage::log('============== END ==============', Zend_Log::DEBUG, self::LOG_FILE);
+                $templateId = "Fav Email";
+                $emailTemplate = Mage::getModel('core/email_template')->loadByCode($templateId);
+                $userName = 'test';
+                $productName = 'test';
+                $vars = array('user_name' => $userName, 'product_name' => $productName);
+                $emailTemplate->setSenderEmail(Mage::getStoreConfig('trans_email/ident_general/email', Mage::app()->getStore()->getStoreId()));
+                $emailTemplate->setSenderName(Mage::getStoreConfig('trans_email/ident_general/name', Mage::app()->getStore()->getStoreId()));
+                $receiveEmail = 'oussama.saddane@americaneagle.com';
+                $receiveName = 'Oussama Saddane';
+                $emailTemplate->send($receiveEmail,$receiveName, $vars);
                 return;
             }
 
