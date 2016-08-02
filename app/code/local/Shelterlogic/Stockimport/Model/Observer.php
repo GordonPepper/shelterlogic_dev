@@ -39,8 +39,8 @@ class Shelterlogic_Stockimport_Model_Observer
                 $userName = 'test';
                 $productName = 'test';
                 $vars = array('user_name' => $userName, 'product_name' => $productName);
-                $emailTemplate->setSenderEmail('test$gmail.com');
-                $emailTemplate->setSenderName('test');
+                $emailTemplate->setSenderEmail(Mage::getStoreConfig('trans_email/ident_general/email', Mage::app()->getStore()->getStoreId()));
+                $emailTemplate->setSenderName(Mage::getStoreConfig('trans_email/ident_general/name', Mage::app()->getStore()->getStoreId()));
                 $receiveEmail = 'oussama.saddane@americaneagle.com';
                 $receiveName = 'Oussama Saddane';
                 $emailTemplate->send($receiveEmail,$receiveName, $vars);
