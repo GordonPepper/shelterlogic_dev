@@ -63,7 +63,6 @@
     <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
 </div>
 
-
 <!-- conversion value and order id -->
 <?php 
 if ($this->getOrderId() && $this->getCanViewOrder()):
@@ -120,3 +119,14 @@ if ($this->getOrderId() && $this->getCanViewOrder()):
     <!-- .end order confirmation inclusion -->
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('conversion-pixels')->toHtml(); ?>
     <!-- .end order confirmation inclusion -->
+
+<!-- AdRoll Conversion -->
+<?php
+    //Get Order Number & Order Total
+    $order_number = Mage::getModel('sales/order')->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+    $amount = number_format($order_number->getGrandTotal(),2);
+?>
+<script type = "text/javascript">
+    adroll_conversion_value_in_dollars = <?php echo $amount; ?>; //order total
+    adroll_custom_data = {"ORDER_ID": "<?php echo $this->getOrderId() ?>"}; // Order Number
+</script>
