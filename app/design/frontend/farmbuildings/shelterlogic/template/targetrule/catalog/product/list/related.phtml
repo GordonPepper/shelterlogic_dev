@@ -25,29 +25,46 @@
  */
 /* @var $this Enterprise_TargetRule_Block_Catalog_Product_List_Related */
 ?>
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_bvHelper = $this->helper('bazaarvoice');
+?>
 <?php $_maxItems = 4; $_count = 0; ?>
 <?php if ($this->hasItems()):?>
     <div class="product-related-accessories">
-        <h2><span>Related Accessories</span></h2>
+        <h2><span>Related Products</span></h2>
         <div class="category-products">
             <ul class="products-grid">
                 <?php foreach($this->getItemCollection() as $_item): ?>
                     <?php if (++$_count > $_maxItems) break; ?>
                     <?php /** @var Mage_Catalog_Model_Product $_item */ ?>
                     <li class="item">
-                        <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>">
+                        <?php if ($_item->getTypeId() == 'configurable'): ?>
+                            <a class='' href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>">
+                        <?php else: ?>
+                        <?php if($_item->getMinimalPrice() > 0) {
+                            $onSaleCSS = $_item->getMinimalPrice() < $_item->getPrice() ? 'onsale' : '';
+                        }
+                        ?>
+                            <a class="<?php echo $onSaleCSS; ?>" href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>">
+                        <?php endif; ?>
                             <div class="category-products-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'image')->resize(260) ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" /></div>
                             <div class="product-info clearfix">
+                                <div class="product-west">
+                                    <h2 class="product-name" style="margin-bottom: 5px;"><?php echo $this->escapeHtml($_item->getName()) ?></h2>
+                                    <?php if (!$_item->isConfigurable() ): ?>
+                                        <span style="color: #a0a0a0; font-size: 10px; text-transform: uppercase;">Model #<?php echo $_helper->productAttribute($_item, $_item->getSku(), 'SKU') ?></span>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="product-east">
                                     <?php echo $this->getPriceHtml($_item, true, '-related') ?>
                                     <button type="button" title="Add to Cart" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>'); return false;">
                                         <span><span>Add to Cart</span></span>
                                     </button>
                                 </div>
-                                <div class="product-west">
-                                    <h2 class="product-name"><?php echo $this->escapeHtml($_item->getName()) ?></h2>
-                                    <div class="product-category"><?php echo Mage::helper('shelterlogic_templates')->getCategoryName($_item) ?></div>
-                                </div>
+                            </div>
+                            <div class="fa wishlist-toggle" title="Add to wishlist" id="wishlist-toggle-<?php echo $_item->getId() ?>" data-id="<?php echo $_item->getId() ?>" data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_item) ?>">
+                                <span class="visuallyHidden">Wishlist: Add or Remove</span>
                             </div>
                         </a>
                     </li>
