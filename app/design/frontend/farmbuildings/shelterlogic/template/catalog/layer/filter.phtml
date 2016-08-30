@@ -48,6 +48,8 @@
         $categoryId = Mage::getModel('catalog/category')->load($_item->getValue())->getId();
         if(!is_null($categoryId)) {
             $products_count = Mage::getModel('catalog/category')->load($categoryId)->getProductCount();
+        } else {
+            $products_count = $_item->getCount();
         }
 
     ?>
