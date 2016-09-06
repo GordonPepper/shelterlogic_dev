@@ -5050,7 +5050,7 @@ opacity:0;
     padding: 0;
 }
 
-.products-grid .product-info .product-west {display:table-cell; vertical-align:middle; padding:5px 10px; position:relative;}
+.products-grid .product-info .product-west {display:table-cell; vertical-align:top; padding:10px; position:relative;}
 .products-grid .product-info .product-west span {display:block; height:14px; overflow:hidden;}
 
 .products-grid .product-info .product-east {
