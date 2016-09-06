@@ -151,11 +151,13 @@
                              alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
                         <div class="product-info clearfix">
                             <div class="product-west">
+                                <?php if (!$_product->isConfigurable() ): ?>
+                                    <span style="color: #a0a0a0; font-size: 10px; text-transform: uppercase; margin-bottom: 5px;">Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'SKU') ?></span>
+                                <?php else: ?>
+                                    <span style="color: #a0a0a0; font-size: 10px; text-transform: uppercase; margin-bottom: 5px;"><i class="fa fa-gear"></i>&nbsp;Custom options</span>
+                                <?php endif; ?>
                                 <h2 class="product-name" style="margin-bottom: 10px"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
                                 <div id="BVRRInlineRating-<?php echo $_bvHelper->getProductId($_product) ?>"></div>
-                                <?php if (!$_product->isConfigurable() ): ?>
-                                    <span style="color: #a0a0a0;font-size: 10px;text-transform: uppercase;">Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'SKU') ?></span>
-                                <?php endif; ?>
                                 <?php
                                     $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
                                     foreach($_nameAfterChildren as $_nameAfterChildName):
