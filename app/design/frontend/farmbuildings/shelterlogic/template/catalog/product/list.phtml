@@ -126,11 +126,11 @@
                 <?php 
                     //get wind and snow rating
 
-                    $wind_snow = (Mage::getModel('catalog/product')->load($_product->getId())->getAttributeText('wind_snow_rated') !== "No" ? 'windsnow' : '' );
+                    $wind_snow = ($_product->getAttributeText('wind_snow_rated') !== "No" ? 'windsnow' : '' );
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
-                        <a class='<?=$wind_snow?>'
+                        <a class='<?php echo $wind_snow; ?>'
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php else: ?>
@@ -138,7 +138,7 @@
                                 $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
                             }
                             ?>
-                        <a class="<?php echo $onSaleCSS; ?> <?=$wind_snow?>"
+                        <a class="<?php echo $onSaleCSS; ?> <?php echo $wind_snow; ?>"
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php endif; ?>
