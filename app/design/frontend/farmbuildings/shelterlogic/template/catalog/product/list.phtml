@@ -123,8 +123,10 @@
             <?php if($_product->getStatus() == 1) :?>
 
                 <?php 
-                    // get wind snow rating
-                    $wind_snow = $_product->getResource()->getAttribute('wind_snow_rated')->getFrontend()->getValue($_product);
+                    // get wind snow
+                    $wind_snow = Mage::getModel('catalog/product')
+                     ->load($_product->getId())
+                     ->getAttributeText('wind_snow_rated');
                     var_dump($wind_snow);
 
                 ?>
