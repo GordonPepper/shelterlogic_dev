@@ -121,13 +121,6 @@
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
             <?php if($_product->getStatus() == 1) :?>
-
-                <?php 
-                    // get wind snow
-                    $wind_snow = Mage::getModel('catalog/product')->load($_product->getId())->getData('wind_snow_rated');
-                    var_dump($wind_snow);
-
-                ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
                         <a class=''
