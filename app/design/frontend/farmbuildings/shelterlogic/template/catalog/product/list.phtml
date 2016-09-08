@@ -50,7 +50,12 @@
     <?php foreach ($_productCollection as $_product): ?>
         <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
             <?php // Product Image ?>
-            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+            <?php //get wind and snow rating
+                $_resource = Mage::getSingleton('catalog/product')->getResource();
+                $optionValue = $_resource->getAttributeRawValue($_product->getId(),  'wind_snow_rated', Mage::app()->getStore());
+                $wind_snow = $optionValue;
+            ?>
+            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image <?=$wind_snow?>">
                 <?php /* Based on the native RWD styling, product images are displayed at a max of ~400px wide when viewed on a
                         one column page layout with four product columns from a 1280px viewport. For bandwidth reasons,
                         we are going to serve a 300px image, as it will look fine at 400px and most of the times, the image
@@ -120,10 +125,15 @@
     <?php $_columnCount = $this->getColumnCount(); ?>
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php //get wind and snow rating
+                $_resource = Mage::getSingleton('catalog/product')->getResource();
+                $optionValue = $_resource->getAttributeRawValue($_product->getId(),  'wind_snow_rated', Mage::app()->getStore());
+                $wind_snow = $optionValue;
+            ?>
             <?php if($_product->getStatus() == 1) :?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
-                        <a class=''
+                        <a class='<?=$wind_snow?>'
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php else: ?>
@@ -131,7 +141,7 @@
                                 $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
                             }
                             ?>
-                        <a class="<?php echo $onSaleCSS; ?>"
+                        <a class="<?php echo $onSaleCSS; ?> <?=$wind_snow?>"
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php endif; ?>
