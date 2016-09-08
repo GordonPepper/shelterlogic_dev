@@ -51,9 +51,9 @@
         <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
             <?php // Product Image ?>
             <?php //get wind and snow rating
-                $_resource = Mage::getSingleton('catalog/product')->getResource();
-                $optionValue = $_resource->getAttributeRawValue($_product->getId(),  'wind_snow_rated', Mage::app()->getStore());
-                $wind_snow = $optionValue;
+                 $wind_snow = (Mage::getModel('catalog/product')
+                     ->load($_product->getId())
+                     ->getAttributeText('wind_snow_rated') !== "No" ? 'windsnow' : '' );
             ?>
             <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image <?=$wind_snow?>">
                 <?php /* Based on the native RWD styling, product images are displayed at a max of ~400px wide when viewed on a
@@ -130,10 +130,9 @@
                 <?php 
                     //get wind and snow rating
 
-                    $wind_snow = Mage::getModel('catalog/product')
+                    $wind_snow = (Mage::getModel('catalog/product')
                      ->load($_product->getId())
-                     ->getAttributeText('wind_snow_rated');
-                     var_dump($wind_snow);
+                     ->getAttributeText('wind_snow_rated') !== "No" ? 'windsnow' : '' );
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
