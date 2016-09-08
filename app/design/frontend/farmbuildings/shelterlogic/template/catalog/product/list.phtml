@@ -126,12 +126,11 @@
                 <?php 
                     //get wind and snow rating
 
-                    $wind_snow = $_product->getResource()->getAttribute('wind_snow_rated')->getFrontend()->getValue($_product);
-                    var_dump($wind_snow);
+                    
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
-                        <a class='<?php echo $wind_snow; ?>'
+                        <a class=''
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php else: ?>
@@ -139,7 +138,7 @@
                                 $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
                             }
                             ?>
-                        <a class="<?php echo $onSaleCSS; ?> <?php echo $wind_snow; ?>"
+                        <a class="<?php echo $onSaleCSS; ?>"
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php endif; ?>
