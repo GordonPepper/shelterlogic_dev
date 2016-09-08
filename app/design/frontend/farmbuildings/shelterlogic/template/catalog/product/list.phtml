@@ -124,9 +124,7 @@
 
                 <?php 
                     // get wind snow
-                    $wind_snow = Mage::getModel('catalog/product')
-                     ->load($_product->getId())
-                     ->getAttributeText('wind_snow_rated');
+                    $wind_snow = Mage::getModel('catalog/product')->load($_product->getId())->getData('wind_snow_rated');
                     var_dump($wind_snow);
 
                 ?>
