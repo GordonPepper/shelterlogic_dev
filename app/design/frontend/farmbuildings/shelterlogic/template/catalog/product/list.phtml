@@ -126,7 +126,8 @@
                 <?php 
                     //get wind and snow rating
 
-                    $wind_snow = ($_product->getResource()->getAttribute('wind_snow_rated') !== "379" ? 'windsnow' : '' );
+                    $wind_snow = $_product->getResource()->getAttribute('wind_snow_rated')->getFrontend()->getValue($_product);
+                    var_dump($wind_snow);
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
