@@ -125,12 +125,16 @@
     <?php $_columnCount = $this->getColumnCount(); ?>
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
-        <?php //get wind and snow rating
-                $_resource = Mage::getSingleton('catalog/product')->getResource();
-                $optionValue = $_resource->getAttributeRawValue($_product->getId(),  'wind_snow_rated', Mage::app()->getStore());
-                $wind_snow = $optionValue;
-            ?>
+
             <?php if($_product->getStatus() == 1) :?>
+                <?php 
+                    //get wind and snow rating
+
+                    $wind_snow = Mage::getModel('catalog/product')
+                     ->load($_product->getId())
+                     ->getAttributeText('wind_snow_rated');
+                     var_dump($wind_snow);
+                ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
                         <a class='<?=$wind_snow?>'
@@ -146,8 +150,7 @@
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php endif; ?>
                         <?php
-                            $_imgSize = array(260,195);
-                            $product = Mage::getModel('catalog/product')->load($_product->getID());
+                            
 
                             if($product->getVisibility() == 3 && is_null($product->getScene7Main())) {
                                 $configurable_product = Mage::getModel('catalog/product_type_configurable');
