@@ -126,8 +126,11 @@
             
             <?php if($_product->getStatus() == 1) :?>
                 <?php //get wind and snow rating
-                    
-                    $wind_snow = Mage::getModel('catalog/product')->load($_product->getId())->getMyAttribute();
+                    $attributeInfo = Mage::getResourceModel('eav/entity_attribute_collection')
+                ->setCodeFilter('wind_snow_rated')
+                ->getFirstItem();
+ 
+                    $wind_snow = $attributeInfo->getData();
                     var_dump($wind_snow);
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
