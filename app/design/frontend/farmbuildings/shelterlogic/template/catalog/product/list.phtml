@@ -124,9 +124,8 @@
 
                 <?php 
                     // get wind snow
-                    $wind_snow = $_product->getAdditionalData();
+                    $wind_snow = Mage::getModel('catalog/product')->load($_product->getId())->getData('wind_snow_rated');
                     var_dump($wind_snow);
-                    
 
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
