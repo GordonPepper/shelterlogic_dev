@@ -126,14 +126,14 @@
                     // get wind snow
                     $storeId = Mage::app()->getStore()->getStoreId();
                     //$wind_snow = Mage::getModel('catalog/product')->load($_product->getId())->getData('wind_snow_rated');
-                    $wind_snow1 = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'wind_snow_rated', $storeId);
+                    $wind_snow = Mage::getResourceModel('catalog/product')->getAttributeRawValue($_product->getId(), 'wind_snow_rated', $storeId);
                     //var_dump($wind_snow);
-                    var_dump($wind_snow1);
+                    $windSnowClass = ($wind_snow == 380 ? 'windsnow' : '' );
 
                 ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
-                        <a class=''
+                        <a class='<?=$windSnowClass?>'
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php else: ?>
@@ -141,7 +141,7 @@
                                 $onSaleCSS = $_product->getMinimalPrice() < $_product->getPrice() ? 'onsale' : '';
                             }
                             ?>
-                        <a class="<?php echo $onSaleCSS; ?>"
+                        <a class="<?php echo $onSaleCSS; ?> <?=$windSnowClass?>"
                            href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                     <?php endif; ?>
