@@ -121,6 +121,14 @@
     <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
         <?php $i=0; foreach ($_productCollection as $_product): ?>
             <?php if($_product->getStatus() == 1) :?>
+
+                <?php 
+                    // get wind snow
+                    $wind_snow = $_product->getAdditionalData();
+                    echo $_helper->productAttribute($_product, $this->getAdditionalData(), 'wind_snow_rated');
+                    
+
+                ?>
                 <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <?php if ($_product->getTypeId() == 'configurable'): ?>
                         <a class=''
