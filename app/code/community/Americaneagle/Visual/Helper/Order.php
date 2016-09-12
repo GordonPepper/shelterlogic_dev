@@ -63,11 +63,28 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     }
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
+                        $name = $item->getName();
+                        if( $product->getAttributeText('width') ) {
+                            $width = $product->getAttributeText('width');
+                        }
+                        if( $product->getAttributeText('length') ) {
+                            $length = $product->getAttributeText('length');
+                        }
+                        if( $product->getAttributeText('height') ) {
+                            $height = $product->getAttributeText('height');
+                        }
+                        if( $product->getAttributeText('fabric_material') ) {
+                            $fabricMaterial = $product->getAttributeText('fabric_material');
+                        }
+                        if( $product->getAttributeText('fabric_color') ) {
+                            $fabricColor = $product->getAttributeText('fabric_color');
+                        }
+                        $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
                             ->setPartID($item->getSku())
                             ->setUnitPrice($item->getPrice())
-                            ->setLineDescription($item->getName())
+                            ->setLineDescription($lineDescription)
                             ->setLineStatus('A')
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())

@@ -23,6 +23,11 @@
                     <template>page/home.phtml</template>
                     <layout_handle>home_layout</layout_handle>
                 </page_home_layout>
+                <page_blank_layout translate="label">
+                    <label>Blank</label>
+                    <template>page/blank.phtml</template>
+                    <layout_handle>blank_layout</layout_handle>
+                </page_blank_layout>
                 <!--<columns2category module="page" translate="label">-->
                 <!--<label>2 column category</label>-->
                 <!--<template>page/2columns-category-left.phtml</template>-->

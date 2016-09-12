@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: mageuser
- * Date: 3/14/16
- * Time: 10:16 AM
+ * Date: 2/25/16
+ * Time: 1:59 PM
  */
 
 class Americaneagle_Totalogistix_Model_Attribute_Data_Street extends Mage_Eav_Model_Attribute_Data_Text

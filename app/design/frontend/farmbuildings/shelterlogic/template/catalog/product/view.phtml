@@ -99,6 +99,17 @@
 
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
 
+                            <?php if($_product->getTypeId() == 'configurable' && Mage::app()->getStore()->getStoreId() == 8): ?>
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked="true">
+                                    <label class="onoffswitch-label" for="myonoffswitch">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            <?php endif; ?>
+
+
                             <div class="price-info" style="margin-top: 10px; margin-bottom: 10px;">
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>

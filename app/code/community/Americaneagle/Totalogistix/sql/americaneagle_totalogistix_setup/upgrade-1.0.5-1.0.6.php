@@ -2,10 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: mageuser
- * Date: 3/14/16
- * Time: 10:17 AM
+ * Date: 2/25/16
+ * Time: 1:45 PM
  */
-
 /** @var Mage_Customer_Model_Entity_Setup $this */
 $this->startSetup();
 

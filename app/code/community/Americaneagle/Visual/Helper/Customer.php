@@ -67,7 +67,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                     ->setName($address->getName())
                     ->setAddress1($address->getStreet1())
                     ->setAddress2($address->getStreet2())
-                    ->setAddress3($address->getStreet3())
+                    ->setAddress3($address->getTelephone())
                     ->setCity($address->getCity())
                     ->setState($address->getRegionCode())
                     ->setZipCode($address->getPostcode())
@@ -174,7 +174,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setBillingState(strtoupper($this->findRegionCode($billing->getRegionId())))
             ->setBillingCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
             ->setUserDefined1($customer->getId())
-            ->setCustomerName(strtoupper($billing->getName()))
+//            ->setCustomerName(strtoupper($billing->getName()))
             ->setAddress1(strtoupper($billing->getStreet1()))
             ->setAddress2(strtoupper($billing->getStreet2()))
             ->setCity(strtoupper($billing->getCity()))
@@ -183,6 +183,11 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setContactFirstName(strtoupper($billing->getFirstname()))
             ->setContactMiddleInitial($billing->getMiddlename() ? strtoupper(substr($billing->getMiddlename(),0,1)) : null)
             ->setContactLastName(strtoupper($billing->getLastname()));
+
+        if(is_null($customer->getId())) {
+            $vCustomer->setCustomerType('Direct Sales');
+        }
+
 
         if ($customer->getId()) {
             $vCustomer->setUserDefined1($customer->getId());
@@ -214,6 +219,10 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 ->setContactMobileNumber($billing->getTelephone())
                 ->setContactEmail($customer ? $customer->getEmail() : $billing->getEmail())
                 ->setCustomerID(preg_replace("/[^0-9]/", '', $phone));
+
+            if(is_null($customer->getId())) {
+                $vCustomer->setCustomerType('Direct Sales');
+            }
         }
 
         $vCustomer = $this->_createVisualCustomer($vCustomer, $update);

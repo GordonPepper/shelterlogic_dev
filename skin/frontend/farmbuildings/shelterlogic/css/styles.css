@@ -4993,6 +4993,7 @@ p.product-name a:hover {
 .category-products .products-grid li div.wishlist-toggle:not(.active):hover::before {content:"\f005";}
 
 .category-products .products-grid li > a.onsale::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:46px; height:49px; background:url("../images/sale-icon.png") no-repeat center center;}
+.category-products .products-grid li > a.windsnow::after {content:""; display:block; position:absolute; z-index:1; left:auto; right:-3px; top:-3px; bottom:auto; width:60px; height:56px; background:url("../images/wind_snow_ribbon.png") no-repeat center center;}
 
 .products-grid > li {
   position:relative;
@@ -5049,7 +5050,7 @@ opacity:0;
     padding: 0;
 }
 
-.products-grid .product-info .product-west {display:table-cell; vertical-align:middle; padding:5px 10px; position:relative;}
+.products-grid .product-info .product-west {display:table-cell; vertical-align:top; padding:10px; position:relative;}
 .products-grid .product-info .product-west span {display:block; height:14px; overflow:hidden;}
 
 .products-grid .product-info .product-east {

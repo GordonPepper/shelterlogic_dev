@@ -124,14 +124,12 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setEmail($vCustomer->getContactEmail())
                     ->setPhone($vCustomer->getContactPhoneNumber())
                     ->setPassword($customer->generatePassword())
-                    ->setVisualCustomerId($vCustomer->getCustomerID())
+                    ->setVisualCustomerId(strtoupper($vCustomer->getCustomerID()))
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
                     ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
-                if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
-                    $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
                 if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
                     $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 
@@ -201,14 +199,16 @@ class Americaneagle_Visual_Model_Task_Customersync
                 }
             } else {
                 $customer
+                    ->setFirstname($vCustomer->getContactFirstName())
+                    ->setMiddlename($vCustomer->getContactMiddleInitial())
+                    ->setLastname($vCustomer->getContactLastName())
+                    ->setPhone($vCustomer->getContactPhoneNumber())
                     ->setGroupId(strtolower($vCustomer->getPriceGroup())=='exclusive' ? $this->helper->getConfig()->getExclusiveGroupId() : $this->helper->getConfig()->getGeneralGroupId()) //adding it to the General or exclusive group
                     ->setCreditStatus($vCustomer->getCreditStatus())
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
                     ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
-                    if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
-                        $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
                     if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
                         $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 

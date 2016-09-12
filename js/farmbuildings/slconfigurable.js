@@ -64,9 +64,15 @@ aeProduct.Config.prototype = {
     },
     configure: function(event){
 
+        if (jQuery("#myonoffswitch").attr("checked")) {
+            var showAvailable = true;
+        } else {
+            var showAvailable = false;
+        }
+
         var self = this;
         var element = Event.element(event);
-        var params = {"pid": aeProductId, "options": []};
+        var params = {"pid": aeProductId, "options": [], "showAvailableProducts": showAvailable};
         var disable = false;
         this.settings.each(function(selector) {
             selector.disabled = disable;
@@ -176,6 +182,20 @@ aeProduct.Config.prototype = {
                 var result = transport.responseText.evalJSON(true);
                 self.updateAttributes(result);
                 self.addSkuToRequestForm(result.sku);
+
+                if (jQuery("#myonoffswitch").attr("checked")) {
+                    var showAvailable = true;
+                } else {
+                    var showAvailable = false;
+                }
+
+                //if(!showAvailable) {
+                //    jQuery('[data-id=atc-button]').hide();
+                //    jQuery('#span_id').show();
+                //} else {
+                //    jQuery('[data-id=atc-button]').show();
+                //    jQuery('#span_id').hide();
+                //}
             }
         })
     },

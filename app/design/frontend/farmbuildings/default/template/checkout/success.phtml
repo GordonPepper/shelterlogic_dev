@@ -64,6 +64,7 @@
 </div>
 
 <!-- conversion value and order id -->
+<!-- conversion value and order id -->
 <?php 
 if ($this->getOrderId() && $this->getCanViewOrder()):
     $order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
@@ -111,7 +112,7 @@ if ($this->getOrderId() && $this->getCanViewOrder()):
 
         ga('ecommerce:send');
     </script>
-    <?php endif;?>
+<?php endif;?>
     <script>
         var ORDERID = "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>";
         var CONVERSIONVALUE =  <?php echo $total; ?>;
@@ -119,4 +120,14 @@ if ($this->getOrderId() && $this->getCanViewOrder()):
     <!-- .end order confirmation inclusion -->
     <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('conversion-pixels')->toHtml(); ?>
     <!-- .end order confirmation inclusion -->
-<?php //endif; ?>
+
+<!-- AdRoll Conversion -->
+<?php
+    //Get Order Number & Order Total
+    $order_number = Mage::getModel('sales/order')->loadByIncrementId(Mage::getSingleton('checkout/session')->getLastRealOrderId());
+    $amount = number_format($order_number->getGrandTotal(),2);
+?>
+<script type = "text/javascript">
+    adroll_conversion_value_in_dollars = <?php echo $amount; ?>; //order total
+    adroll_custom_data = {"ORDER_ID": "<?php echo $this->getOrderId() ?>"}; // Order Number
+</script>

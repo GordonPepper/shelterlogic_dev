@@ -289,4 +289,3 @@ patching file app/code/core/Mage/Core/Model/Config.php
 patching file app/code/core/Mage/Sales/Model/Quote/Item.php
 patching file lib/Varien/File/Uploader.php
 
-
