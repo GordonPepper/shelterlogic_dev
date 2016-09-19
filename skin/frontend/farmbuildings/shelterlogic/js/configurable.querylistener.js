@@ -1,3 +1,7 @@
+jQuery.fn.doesExist = function(){
+        return jQuery(this).length > 0;
+ };
+
 /// Avoid PrototypeJS conflicts, assign jQuery to $j instead of $
 var $c = jQuery.noConflict();
 
@@ -8,21 +12,21 @@ $c(document).ready(function() {
 	| query params listener
 	|--------------------------------------------------------------------------
 	*/
-	function getconfigVars(qp){
+	function setconfigVars(qp){
 	    var vars = [], hash;
 	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 	    for(var i = 0; i < hashes.length; i++)
 	    {
 	        hash = hashes[i].split('=');
-	        if(hash[0].startsWith(qp)) {
-	        	vars.push(hash[0]);
-	        	vars[hash[0]] = hash[1];
+	        var className = 'select.'+hash[0];
+	        if(hash[0].startsWith(qp) && $c(className).doesExist()) {
+	        	$c(className).find('option[value='+hash[1]+']').attr('selected','selected');
+	        	$c(className).trigger('change');
 	        }
 	    }
 	    return vars;
 	}
-	$c.each(getconfigVars("configurable_"), function(k, v) {
-    	console.log(k + " , " + v);
-  	});
+	var setterconfig = getconfigVars("configurable_");
+	
 
 });
