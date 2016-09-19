@@ -21,7 +21,7 @@ $c(document).ready(function() {
 	    }
 	    return vars;
 	}
-	$.each(getconfigVars("configurable_"), function(k, v) {
+	$c.each(getconfigVars("configurable_"), function(k, v) {
     	console.log(k + " , " + v);
   	});
 
