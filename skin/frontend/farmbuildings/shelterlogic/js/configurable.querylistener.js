@@ -26,7 +26,7 @@ $c(document).ready(function() {
 	    }
 	    return vars;
 	}
-	var setterconfig = getconfigVars("configurable_");
+	var setterconfig = setconfigVars("configurable_");
 	
 
 });
