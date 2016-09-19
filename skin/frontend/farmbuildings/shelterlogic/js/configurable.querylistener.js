@@ -20,7 +20,7 @@ $c(document).ready(function() {
 	        hash = hashes[i].split('=');
 	        var className = 'select.'+hash[0];
 	        if(hash[0].startsWith(qp) && $c(className).doesExist()) {
-	        	$c(className).find('option[value='+hash[1]+']').attr('selected','selected');
+	        	$c(className)val(hash[1]).find('option[value='+hash[1]+']').attr('selected','selected');
 	        	$c(className).trigger('change');
 	        }
 	    }
