@@ -16,3 +16,4 @@
 /remove_test_orders.php
 /update.php
 /ci-exclude-files.txt
+/cart_monitor.php
