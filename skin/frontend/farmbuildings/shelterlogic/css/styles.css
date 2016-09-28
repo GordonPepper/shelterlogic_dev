@@ -3771,6 +3771,10 @@ body {
   float:right;
 }
 
+.skip-content .header-language-background {
+	display: none;
+}
+
 .page-header-container .store-language-container {
   float:right;
   max-width:35%;
@@ -11145,6 +11149,7 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     #header-cart.skip-active {top:65px;}
 
     #header-nav.skip-content {background-color:transparent; border:none;}
+    #header-nav.skip-content .header-language-background {display: block;}
     #header-nav.skip-content .header-language-background .brand-header, #header-nav.skip-content .header-language-background .header-language-container {float: none; text-align: center; width: 100%;}
     .page-header-container .store-language-container {display:none;}
     .page-header-container .skip-links {margin:10px 0;}
