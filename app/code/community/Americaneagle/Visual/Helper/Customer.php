@@ -174,7 +174,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setBillingState(strtoupper($this->findRegionCode($billing->getRegionId())))
             ->setBillingCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
             ->setUserDefined1($customer->getId())
-//            ->setCustomerName(strtoupper($billing->getName()))
+            ->setCustomerName(strtoupper($billing->getName()))
             ->setAddress1(strtoupper($billing->getStreet1()))
             ->setAddress2(strtoupper($billing->getStreet2()))
             ->setCity(strtoupper($billing->getCity()))
@@ -205,7 +205,7 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                 $phone = $billing->getTelephone();
             }
             $vCustomer
-//                ->setCustomerName(strtoupper($billing->getName()))
+                ->setCustomerName(strtoupper($billing->getName()))
                 ->setAddress1(strtoupper($billing->getStreet1()))
                 ->setAddress2(strtoupper($billing->getStreet2()))
                 ->setAddress3($phone)
