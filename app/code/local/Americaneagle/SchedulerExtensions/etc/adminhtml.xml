@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<adminhtml>
+    <menu>
+        <system>
+            <children>
+                <aoe_scheduler>
+                    <children>
+                        <job_clearing>
+                            <title>Running Jobs</title>
+                            <sort_order>50</sort_order>
+                            <action>adminhtml/running/index</action>
+                        </job_clearing>
+                    </children>
+                </aoe_scheduler>
+            </children>
+        </system>
+
+    </menu>
+</adminhtml>
