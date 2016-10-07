@@ -19,16 +19,45 @@ class Americaneagle_SchedulerExtensions_Block_Adminhtml_Stuckjobs_Grid
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
     }
+
+    /**
+     * Add mass-actions to grid
+     *
+     * @return $this
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('schedule_id');
+        $this->getMassactionBlock()->setFormFieldName('schedule_ids');
+        $this->getMassactionBlock()->addItem(
+            'delete',
+            array(
+                'label' => $this->__('Delete'),
+                'url'   => $this->getUrl('*/*/delete'),
+            )
+        );
+        $this->getMassactionBlock()->addItem(
+            'error',
+            array(
+                'label' => $this->__('Error'),
+                'url'   => $this->getUrl('*/*/error'),
+            )
+        );
+        return $this;
+    }
+
     protected function _prepareCollection()
     {
         /** @var Mage_Cron_Model_Resource_Schedule_Collection $collection */
         $collection = Mage::getModel('cron/schedule')->getCollection();
+        $collection->addFieldToFilter('status', array('eq' => Mage_Cron_Model_Schedule::STATUS_RUNNING));
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
     protected function _prepareColumns()
     {
-        $viewHelper = $this->helper('aoe_scheduler/data');
+        //return parent::_prepareColumns();
+        //$viewHelper = $this->helper('aoe_scheduler/data');
 
         $this->addColumn(
             'schedule_id',
@@ -50,81 +79,21 @@ class Americaneagle_SchedulerExtensions_Block_Adminhtml_Stuckjobs_Grid
             'created_at',
             array(
                 'header'         => $this->__('Created'),
-                'index'          => 'created_at',
-                'frame_callback' => array($viewHelper, 'decorateTimeFrameCallBack')
+                'index'          => 'created_at'
             )
         );
         $this->addColumn(
             'scheduled_at',
             array(
                 'header'         => $this->__('Scheduled'),
-                'index'          => 'scheduled_at',
-                'frame_callback' => array($viewHelper, 'decorateTimeFrameCallBack')
+                'index'          => 'scheduled_at'
             )
         );
         $this->addColumn(
             'executed_at',
             array(
                 'header'         => $this->__('Executed'),
-                'index'          => 'executed_at',
-                'frame_callback' => array($viewHelper, 'decorateTimeFrameCallBack')
-            )
-        );
-        $this->addColumn(
-            'last_seen',
-            array(
-                'header'         => $this->__('Last seen'),
-                'index'          => 'last_seen',
-                'frame_callback' => array($viewHelper, 'decorateTimeFrameCallBack')
-            )
-        );
-        $this->addColumn(
-            'eta',
-            array(
-                'header'         => $this->__('ETA'),
-                'index'          => 'eta',
-                'frame_callback' => array($viewHelper, 'decorateTimeFrameCallBack')
-            )
-        );
-        $this->addColumn(
-            'finished_at',
-            array(
-                'header'         => $this->__('Finished'),
-                'index'          => 'finished_at',
-                'frame_callback' => array($viewHelper, 'decorateTimeFrameCallBack')
-            )
-        );
-        $this->addColumn(
-            'messages',
-            array(
-                'header'         => $this->__('Messages'),
-                'index'          => 'messages',
-                'frame_callback' => array($this, 'decorateMessages')
-            )
-        );
-        $this->addColumn(
-            'host',
-            array(
-                'header' => $this->__('Host'),
-                'index'  => 'host',
-            )
-        );
-        $this->addColumn(
-            'pid',
-            array(
-                'header' => $this->__('Pid'),
-                'index'  => 'pid',
-                'width' => '50',
-            )
-        );
-        $this->addColumn(
-            'status',
-            array(
-                'header'         => $this->__('Status'),
-                'index'          => 'status',
-                'frame_callback' => array($viewHelper, 'decorateStatus'),
-                'type'           => 'options',
-                'options'        => Mage::getSingleton('cron/schedule')->getStatuses()
+                'index'          => 'executed_at'
             )
         );
 
@@ -132,7 +101,7 @@ class Americaneagle_SchedulerExtensions_Block_Adminhtml_Stuckjobs_Grid
     }
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/scheduler/index', array('_current' => true));
+        return $this->getUrl('adminhtml/running/index', array('_current' => true));
     }
 
 }
