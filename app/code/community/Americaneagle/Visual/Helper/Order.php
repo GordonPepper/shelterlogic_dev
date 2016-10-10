@@ -14,6 +14,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
     /** @var Visual\CustomerService\CustomerService */
     private $orderService;
 
+    private $longestLeadTime = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +48,13 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     ->addFieldToFilter('oi.order_id', array('eq' => $order->getId()))
                     ->load();
 
+            $nonManagedStockItems = array(43814, 44105, 22926);
+//            $longestLeadTime = false;
+
             foreach ($order->getAllItems() as $index => $item) {
+                if(in_array($item->getProductId(), $nonManagedStockItems)) {
+                    $this->longestLeadTime = true;
+                }
                 if ($item->getProductType() == 'simple' && $item->getParentItem() != null) {
                     continue;
                 }
@@ -165,12 +173,18 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 }
             }
 
+            if($this->longestLeadTime) {
+                $desiredShipDate = $this->getConfig()->getLeadTimeDate($order->getCreatedAt());
+            } else {
+                $leadTime = date('Y-m-d H:i:s', strtotime("+3 days"));
+                $desiredShipDate = new DateTime($leadTime . " UTC");
+            }
             /** @var SalesOrderService\CustomerOrderHeader $newOrderHeader */
             $newOrderHeader = (new SalesOrderService\CustomerOrderHeader())
                 ->setCustomerOrderID($order->getIncrementId())
                 ->setOrderDate(new DateTime($order->getCreatedAt()))
                 ->setCustomerID($customerId)
-                ->setDesiredShipDate($this->getConfig()->getLeadTimeDate($order->getCreatedAt()))
+                ->setDesiredShipDate($desiredShipDate)
                 ->setShipToID($shipToId)
                 ->setStatus('R')
                 ->setShipVIA(!is_null($shipVIA) ? $shipVIA : ($isLTL ? 'LTL' : 'PACKAGE'))
