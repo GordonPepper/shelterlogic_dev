@@ -21,7 +21,7 @@ class Shelterlogic_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_On
                     $productId = $item->getProduct()->getId();
                     $storeId = Mage::app()->getStore()->getStoreId();
                     $freightCost = Mage::getResourceModel('catalog/product')->getAttributeRawValue($productId, 'freight_cost', $storeId);
-                    if (!$freightCost) {
+                    if ($freightCost) {
                         return true;
                     }
                 }
