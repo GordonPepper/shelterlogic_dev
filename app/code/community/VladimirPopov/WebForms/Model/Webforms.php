@@ -125,7 +125,7 @@ class VladimirPopov_WebForms_Model_Webforms
 
         $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         if ($groupId == 1 || $groupId == 4) {
-            $settings["email"] = 'oussamasaddane@gmail.com';
+            $settings["email"] = 'orders@shelterlogic.com';
         } else {
             $settings["email"] = Mage::getStoreConfig('webforms/email/email');
         }
