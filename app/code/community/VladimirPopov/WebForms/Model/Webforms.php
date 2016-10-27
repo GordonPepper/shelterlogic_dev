@@ -122,7 +122,14 @@ class VladimirPopov_WebForms_Model_Webforms
     public function getEmailSettings()
     {
         $settings["email_enable"] = $this->getSendEmail();
-        $settings["email"] = Mage::getStoreConfig('webforms/email/email');
+
+        $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        if ($groupId == 1 || $groupId == 4) {
+            $settings["email"] = 'orders@shelterlogic.com';
+        } else {
+            $settings["email"] = Mage::getStoreConfig('webforms/email/email');
+        }
+
         if ($this->getEmail())
             $settings["email"] = $this->getEmail();
         return $settings;
