@@ -124,6 +124,15 @@ class CustomerService extends \SoapClient
       'InstallSchemaDatabaseLogMessageResponse' => 'Visual\\CustomerService\\InstallSchemaDatabaseLogMessageResponse',
     );
 
+    public function __doRequest($req, $location, $action, $version = SOAP_1_1){
+        $xml = parent::__doRequest($req, $location, $action, $version);
+//        $xml = str_replace("<CustomerNotation>","<CustomerNotation><![CDATA[", $xml);
+//        $xml = str_replace("</CustomerNotation>","]]></CustomerNotation>", $xml);
+        $xml = preg_replace('/<CustomerNotation>[\s\S]*?<\/CustomerNotation>/',"<CustomerNotation />",$xml);
+
+        return $xml;
+    }
+
     /**
      * @param array $options A array of config values
      * @param string $wsdl The wsdl file to use
