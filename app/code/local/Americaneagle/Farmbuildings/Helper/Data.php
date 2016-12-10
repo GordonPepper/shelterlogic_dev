@@ -18,6 +18,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			$code = $att->getProductAttribute()->getAttributeCode();
 			$fields[$code] = 'at_' . $code . '.value';
 		}
+		$fields['is_in_stock'] =
 		$from = $select->from(
 			array('e' => $conn->getTableName('catalog_product_entity')),
 			$fields
@@ -70,29 +71,20 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
         $postVars = json_decode(file_get_contents('php://input'));
 
 		if($sid == 8) {
-			if (is_null($postVars) || is_null($postVars->showAvailableProducts) || ($postVars->showAvailableProducts && $sid == 8)) {
-				$from->joinInner(
-					array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-					'warehouse.product_id = e.entity_id AND warehouse.qty > 0 AND warehouse.is_in_stock = 1 AND warehouse.store_id = 8',
-					array());
-				$from->joinInner(
-					array('location' => $conn->getTableName('gaboli_warehouse_stores')),
-					'location.store_id = warehouse.store_id AND location.location_id = 5',
-					array());
-			}
-
-			if (!is_null($postVars) && !$postVars->showAvailableProducts) {
-				if (!is_null($postVars->showAvailableProducts) && !$postVars->showAvailableProducts && $sid == 8) {
-					$from->joinInner(
-						array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-						'warehouse.product_id = e.entity_id AND warehouse.qty <= 0 AND warehouse.is_in_stock = 0 AND warehouse.store_id = 8',
-						array());
-					$from->joinInner(
-						array('location' => $conn->getTableName('gaboli_warehouse_stores')),
-						'location.store_id = warehouse.store_id AND location.location_id = 5',
-						array());
-				}
-			}
+            $fieldsAddition['is_in_stock'] = 'warehouse.is_in_stock';
+            $fieldsAddition['qty'] = 'warehouse.qty';
+            $from = $select->from(
+                null,
+                $fieldsAddition
+            );
+            $from->joinLeft(
+                array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
+                'warehouse.product_id = e.entity_id AND warehouse.store_id = 8',
+                array());
+            $from->joinLeft(
+                array('location' => $conn->getTableName('gaboli_warehouse_stores')),
+                'location.store_id = warehouse.store_id AND location.location_id = 5',
+                array());
 		}
 
 		$from->where(implode(' AND ', $where));
@@ -100,6 +92,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$tree = array();
         $sp = null;
         $spid = null;
+
 		foreach($conn->fetchAll($select) as $row){
             if (empty($sp) && $row['price'] > 1.00) {
                 $sp = $row['price'];
@@ -124,6 +117,9 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 						'pos' => $labelMap[$row[$att['code']]]['pos'],
 						'children' => array()
 					);
+                    if(isset($row['is_in_stock'])){
+                        $root[$att['id']]['options'][$row[$att['code']]]['instock'] = ( $row['is_in_stock'] && $row['qty'] > 0);
+                    }
 				}
 				$root = &$root[$att['id']]['options'][$row[$att['code']]]['children'];
 				$lastid = $row['id'];
