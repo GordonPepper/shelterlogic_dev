@@ -18,7 +18,6 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 			$code = $att->getProductAttribute()->getAttributeCode();
 			$fields[$code] = 'at_' . $code . '.value';
 		}
-		$fields['is_in_stock'] =
 		$from = $select->from(
 			array('e' => $conn->getTableName('catalog_product_entity')),
 			$fields
