@@ -59,6 +59,8 @@ class Americaneagle_Farmbuildings_IndexController
                 if(isset($opt['children']['id'])) {
                     $nextOpts[] = array('id' => $id, 'val' => $opt['val'], 'pid' => $opt['children']['id']);
                     $last = true;
+                } else if(isset($opt['instock'])) {
+                    $nextOpts[] = array('id' => $id, 'val' => $opt['val'] , 'instock' => $opt['instock']);
                 } else {
                     $nextOpts[] = array('id' => $id, 'val' => $opt['val']);
                 }
