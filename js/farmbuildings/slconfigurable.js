@@ -64,18 +64,17 @@ aeProduct.Config.prototype = {
     },
     configure: function(event){
 
-        if (jQuery("#myonoffswitch").attr("checked")) {
-            var showAvailable = true;
-        } else {
-            var showAvailable = false;
-        }
 
         var self = this;
         var element = Event.element(event);
-        var params = {"pid": aeProductId, "options": [], "showAvailableProducts": showAvailable};
+        var params = {"pid": aeProductId, "options": []};
         var disable = false;
+        var showAvailable = true;
         this.settings.each(function(selector) {
             selector.disabled = disable;
+            if(typeof selector.options[selector.options.selectedIndex].getAttribute('instock') !== 'undefined' && selector.options[selector.options.selectedIndex].getAttribute('instock') == "false"){
+                showAvailable = false;
+            }
             if(!disable) {
                 params.options.push({"id": selector.id, "value": selector.options[selector.options.selectedIndex].value});
             }
@@ -84,7 +83,13 @@ aeProduct.Config.prototype = {
             }
 
         }.bind(this));
-
+        if(!showAvailable) {
+                   jQuery('[data-id=atc-button]').hide();
+                   jQuery('#span_id').show();
+                } else {
+                   jQuery('[data-id=atc-button]').show();
+                   jQuery('#span_id').hide();
+        }
         // clear specs table:
         var specs = $$('#product-attribute-specs-table td');
         specs.each(function (td) {
@@ -148,6 +153,9 @@ aeProduct.Config.prototype = {
             if (selector.id == 'attribute' + nextOptions.attributeid) {
                 for(var i = 0; i < nextOptions.options.length; ++i ) {
                     selector.options[i+1] = new Option(nextOptions.options[i]['val'], nextOptions.options[i]['id']);
+                    if(typeof nextOptions.options[i].instock !== "undefined"){
+                        selector.options[i+1].setAttribute('instock',nextOptions.options[i]['instock']);
+                    }
                     if(typeof nextOptions.options[i].pid !== "undefined"){
                         selector.options[i+1].writeAttribute('data-pid', nextOptions.options[i].pid);
                     }
@@ -182,12 +190,6 @@ aeProduct.Config.prototype = {
                 var result = transport.responseText.evalJSON(true);
                 self.updateAttributes(result);
                 self.addSkuToRequestForm(result.sku);
-
-                if (jQuery("#myonoffswitch").attr("checked")) {
-                    var showAvailable = true;
-                } else {
-                    var showAvailable = false;
-                }
 
                 //if(!showAvailable) {
                 //    jQuery('[data-id=atc-button]').hide();
