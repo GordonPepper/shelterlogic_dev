@@ -196,7 +196,6 @@ aeProduct.Config.prototype = {
 
         var showAvailable = true;
         this.settings.each(function(selector) {
-            selector.disabled = disable;
             if(typeof selector.options[selector.options.selectedIndex].getAttribute('instock') !== 'undefined' && selector.options[selector.options.selectedIndex].getAttribute('instock') == "false"){
                 showAvailable = false;
             }
