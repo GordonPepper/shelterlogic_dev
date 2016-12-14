@@ -114,6 +114,7 @@ aeProduct.Config.prototype = {
 
     updateSelectors: function(nextOptions) {
         var disable = false;
+        var showAvailable = true;
         this.settings.each(function(selector, idx) {
             selector.disabled = disable;
             if(disable || selector.id == 'attribute' + nextOptions.attributeid) {
@@ -169,7 +170,17 @@ aeProduct.Config.prototype = {
                 //    selector.options[1].selected = true;
                 //}
             }
+            if(typeof selector.options[selector.options.selectedIndex].getAttribute('instock') !== 'undefined' && selector.options[selector.options.selectedIndex].getAttribute('instock') == "false"){
+                showAvailable = false;
+            }
         }.bind(this));
+        if(!showAvailable) {
+            jQuery('[data-id=atc-button]').hide();
+            jQuery('#span_id').show();
+        } else {
+            jQuery('[data-id=atc-button]').show();
+            jQuery('#span_id').hide();
+        }
     },
 
     lastOptionChanged: function(event) {
@@ -182,6 +193,16 @@ aeProduct.Config.prototype = {
                 "spid": aeProductId
             }
         );
+
+        var showAvailable = true;
+        this.settings.each(function(selector) {
+            selector.disabled = disable;
+            if(typeof selector.options[selector.options.selectedIndex].getAttribute('instock') !== 'undefined' && selector.options[selector.options.selectedIndex].getAttribute('instock') == "false"){
+                showAvailable = false;
+            }
+
+        }.bind(this));
+
         new Ajax.Request(aePriceUrl, {
             method: 'post',
             requestHeaders: {Accept: 'application/json'},
@@ -191,13 +212,13 @@ aeProduct.Config.prototype = {
                 self.updateAttributes(result);
                 self.addSkuToRequestForm(result.sku);
 
-                //if(!showAvailable) {
-                //    jQuery('[data-id=atc-button]').hide();
-                //    jQuery('#span_id').show();
-                //} else {
-                //    jQuery('[data-id=atc-button]').show();
-                //    jQuery('#span_id').hide();
-                //}
+                if(!showAvailable) {
+                   jQuery('[data-id=atc-button]').hide();
+                   jQuery('#span_id').show();
+                } else {
+                   jQuery('[data-id=atc-button]').show();
+                   jQuery('#span_id').hide();
+                }
             }
         })
     },
