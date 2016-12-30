@@ -1349,7 +1349,7 @@ body:not(.customer-account) .block:first-child .block-title {
   color:#999999;
   font-size:13px;
   font-family:"open sans";
-  line-height:24px;
+  line-height:23px;
   text-align:center;
   text-transform:uppercase;
   vertical-align:middle;
@@ -3893,7 +3893,7 @@ body {
  * Global Header Navigation
  * ============================================ */
 @media only screen and (max-width:770px) {
-  #header-account li a,
+  #header-account li a, #country-menu li a,
   .nav-primary a.level0 {
     padding:0 10px;
     border-bottom:1px solid #cccccc;
@@ -3903,12 +3903,12 @@ body {
     line-height:30px;
   }
 
-  #header-account li:last-child a,
+  #header-account li:last-child a, #country-menu li:last-child a,
   .nav-primary li.level0:last-child a.level0 {
     border-bottom:0;
   }
 
-  .no-touch #header-account a:hover,
+  .no-touch #header-account a:hover, .no-touch #country-menu a:hover,
   .no-touch .nav-primary a:hover {
     background-color:#f4f4f4;
     text-decoration:none;
@@ -4330,26 +4330,26 @@ body {
 @media only screen and (min-width:771px) {
   .skip-account {display:inline-block; vertical-align:middle;}
 
-  #header-account.skip-active {
+  #header-account.skip-active, #country-menu.skip-active {
     background:#ffffff;
     border:solid 1px #eeeeee;
     display:block;
     position:absolute;
     z-index:200;
     top:55px;
-    right:0;
+    left:-50px;
     width:153px;
     box-shadow:0 2px 5px -2px rgba(0,0,0,.2);
   }
 
-  #header-account a {
+  #header-account a, #country-menu a {
     display:block;
     padding:5px 10px;
     color:#636363;
     line-height:2;
   }
 
-  #header-account a:hover {
+  #header-account a:hover, #country-menu a:hover {
     color:#EAAB00;
   }
 }
@@ -4357,14 +4357,14 @@ body {
  * Account Links
  */
 
-.header-login #header-account {top:29px;}
+.header-login #header-account, .header-login #country-menu {top:29px;}
 
-#header-account {
+#header-account, #country-menu {
   padding:5px 0;
   border:1px solid #eeeeee;
 }
 
-#header-account a {
+#header-account a, #country-menu a {
   position:relative;
   display:block;
   padding:0 10px;
@@ -4372,7 +4372,7 @@ body {
   text-align:center;
 }
 
-#header-account a:hover {
+#header-account a:hover, #country-menu a:hover {
   color:#EAAB00;
 }
 
@@ -11141,10 +11141,10 @@ background:url("/skin/frontend/farmbuildings/shelterlogic/images/header-icons.pn
     .header-language-background .header-language-container {text-align:center;}
     #header-cart.skip-active,
     #search_mini_form .input-box,
-    #header-account,
+    #header-account, #country-menu
     #header-nav {width:auto; left:0; right:0;}
     #header-nav,
-    #header-account {margin-top:10px;}
+    #header-account, #country-menu {margin-top:10px;}
     #header-cart.skip-active {top:65px;}
 
     #header-nav.skip-content {background-color:transparent; border:none;}

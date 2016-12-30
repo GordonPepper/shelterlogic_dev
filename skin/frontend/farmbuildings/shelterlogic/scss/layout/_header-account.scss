@@ -61,7 +61,7 @@
     .skip-account:hover {
     }
 
-    #header-account.skip-active {
+    #header-account.skip-active, #country-menu.skip-active {
         @include menu;
         display: block;
         position: absolute;
@@ -71,14 +71,14 @@
         width: 200px;
     }
 
-    #header-account a {
+    #header-account a, #country-menu a {
         display: block;
         padding: 5px 10px;
         color: $c-text;
         line-height: 2;
     }
 
-    #header-account a:hover {
+    #header-account a:hover, #country-menu a:hover {
         color: $c-action;
     }
 
@@ -88,13 +88,13 @@
  * Account Links
  */
 
-#header-account {
+#header-account, #country-menu {
     padding: 5px 0;
 }
 
 //#header-account li { }
 
-#header-account a {
+#header-account a, #country-menu a {
     position: relative;
     display: block;
     padding: 0 10px;
@@ -102,7 +102,7 @@
     text-align: center;
 }
 
-#header-account a:hover {
+#header-account a:hover, #country-menu a:hover {
     color: $c-action;
 }
 
