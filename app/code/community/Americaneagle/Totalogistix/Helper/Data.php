@@ -347,7 +347,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             array()
         );
         $from->joinInner(
-            array('dest' => 'ae_totalogistix_zipcode'),
+            array('dest' => 'ae_totalogistix_zipcode_ca'),
             'dest.zip_code = ' . $conn->quote($postcode),
             array()
         );
@@ -356,7 +356,6 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
                    + cos(radians(source.latitude))
                      * cos(radians(dest.latitude))
                      * pow(sin(abs(radians(source.longitude) - radians(dest.longitude)) / 2), 2)))');
-        $abc = (string)$select;
         return $conn->fetchAll($select);
     }
 
