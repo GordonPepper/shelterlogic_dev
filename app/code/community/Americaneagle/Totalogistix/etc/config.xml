@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Americaneagle_Totalogistix>
-            <version>1.0.5</version>
+            <version>1.0.7</version>
         </Americaneagle_Totalogistix>
     </modules>
     <global>
@@ -29,6 +29,9 @@
                     <zip>
                         <table>ae_totalogistix_zipcode</table>
                     </zip>
+                    <ca_zip>
+                        <table>ae_totalogistix_zipcode_ca</table>
+                    </ca_zip>
                 </entities>
             </americaneagle_totalogistix_zip_resource>
 
@@ -84,6 +87,12 @@
                     <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
             </city_database>
+            <ca_zip_database>
+                <setup>
+                    <module>Americaneagle_Totalogistix</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </ca_zip_database>
         </resources>
         <sales>
             <quote>
