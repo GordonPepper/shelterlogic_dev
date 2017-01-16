@@ -332,6 +332,8 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
          * ordered by distance to $postcode
          */
         /** @var Magento_Db_Adapter_Pdo_Mysql $conn */
+        $postcode = str_replace(' ', '', $postcode);
+        
         $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
         /** @var Magento_Db_Adapter_Pdo_Mysql $select */
         $select = $conn->select();
