@@ -157,6 +157,9 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
        // if($this->getSt)
         if($request->getDestCountryId() == "CA"){
             $warehouses = $this->getDistanceOrderedCAWarehouses($request->getDestPostcode());
+            foreach ($warehouses as $warehouse) {
+                return $warehouse['zipcode'];
+            }
         }else{
             $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
         }
