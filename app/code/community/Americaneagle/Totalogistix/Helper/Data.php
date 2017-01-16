@@ -157,9 +157,21 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
        // if($this->getSt)
         if($request->getDestCountryId() == "CA"){
             $warehouses = $this->getDistanceOrderedCAWarehouses($request->getDestPostcode());
+
+            // Hardcoded for currentlogic
+            $warehouses = $this->addOtherWarehouses($warehouses);
+            $this->addWarehouseStockToProducts($request);
+            list($closestWarehouse, $quoteMap) = $this->getBestWarehouse($request, $warehouses);
             foreach ($warehouses as $warehouse) {
-                return $warehouse['zipcode'];
+                if ($warehouse['location_id'] == $closestWarehouse) {
+                    Mage::getSingleton('core/session')->setWarehouseFulfillment(array(
+                        'single_warehouse' => false,
+                        'fulfillment' => $quoteMap
+                    ));
+                    return $warehouse['zipcode'];
+                }
             }
+            Mage::throwException('Closest warehouse mismatch');
         }else{
             $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
         }
@@ -336,7 +348,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
          */
         /** @var Magento_Db_Adapter_Pdo_Mysql $conn */
         $postcode = str_replace(' ', '', $postcode);
-        
+
         $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
         /** @var Magento_Db_Adapter_Pdo_Mysql $select */
         $select = $conn->select();
@@ -387,6 +399,18 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         else
             return false;
 
+    }
+
+    public function addOtherWarehouses($warehouses){
+        if($warehouses != null){
+            $collection = Mage::getResourceModel('gaboli_warehouse/location_collection')->addStoreFilter(Mage::app()->getStore()->getId());
+            foreach ($collection as $warehouse){
+                if($warehouse->getCountryId() != 'CA'){
+                    $warehouses[] = array('location_id' => $warehouse->getId(), 'zipcode' => $warehouses[0]['zipcode'], 'name' => $warehouse->getName());
+                }
+            }
+            return $warehouses;
+        }
     }
 
 }
