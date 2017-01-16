@@ -29,11 +29,16 @@ $buttonTitle = $this->__('Add to Cart');
 $raqTitle = $this->__('Request Quote');
 $raqTarget = $this->getUrl('requestquote', array('_type' => Mage_Core_Model_Store::URL_TYPE_LINK));
 $raqOnly = false;
+$saleable = $_product->isSaleable();
 if($_product->getTypeId() == 'simple' && $_product->getWeight() >= 5000){
     $raqOnly = true;
 }
 ?>
-<?php if($_product->isSaleable()): ?>
+<?php $currentProduct = Mage::registry('current_product'); ?>
+<?php if($currentProduct && $currentProduct->getID() == $_product->getID() && !is_null($_product->stock_item->qty) && $_product->stock_item->qty <= 0 && $_product->getTypeId() == 'simple'){
+    $saleable = false;
+}?>
+<?php if($saleable): ?>
     <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
         <div class="qty-wrapper">

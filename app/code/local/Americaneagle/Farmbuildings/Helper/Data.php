@@ -70,29 +70,20 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
         $postVars = json_decode(file_get_contents('php://input'));
 
 		if($sid == 8) {
-			if (is_null($postVars) || is_null($postVars->showAvailableProducts) || ($postVars->showAvailableProducts && $sid == 8)) {
-				$from->joinInner(
-					array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-					'warehouse.product_id = e.entity_id AND warehouse.qty > 0 AND warehouse.is_in_stock = 1 AND warehouse.store_id = 8',
-					array());
-				$from->joinInner(
-					array('location' => $conn->getTableName('gaboli_warehouse_stores')),
-					'location.store_id = warehouse.store_id AND location.location_id = 5',
-					array());
-			}
-
-			if (!is_null($postVars) && !$postVars->showAvailableProducts) {
-				if (!is_null($postVars->showAvailableProducts) && !$postVars->showAvailableProducts && $sid == 8) {
-					$from->joinInner(
-						array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
-						'warehouse.product_id = e.entity_id AND warehouse.qty <= 0 AND warehouse.is_in_stock = 0 AND warehouse.store_id = 8',
-						array());
-					$from->joinInner(
-						array('location' => $conn->getTableName('gaboli_warehouse_stores')),
-						'location.store_id = warehouse.store_id AND location.location_id = 5',
-						array());
-				}
-			}
+            $fieldsAddition['is_in_stock'] = 'warehouse.is_in_stock';
+            $fieldsAddition['qty'] = 'warehouse.qty';
+            $from = $select->from(
+                null,
+                $fieldsAddition
+            );
+            $from->joinLeft(
+                array('warehouse' => $conn->getTableName('gaboli_warehouse_stock_status_index')),
+                'warehouse.product_id = e.entity_id AND warehouse.store_id = 8',
+                array());
+            $from->joinLeft(
+                array('location' => $conn->getTableName('gaboli_warehouse_stores')),
+                'location.store_id = warehouse.store_id AND location.location_id = 5',
+                array());
 		}
 
 		$from->where(implode(' AND ', $where));
@@ -100,6 +91,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		$tree = array();
         $sp = null;
         $spid = null;
+
 		foreach($conn->fetchAll($select) as $row){
             if (empty($sp) && $row['price'] > 1.00) {
                 $sp = $row['price'];
@@ -124,6 +116,9 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 						'pos' => $labelMap[$row[$att['code']]]['pos'],
 						'children' => array()
 					);
+                    if(isset($row['is_in_stock'])){
+                        $root[$att['id']]['options'][$row[$att['code']]]['instock'] = ( $row['is_in_stock'] && $row['qty'] > 0);
+                    }
 				}
 				$root = &$root[$att['id']]['options'][$row[$att['code']]]['children'];
 				$lastid = $row['id'];
@@ -164,51 +159,51 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 		return $map;
 	}
 
-	public function getTree($pid) {
+    public function getTree($pid) {
 //		$cache = Mage::app()->getCache();
 //		$key = 'attributeTree_' . $pid . '_' . Mage::app()->getStore()->getId();
 //
 //		$tree = $cache->load($key);
 //		if($tree === false) {
-			$product = Mage::getModel('catalog/product')->load($pid);
-			$tree = $this->getAttributeTree($product);
+        $product = Mage::getModel('catalog/product')->load($pid);
+        $tree = $this->getAttributeTree($product);
 //			$cache->save(serialize($tree), $key);
-			return $tree;
+        return $tree;
 //		} else {
 //			return unserialize($tree);
 //		}
-	}
+    }
 
-	public function getAdditionalData($pid, $spid) {
-		$product = Mage::getModel('catalog/product')->load($pid);
-		$sproduct = Mage::getModel('catalog/product')->load($spid);
+    public function getAdditionalData($pid, $spid) {
+        $product = Mage::getModel('catalog/product')->load($pid);
+        $sproduct = Mage::getModel('catalog/product')->load($spid);
         //Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
 
         $additional = array();
-		foreach($this->getSpAttributes($product, $sproduct) as $adds) {
-			if($adds['code'] == 'scene7_manual') {
-				$url = '<a href="'.$adds["value"].'" target="_blank">Download (PDF)</a>';
-				$additional[$adds['code']] = $url;
-			} elseif($adds['code'] == 'video_url') {
-				$url = '<a href="'.$adds["value"].'" target="_blank">Click here</a>';
-				$additional[$adds['code']] = $url;
-			} else {
-				$additional[$adds['code']] = $adds['value'];
-			}
-		}
+        foreach($this->getSpAttributes($product, $sproduct) as $adds) {
+            if($adds['code'] == 'scene7_manual') {
+                $url = '<a href="'.$adds["value"].'" target="_blank">Download (PDF)</a>';
+                $additional[$adds['code']] = $url;
+            } elseif($adds['code'] == 'video_url') {
+                $url = '<a href="'.$adds["value"].'" target="_blank">Click here</a>';
+                $additional[$adds['code']] = $url;
+            } else {
+                $additional[$adds['code']] = $adds['value'];
+            }
+        }
         $fp = Mage::getModel('americaneagle_visual/priceobserver')->getShelterlogicPriceRule(Mage::getSingleton('customer/session')->getCustomer(), $product, $spid);
 
         $vals = array(
-			'price' => $fp,
-			'sku' => $product->getSku(),
-			'weight' => $product->getWeight(),
-			'attribs' => $additional
-		);
+            'price' => $fp,
+            'sku' => $product->getSku(),
+            'weight' => $product->getWeight(),
+            'attribs' => $additional
+        );
 
-		return $vals;
-	}
-	public function getSpAttributes($product, $sproduct)
-	{
+        return $vals;
+    }
+    public function getSpAttributes($product, $sproduct)
+    {
         $block = Mage::getBlockSingleton('shelterlogic_templates/product_view_attributes');
         Mage::register('product', $product, true);
         Mage::register('searchProduct', $sproduct, true);
@@ -238,7 +233,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 //			}
 //		}
 //		return $data;
-	}
+    }
 
 }
 

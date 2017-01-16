@@ -41,7 +41,7 @@
 <div class="clear">&nsp;</div>
 <div class="product-view">
     <?php
-   /** @var Mage_Catalog_Model_Resource_Category_Collection $cats */
+    /** @var Mage_Catalog_Model_Resource_Category_Collection $cats */
     $categoryImage=false;
     $cats = $_product->getCategoryCollection();
     $cats->addAttributeToSelect('*')->load();
@@ -53,7 +53,7 @@
         }
     }
     if ($categoryImage) : ?>
-    <div class="product-view-banner"><img src="<?php echo $categoryImage; ?>" alt="" /></div>
+        <div class="product-view-banner"><img src="<?php echo $categoryImage; ?>" alt="" /></div>
     <?php endif; ?>
     <div class="product-essential">
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -72,18 +72,18 @@
                         <div class="mod">
                             <div class="product-name" style="margin-bottom: 10px">
                                 <ul class="product-item-nav">
-<!--                                    <li class="prev"><a href="#"></a></li>-->
-<!--                                    <li class="next"><a href="#"></a></li>-->
+                                    <!--                                    <li class="prev"><a href="#"></a></li>-->
+                                    <!--                                    <li class="next"><a href="#"></a></li>-->
                                 </ul>
                                 <h1 class="h1"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                             </div>
 
                             <div class="extra-info" style="margin-bottom: 10px">
-                            <?php if (!$_product->isConfigurable() ): ?>
-                                <span class="sku-details-label">
+                                <?php if (!$_product->isConfigurable() ): ?>
+                                    <span class="sku-details-label">
                                     Model #<?php echo $_helper->productAttribute($_product, $_product->getSku(), 'sku') ?>
                                 </span>
-                            <?php endif ; ?>
+                                <?php endif ; ?>
                             </div>
 
                             <div class="extra-info" style="margin-bottom: 10px">
@@ -99,17 +99,6 @@
 
                             <?php echo $this->getChildHtml('bv_reviewsummary') ?>
 
-                            <?php if($_product->getTypeId() == 'configurable' && Mage::app()->getStore()->getStoreId() == 8): ?>
-                                <div class="onoffswitch">
-                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked="true">
-                                    <label class="onoffswitch-label" for="myonoffswitch">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            <?php endif; ?>
-
-
                             <div class="price-info" style="margin-top: 10px; margin-bottom: 10px;">
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>
@@ -117,15 +106,15 @@
                             </div>
 
                             <?php echo $this->getChildHtml('alert_urls') ?>
-        <?php
-        /*
-                            if ($_product->getShortDescription()):
-                                <div class="short-description">
-                                    <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
-                                </div>
-                            endif;
-        */
-        ?>
+                            <?php
+                            /*
+                                                if ($_product->getShortDescription()):
+                                                    <div class="short-description">
+                                                        <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                                                    </div>
+                                                endif;
+                            */
+                            ?>
                             <?php if ($_product->isSaleable() && $this->hasOptions()):?>
                                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                             <?php endif;?>
@@ -141,20 +130,20 @@
                                         <?php endif; ?>
                                         <?php echo $this->getChildHtml('addto') ?>
                                         <?php
-        /*
-                                         echo $this->getChildHtml('sharing')
-        */
-                                         ?>
+                                        /*
+                                                                         echo $this->getChildHtml('sharing')
+                                        */
+                                        ?>
                                     </div>
                                     <?php echo $this->getChildHtml('extra_buttons') ?>
                                 <?php elseif (!$_product->isSaleable()): ?>
                                     <div class="add-to-box">
                                         <?php echo $this->getChildHtml('addto') ?>
                                         <?php
-        /*
-                                         echo $this->getChildHtml('sharing')
-        */
-                                         ?>
+                                        /*
+                                                                         echo $this->getChildHtml('sharing')
+                                        */
+                                        ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -190,7 +179,7 @@
             <?php endif;?>
         </form>
         <script type="text/javascript">
-        //<![CDATA[
+            //<![CDATA[
             var productAddToCartForm = new VarienForm('product_addtocart_form');
             productAddToCartForm.submit = function(button, url) {
                 if (this.validator.validate()) {
@@ -198,7 +187,7 @@
                     var oldUrl = form.action;
 
                     if (url) {
-                       form.action = url;
+                        form.action = url;
                     }
                     var e = null;
                     try {
@@ -238,7 +227,7 @@
                     Object.extend(Validation.methods, nv);
                 }
             }.bind(productAddToCartForm);
-        //]]>
+            //]]>
         </script>
     </div>
 
@@ -254,12 +243,12 @@
             <div class="cmlla">
                 <ul>
                     <?php foreach ($_marketingBullets as $_item): ?>
-                    <li>
-                        <?php if ($_item['title']): ?>
-                            <h4><?php echo $_item['title'] ?></h4>
-                        <?php endif; ?>
-                        <p><?php echo $_item['content']; ?></p>
-                    </li>
+                        <li>
+                            <?php if ($_item['title']): ?>
+                                <h4><?php echo $_item['title'] ?></h4>
+                            <?php endif; ?>
+                            <p><?php echo $_item['content']; ?></p>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -270,8 +259,8 @@
         <div class="x-mod">
             <div class="x-trigger button">MAY WE SUGGEST</div>
             <div class="x-target">
-                    <?php echo $this->getChildHtml('related_products') ?>
-                    <?php echo $this->getChildHtml('product-recommended-items') ?>
+                <?php echo $this->getChildHtml('related_products') ?>
+                <?php echo $this->getChildHtml('product-recommended-items') ?>
             </div>
         </div>
     </div>

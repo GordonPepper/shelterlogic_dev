@@ -43,12 +43,19 @@ try {
 $threshold = get_threshold();
 
 $sql = [];
-$sql[] = "select count(distinct sfqi.product_id) as cart_items";
-$sql[] = "from sales_flat_quote_item sfqi";
-$sql[] = "inner join sales_flat_quote_item sfqi2 on sfqi2.item_id = sfqi.parent_item_id";
-$sql[] = "  inner join catalog_product_super_link cpsl on cpsl.parent_id = sfqi2.product_id";
-$sql[] = "where sfqi.product_type = 'simple'";
-$sql[] = "  and TIMESTAMPDIFF(SECOND, sfqi.created_at, utc_timestamp()) < $threshold";
+$sql[] = "create TEMPORARY TABLE if not EXISTS current_items as";
+$sql[] = "  (select sfqi.item_id, sfqi2.product_id, sfqi.product_type, sfqi.created_at";
+$sql[] = "   from sales_flat_quote_item sfqi";
+$sql[] = "   inner join sales_flat_quote_item sfqi2 on sfqi2.item_id = sfqi.parent_item_id";
+$sql[] = "   where sfqi.product_type = 'simple' and unix_timestamp() - unix_timestamp(sfqi.created_at) < 172800);";
+$dbh->query(implode("\n", $sql));
+$sql = [];
+$sql[] = "select count(distinct ci.item_id) as cart_items";
+$sql[] = "from current_items ci";
+$sql[] = "inner join catalog_product_super_link cpsl on cpsl.parent_id = ci.product_id";
+$sql[] = "where unix_timestamp() - unix_timestamp(ci.created_at) < $threshold;";
+
+//$sql[] = "drop table current_items";
 $count = $dbh->query(implode("\n", $sql));
 
 foreach($count as $row) {

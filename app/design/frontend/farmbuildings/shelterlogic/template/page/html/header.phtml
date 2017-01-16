@@ -117,6 +117,7 @@ $accountUrl = Mage::helper('customer')->getAccountUrl();
                             <?php echo $this->getChildHtml('store_language') ?>
                         </div>
                         <?php echo $this->getChildHtml('currency_switcher') ?>
+                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_header_social_icons')->toHtml();?>
                         <div class="header-wishlist hlc-item"><a href="/shop/wishlist/">Wishlist</a></div>
                         <div class="header-login hlc-item"><a href="/shop/customer/account/">Account</a></div>
                     </div>

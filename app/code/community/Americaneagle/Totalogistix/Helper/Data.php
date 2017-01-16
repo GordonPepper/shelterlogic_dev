@@ -154,7 +154,27 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         if (empty($request)) {
             return Mage::getStoreConfig('carriers/totalogistix/origin_zip');
         }
-        $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
+       // if($this->getSt)
+        if($request->getDestCountryId() == "CA"){
+            $warehouses = $this->getDistanceOrderedCAWarehouses($request->getDestPostcode());
+
+            // Hardcoded for currentlogic
+            $warehouses = $this->addOtherWarehouses($warehouses);
+            $this->addWarehouseStockToProducts($request);
+            list($closestWarehouse, $quoteMap) = $this->getBestWarehouse($request, $warehouses);
+            foreach ($warehouses as $warehouse) {
+                if ($warehouse['location_id'] == $closestWarehouse) {
+                    Mage::getSingleton('core/session')->setWarehouseFulfillment(array(
+                        'single_warehouse' => false,
+                        'fulfillment' => $quoteMap
+                    ));
+                    return $warehouse['zipcode'];
+                }
+            }
+            Mage::throwException('Closest warehouse mismatch');
+        }else{
+            $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
+        }
         $this->addWarehouseStockToProducts($request);
         $closestWarehouse = $this->getClosestWarehouseWithAllProducts($request, $warehouses);
         if (isset($closestWarehouse)) {
@@ -321,6 +341,41 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         return $conn->fetchAll($select);
     }
 
+    private function getDistanceOrderedCAWarehouses($postcode) {
+        /*
+         * ok, so here we want a list of the gaboli warehouse locations
+         * ordered by distance to $postcode
+         */
+        /** @var Magento_Db_Adapter_Pdo_Mysql $conn */
+        $postcode = str_replace(' ', '', $postcode);
+
+        $conn = Mage::getSingleton('core/resource')->getConnection('core_read');
+        /** @var Magento_Db_Adapter_Pdo_Mysql $select */
+        $select = $conn->select();
+
+        /** @var Varien_Db_Select $from */
+        $from = $select->from(
+            array('gwl' => $conn->getTableName('gaboli_warehouse_location')),
+            array('location_id' => 'id', 'zipcode' => 'zipcode', 'name' => 'name')
+        );
+        $from->joinInner(
+            array('source' => 'ae_totalogistix_zipcode_ca'),
+            'source.zip_code = gwl.zipcode',
+            array()
+        );
+        $from->joinInner(
+            array('dest' => 'ae_totalogistix_zipcode_ca'),
+            'dest.zip_code = ' . $conn->quote($postcode),
+            array()
+        );
+
+        $from->order('asin(sqrt(pow(sin(abs(radians(source.latitude) - radians(dest.latitude)) / 2), 2)
+                   + cos(radians(source.latitude))
+                     * cos(radians(dest.latitude))
+                     * pow(sin(abs(radians(source.longitude) - radians(dest.longitude)) / 2), 2)))');
+        return $conn->fetchAll($select);
+    }
+
     private function getServiceUri() {
         return Mage::getStoreConfig('carriers/totalogistix/service_url');
     }
@@ -344,6 +399,18 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         else
             return false;
 
+    }
+
+    public function addOtherWarehouses($warehouses){
+        if($warehouses != null){
+            $collection = Mage::getResourceModel('gaboli_warehouse/location_collection')->addStoreFilter(Mage::app()->getStore()->getId());
+            foreach ($collection as $warehouse){
+                if($warehouse->getCountryId() != 'CA'){
+                    $warehouses[] = array('location_id' => $warehouse->getId(), 'zipcode' => $warehouses[0]['zipcode'], 'name' => $warehouse->getName());
+                }
+            }
+            return $warehouses;
+        }
     }
 
 }

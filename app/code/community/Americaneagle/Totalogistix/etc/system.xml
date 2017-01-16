@@ -47,7 +47,7 @@
                         <origin_zip translate="label">
                             <label>Origin Zip</label>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-zip</validate>
+                            <validate>validate-zip-international</validate>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
