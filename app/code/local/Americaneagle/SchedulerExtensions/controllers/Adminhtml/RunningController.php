@@ -62,7 +62,18 @@ class Americaneagle_SchedulerExtensions_Adminhtml_RunningController
     }
 
     public function removeLockAction() {
-        $this->_getSession()->addSuccess('remove lock function to be implemented');
+        $files = scandir('/tmp');
+        foreach ($files as $file) {
+            if(0 === strpos($file, 'magento.aoe_scheduler')){
+                $path = sprintf("/tmp/%s/", $file);
+                if(true === rmdir($path)) {
+                    $this->_getSession()->addSuccess("Lock directory ${path} removed.");
+                } else {
+                    $this->_getSession()->addError("Lock directory ${path} was not removed!");
+                }
+            }
+        }
+
         $this->_redirect('*/*/index');
     }
 }

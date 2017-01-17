@@ -10,6 +10,11 @@
                             <sort_order>50</sort_order>
                             <action>adminhtml/running/index</action>
                         </job_clearing>
+                        <log_viewing>
+                            <title>Job Logs</title>
+                            <sort_order>60</sort_order>
+                            <action>adminhtml/cronlog/index</action>
+                        </log_viewing>
                     </children>
                 </aoe_scheduler>
             </children>
