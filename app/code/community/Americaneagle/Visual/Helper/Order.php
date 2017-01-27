@@ -253,4 +253,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             }
         }
     }
+    public function resetHeader() {
+        $this->orderService->__setSoapHeaders($this->getHeader());
+    }
 }

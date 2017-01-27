@@ -59,8 +59,17 @@ class Americaneagle_Visual_Model_Task_Ordersync
         }
 
         foreach ($store_ids as $storeId) {
+            $this->store = Mage::getModel('core/store');
             $this->store->load($storeId);
+
             $this->orderHelper->getConfig()->setStore($this->store);
+            $this->orderHelper->setHeader(
+                new SoapHeader('http://tempuri.org/', 'Header', array(
+                    'Key' => $this->orderHelper->getConfig()->getServiceKey(),
+                    'ExternalRefGroup' => $this->orderHelper->getConfig()->getExternalRefGroup()
+                ))
+            );
+            $this->orderHelper->resetHeader();
             $this->customerHelper->getConfig()->setStore($this->store);
 
             $startTime = microtime(true);
