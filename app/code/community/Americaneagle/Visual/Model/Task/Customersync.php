@@ -112,9 +112,6 @@ class Americaneagle_Visual_Model_Task_Customersync
 
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
-            if ($customerItem->getID() == 'A801144') {
-                $foo = 'bar';
-            }
             if ($customer == null) {
                 $customer = Mage::getModel("customer/customer");
                 $customer
