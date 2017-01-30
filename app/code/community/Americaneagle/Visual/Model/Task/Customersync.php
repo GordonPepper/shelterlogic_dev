@@ -112,6 +112,9 @@ class Americaneagle_Visual_Model_Task_Customersync
 
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
+            if ($customerItem->getID() == 'A801144') {
+                $foo = 'bar';
+            }
             if ($customer == null) {
                 $customer = Mage::getModel("customer/customer");
                 $customer
@@ -142,6 +145,31 @@ class Americaneagle_Visual_Model_Task_Customersync
                     $fail = true;
                 }
 
+                $address = Mage::getModel("customer/address")
+                    ->setCustomerId($customer->getId())
+                    ->setFirstname($vCustomer->getContactFirstName())
+                    ->setMiddlename($vCustomer->getContactMiddleInitial())
+                    ->setLastname($vCustomer->getContactLastName())
+                    ->setCountryID($vCustomer->getCountry())
+                    ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
+                    ->setPostcode($vCustomer->getBillingZipCode())
+                    ->setCity($vCustomer->getBillingCity())
+                    ->setStreet(array($vCustomer->getBillingAddress1(),
+                        $vCustomer->getBillingAddress2(),
+                        $vCustomer->getBillingAddress3()))
+                    ->setState($vCustomer->getBillingState())
+                    ->setTelephone($vCustomer->getContactPhoneNumber())
+                    ->setIsDefaultBilling('1')
+                    ->setIsDefaultShipping('0')
+                    ->setSaveInAddressBook('1');
+
+                try {
+                    $address->save();
+                }
+                catch (Exception $e) {
+                    $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                }
+
                 if (!$fail) {
                     if (!$this->isSameShipping($vCustomer) && $vCustomer->getBillingCountry() != '') {
 
@@ -153,7 +181,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                             ->setFirstname($firstname)
                             ->setMiddlename($middlename)
                             ->setLastname($lastname)
-                            ->setCountryId($this->helper->findCountryId($vCustomer->getBillingCountry()))
+                            ->setCountryId($this->helper->findCountryId($vCustomer->getCountry()))
                             ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
                             ->setPostcode($vCustomer->getBillingZipCode())
                             ->setCity($vCustomer->getBillingCity())
