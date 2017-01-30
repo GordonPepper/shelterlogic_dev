@@ -396,4 +396,8 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
 
         return Mage::registry("region_{$regionId}");
     }
+    public function resetHeader() {
+        $this->customerService->__setSoapHeaders($this->getHeader());
+    }
+
 }

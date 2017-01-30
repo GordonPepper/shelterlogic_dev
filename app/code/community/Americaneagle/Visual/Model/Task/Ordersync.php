@@ -71,6 +71,13 @@ class Americaneagle_Visual_Model_Task_Ordersync
             );
             $this->orderHelper->resetHeader();
             $this->customerHelper->getConfig()->setStore($this->store);
+            $this->customerHelper->setHeader(
+                new SoapHeader('http://tempuri.org/', 'Header', array(
+                    'Key' => $this->orderHelper->getConfig()->getServiceKey(),
+                    'ExternalRefGroup' => $this->orderHelper->getConfig()->getExternalRefGroup()
+                ))
+            );
+            $this->customerHelper->resetHeader();
 
             $startTime = microtime(true);
 
