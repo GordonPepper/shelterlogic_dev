@@ -97,8 +97,11 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                     ->setCurrencyID($this->getConfig()->getCurrencyId())
                     ->setTermsID($this->getConfig()->getTermsId())
                     ->setSalesRepID($this->getConfig()->getSalesRepId())
-                    ->setTerritoryID($this->getConfig()->getTerritoryId())
                     ->setSiteID($this->getConfig()->getSiteId());
+
+                if($customer->getGroupId() == 4) {
+                    $customer->setTerritoryID($this->getConfig()->getTerritoryId());
+                }
 
                 $customerEntity = (new CustomerService\CustomerEntity())
                     ->setEntityID($this->getConfig()->getEntityId());
