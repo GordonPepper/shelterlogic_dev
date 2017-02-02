@@ -88,6 +88,11 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             $fabricColor = $product->getAttributeText('fabric_color');
                         }
                         $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
+
+                        $warehouseId = $stockItem->getWarehouseCode();
+                        if($this->getConfig()->setStore($order->getStore())->getForceWarehouseID()) {
+                            $warehouseId = $this->getConfig()->setStore($order->getStore())->getWarehouseID();
+                        }
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
                             ->setPartID($item->getSku())
@@ -97,7 +102,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())
                             ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
-                            ->setWarehouseID($stockItem->getWarehouseCode());
+                            ->setWarehouseID($warehouseId);
 
                         $discountPercent = ($item->getDiscountAmount() / $item->getPrice()) * 100;
                         $lineItem->setDiscountPercent(number_format((float)$discountPercent, 2, '.', ''));
