@@ -125,7 +125,7 @@
     };
 }
 
-spl_autoload_register('autoload_7d104799db9f3474a7613fa25a772746');
+spl_autoload_register('autoload_7d104799db9f3474a7613fa25a772746', true, true);
 
 // Do nothing. The rest is just leftovers from the code generation.
 {

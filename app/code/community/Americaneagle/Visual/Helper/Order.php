@@ -72,6 +72,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
                         $name = $item->getName();
+                        $width = $length = $height = $fabricMaterial = $fabricColor = 'not-set';
                         if( $product->getAttributeText('width') ) {
                             $width = $product->getAttributeText('width');
                         }
@@ -90,8 +91,10 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                         $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
 
                         $warehouseId = $stockItem->getWarehouseCode();
-                        if($this->getConfig()->setStore($order->getStore())->getForceWarehouseID()) {
-                            $warehouseId = $this->getConfig()->setStore($order->getStore())->getWarehouseID();
+                        $myconfig = $this->getConfig();
+                        $myconfig->setStore($order->getStore());
+                        if($myconfig->getForceWarehouseID()) {
+                            $warehouseId = $myconfig->getWarehouseID();
                         }
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
@@ -200,12 +203,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setContactEmail($billingAddress->getEmail())
                 ->setSiteID($this->getConfig()->getSiteId())
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
-                ->setCustomerPurchaseOrderID($poNumber)
+                ->setCustomerPurchaseOrderID(isset($poNumber) ? $poNumber : '')
                 ->setFOB($this->getConfig()->getFob())
                 ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
                     ->setCustomerOrderLine($lines))
-                ->setOrderPayment($orderHeaderPayment)
+                ->setOrderPayment(isset($orderHeaderPayment) ? $orderHeaderPayment : '')
                 ->setDiscountCodeID($order->getCouponCode());
 
 //            if ($isCT) {
