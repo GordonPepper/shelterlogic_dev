@@ -81,9 +81,11 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
             $startTime = microtime(true);
 
+            /** @var Mage_Sales_Model_Entity_Order_Collection $orderCollection */
             $orderCollection = Mage::getModel('sales/order')->getCollection();
             $orderCollection->addAttributeToFilter('store_id', array('eq' => $this->store->getId()));
             $orderCollection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
+            $orderCollection->addAttributeToFilter('state', array('neq' => 'canceled'));
 
             if($orderCollection->count() == 0){
                 $message .= 'Store ' . $storeId . ' - No orders to push';

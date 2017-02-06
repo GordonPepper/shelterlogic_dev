@@ -105,6 +105,7 @@
                 <sales_rep_id>HOUSE</sales_rep_id>
                 <territory>WEB</territory>
                 <warehouse_id>SHELTERLOGIC</warehouse_id>
+                <force_warehouse>0</force_warehouse>
                 <fob>WATERTOWN</fob>
                 <general_group_id>1</general_group_id>
                 <exclusive_group_id>4</exclusive_group_id>

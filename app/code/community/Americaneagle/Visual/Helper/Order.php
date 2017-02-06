@@ -72,6 +72,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
                         $name = $item->getName();
+                        $width = $length = $height = $fabricMaterial = $fabricColor = 'not-set';
                         if( $product->getAttributeText('width') ) {
                             $width = $product->getAttributeText('width');
                         }
@@ -88,6 +89,13 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             $fabricColor = $product->getAttributeText('fabric_color');
                         }
                         $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
+
+                        $warehouseId = $stockItem->getWarehouseCode();
+                        $myconfig = $this->getConfig();
+                        $myconfig->setStore($order->getStore());
+                        if($myconfig->getForceWarehouseID()) {
+                            $warehouseId = $myconfig->getWarehouseID();
+                        }
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
                             ->setPartID($item->getSku())
@@ -97,7 +105,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())
                             ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
-                            ->setWarehouseID($stockItem->getWarehouseCode());
+                            ->setWarehouseID($warehouseId);
 
                         $discountPercent = ($item->getDiscountAmount() / $item->getPrice()) * 100;
                         $lineItem->setDiscountPercent(number_format((float)$discountPercent, 2, '.', ''));
@@ -195,12 +203,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setContactEmail($billingAddress->getEmail())
                 ->setSiteID($this->getConfig()->getSiteId())
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
-                ->setCustomerPurchaseOrderID($poNumber)
+                ->setCustomerPurchaseOrderID(isset($poNumber) ? $poNumber : '')
                 ->setFOB($this->getConfig()->getFob())
                 ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
                     ->setCustomerOrderLine($lines))
-                ->setOrderPayment($orderHeaderPayment)
+                ->setOrderPayment(isset($orderHeaderPayment) ? $orderHeaderPayment : '')
                 ->setDiscountCodeID($order->getCouponCode());
 
 //            if ($isCT) {
