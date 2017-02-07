@@ -236,6 +236,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
         } catch (Exception $e) {
             $this->soapLogException(isset($this->orderService) ? $this->orderService : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
             //throw $e;
+            $this->errorMessages[] = sprintf("\nThere has been an exception: %s", $e->getMessage());
             return null;
         }
 
