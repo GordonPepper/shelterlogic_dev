@@ -90,7 +90,10 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
         return Mage::getStoreConfig(self::CONFIG_FORCE_WAREHOUSE_ID, $this->store);
     }
     public function getWarehouseId() {
-		return Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID, $this->store);
+		$id = Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID, $this->store);
+		$options = Mage::getModel('americaneagle_visual/system_config_source_warehouse')
+            ->getOptions();
+		return $options[$id];
 	}
 	public function getFob(){
 		return Mage::getStoreConfig(self::CONFIG_FOB, $this->store);
