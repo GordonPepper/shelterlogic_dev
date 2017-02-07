@@ -145,7 +145,14 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
                 $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId, null, $shippingAddress->getRegionCode() == "CT");
                 if (is_null($vOrder)) {
-                    $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                    $this->errors[] = array(
+                        'OrderID' => $order->getID(),
+                        'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                    $messages = $this->orderHelper->getErrorMessages();
+                    if(count($messages) > 0 ) {
+                        $c = current($this->errors);
+                        $c['Error'] .= sprintf("\n%s", implode("\n", $messages));
+                    }
                     continue;
                 }
                 $order->setAeSentToVisual(1);
