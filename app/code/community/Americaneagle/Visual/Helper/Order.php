@@ -15,6 +15,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
     private $orderService;
 
     private $longestLeadTime = false;
+    private $errorMessages = [];
 
     public function __construct()
     {
@@ -126,6 +127,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
 
             /** return nothing if there are no line items. */
             if (count($lines) == 0) {
+                $this->errorMessages[] = 'There are no line items for this order';
                 return null;
             }
 
@@ -222,7 +224,15 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             $res = $this->orderService->CreateSalesOrder(new SalesOrderService\CreateSalesOrder($newOrderData));
 
             $this->soapLog($this->orderService, 'CustomerService:addNewOrderForAddress', sprintf('Add New Order'));
-            return $res->getCreateSalesOrderResult() ? $res->getCreateSalesOrderResult() : null;
+            $result = $res->getCreateSalesOrderResult();
+            if(isset($result)) {
+                return $result;
+            } else {
+                $this->errorMessages[] = 'Visual did not return a result, see the soap log for more information';
+                return $res->getCreateSalesOrderResult() ? $res->getCreateSalesOrderResult() : null;
+            }
+
+
         } catch (Exception $e) {
             $this->soapLogException(isset($this->orderService) ? $this->orderService : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
             //throw $e;
@@ -263,5 +273,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
     }
     public function resetHeader() {
         $this->orderService->__setSoapHeaders($this->getHeader());
+    }
+    public function getErrorMessages() {
+        return $this->errorMessages;
     }
 }
