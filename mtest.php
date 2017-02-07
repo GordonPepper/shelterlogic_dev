@@ -31,6 +31,7 @@ $factory = new databaseTester();
 $f = $app->getRequest()->getParam('f');
 
 $allowedFunctions = array(
+    'testGetWarehouseId',
     'runStockImport',
     'changeChildVis',
     'filterExport',
@@ -89,6 +90,12 @@ if (isset($f) && in_array($f, $allowedFunctions)) {
 	showAllowedFunctions($html);
 	$html->endBody()->endHtml();
 	exit;
+}
+
+function testGetWarehouseId(){
+    global $html;
+    $helper = Mage::helper('americaneagle_visual');
+    $html->para($helper->getWarehouseId());
 }
 
 function runStockImport(){
