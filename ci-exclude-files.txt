@@ -17,3 +17,4 @@
 /update.php
 /ci-exclude-files.txt
 /cart_monitor.php
+/_patches
