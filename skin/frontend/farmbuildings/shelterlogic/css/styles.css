@@ -6028,7 +6028,7 @@ opacity:0;
     .product-related-accessories .products-grid .category-products-image {display:block; float:left; padding:0 20px 0 0; width:95px; height:75px;}
     .product-related-accessories .products-grid > li a img {max-width:100%; height:auto; max-height:100%;}
     .product-related-accessories .products-grid .product-info {display:block; vertical-align:top; width:auto; height:auto; padding:10px; max-height:none; border-top-style:none;}
-    .product-related-accessories .products-grid .product-info .product-west {padding:0; float:none; width:auto; height:auto; max-height:none;}
+    .product-related-accessories .products-grid .product-info .product-west {padding:0; float:none; width:auto; height:auto; max-height:none; display: block;}
     .product-related-accessories .products-grid h2 {height:auto;}
     .product-related-accessories .products-grid .product-info .product-east {float:none; width:auto; height:auto; max-height:none; border-left:none; text-align:left;}
     .product-related-accessories .products-grid .price-box {height:30px; line-height:30px;}
