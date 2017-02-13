@@ -34,7 +34,7 @@
     <div class="product-related-accessories">
         <h2><span>Related Accessories</span></h2>
         <div class="category-products">
-            <ul class="products-grid">
+            <ul class="products-grid multiple-items">
                 <?php foreach($this->getItemCollection() as $_item): ?>
                     <?php if (++$_count > $_maxItems) break; ?>
                     <?php /** @var Mage_Catalog_Model_Product $_item */ ?>
