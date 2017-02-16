@@ -13,7 +13,7 @@ class SearchUserDefined
     /**
      * @param UDFData $data
      */
-    public function __construct($data)
+    public function __construct($data = null)
     {
       $this->data = $data;
     }
