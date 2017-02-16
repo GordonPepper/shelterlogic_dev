@@ -58,6 +58,10 @@
                                         <span style="color: #a0a0a0; font-size: 10px; text-transform: uppercase; margin-bottom: 5px;">Model #<?php echo $_helper->productAttribute($_item, $_item->getSku(), 'SKU') ?></span>
                                     <?php endif; ?>
                                     <h3 class="product-name" style="margin-bottom: 5px;"><?php echo $this->escapeHtml($_item->getName()) ?></h3>
+                                    <div id="BVRRInlineRating-<?php echo $_bvHelper->getProductId($_item) ?>"></div>
+                                    <?php if($_item->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_item) ?>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="product-east">
                                     <?php echo $this->getPriceHtml($_item, true, '-related') ?>
