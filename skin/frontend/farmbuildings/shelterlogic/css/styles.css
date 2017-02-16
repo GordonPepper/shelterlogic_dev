@@ -5095,9 +5095,9 @@ opacity:0;
 .products-grid > li .product-east:active button,
 .products-grid > li .product-east:focus button {opacity:1;}
 
-.multiple-items > li .product-east:hover button,
-.multiple-items > li .product-east:active button,
-.multiple-items > li .product-east:focus button {opacity:1;}
+.multiple-items li .product-east:hover button,
+.multiple-items li .product-east:active button,
+.multiple-items li .product-east:focus button {opacity:1;}
 
 .products-grid .actions {
   padding-top:10px;
@@ -6059,7 +6059,7 @@ opacity:0;
     .product-related-accessories .products-grid > li {display:inline-block; vertical-align:top; float:left; width:46.5%; margin:0 1.75% 20px 1.75%;}
     .product-related-accessories .products-grid .category-products-image {display:block; float:left; padding:0 20px 0 0; width:95px; height:75px;}
     .product-related-accessories .products-grid > li a img {max-width:100%; height:auto; max-height:100%;}
-    .product-related-accessories .products-grid .product-info {display:block; vertical-align:top; width:auto; height:auto; padding:10px; max-height:none; border-top-style:none;}
+    .product-related-accessories .products-grid .product-info {display:block; vertical-align:top; width:auto; height:auto !important; padding:10px; max-height:none; border-top-style:none;}
     .product-related-accessories .products-grid .product-info .product-west {padding:0; float:none; width:auto; height:auto; max-height:none; display: block;}
     .product-related-accessories .products-grid h2 {height:auto;}
     .product-related-accessories .products-grid .product-info .product-east {float:none; width:auto; height:auto; max-height:none; border-left:none; text-align:left;}
@@ -6067,6 +6067,7 @@ opacity:0;
     .product-related-accessories .products-grid .price-box .price {font-size:13px;}
     .product-related-accessories .products-grid .product-info button {display:none;}
     .product-related-accessories .products-grid .product-info button > span::after {line-height:30px;}
+    .product-related-accessories .multiple-items li a {width: 100%; margin: 0; border: none;}
 }
 
 @media only screen and (max-width:639px) {
