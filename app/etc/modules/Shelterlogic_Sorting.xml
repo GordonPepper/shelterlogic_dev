@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-    <modules>
-        <Shelterlogic_Sorting>
-            <active>true</active>
-            <codePool>local</codePool>
-        </Shelterlogic_Sorting>
-    </modules>
-</config>

@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-    <modules>
-        <Americaneagle_Visual>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Americaneagle_Visual>
-    </modules>
-</config>

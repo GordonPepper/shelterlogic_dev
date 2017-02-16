@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-    <modules>
-        <Americaneagle_Farmbuildings>
-            <active>true</active>
-            <codePool>local</codePool>
-        </Americaneagle_Farmbuildings>
-    </modules>
-</config>
