@@ -236,6 +236,8 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
 
         if (is_null($vCustomer)) return null;
 
+        Mage::getSingleton('core/session')->setTerritory($vCustomer->getTerritoryId());
+
         if ($customer->getId() && !$customer->getVisualCustomerId()) {
             $customer->setVisualCustomerId($vCustomer->getCustomerID());
             $customer->save();

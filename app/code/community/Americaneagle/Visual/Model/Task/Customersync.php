@@ -56,7 +56,7 @@ class Americaneagle_Visual_Model_Task_Customersync
             } else {
                 return false;
             }
-            if ($parameters->page_size) {
+            if (isset($parameters->page_size)) {
                 $this->pageSize = (int)$parameters->page_size;
             }
             if ($parameters->skip_date_filter) {
@@ -94,13 +94,13 @@ class Americaneagle_Visual_Model_Task_Customersync
      * @throws Exception
      */
     function getRecursiveCustomers($page){
-        printf("\nGetting page %d\n", $page + 1);
+//        printf("\nGetting page %d\n", $page + 1);
 
         /** @var Visual\CustomerService\CustomerDataResponse $newCustomersResponse */
         $newCustomersResponse = $this->helper->getNewCustomers($page * $this->pageSize + 1, $this->pageSize, $this->startDate);
         $customerList = $newCustomersResponse->getCustomerList()->getCustomerListItem();
 
-        printf("Processing %d items\n", count($customerList));
+//        printf("Processing %d items\n", count($customerList));
 
         $fail = false;
 
@@ -245,7 +245,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                     $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                 }
             }
-            $this->helper->progressBar($i + 1, count($customerList));
+            //$this->helper->progressBar($i + 1, count($customerList));
         }
 
         if ($newCustomersResponse->getCustomerCount() == $this->pageSize) {

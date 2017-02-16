@@ -207,11 +207,21 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
                 ->setCustomerPurchaseOrderID(isset($poNumber) ? $poNumber : '')
                 ->setFOB($this->getConfig()->getFob())
-                ->setTerritoryID($this->getConfig()->getTerritoryId())
+//                ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
                     ->setCustomerOrderLine($lines))
                 ->setOrderPayment(isset($orderHeaderPayment) ? $orderHeaderPayment : '')
                 ->setDiscountCodeID($order->getCouponCode());
+
+
+            $customer_id = $order->getCustomerId();
+            $customer = Mage::getModel('customer/customer')->load($customer_id);
+            if($customer->getGroupId() == 5) {
+                $newOrderHeader->setTerritoryID($this->getConfig()->getTerritoryId());
+            } else {
+                $territory = Mage::getSingleton('core/session')->getTerritory();
+                $newOrderHeader->setTerritoryID($territory);
+            }
 
 //            if ($isCT) {
 //                $newOrderHeader->setSalesTaxID("CT_SLSTX");

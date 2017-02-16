@@ -113,7 +113,7 @@ class Americaneagle_Visual_Model_Task_Pricesync
         $productDataResponse = $this->helper->getProducts($page * $this->pageSize + 1, $this->pageSize);
         $productList = $productDataResponse->getPartList()->getPartListItem();
 
-        printf("Processing %d items\n", count($productList));
+//        printf("Processing %d items\n", count($productList));
 
         for ($i = 0; $i < count($productList); $i++) {
             $productItem = $productList[$i];
