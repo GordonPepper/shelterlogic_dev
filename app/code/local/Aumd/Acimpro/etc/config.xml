@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+    <config>
+        <modules>
+           <Aumd_Acimpro> 
+              <version>0.2.0</version>
+           </Aumd_Acimpro>
+        </modules>
+     
+        <global> 
+        <blocks>
+		
+			<adminhtml>
+                <rewrite>
+                    <customer_edit_tabs>Aumd_Acimpro_Block_Adminhtml_Customer_Edit_Tabs</customer_edit_tabs>
+                </rewrite>
+
+			<rewrite>
+				<customer_edit>Aumd_Acimpro_Block_Adminhtml_Customer_Edit_Edit</customer_edit>
+			</rewrite>
+							
+            </adminhtml>
+			
+            <acimpro>
+                <class>Aumd_Acimpro_Block</class>
+            </acimpro>
+        </blocks>
+
+            <models>
+                <acimpro>
+                    <class>Aumd_Acimpro_Model</class>
+                </acimpro>
+            </models>
+		 	
+			<template>
+				<email>
+					<cards_query_email_template translate="label" module="paygate">
+						<label>Manage Cards Query</label>
+						<file>sales/cards_query.html</file>
+						<type>html</type>
+					</cards_query_email_template>
+				</email>
+			</template>
+			
+			<helpers>
+				<acimpro>
+					<class>Aumd_Acimpro_Helper</class>
+				</acimpro>
+			</helpers>
+			
+            <resources>
+                <acimpro_setup>
+                    <setup>
+                        <module>Aumd_Acimpro</module>
+                    </setup>
+                    <connection>
+                        <use>core_setup</use>
+                    </connection>
+                </acimpro_setup>
+                <acimpro_write>
+                    <connection>
+                      <use>core_write</use>
+                    </connection>
+                </acimpro_write>
+                <acimpro_read>
+                   <connection>
+                    <use>core_read</use>
+                  </connection>
+                </acimpro_read>
+            </resources>
+			 
+		
+		
+        </global>
+     
+    <!-- declare default configuration values for this module -->
+        <default>
+            <payment>
+                <acimpro>
+                    <active>0</active>
+                    <model>acimpro/paymentMethod</model>
+                    <order_status>processing</order_status>
+                    <title>CIM (Authorize.net)</title>
+					<debug>0</debug>
+					<checkout_mode>0</checkout_mode>
+                    <cctypes>AE,VI,MC,DI</cctypes>
+					<useccv>1</useccv>
+                    <payment_action>authorize_capture</payment_action>
+                    <allowspecific>0</allowspecific>
+					<transaction_key backend_model="adminhtml/system_config_backend_encrypted" />
+					<api_key backend_model="adminhtml/system_config_backend_encrypted" />
+					<sort_order>2</sort_order>
+                </acimpro>
+				<generalset>
+						<enable_com>1</enable_com>
+						<enable_tel>1</enable_tel>
+						<enable_fax>1</enable_fax>
+						<enable_admin_card_list>1</enable_admin_card_list>
+						<enable_query>0</enable_query>
+						<identity>support</identity>
+						<query_cust_msg>Custom Message</query_cust_msg>
+						<template>cards_query_email_template</template>
+						
+						<enable_add_cus_msg>0</enable_add_cus_msg>
+						<add_card_cus_msg>Custom Message</add_card_cus_msg>
+						<enable_edit_cus_msg>0</enable_edit_cus_msg>
+						<edit_card_cus_msg>Custom Message</edit_card_cus_msg>
+				</generalset>
+				
+             </payment>
+        </default>
+    </config>

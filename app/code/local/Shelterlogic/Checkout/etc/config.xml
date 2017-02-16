@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Shelterlogic_Checkout>
+            <version>1.0.0</version>
+        </Shelterlogic_Checkout>
+    </modules>
+
+    <global>
+        <blocks>
+            <checkout>
+                <rewrite>
+                    <onepage_shipping_method_available>Shelterlogic_Checkout_Block_Onepage_Shipping_Method_Available</onepage_shipping_method_available>
+                    <onepage_billing>Shelterlogic_Checkout_Block_Onepage_Billing</onepage_billing>
+                </rewrite>
+            </checkout>
+        </blocks>
+    </global>
+
+    <frontend>
+        <routers>
+            <checkout> <!-- must match the router config you are trying to override -->
+                <args>
+                    <modules>
+                        <Shelterlogic_Checkout before="Mage_Checkout">Shelterlogic_Checkout</Shelterlogic_Checkout>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+
+</config>

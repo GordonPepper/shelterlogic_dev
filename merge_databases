@@ -1,0 +1,83 @@
+#!/bin/bash
+
+echo "
+purpose:
+This script is intended to export the sales related tables
+from a magento database. If the tables are to be imported into
+another magento database, be sure to run all the setup scripts
+from the target database against the source database.
+
+Supposing you have the n98-magerun tool available, you can do
+this with the following commands (while in the document root
+of the target site):
+n98 db:dump; # backup the current DB as 'target.sql'
+n98 db:drop; # make sure to clean out all existing tables
+n98 db:create;
+n98 db:import /path/to/source.sql
+n98 sys:setup:run; # this will run the setup scripts to add columns, etc
+n98 db:dump; # backup the updated db as 'source_updated.sql', optional
+# this is a good place to run this script and export the sales related tables.
+n98 db:drop; # again, start with a clean slate
+n98 db:create;
+n98 db:import target.sql; # target DB ready to receive source tables;
+n98 db:import /path/to/sales_tables.sql;
+
+that should be it.
+
+";
+echo 'disable and flushing cache.';
+n98 cache:disable;
+n98 cache:clean;
+n98 cache:flush;
+
+echo 'backing up current db as "target.sql".';
+n98 db:dump target.sql; # backup the current DB as 'target.sql'
+
+echo 'dropping current DB.';
+n98 db:drop -nf; # make sure to clean out all existing tables
+
+echo 'creating configured database';
+n98 db:create;
+
+echo 'importing source database "source.sql" for upgrade.';
+n98 db:import source.sql
+
+echo 'running update scripts.';
+n98 sys:setup:run; # this will run the setup scripts to add columns, etc
+
+#n98 db:dump; # backup the updated db as 'source_updated.sql', optional
+# this is a good place to run this script and export the sales related tables.
+
+sales_tables="
+SELECT ist.TABLE_NAME FROM information_schema.TABLES as ist
+WHERE ist.TABLE_SCHEMA = 'farmbuildings'
+and (
+	ist.TABLE_NAME LIKE 'sales\_%'
+	or ist.TABLE_NAME = 'ae_visual_soaplog'
+	or ist.TABLE_NAME like 'tax_order_aggregated%'
+	or ist.TABLE_NAME like 'webforms\_results%'
+	or (ist.TABLE_NAME like '%admin%' and ist.TABLE_NAME != 'admin_rule')
+)
+";
+table_list=`mysql --login-path=local -ANse "${sales_tables}"`;
+echo "here is the table list: ";
+echo "${table_list}";
+
+echo 'Dumping sales related tables to ./sales_related.sql';
+mysqldump --login-path=local farmbuildings ${table_list} > sales_related.sql;
+
+echo 'dropping database for clean slate';
+n98 db:drop -nf; # again, start with a clean slate
+
+echo 'creating configured database.';
+n98 db:create;
+
+echo 'importing target.sql';
+n98 db:import target.sql; # target DB ready to receive source tables;
+
+echo 'finally importing sales tables.';
+n98 db:import sales_related.sql;
+
+
+
+

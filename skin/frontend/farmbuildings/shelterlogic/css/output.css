@@ -1,0 +1,15 @@
+.pocztapolska {
+  background-color: red;
+  font-size: 40px; }
+
+.pocztapolska {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+a {
+  color: #0000ff; }
+  a:hover {
+    color: #0000ff; }
+  a:focus {
+    content: "Obama"; }

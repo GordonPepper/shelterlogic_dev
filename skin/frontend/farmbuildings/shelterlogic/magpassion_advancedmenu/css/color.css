@@ -1,0 +1,28 @@
+/**
+ * MagPassion.com extension
+ * 
+ * @category   	MagPassion
+ * @package		MagPassion.com
+ * @copyright  	Copyright (c) 2013 by MagPassion (http://magpassion.com)
+ * @license	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/**
+ * color menu css
+ *
+ * @category	MagPassion
+ * @package		MagPassion.com
+ */
+
+.magpassion-nav-container {color:#666666;}
+
+.magpassion-nav-container ul li a:visited,
+.magpassion-nav-container ul li a {color:#666666; background-color:transparent;}
+
+.magpassion-nav-container > ul > li:hover > a,
+.magpassion-nav-container ul li a:hover,
+.magpassion-nav-container ul li a.over,
+.magpassion-nav-container ul li a.active {color:#EAAB00; background-color:transparent;}
+
+.magpassion-nav-container ul li a:active {background-color:transparent;}
+
+.magpassion-nav-container > ul > li > ul > li {background-color:#ffffff;}

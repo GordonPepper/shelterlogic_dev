@@ -1,0 +1,146 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+$accountUrl = Mage::helper('customer')->getAccountUrl();
+?>
+
+<div class="page-header-cmlla">
+<div class="page-header-ctrl">
+
+    <div class="header-language-background">
+        <ul class="brand-header">
+            <li><strong>ShelterLogic Corp</strong></li>
+            <li><a href="http://www.shelterlogic.com">ShelterLogic</a></li>
+            <li><a href="http://www.farmbuildings.com">ShelterTech</a></li>
+        </ul>
+        <div id="hlc" class="header-language-container">
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_header_social_icons')->toHtml();?>
+            <div class="store-language-container hlc-item">
+                <?php echo $this->getChildHtml('store_language') ?>
+            </div>
+            <?php echo $this->getChildHtml('currency_switcher') ?>
+            <div class="header-wishlist hlc-item"><a href="/shop/wishlist/">Wishlist</a></div>
+            <div class="header-login hlc-item">
+                <a href="#header-account" class="skip-link skip-account"><?php echo $this->__('Account'); ?></a>
+                <!-- Account -->
+                <div id="header-account" class="skip-content">
+                    <?php echo $this->getChildHtml('topLinks') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    var hdrSelectTool=$j("#hlc");
+    $j(".hdr-select-tool",hdrSelectTool).each(function(){
+        var hdrSelectOpt=$j("option",this),
+        hdrSelectVal=(hdrSelectOpt.filter(":selected").val().length>0)?hdrSelectOpt.filter(":selected").val():hdrSelectOpt.filter(":eq(0)").val();
+        $j(".cmlla",this).text(hdrSelectVal);
+    });
+    </script>
+
+    <?php
+    /*
+    <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p>
+     */
+    ?>
+
+    <div class="page-header-wrpr clearfix">
+    <header id="header" class="page-header">
+        <div class="page-header-container">
+            <a class="logo" href="<?php echo str_replace("shop/", "", $this->getUrl(''))  ?>">
+                <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+            </a>
+
+            <?php // In order for the language switcher to display next to logo on smaller viewports, it will be moved here.
+                  // See app.js for details ?>
+            <div class="store-language-container"></div>
+
+            <!-- Skip Links -->
+
+            <div class="skip-links">
+
+                <a href="#header-nav" class="skip-link skip-nav">
+                    <span class="icon"></span>
+                    <span class="label visuallyHidden"><?php echo $this->__('Menu'); ?></span>
+                </a>
+
+                <!-- Search -->
+
+                <div id="header-search" class="skip-content">
+                    <?php echo $this->getChildHtml('topSearch') ?>
+                </div>
+
+                <!-- Cart -->
+
+                <div class="header-minicart">
+                    <?php echo $this->getChildHtml('minicart_head'); ?>
+                </div>
+
+            </div>
+
+            <!-- Navigation -->
+            <div id="header-nav" class="skip-content">
+                <div class="header-language-background">
+                    <ul class="brand-header">
+                        <li><strong>ShelterLogic Corp</strong></li>
+                        <li><a href="http://www.shelterlogic.com">ShelterLogic</a></li>
+                        <li><a href="http://www.farmbuildings.com">ShelterTech</a></li>
+                    </ul>
+                    <div id="hlc" class="header-language-container">
+                        <div class="store-language-container hlc-item">
+                            <?php echo $this->getChildHtml('store_language') ?>
+                        </div>
+                        <?php echo $this->getChildHtml('currency_switcher') ?>
+                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_header_social_icons')->toHtml();?>
+                        <div class="header-wishlist hlc-item"><a href="/shop/wishlist/">Wishlist</a></div>
+                        <div class="header-login hlc-item"><a href="/shop/customer/account/">Account</a></div>
+                    </div>
+                </div>
+                <?php echo $this->getChildHtml('topMenu') ?>
+            </div>
+
+            <!-- Cart -->
+
+            <!-- <div id="header-cart" class="skip-content">
+                <div class="mini-cart">
+                    <div class="menu-wrapper">
+                        <div class="menu cart-menu">
+                            <div class="empty">Your cart is empty.</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </header>
+    </div>
+
+</div>
+</div>
+
+<?php echo $this->getChildHtml('topContainer'); ?>

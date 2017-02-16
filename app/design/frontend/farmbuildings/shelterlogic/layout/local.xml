@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+    </default>
+
+    <catalog_category_default>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-category-left.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_default>
+    <catalog_category_layered>
+        <block type="core/text" name="shelterlogic.category.block"/>
+        <block type="enterprise_banner/widget_banner" name="shelterlogic.category.banner"
+               template="banner/widget/block.phtml">
+            <action method="setDisplayMode">
+                <value>fixed</value>
+            </action>
+        </block>
+        <reference name="content">
+            <action method="insert">
+                <block>shelterlogic.category.block</block>
+            </action>
+        </reference>
+
+        <reference name="product_list_toolbar">
+            <action method="disableViewSwitcher"/>
+        </reference>
+        <reference name="before_body_end">
+            <block type="shelterlogic_wishlist/js" name="shelterlogic.wishlist" template="wishlist/js.phtml"/>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-category-left.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_layered>
+    <catalog_category_view>
+        <!--<reference name="content">-->
+            <!--<action method="insert">-->
+                <!--<block>my.custom.block</block>-->
+            <!--</action>-->
+        <!--</reference>-->
+
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-category-left.phtml</template>
+            </action>
+        </reference>
+    </catalog_category_view>
+    <catalog_product_view translate="label">
+        <reference name="head">
+            <action method="addJs">
+                <script>farmbuildings/slconfigurable.js</script>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/configurable.js</name>
+            </action>
+        </reference>
+
+
+        <reference name="product.info">
+            <action method="unsetChild">
+                <alias>reviews</alias>
+            </action>
+            <action method="insert">
+                <block>breadcrumbs</block>
+            </action>
+            <!--<block type="review/product_view_list" name="product.reviews" as="reviews" template="review/product/view/list.phtml" after="additional">-->
+                <!--<action method="addToParentGroup"><group>detailed_info</group></action>-->
+                <!--<action method="setTitle" translate="value"><value>Reviews</value></action>-->
+            <!--</block>-->
+        </reference>
+
+
+
+    </catalog_product_view>
+
+</layout>

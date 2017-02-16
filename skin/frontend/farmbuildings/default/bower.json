@@ -1,0 +1,20 @@
+{
+  "name": "foundation-libsass-template",
+  "dependencies": {
+  	"foundation"		: "zurb/bower-foundation#5.4.7",
+    "jquery"			: "~2.1.1",
+    "modernizr" 		: "",
+	"respond"			: "~1.4.2",
+	"selectivizr"		: "",
+	"Font-Awesome"		: "",
+	"pace"				: "",
+	"FitText"			: "https://github.com/davatron5000/FitText.js.git",
+	"SlabText"			: "https://github.com/freqdec/slabText.git",
+	"jquery-hashchange"	: "https://github.com/cowboy/jquery-hashchange.git",
+	"source-web-files"	: "https://bbielefeldt@bitbucket.org/shelterlogic/sourced-web-files.git",
+	"underscore"		: "",
+	"angular-foundation": "https://github.com/pineconellc/angular-foundation.git",
+	"lz-string"			: "https://github.com/pieroxy/lz-string.git",
+	"isMobile"			: "https://github.com/kaimallea/isMobile.git"
+  }
+}

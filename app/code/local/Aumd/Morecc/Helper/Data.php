@@ -1,0 +1,6 @@
+<?php
+
+class Aumd_Morecc_Helper_Data extends Mage_Core_Helper_Abstract
+{
+
+}

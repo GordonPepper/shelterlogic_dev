@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Shelterlogic_Productimport>
+            <version>0.1.5</version>
+        </Shelterlogic_Productimport>
+    </modules>
+    <global>
+        <models>
+            <productimport>
+                <class>Shelterlogic_Productimport_Model</class>
+                <resourceModel>productimport_resource</resourceModel>
+            </productimport>
+            <productimport_resource>
+                <class>Shelterlogic_Productimport_Model_Resource</class>
+            </productimport_resource>
+        </models>
+        <helpers>
+            <productimport>
+                <class>Shelterlogic_Productimport_Helper</class>
+            </productimport>
+        </helpers>
+        <resources>
+            <productimport_setup>
+                <setup>
+                    <module>Shelterlogic_Productimport</module>
+                    <class>Shelterlogic_Productimport_Model_Resource_Setup</class>
+                </setup>
+            </productimport_setup>
+        </resources>
+        <importexport>
+            <import_product_types>
+                <simple>productimport/import_simple</simple>
+            </import_product_types>
+        </importexport>
+    </global>
+</config>

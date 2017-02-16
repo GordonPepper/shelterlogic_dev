@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Shelterlogic_CustomerTerms>
+            <version>0.1.2</version>
+        </Shelterlogic_CustomerTerms>
+    </modules>
+    <global>
+        <resources>
+            <customer_terms_setup>
+                <setup>
+                    <module>Shelterlogic_CustomerTerms</module>
+                    <class>Mage_Customer_Model_Entity_Setup</class>
+                </setup>
+            </customer_terms_setup>
+        </resources>
+        <models>
+            <Shelterlogic_CustomerTerms>
+                <class>Shelterlogic_CustomerTerms_Model</class>
+            </Shelterlogic_CustomerTerms>
+
+            <sales>
+                <rewrite>
+                    <quote_address_total_shipping>Shelterlogic_CustomerTerms_Model_Quote_Address_Total_Shipping</quote_address_total_shipping>
+                </rewrite>
+            </sales>
+        </models>
+    </global>
+</config>

@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	</head>
+	<body>
+		<img id="image" src="" alt="" width="100%">
+		<script>
+			var results;
+			var set_image = function() {
+				console.log(results);
+				if(results.success) {
+					$("#image").attr('src',results.url);
+				}
+			};
+			$.ajax({
+				type: "POST",
+			    url:'images.php',
+			    data:{
+					cover	: 'pe-bb-012xxx08_cover020',
+					logo	: 'pe-bb-012xxx08_logo-frm',
+					inside	: 'pe-bb-012xxx08_white',
+					color	: 'white',
+					guy		: 'xx-xx-000xxx00_charact3',
+					offset	: '-0.18,0',
+					width	: 1999,
+			    },
+			    dataType:'json',
+			    complete: function(data){
+			        if(data){
+			            console.log(data.responseText);
+			            results = jQuery.parseJSON(data.responseText);
+			            set_image();
+			        }else{
+			            console.log('Error: '+ response.error);
+			        }
+			    }
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,445 @@
+<?php 	
+
+	$id     = $this->getRequest()->getParam('id');
+	$model  = Mage::getModel('morecc/morecc')->load($id);
+ 
+	$customerPayprofileId = $model->getPayId();
+	$customerProfileId = $model->getProfileId();
+	$customerEmail = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+	$customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
+	$customerEmail = trim($customerEmail); 
+	
+	$data = $this->getPaymentProfileAction($customerProfileId, $customerPayprofileId);
+	//echo '<pre>';print_r($data);die;
+	//$data = $this->parseXML('<billto>','</billto>', $data);
+	
+//echo '<pre>';print_r($data);
+	$firstname =  $this->parseXML('<firstname>','</firstname>',$data);
+	$lastname =  $this->parseXML('<lastname>','</lastname>',$data);
+	$company =  $this->parseXML('<company>','</company>',$data);
+	$address =  $this->parseXML('<address>','</address>',$data);
+	$city =  $this->parseXML('<city>','</city>',$data);
+	$state =  $this->parseXML('<state>','</state>',$data);
+	$zip =  $this->parseXML('<zip>','</zip>',$data);
+	$countryId =  $this->parseXML('<country>','</country>',$data);
+	$phonenumber =  $this->parseXML('<phonenumber>','</phonenumber>',$data);
+	$faxnumber =  $this->parseXML('<faxnumber>','</faxnumber>',$data);
+	$customerpaymentprofileid =  $this->parseXML('<customerpaymentprofileid>','</customerpaymentprofileid>',$data);
+	$cardnumber =  $this->parseXML('<cardnumber>','</cardnumber>',$data);
+	 
+?>
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+
+
+<?php 
+	$currentDesign = Mage::getSingleton('core/design_package')->getPackageName();
+	
+	$companyEnabled = Mage::getStoreConfig('payment/generalset/enable_com');
+	$telEnabled = Mage::getStoreConfig('payment/generalset/enable_tel');
+	$faxEnabled = Mage::getStoreConfig('payment/generalset/enable_fax');
+	$queryBoxEnabled = Mage::getStoreConfig('payment/generalset/enable_query');
+	$query_cust_msg = Mage::getStoreConfig('payment/generalset/query_cust_msg');
+	
+	$enable_edit_cus_msg = Mage::getStoreConfig('payment/generalset/enable_edit_cus_msg');
+	$edit_card_cus_msg = Mage::getStoreConfig('payment/generalset/edit_card_cus_msg');
+	
+?>
+
+<table>
+	
+	<tbody><tr>
+		<td>
+			<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/edit_credit_card.png';?>" alt="<?php echo $this->__('Edit Card') ?>" title="<?php echo $this->__('Edit Card') ?>" style="width:44px;height:44px"/>
+		</td>
+		<td colspan="3">
+			<span class="auth_title"><?php echo $this->__('Edit Card') ?></span>
+		</td>
+	</tr>
+	
+	<tr>
+ 
+		<td colspan="4">
+			&nbsp;
+		</td>
+	</tr>
+ </tbody></table>
+ 
+
+<!--<form action="<?php //echo Mage::getBaseUrl('web');?>morecc/index/updatePaymentProfile/" id="authForm" method="post">-->
+
+<form action="<?php echo $this->getUrl("morecc/index/updatePaymentProfile/",array('_secure'=>true));?>" id="authForm" method="post">
+
+<input type="hidden" name="payment_profile" id="payment_profile" value="<?php echo $customerPayprofileId; ?>" />
+<input type="hidden" name="customer_profile" id="customer_profile" value="<?php echo $customerProfileId; ?>" />
+<input type="hidden" name="record_id" id="record_id" value="<?php echo $id; ?>" />
+
+<table class="form-edit" cellspacing="0" width="100%">
+ 
+ <tr>
+ 	<td style="float:right;">
+		<table>
+			<tr>
+		 		<td>
+					<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/manage_cards.png';?>" alt="<?php echo $this->__('Manage My Cards') ?>" title="<?php echo $this->__('Manage My Cards') ?>" style="width:20px;height:20px;margin-right:2px;"/>
+				</td>
+				<td>
+					<< <a href="<?php echo $this->getUrl('morecc/index/profiles',array('_secure'=>true)) ?>"><?php echo $this->__('Manage My Cards') ?></a>&nbsp;
+				</td>
+			</tr>
+		</table>
+	</td>
+</tr>
+ 
+ 		<tr>
+			<td class="fieldset">
+				<table class="form-edit" cellspacing="0" width="100%">
+					<tr> 
+						<td style="width:40%">
+						
+					<table>
+								<tr>
+									<td>
+							<img style="margin:5px 0 0 0px;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/i_ma-info.gif';?>" alt="<?php echo $this->__('Cardholder Information') ?>" title="<?php echo $this->__('Cardholder Information') ?>"/>		
+									</td>
+								<td>
+									<span class="childh2" style="margin:0px 0 0 3px;" ><?php echo Mage::helper('morecc')->__('Cardholder Information') ?></span>
+								</td>				
+							</tr>
+						</table>
+							<ul class="form-list">
+								<li class="fields">
+									<div class="field">
+										<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('First Name') ?></label>
+										<div class="input-box">
+											<input name="firstname" id="firstname" title="<?php echo Mage::helper('morecc')->__('First Name') ?>" value="<?php echo $firstname; ?>" class="input-text required-entry" type="text" />
+										</div>
+									</div>
+								</li>
+								
+								<li class="fields">
+									<div class="field">
+										<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('Last Name') ?></label>
+										<div class="input-box">
+											<input name="lastname" id="lastname" title="<?php echo Mage::helper('morecc')->__('Last Name') ?>" value="<?php echo $lastname; ?>" class="input-text required-entry" type="text" />
+										</div>
+									</div>
+								</li>
+					
+								
+								<li class="fields">
+									<div class="field">
+										<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('Street Address') ?></label>
+										<div class="input-box">
+											<input name="address" id="address" title="<?php echo Mage::helper('morecc')->__('Street Address') ?>" value="<?php echo $address; ?>" class="input-text" type="text" />
+										</div>
+									</div>
+								</li>
+								
+								<li class="fields">
+									<div class="field">
+										<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('City') ?></label>
+										<div class="input-box">
+											<input name="city" id="city" title="<?php echo Mage::helper('morecc')->__('City') ?>" value="<?php echo $city; ?>" class="input-text required-entry" type="text" />
+										</div>
+									</div>
+								</li>
+								
+							 
+								
+								<li class="fields">
+									<div class="field">
+										<label for="name" class="required"><em>*</em><?php echo Mage::helper('morecc')->__('Zip/Postal Code') ?></label>
+										<div class="input-box">
+											<input name="postcode" id="postcode" title="<?php echo Mage::helper('morecc')->__('Zip/Postal Code') ?>" value="<?php echo $zip; ?>" class="input-text required-entry" type="text" />
+										</div>
+									</div>
+								</li>
+						 
+							
+							<li class="fields">
+								<div class="input-box input-country">
+									<label for="billing:country_id"><?php echo $this->__('Country');?>
+									<span class="required">*</span></label><br />
+									<?php echo $this->getCountryHtmlSelect($countryId);?>
+								</div>
+							
+							</li>
+							
+				<li class="fields">
+				 <div class="input-box">
+									<label for="region_id"><?php echo $this->__('State/Province') ?> <span class="required">*</span></label><br />
+									<select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>">
+										<option value="0"><?php echo $this->__('Please select region, state or province') ?></option>
+										<?php
+										$this->setData('country_id','US'); // or 'FR'..., default is 'US'
+										$regions     =   $this->getRegionCollection($countryId);
+										
+										foreach($regions as $region)
+										{
+											if($state == $region['region_id'])
+											{
+												echo "<option selected value=$region[region_id]>".$region['name'] . "</option>";
+											}else{
+												echo "<option value=$region[region_id]>".$region['name'] . "</option>";
+											}
+										}
+										?>
+									</select>  
+								
+									<input style="display:none;" type="text" id="region" name="region" value="<?php echo $state; ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text" />
+								</div> 
+				</li>
+							
+							<?php if($companyEnabled  == 1){ ?>
+								<li class="fields">
+									<div class="field">
+										<label for="name"><?php echo Mage::helper('morecc')->__('Company') ?></label>
+										<div class="input-box">
+											<input name="company" id="company" title="<?php echo Mage::helper('morecc')->__('Company') ?>" value="<?php echo $company; ?>" class="input-text" type="text" />
+										</div>
+									</div>
+								</li>
+							<?php } ?>
+							
+							<?php if($telEnabled  == 1){ ?>
+								<li class="fields">
+									<div class="field">
+										<label for="name"><?php echo Mage::helper('morecc')->__('Telephone') ?></label>
+										<div class="input-box">
+											<input name="telephone" id="telephone" title="<?php echo Mage::helper('morecc')->__('Telephone') ?>" value="<?php echo $phonenumber; ?>" class="input-text" type="text" />
+										</div>
+									</div>
+								</li>
+								<?php } ?>
+							
+							<?php if($faxEnabled  == 1){ ?>	
+								<li class="fields">
+									<div class="field">
+										<label for="name"><?php echo Mage::helper('morecc')->__('Fax') ?></label>
+										<div class="input-box">
+											<input name="fax" id="fax" title="<?php echo Mage::helper('morecc')->__('Fax') ?>" value="<?php echo $faxnumber; ?>" class="input-text" type="text" />
+										</div>
+									</div>
+								</li>
+								<?php } ?>
+								
+							</ul>	
+						</td>
+						
+						<?php $obj = new Aumd_Morecc_Block_Morecc(); ?>
+						
+						<td style="width:50%;<?php if($currentDesign == 'rwd'){?>padding-bottom:312px;<?php } ?>">
+							
+						<table>
+								<tr>
+									<td>
+						<img style="margin:7px 0 0 0px;" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/fam_creditcards.gif';?>" alt="<?php echo $this->__('Credit Card Information') ?>" title="<?php echo $this->__('Credit Card Information') ?>"/>		
+									</td>
+									<td>
+										<span class="childh2" style="margin:0px 0 0 3px;" ><?php echo Mage::helper('morecc')->__('Credit Card Information') ?></span>
+									</td>
+								</tr>
+						</table>
+						
+						<ul class="form-list">
+							<li>
+								<label class="required" for="cimprofilewebservice_cc_type"><em>*</em><?php echo Mage::helper('morecc')->__('Credit Card Type') ?></label>
+								<div class="input-box">
+									<select class="required-entry validate-cc-type-select" name="payment[cc_type]" id="cimprofilewebservice_cc_type" autocomplete="off">
+									<option value=""><?php echo Mage::helper('morecc')->__('--Please Select--') ?></option>
+									<?php 
+										$ccTypes =  $obj->getCcActiveTypes();
+										foreach($ccTypes as $key => $ccType)
+										{
+										if($model->getCardType() == $key)
+										{
+										?>
+											<option selected value="<?php echo $key; ?>"><?php echo $ccType; ?></option>
+											
+										<?php }else{ ?>
+										
+									<option value="<?php echo $key; ?>"><?php echo $ccType; ?></option>
+									<?php }} ?>
+												</select>
+								</div>
+							</li>
+							<li>
+								<label class="required" for="cimprofilewebservice_cc_number"><em>*</em><?php echo Mage::helper('morecc')->__('Credit Card Number') ?></label>
+								<div class="input-box">
+									<input type="text" value="<?php echo $model->getNumber()?>" class="input-text validate-cc-number validate-cc-type" title="<?php echo Mage::helper('morecc')->__('Credit Card Number') ?>" name="payment[cc_number]" id="cimprofilewebservice_cc_number" autocomplete="off">
+								</div>
+							</li>
+							<li id="cimprofilewebservice_cc_type_exp_div">
+								<label class="required" for="cimprofilewebservice_expiration"><em>*</em><?php echo Mage::helper('morecc')->__('Expiration Date') ?></label>
+								<div class="input-box">
+									<div class="v-fix">
+										<select style="width:130px;" class="month validate-cc-exp required-entry" name="payment[cc_exp_month]" id="cimprofilewebservice_expiration" autocomplete="off">
+										<option selected="selected" value=""><?php echo Mage::helper('morecc')->__('Month') ?></option>
+										<?php 
+											$monthsArray =  $obj->getCcMonths();
+											foreach($monthsArray as $key => $month)
+											{
+												if($model->getExprMonth() == $key)
+												{
+												?>
+											<option selected value="<?php echo $key; ?>"><?php echo $month; ?></option>
+											
+										<?php }else{ ?>
+										
+											<option value="<?php echo $key; ?>"><?php echo $month; ?></option>
+										<?php } }?>
+														</select>
+									</div>
+									<div class="v-fix">
+										<select style="width:130px;" class="year required-entry" name="payment[cc_exp_year]" id="cimprofilewebservice_expiration_yr" autocomplete="off">
+											<option selected="selected" value=""><?php echo Mage::helper('morecc')->__('Year') ?></option>
+											<?php 
+											
+												$yearsArray =  $obj->getCcYears();
+												foreach($yearsArray as $year)
+												{
+													if($model->getExprYear() == $year)
+														{
+														?>
+													<option selected value="<?php echo $year; ?>"><?php echo $year; ?></option>
+													
+												<?php }else{ ?>
+												<option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+											<?php } } ?>
+										</select>
+									</div>
+								</div>
+							</li>
+							
+							<?php if($this->hasVerification()): ?>
+								<li id="cimprofilewebservice_cc_type_cvv_div">
+									<label class="required" for="cimprofilewebservice_cc_cid"><em>*</em><?php echo Mage::helper('morecc')->__('Card Verification Number') ?></label>
+									<div class="input-box">
+										<div class="v-fix">
+											<input type="text" value="" name="payment[cc_cid]" id="cimprofilewebservice_cc_cid" class="input-text cvv required-entry validate-cc-cvn" title="<?php echo Mage::helper('morecc')->__('Card Verification Number') ?>" autocomplete="off">
+										</div> 
+									</div>
+								</li>
+							<?php endif; ?>
+
+						</ul>
+							<div>
+								<button type="submit" title="<?php echo Mage::helper('morecc')->__('Update') ?>" class="button">
+									<span><span><?php echo Mage::helper('morecc')->__('Update') ?></span></span>
+								</button><p class="required" style="text-align:left;"><?php echo Mage::helper('morecc')->__('* Required Fields') ?></p> 
+							</div>
+							
+							<?php if($enable_edit_cus_msg == 1){?>
+								<div class="add_card_cus_msg"><?php echo $edit_card_cus_msg?></div>
+							<?php } ?>
+				
+						</td>
+					
+					</tr>
+				</table>
+			 </td>	
+		</tr> 
+	
+</table> 
+	
+</form>
+
+	
+<?php if($queryBoxEnabled == 1){?>						
+ 
+	<table> 
+		<tr>
+			<td>
+			<ul>
+				<li>
+					<div class="field" style="margin-top:10px;">
+						<label for="name" style="font-weight:bold;"><?php echo $query_cust_msg; ?></label>
+						<div class="input-box" style="margin-bottom:2px;">
+							<textarea name="querymessage" style="width:680px;height:200px;" id="querymessage" class="input-text required-entry"></textarea>
+						</div>
+					</div>
+					<div>
+			 
+					
+					<button onclick="askQuery()" title="<?php echo Mage::helper('morecc')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('morecc')->__('Submit') ?></span></span></button>
+										 
+					</div>
+				</li>
+			</ul>
+			 
+				 </td>	
+			</tr>
+		</table> 
+	 
+<?php } ?>
+
+
+
+<?php if($currentDesign == 'rwd'){?>
+
+<div style="left: -2px; top: 0px; display:none;" id="loading-mask">
+    <p id="loading_mask_loaderrwd" class="loaderrwd"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/ajax-loader-tr.gif';?>">  <?php echo $this->__('Please wait...') ?></p>
+</div>
+<?php } else{ ?>
+<div style="left: -2px; top: 0px; display:none;" id="loading-mask">
+    <p id="loading_mask_loader" class="loader"><img alt="<?php echo $this->__('Loading...') ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'cim/ajax-loader-tr.gif';?>"> <br/><?php echo $this->__('Please wait...') ?></p>
+</div>
+<?php } ?>
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var authForm = new VarienForm('authForm', true);
+//]]>
+
+//var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>, undefined, 'billing:postcode');
+
+</script>
+<script type="text/javascript">
+
+new RegionUpdater('bill:country_id', 'region', 'region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>);
+</script> 
+            
+			
+
+<script>
+function askQuery()
+{ 
+	var message = document.getElementById('querymessage').value ;
+	if(message == ""){alert('<?php echo Mage::helper('morecc')->__('Please Enter Message.') ?>');document.getElementById('querymessage').focus();}
+	if(message != "" )
+	{
+		var params = {};   	 
+		document.getElementById('loading-mask').style.display = 'block';
+		
+		<?php //echo Mage::getBaseUrl('web')."morecc/index/askQuery/"; ?>
+		var url = '<?php echo $this->getUrl("morecc/index/askQuery/",array('_secure'=>true)); ?>';
+	   	url = url + '&isAjax=true' ;
+	   
+		var str = 'msg='+message;
+			new Ajax.Request(url, {
+				method: 'post',
+				parameters: str,
+				onSuccess: function(transport) {
+					document.getElementById('loading-mask').style.display = 'none';
+					 var data = transport.responseText.evalJSON();
+					   if(data.success==true){
+					   		alert(data.msg);
+							document.getElementById('querymessage').value = '';	
+					   }
+					   else{
+					   		alert(data.msg);
+							document.getElementById('querymessage').value = '';	
+					   }
+				},
+				
+				onFailure: function()
+				{	//alert("not worked");  
+				}
+			});		
+   		}
+}
+
+</script>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_running_index>
+        <reference name="content">
+            <block type="americaneagle_schedulerExtensions/adminhtml_stuckjobs"
+                   name="americaneagle_schedulerext_stuck"/>
+        </reference>
+    </adminhtml_running_index>
+    <adminhtml_cronlog_index>
+        <reference name="content">
+            <block type="americaneagle_schedulerExtensions/adminhtml_cronlog"
+                   name="americaneagle_schedulerext_cronlog" />
+        </reference>
+
+    </adminhtml_cronlog_index>
+    <adminhtml_cronlog_view>
+        <reference name="content">
+            <block type="americaneagle_schedulerExtensions/adminhtml_cronlog_view"
+                   name="americaneagle_schedulerext_view"
+                   template="americaneagle/schedulerext/view.phtml"/>
+        </reference>
+    </adminhtml_cronlog_view>
+</layout>

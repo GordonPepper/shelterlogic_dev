@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+    name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+            <!--================== Stock ===================-->
+            <complexType name="warehouseStockEntity">
+                <all>
+                    <element name="location_id" type="xsd:string" minOccurs="1" />
+                    <element name="product_id" type="xsd:string" minOccurs="1"/>
+                </all>
+            </complexType>
+            <complexType name="warehouseStockEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:warehouseStockEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="warehouseStockDataEntity">
+                <all>
+                    <element name="location_id" type="xsd:string" minOccurs="0" />
+                    <element name="product_id" type="xsd:string" minOccurs="0" />
+                    <element name="product_sku" type="xsd:string" minOccurs="0" />
+                    <element name="product_name" type="xsd:string" minOccurs="0" />
+                    <element name="qty" type="xsd:string" minOccurs="0" />
+                    <element name="is_in_stock" type="xsd:string" minOccurs="0" />
+                    <element name="product_status" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="warehouseStockDataEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:warehouseStockDataEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="warehouseStockUpdateEntity">
+                <all>
+                    <element name="location_id" type="xsd:string" minOccurs="1" />
+                    <element name="product_id" type="xsd:string" minOccurs="1"/>
+                    <element name="qty" type="xsd:string" minOccurs="0" />
+                    <element name="is_in_stock" type="xsd:int" minOccurs="0" />
+                    <element name="manage_stock" type="xsd:int" minOccurs="0" />
+                    <element name="use_config_manage_stock" type="xsd:int" minOccurs="0" />
+                    <element name="backorders" type="xsd:int" minOccurs="0" />
+                    <element name="use_config_backorders" type="xsd:int" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="warehouseStockUpdateEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:warehouseStockUpdateEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <!--================== Location ===================-->
+            <complexType name="warehouseLocationDataEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:warehouseLocationDataEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="warehouseLocationDataEntity">
+                <all>
+                    <element name="id" type="xsd:string" minOccurs="0" />
+                    <element name="external_id" type="xsd:string" minOccurs="0" />
+                    <element name="name" type="xsd:string" minOccurs="0" />
+                    <element name="address" type="xsd:string" minOccurs="0" />
+                    <element name="zipcode" type="xsd:string" minOccurs="0" />
+                    <element name="city" type="xsd:string" minOccurs="0" />
+                    <element name="region_id" type="xsd:string" minOccurs="0" />
+                    <element name="country_id" type="xsd:string" minOccurs="0" />
+                    <element name="store_url" type="xsd:string" minOccurs="0" />
+                    <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="lat" type="xsd:string" minOccurs="0" />
+                    <element name="long" type="xsd:string" minOccurs="0" />
+                    <element name="created_time" type="xsd:string" minOccurs="0" />
+                    <element name="update_time" type="xsd:string" minOccurs="0" />
+                    <element name="store_ids" type="typens:ArrayOfString" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="warehouseLocationCreateEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:warehouseLocationCreateEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="warehouseLocationCreateEntity">
+                <all>
+                    <element name="external_id" type="xsd:string" minOccurs="0" />
+                    <element name="name" type="xsd:string" minOccurs="1" />
+                    <element name="address" type="xsd:string" minOccurs="1" />
+                    <element name="zipcode" type="xsd:string" minOccurs="0" />
+                    <element name="city" type="xsd:string" minOccurs="1" />
+                    <element name="region_id" type="xsd:string" minOccurs="1" />
+                    <element name="country_id" type="xsd:string" minOccurs="1" />
+                    <element name="store_url" type="xsd:string" minOccurs="0" />
+                    <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="lat" type="xsd:string" minOccurs="0" />
+                    <element name="long" type="xsd:string" minOccurs="0" />
+                    <element name="store_ids" type="typens:ArrayOfString" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="warehouseLocationUpdateEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:warehouseLocationUpdateEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="warehouseLocationUpdateEntity">
+                <all>
+                    <element name="location_id" type="xsd:string" minOccurs="1" />
+                    <element name="external_id" type="xsd:string" minOccurs="0" />
+                    <element name="name" type="xsd:string" minOccurs="0" />
+                    <element name="address" type="xsd:string" minOccurs="0" />
+                    <element name="zipcode" type="xsd:string" minOccurs="0" />
+                    <element name="city" type="xsd:string" minOccurs="0" />
+                    <element name="region_id" type="xsd:string" minOccurs="0" />
+                    <element name="country_id" type="xsd:string" minOccurs="0" />
+                    <element name="store_url" type="xsd:string" minOccurs="0" />
+                    <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="lat" type="xsd:string" minOccurs="0" />
+                    <element name="long" type="xsd:string" minOccurs="0" />
+                    <element name="store_ids" type="typens:ArrayOfString" minOccurs="0" />
+                </all>
+            </complexType>
+        </schema>
+    </types>
+    <!--================== Stock ===================-->
+    <message name="warehouseStockListRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="locationId" type="xsd:string" />
+        <part name="filters" type="typens:filters" />
+    </message>
+    <message name="warehouseStockListResponse">
+        <part name="result" type="typens:warehouseStockDataEntityArray" />
+    </message>
+    <message name="warehouseStockCreateRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="stockData" type="typens:warehouseStockUpdateEntity" />
+    </message>
+    <message name="warehouseStockCreateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseStockMultiCreateRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="stockDataArray" type="typens:warehouseStockUpdateEntityArray"/>
+    </message>
+    <message name="warehouseStockMultiCreateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseStockInfoRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="ids" type="typens:warehouseStockEntity"/>
+    </message>
+    <message name="warehouseStockInfoResponse">
+        <part name="result" type="typens:warehouseStockDataEntity" />
+    </message>
+    <message name="warehouseStockUpdateRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="stockData" type="typens:warehouseStockUpdateEntity" />
+    </message>
+    <message name="warehouseStockUpdateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseStockMultiUpdateRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="stockDataArray" type="typens:warehouseStockUpdateEntityArray"/>
+    </message>
+    <message name="warehouseStockMultiUpdateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseStockDeleteRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="ids" type="typens:warehouseStockEntity"/>
+    </message>
+    <message name="warehouseStockDeleteResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseStockMultiDeleteRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="idsArray" type="typens:warehouseStockEntityArray"/>
+    </message>
+    <message name="warehouseStockMultiDeleteResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <!--================== Location ===================-->
+    <message name="warehouseLocationInfoRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="locationId" type="xsd:string"/>
+    </message>
+    <message name="warehouseLocationInfoResponse">
+        <part name="result" type="typens:warehouseLocationDataEntity" />
+    </message>
+    <message name="warehouseLocationListRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="filters" type="typens:filters" />
+    </message>
+    <message name="warehouseLocationListResponse">
+        <part name="result" type="typens:warehouseLocationDataEntityArray" />
+    </message>
+    <message name="warehouseLocationCreateRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="LocationData" type="typens:warehouseLocationCreateEntity" />
+    </message>
+    <message name="warehouseLocationCreateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseLocationMultiCreateRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="LocationDataArray" type="typens:warehouseLocationCreateEntityArray"/>
+    </message>
+    <message name="warehouseLocationMultiCreateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseLocationUpdateRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="LocationData" type="typens:warehouseLocationUpdateEntity" />
+    </message>
+    <message name="warehouseLocationUpdateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseLocationMultiUpdateRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="LocationDataArray" type="typens:warehouseLocationUpdateEntityArray"/>
+    </message>
+    <message name="warehouseLocationMultiUpdateResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseLocationDeleteRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="id" type="xsd:string"/>
+    </message>
+    <message name="warehouseLocationDeleteResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <message name="warehouseLocationMultiDeleteRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="idsArray" type="typens:ArrayOfString"/>
+    </message>
+    <message name="warehouseLocationMultiDeleteResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+    <portType name="{{var wsdl.handler}}PortType">
+        <!--================== Stock ===================-->
+        <operation name="warehouseStockList">
+            <documentation>Retrieve stock data by location id</documentation>
+            <input message="typens:warehouseStockListRequest" />
+            <output message="typens:warehouseStockListResponse" />
+        </operation>
+        <operation name="warehouseStockCreate">
+            <documentation>Create New Stock Data</documentation>
+            <input message="typens:warehouseStockCreateRequest" />
+            <output message="typens:warehouseStockCreateResponse" />
+        </operation>
+        <operation name="warehouseStockMultiCreate">
+            <documentation>Create New Stock Data</documentation>
+            <input message="typens:warehouseStockMultiCreateRequest" />
+            <output message="typens:warehouseStockMultiCreateResponse" />
+        </operation>
+        <operation name="warehouseStockInfo">
+            <documentation>Retrieve Stock Info</documentation>
+            <input message="typens:warehouseStockInfoRequest" />
+            <output message="typens:warehouseStockInfoResponse" />
+        </operation>
+        <operation name="warehouseStockUpdate">
+            <documentation>Update Stock Item</documentation>
+            <input message="typens:warehouseStockUpdateRequest" />
+            <output message="typens:warehouseStockUpdateResponse" />
+        </operation>
+        <operation name="warehouseStockMultiUpdate">
+            <documentation>Update Multiple Stock Items</documentation>
+            <input message="typens:warehouseStockMultiUpdateRequest" />
+            <output message="typens:warehouseStockMultiUpdateResponse" />
+        </operation>
+        <operation name="warehouseStockDelete">
+            <documentation>Delete Stock Item</documentation>
+            <input message="typens:warehouseStockDeleteRequest" />
+            <output message="typens:warehouseStockDeleteResponse" />
+        </operation>
+        <operation name="warehouseStockMultiDelete">
+            <documentation>Delete Multiple Stock Items</documentation>
+            <input message="typens:warehouseStockMultiDeleteRequest" />
+            <output message="typens:warehouseStockMultiDeleteResponse" />
+        </operation>
+        <!--================== Location ===================-->
+        <operation name="warehouseLocationList">
+            <documentation>Retrieve Location List</documentation>
+            <input message="typens:warehouseLocationListRequest" />
+            <output message="typens:warehouseLocationListResponse" />
+        </operation>
+        <operation name="warehouseLocationCreate">
+            <documentation>Create New Location</documentation>
+            <input message="typens:warehouseLocationCreateRequest" />
+            <output message="typens:warehouseLocationCreateResponse" />
+        </operation>
+        <operation name="warehouseLocationMultiCreate">
+            <documentation>Create New Locations</documentation>
+            <input message="typens:warehouseLocationMultiCreateRequest" />
+            <output message="typens:warehouseLocationMultiCreateResponse" />
+        </operation>
+        <operation name="warehouseLocationInfo">
+            <documentation>Retrieve Location Info</documentation>
+            <input message="typens:warehouseLocationInfoRequest" />
+            <output message="typens:warehouseLocationInfoResponse" />
+        </operation>
+        <operation name="warehouseLocationUpdate">
+            <documentation>Update Location</documentation>
+            <input message="typens:warehouseLocationUpdateRequest" />
+            <output message="typens:warehouseLocationUpdateResponse" />
+        </operation>
+        <operation name="warehouseLocationMultiUpdate">
+            <documentation>Update Multiple Locations</documentation>
+            <input message="typens:warehouseLocationMultiUpdateRequest" />
+            <output message="typens:warehouseLocationMultiUpdateResponse" />
+        </operation>
+        <operation name="warehouseLocationDelete">
+            <documentation>Delete Location</documentation>
+            <input message="typens:warehouseLocationDeleteRequest" />
+            <output message="typens:warehouseLocationDeleteResponse" />
+        </operation>
+        <operation name="warehouseLocationMultiDelete">
+            <documentation>Delete Multiple Locations</documentation>
+            <input message="typens:warehouseLocationMultiDeleteRequest" />
+            <output message="typens:warehouseLocationMultiDeleteResponse" />
+        </operation>
+    </portType>
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+        <!--================== Stock ===================-->
+        <operation name="warehouseStockList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockCreate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockMultiCreate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockUpdate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockMultiUpdate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockDelete">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseStockMultiDelete">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <!--================== Location ===================-->
+        <operation name="warehouseLocationList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationCreate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationMultiCreate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationUpdate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationMultiUpdate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationDelete">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="warehouseLocationMultiDelete">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
+    <service name="{{var wsdl.name}}Service">
+        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </port>
+    </service>
+</definitions>

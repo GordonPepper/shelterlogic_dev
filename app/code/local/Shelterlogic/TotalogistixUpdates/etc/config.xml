@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Shelterlogic_TotalogistixUpdates>
+            <version>0.0.1</version>
+        </Shelterlogic_TotalogistixUpdates>
+    </modules>
+
+    <global>
+        <helpers>
+            <americaneagle_totalogistix>
+                <rewrite>
+                    <data>Shelterlogic_TotalogistixUpdates_Helper_Data</data>
+                </rewrite>
+            </americaneagle_totalogistix>
+        </helpers>
+    </global>
+</config>
