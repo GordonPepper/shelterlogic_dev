@@ -5967,6 +5967,8 @@ opacity:0;
     z-index: 9999;
   }
 
+.slick-arrow.slick-disabled {background: #ffffff; color: #eeeeee;}
+
 .slick-prev:before, .slick-next:before {font-family: 'FontAwesome'; font-size: 20px; line-height: 1; position: absolute;}
 .slick-prev {left: 0;}
 .slick-next {right: 0;}
