@@ -5937,7 +5937,8 @@ opacity:0;
 .product-related-accessories .products-grid {display:block; position:relative; margin-left:-1.75%; margin-right:-1.75%;}
 .product-related-accessories .products-grid > li {display:inline-block; vertical-align:top; float:left; width:21.5%; margin:0 1.75%;}
 .product-related-accessories .products-grid > li:nth-child(3n+1) {clear:none;}
-.product-related-accessories .products-grid > li a {display:block; width:240px; margin:0 20px; border:1px solid #f0f0f0; text-decoration: none;}
+
+.product-related-accessories .multiple-items li a {display:block; width:240px; margin:0 20px; border:1px solid #f0f0f0; text-decoration: none;}
 
 .slick-arrow {
     display: block;
