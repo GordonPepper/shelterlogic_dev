@@ -48,7 +48,8 @@
                         ?>
                             <a class="<?php echo $onSaleCSS; ?>" href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>">
                         <?php endif; ?>
-                            <div class="category-products-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'image')->resize(260) ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" /></div>
+                        <?php $_imgSize = [240,180]; ?>
+                            <div class="category-products-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'image')->resize($_imgSize[0],$_imgSize[1]) ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" /></div>
                             <div class="product-info clearfix">
                                 <div class="product-west">
                                     <?php if ($_item->getTypeId() == 'configurable'): ?>
@@ -56,7 +57,7 @@
                                     <?php else: ?>
                                         <span style="color: #a0a0a0; font-size: 10px; text-transform: uppercase; margin-bottom: 5px;">Model #<?php echo $_helper->productAttribute($_item, $_item->getSku(), 'SKU') ?></span>
                                     <?php endif; ?>
-                                    <h2 class="product-name" style="margin-bottom: 5px;"><?php echo $this->escapeHtml($_item->getName()) ?></h2>
+                                    <h3 class="product-name" style="margin-bottom: 5px;"><?php echo $this->escapeHtml($_item->getName()) ?></h3>
                                 </div>
                                 <div class="product-east">
                                     <?php echo $this->getPriceHtml($_item, true, '-related') ?>
@@ -65,7 +66,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="fa wishlist-toggle" title="Add to wishlist" id="wishlist-toggle-<?php echo $_item->getId() ?>" data-id="<?php echo $_item->getId() ?>" data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_item) ?>">
+                            <div class="fa wishlist-toggle" title="Add to Wishlist" id="wishlist-toggle-<?php echo $_item->getId() ?>" data-id="<?php echo $_item->getId() ?>" data-url="<?php echo Mage::helper('shelterlogic_wishlist')->getWishlistUrl($_item) ?>">
                                 <span class="visuallyHidden">Wishlist: Add or Remove</span>
                             </div>
                         </a>
