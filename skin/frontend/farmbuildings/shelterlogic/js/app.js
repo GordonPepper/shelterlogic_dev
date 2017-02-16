@@ -981,4 +981,20 @@ $j(document).ready(function() {
     $j(window).resize($j.debounce(500,magInitFN));
 /* Magpassion Menu - Emulate Mobile Touch Event - End */
 
+/* Initialize slick.js slider */
+
+    $j('.multiple-items').slick({
+        infinite: false,
+        dots: false,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [
+            {
+                breakpoint: 1139,
+                settings: "unslick"
+            }
+        ]
+    });
+/* Initialize slick.js slider - End */
+
 });
