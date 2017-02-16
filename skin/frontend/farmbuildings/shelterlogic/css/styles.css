@@ -5095,6 +5095,10 @@ opacity:0;
 .products-grid > li .product-east:active button,
 .products-grid > li .product-east:focus button {opacity:1;}
 
+.multiple-items > li .product-east:hover button,
+.multiple-items > li .product-east:active button,
+.multiple-items > li .product-east:focus button {opacity:1;}
+
 .products-grid .actions {
   padding-top:10px;
   position:absolute;
