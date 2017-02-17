@@ -19,25 +19,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
 
     public function __construct()
     {
+        parent::__construct();
         try {
-            parent::__construct();
             $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
-            if(is_null($this->orderService)) {
-                $email = $this->getConfig()->getPushFailEmail();
-                $f_name = $this->getConfig()->getPushFailFromName();
-                $f_email =$this->getConfig()->getPushFailFromEmail();
-                if($email) {
-                    mail(
-                        $email,
-                        'Order push to VISUAL failure notice',
-                        "NOTICE: The VISUAL API IS NOT WORKING AS EXPECTED:\r\n\r\nPlease review the VISUAL Soap log for more information.",
-                        "From: $f_name <$f_email>"
-                    );
-                }
-            }
             $this->orderService->__setSoapHeaders($this->getHeader());
         } catch(Exception $e) {
-            $email = $this->getConfig()->getPushFailEmail();
+            $email = $this->getConfig()->getPushFailEmail() . ", dbates@shelterlogic.com";
             $f_name = $this->getConfig()->getPushFailFromName();
             $f_email =$this->getConfig()->getPushFailFromEmail();
             if($email) {
