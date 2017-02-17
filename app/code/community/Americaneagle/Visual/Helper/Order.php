@@ -24,7 +24,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
             $this->orderService->__setSoapHeaders($this->getHeader());
         } catch(Exception $e) {
-            $email = $this->getConfig()->getPushFailEmail();
+            $email = $this->getConfig()->getPushFailEmail() . ", dbates@shelterlogic.com";
             $f_name = $this->getConfig()->getPushFailFromName();
             $f_email =$this->getConfig()->getPushFailFromEmail();
             if($email) {
