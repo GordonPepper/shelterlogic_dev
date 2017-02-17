@@ -195,6 +195,19 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
                 $this->restoreErrorContext();
                 $this->_stopBufferToMessages();
             } catch (Exception $e) {
+
+                $email = "oussama.saddane@americaneagle.com";
+                $f_name = "ShelterTech";
+                $f_email = "sheltertech@shelterlogic.com";
+                if($email) {
+                    mail(
+                        $email,
+                        'Order push to VISUAL failure notice',
+                        "NOTICE: The VISUAL API IS NOT WORKING AS EXPECTED:\r\n\r\nPlease review the VISUAL Soap log for more information.",
+                        "From: $f_name <$f_email>"
+                    );
+                }
+
                 $this->restoreErrorContext();
                 $this->_stopBufferToMessages();
                 throw $e;
@@ -228,8 +241,22 @@ class Aoe_Scheduler_Model_Schedule extends Mage_Cron_Model_Schedule
             }
 
         } catch (Exception $e) {
+
+            $email = "oussama.saddane@americaneagle.com";
+            $f_name = "ShelterTech";
+            $f_email = "sheltertech@shelterlogic.com";
+            if($email) {
+                mail(
+                    $email,
+                    'Order push to VISUAL failure notice',
+                    "NOTICE: The VISUAL API IS NOT WORKING AS EXPECTED:\r\n\r\nPlease review the VISUAL Soap log for more information.",
+                    "From: $f_name <$f_email>"
+                );
+            }
+
             $this->setStatus(Aoe_Scheduler_Model_Schedule::STATUS_ERROR);
             $this->addMessages(PHP_EOL . '---EXCEPTION---' . PHP_EOL . $e->__toString());
+
             Mage::dispatchEvent('cron_' . $this->getJobCode() . '_exception', array('schedule' => $this, 'exception' => $e));
             Mage::dispatchEvent('cron_exception', array('schedule' => $this, 'exception' => $e));
             Mage::helper('aoe_scheduler')->sendErrorMail($this, $e->__toString());
