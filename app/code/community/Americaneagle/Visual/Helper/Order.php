@@ -22,6 +22,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
         parent::__construct();
         try {
             $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
+            $this->orderService->__setSoapHeaders($this->getHeader());
         } catch(Exception $e) {
             $email = $this->getConfig()->getPushFailEmail();
             $f_name = $this->getConfig()->getPushFailFromName();
@@ -35,7 +36,6 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 );
             }
         }
-        $this->orderService->__setSoapHeaders($this->getHeader());
     }
 
     /**
