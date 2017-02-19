@@ -86,24 +86,14 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     }
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
-                        $name = $item->getName();
-                        $width = $length = $height = $fabricMaterial = $fabricColor = 'not-set';
-                        if( $product->getAttributeText('width') ) {
-                            $width = $product->getAttributeText('width');
+
+                        $attributes_info = $item->getProductOptions();
+                        if(isset($attributes_info['attributes_info'])) {
+                            $lineDescription = $item->getName();
+                            for($i = 0; $i< count($attributes_info['attributes_info']); $i++) {
+                                $lineDescription = $lineDescription.' '.$attributes_info['attributes_info'][$i]['value'];
+                            }
                         }
-                        if( $product->getAttributeText('length') ) {
-                            $length = $product->getAttributeText('length');
-                        }
-                        if( $product->getAttributeText('height') ) {
-                            $height = $product->getAttributeText('height');
-                        }
-                        if( $product->getAttributeText('fabric_material') ) {
-                            $fabricMaterial = $product->getAttributeText('fabric_material');
-                        }
-                        if( $product->getAttributeText('fabric_color') ) {
-                            $fabricColor = $product->getAttributeText('fabric_color');
-                        }
-                        $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
 
                         $warehouseId = $stockItem->getWarehouseCode();
                         $myconfig = $this->getConfig();
