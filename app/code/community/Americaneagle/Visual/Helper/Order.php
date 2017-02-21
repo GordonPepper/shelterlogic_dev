@@ -87,6 +87,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
 
+                        $lineDescription = '';
                         $attributes_info = $item->getProductOptions();
                         if(isset($attributes_info['attributes_info'])) {
                             $lineDescription = $item->getName();
