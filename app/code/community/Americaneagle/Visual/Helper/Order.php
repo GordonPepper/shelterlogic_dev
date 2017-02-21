@@ -209,12 +209,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setContactEmail($billingAddress->getEmail())
                 ->setSiteID($this->getConfig()->getSiteId())
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
-                ->setCustomerPurchaseOrderID(isset($poNumber) ? $poNumber : '')
+                ->setCustomerPurchaseOrderID($poNumber)
                 ->setFOB($this->getConfig()->getFob())
 //                ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
-                    ->setCustomerOrderLine($lines))
-                ->setOrderPayment(isset($orderHeaderPayment) ? $orderHeaderPayment : '')
+                ->setCustomerOrderLine($lines))
+                ->setOrderPayment($orderHeaderPayment)
                 ->setDiscountCodeID($order->getCouponCode());
 
 
