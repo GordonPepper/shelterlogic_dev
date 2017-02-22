@@ -33,11 +33,7 @@ $accountUrl = Mage::helper('customer')->getAccountUrl();
 <div class="page-header-ctrl">
 
     <div class="header-language-background">
-        <ul class="brand-header">
-            <li><strong>ShelterLogic Corp</strong></li>
-            <li><a href="http://www.shelterlogic.com">ShelterLogic</a></li>
-            <li><a href="http://www.farmbuildings.com">ShelterTech</a></li>
-        </ul>
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_brand_header')->toHtml();?>
         <div id="hlc" class="header-language-container">
             <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_header_social_icons')->toHtml();?>
             <div class="store-language-container hlc-item">
@@ -107,11 +103,7 @@ $accountUrl = Mage::helper('customer')->getAccountUrl();
             <!-- Navigation -->
             <div id="header-nav" class="skip-content">
                 <div class="header-language-background">
-                    <ul class="brand-header">
-                        <li><strong>ShelterLogic Corp</strong></li>
-                        <li><a href="http://www.shelterlogic.com">ShelterLogic</a></li>
-                        <li><a href="http://www.farmbuildings.com">ShelterTech</a></li>
-                    </ul>
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shelterlogic_brand_header')->toHtml();?>
                     <div id="hlc" class="header-language-container">
                         <div class="store-language-container hlc-item">
                             <?php echo $this->getChildHtml('store_language') ?>
