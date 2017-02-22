@@ -20,8 +20,22 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
     public function __construct()
     {
         parent::__construct();
-        $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
-        $this->orderService->__setSoapHeaders($this->getHeader());
+        try {
+            $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
+            $this->orderService->__setSoapHeaders($this->getHeader());
+        } catch(Exception $e) {
+            $email = $this->getConfig()->getPushFailEmail() . ", dbates@shelterlogic.com";
+            $f_name = $this->getConfig()->getPushFailFromName();
+            $f_email =$this->getConfig()->getPushFailFromEmail();
+            if($email) {
+                mail(
+                    $email,
+                    'Order push to VISUAL failure notice',
+                    "NOTICE: The VISUAL API IS NOT WORKING AS EXPECTED:\r\n\r\nPlease review the VISUAL Soap log for more information.",
+                    "From: $f_name <$f_email>"
+                );
+            }
+        }
     }
 
     /**
@@ -72,24 +86,15 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     }
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
-                        $name = $item->getName();
-                        $width = $length = $height = $fabricMaterial = $fabricColor = 'not-set';
-                        if( $product->getAttributeText('width') ) {
-                            $width = $product->getAttributeText('width');
+
+                        $lineDescription = '';
+                        $attributes_info = $item->getProductOptions();
+                        if(isset($attributes_info['attributes_info'])) {
+                            $lineDescription = $item->getName();
+                            for($i = 0; $i< count($attributes_info['attributes_info']); $i++) {
+                                $lineDescription = $lineDescription.' '.$attributes_info['attributes_info'][$i]['value'];
+                            }
                         }
-                        if( $product->getAttributeText('length') ) {
-                            $length = $product->getAttributeText('length');
-                        }
-                        if( $product->getAttributeText('height') ) {
-                            $height = $product->getAttributeText('height');
-                        }
-                        if( $product->getAttributeText('fabric_material') ) {
-                            $fabricMaterial = $product->getAttributeText('fabric_material');
-                        }
-                        if( $product->getAttributeText('fabric_color') ) {
-                            $fabricColor = $product->getAttributeText('fabric_color');
-                        }
-                        $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
 
                         $warehouseId = $stockItem->getWarehouseCode();
                         $myconfig = $this->getConfig();
@@ -205,12 +210,12 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setContactEmail($billingAddress->getEmail())
                 ->setSiteID($this->getConfig()->getSiteId())
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
-                ->setCustomerPurchaseOrderID(isset($poNumber) ? $poNumber : '')
+                ->setCustomerPurchaseOrderID($poNumber)
                 ->setFOB($this->getConfig()->getFob())
 //                ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
-                    ->setCustomerOrderLine($lines))
-                ->setOrderPayment(isset($orderHeaderPayment) ? $orderHeaderPayment : '')
+                ->setCustomerOrderLine($lines))
+                ->setOrderPayment($orderHeaderPayment)
                 ->setDiscountCodeID($order->getCouponCode());
 
 

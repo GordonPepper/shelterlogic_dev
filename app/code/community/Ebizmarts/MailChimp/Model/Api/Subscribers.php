@@ -82,10 +82,10 @@ class Ebizmarts_MailChimp_Model_Api_subscribers
         try {
             $api->lists->members->add($listId, null, $status, $subscriber->getSubscriberEmail(), $mergeVars);
         }catch(Mailchimp_Error $e){
-            $this->logError($e->getFriendlyMessage());
+            Mage::helper('mailchimp')->logError($e->getFriendlyMessage());
             Mage::getSingleton('adminhtml/session')->addError($e->getFriendlyMessage());
         }catch (Exception $e){
-            $this->logError($e->getMessage());
+            Mage::helper('mailchimp')->logError($e->getMessage());
         }
     }
 

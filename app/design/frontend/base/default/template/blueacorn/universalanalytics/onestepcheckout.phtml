@@ -45,7 +45,7 @@
 		ga('send', 'event', 'Checkout', 'Option');
             }
 
-	    if (this.currentStep == 'shipping_method') {
+	    if (this.currentStep == 'shipping_method' && $(shippingMethod.form).select('input[name="shipping_method"]').length > 0) {
 		ga('ec:setAction', 'checkout_option', {
 		    'step': this.steps.indexOf(this.currentStep)+1,
 		    'option': $(shippingMethod.form).select('input[name="shipping_method"][checked]')[0].value
