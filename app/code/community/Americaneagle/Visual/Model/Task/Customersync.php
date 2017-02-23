@@ -110,6 +110,10 @@ class Americaneagle_Visual_Model_Task_Customersync
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
 
+            if($vCustomer->getCustomerID() == 'A801144') {
+                $foo = 'bar';
+            }
+
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
             if ($customer == null) {
@@ -244,6 +248,32 @@ class Americaneagle_Visual_Model_Task_Customersync
                 catch (Exception $e) {
                     $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                 }
+
+                $address = Mage::getModel("customer/address")
+                    ->setCustomerId($customer->getId())
+                    ->setFirstname($vCustomer->getContactFirstName())
+                    ->setMiddlename($vCustomer->getContactMiddleInitial())
+                    ->setLastname($vCustomer->getContactLastName())
+                    ->setCountryID($vCustomer->getCountry())
+                    ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
+                    ->setPostcode($vCustomer->getBillingZipCode())
+                    ->setCity($vCustomer->getBillingCity())
+                    ->setStreet(array($vCustomer->getBillingAddress1(),
+                        $vCustomer->getBillingAddress2(),
+                        $vCustomer->getBillingAddress3()))
+                    ->setState($vCustomer->getBillingState())
+                    ->setTelephone($vCustomer->getContactPhoneNumber())
+                    ->setIsDefaultBilling('1')
+                    ->setIsDefaultShipping('0')
+                    ->setSaveInAddressBook('1');
+
+                try {
+                    $address->save();
+                }
+                catch (Exception $e) {
+                    $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                }
+
             }
             //$this->helper->progressBar($i + 1, count($customerList));
         }
