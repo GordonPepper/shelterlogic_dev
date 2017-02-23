@@ -118,7 +118,10 @@ class Americaneagle_Visual_Model_Task_Ordersync
                 }
 
                 $billingAddress = $order->getBillingAddress();
-                $vCustomer = $this->customerHelper->createVisualCustomer($customer, $billingAddress);
+
+                if($customer->getGroupId() == 5) {
+                    $vCustomer = $this->customerHelper->createVisualCustomer($customer, $billingAddress);
+                }
                 if (is_null($vCustomer)) {
                     $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create customer ' . $customer->getEmail() . ' in VISUAL');
                     continue;

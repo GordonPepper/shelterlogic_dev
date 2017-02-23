@@ -183,12 +183,12 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setContactMiddleInitial($billing->getMiddlename() ? strtoupper(substr($billing->getMiddlename(),0,1)) : null)
             ->setContactLastName(strtoupper($billing->getLastname()));
 
-        if($customer->getGroupId() == 4) {
-            $vCustomer->setAddress1(strtoupper($billing->getStreet1()))
-                    ->setAddress2(strtoupper($billing->getStreet2()))
-                    ->setCity(strtoupper($billing->getCity()))
-                    ->setState(strtoupper($billing->getRegionCode()))
-                    ->setCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())));
+        if($customer->getGroupId() == 5) {
+//            $vCustomer->setAddress1(strtoupper($billing->getStreet1()))
+//                    ->setAddress2(strtoupper($billing->getStreet2()))
+//                    ->setCity(strtoupper($billing->getCity()))
+//                    ->setState(strtoupper($billing->getRegionCode()))
+//                    ->setCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())));
         }
 
         if(is_null($customer->getId())) {
