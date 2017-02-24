@@ -87,14 +87,14 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
 
-                        $lineDescription = '';
-                        $attributes_info = $item->getProductOptions();
-                        if(isset($attributes_info['attributes_info'])) {
-                            $lineDescription = $item->getName();
-                            for($i = 0; $i< count($attributes_info['attributes_info']); $i++) {
-                                $lineDescription = $lineDescription.' '.$attributes_info['attributes_info'][$i]['value'];
-                            }
-                        }
+//                        $lineDescription = '';
+//                        $attributes_info = $item->getProductOptions();
+//                        if(isset($attributes_info['attributes_info'])) {
+//                            $lineDescription = $item->getName();
+//                            for($i = 0; $i< count($attributes_info['attributes_info']); $i++) {
+//                                $lineDescription = $lineDescription.' '.$attributes_info['attributes_info'][$i]['value'];
+//                            }
+//                        }
 
                         $warehouseId = $stockItem->getWarehouseCode();
                         $myconfig = $this->getConfig();
@@ -106,7 +106,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                             ->setLineNo($line)
                             ->setPartID($item->getSku())
                             ->setUnitPrice($item->getPrice())
-                            ->setLineDescription($lineDescription)
+//                            ->setLineDescription($lineDescription)
                             ->setLineStatus('A')
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())
