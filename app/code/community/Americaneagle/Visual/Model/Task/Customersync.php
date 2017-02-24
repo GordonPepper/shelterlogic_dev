@@ -249,31 +249,45 @@ class Americaneagle_Visual_Model_Task_Customersync
                     $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                 }
 
-                $address = Mage::getModel("customer/address")
-                    ->setCustomerId($customer->getId())
-                    ->setFirstname($vCustomer->getContactFirstName())
-                    ->setMiddlename($vCustomer->getContactMiddleInitial())
-                    ->setLastname($vCustomer->getContactLastName())
-                    ->setCountryID($vCustomer->getCountry())
-                    ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
-                    ->setPostcode($vCustomer->getBillingZipCode())
-                    ->setCity($vCustomer->getBillingCity())
-                    ->setStreet(array($vCustomer->getBillingAddress1(),
-                        $vCustomer->getBillingAddress2(),
-                        $vCustomer->getBillingAddress3()))
-                    ->setState($vCustomer->getBillingState())
-                    ->setTelephone($vCustomer->getContactPhoneNumber())
-                    ->setIsDefaultBilling('1')
-                    ->setIsDefaultShipping('0')
-                    ->setSaveInAddressBook('1');
+                $customer = Mage::getModel('customer/customer')->load($customer->getId());
+                $address = Mage::getModel('customer/address');
 
-                try {
-                    $address->save();
+                $countryId = $vCustomer->getCountry();
+                if(strtoupper($vCustomer->getCountry()) == 'USA') {
+                    $countryId = 'US';
                 }
-                catch (Exception $e) {
-                    $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                if ($default_billing_id = $customer->getDefaultBilling()) {
+                    $address->load($default_billing_id);
+                } else {
+
+                    $address
+                        ->setCustomerId($customer->getId())
+                        ->setIsDefaultShipping('1')
+                        ->setSaveInAddressBook('1');
+
+                    $customer->addAddress($address);
                 }
 
+                $dataShipping = array(
+                    'firstname'  => $vCustomer->getContactFirstName(),
+                    'middlename' =>$vCustomer->getContactMiddleInitial(),
+                    'lastname'   => $vCustomer->getContactLastName(),
+                    'street'     => array($vCustomer->getBillingAddress1(), $vCustomer->getBillingAddress2(), $vCustomer->getBillingAddress3()),
+                    'city'       => $vCustomer->getBillingCity(),
+//                  'region'     => $someFixedState,
+                    'region_id'  => $this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()),
+                    'postcode'   => $vCustomer->getBillingZipCode(),
+                    'country_id' => $countryId,
+                    'telephone'  => $vCustomer->getContactPhoneNumber(),
+                );
+
+                try{
+                    $address
+                        ->addData($dataShipping)
+                        ->save();
+                } catch (Exception $e) {
+                        $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                }
             }
             //$this->helper->progressBar($i + 1, count($customerList));
         }
