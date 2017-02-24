@@ -194,9 +194,13 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 $leadTime = date('Y-m-d H:i:s', strtotime("+3 days"));
                 $desiredShipDate = new DateTime($leadTime . " UTC");
             }
+
+            if($order->getIncrementId() == 'W700000439') {
+                $foo = 'bar';
+            }
             /** @var SalesOrderService\CustomerOrderHeader $newOrderHeader */
             $newOrderHeader = (new SalesOrderService\CustomerOrderHeader())
-                ->setCustomerOrderID($order->getIncrementId())
+                ->setCustomerOrderID("TS" . $order->getIncrementId())
                 ->setOrderDate(new DateTime($order->getCreatedAt()))
                 ->setCustomerID($customerId)
                 ->setDesiredShipDate($desiredShipDate)
