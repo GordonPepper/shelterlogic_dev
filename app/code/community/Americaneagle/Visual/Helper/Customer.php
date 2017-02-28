@@ -97,8 +97,11 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
                     ->setCurrencyID($this->getConfig()->getCurrencyId())
                     ->setTermsID($this->getConfig()->getTermsId())
                     ->setSalesRepID($this->getConfig()->getSalesRepId())
-                    ->setTerritoryID($this->getConfig()->getTerritoryId())
                     ->setSiteID($this->getConfig()->getSiteId());
+
+//                if($customer->getGroupId() == 4) {
+//                    $customer->setTerritoryID($this->getConfig()->getTerritoryId());
+//                }
 
                 $customerEntity = (new CustomerService\CustomerEntity())
                     ->setEntityID($this->getConfig()->getEntityId());
@@ -174,15 +177,19 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
             ->setBillingState(strtoupper($this->findRegionCode($billing->getRegionId())))
             ->setBillingCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
             ->setUserDefined1($customer->getId())
-            ->setCustomerName(strtoupper($billing->getName()))
-            ->setAddress1(strtoupper($billing->getStreet1()))
-            ->setAddress2(strtoupper($billing->getStreet2()))
-            ->setCity(strtoupper($billing->getCity()))
-            ->setState(strtoupper($billing->getRegionCode()))
-            ->setCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())))
+//            ->setCustomerName(strtoupper($billing->getName()))
+
             ->setContactFirstName(strtoupper($billing->getFirstname()))
             ->setContactMiddleInitial($billing->getMiddlename() ? strtoupper(substr($billing->getMiddlename(),0,1)) : null)
             ->setContactLastName(strtoupper($billing->getLastname()));
+
+        if($customer->getGroupId() == 5) {
+//            $vCustomer->setAddress1(strtoupper($billing->getStreet1()))
+//                    ->setAddress2(strtoupper($billing->getStreet2()))
+//                    ->setCity(strtoupper($billing->getCity()))
+//                    ->setState(strtoupper($billing->getRegionCode()))
+//                    ->setCountry(strtoupper($this->findCountryIso3Code($billing->getCountry())));
+        }
 
         if(is_null($customer->getId())) {
             $vCustomer->setCustomerType('Direct Sales');
@@ -228,6 +235,8 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
         $vCustomer = $this->_createVisualCustomer($vCustomer, $update);
 
         if (is_null($vCustomer)) return null;
+
+        Mage::getSingleton('core/session')->setTerritory($vCustomer->getTerritoryId());
 
         if ($customer->getId() && !$customer->getVisualCustomerId()) {
             $customer->setVisualCustomerId($vCustomer->getCustomerID());
@@ -307,18 +316,18 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
     {
         try {
             $params = new CustomerService\GetCustomerList(
-                    $this->getConfig()->getSiteId(),
-                    "N",
-                    $start,
-                    $count,
-                    null,
-                    null,
-                    $startDate != null ? "Y" : null,
-                    $startDate,
-                    null,
-                    null,
-                    null,
-                    $this->getConfig()->getTerritoryId());
+                $this->getConfig()->getSiteId(),
+                "N",
+                $start,
+                $count,
+                null,
+                null,
+                $startDate != null ? "Y" : null,
+                $startDate,
+                null,
+                null,
+                null,
+                $this->getConfig()->getTerritoryId());
 
             $res = $this->customerService->GetCustomerList($params)->getGetCustomerListResult();
             $this->soapLog($this->customerService, 'CustomerService:GetCustomerList', sprintf('Search for %s', 'Fred%'));
@@ -396,4 +405,8 @@ class Americaneagle_Visual_Helper_Customer extends Americaneagle_Visual_Helper_V
 
         return Mage::registry("region_{$regionId}");
     }
+    public function resetHeader() {
+        $this->customerService->__setSoapHeaders($this->getHeader());
+    }
+
 }

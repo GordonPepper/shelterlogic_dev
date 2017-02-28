@@ -59,15 +59,33 @@ class Americaneagle_Visual_Model_Task_Ordersync
         }
 
         foreach ($store_ids as $storeId) {
+            $this->store = Mage::getModel('core/store');
             $this->store->load($storeId);
+
             $this->orderHelper->getConfig()->setStore($this->store);
+            $this->orderHelper->setHeader(
+                new SoapHeader('http://tempuri.org/', 'Header', array(
+                    'Key' => $this->orderHelper->getConfig()->getServiceKey(),
+                    'ExternalRefGroup' => $this->orderHelper->getConfig()->getExternalRefGroup()
+                ))
+            );
+            $this->orderHelper->resetHeader();
             $this->customerHelper->getConfig()->setStore($this->store);
+            $this->customerHelper->setHeader(
+                new SoapHeader('http://tempuri.org/', 'Header', array(
+                    'Key' => $this->orderHelper->getConfig()->getServiceKey(),
+                    'ExternalRefGroup' => $this->orderHelper->getConfig()->getExternalRefGroup()
+                ))
+            );
+            $this->customerHelper->resetHeader();
 
             $startTime = microtime(true);
 
+            /** @var Mage_Sales_Model_Entity_Order_Collection $orderCollection */
             $orderCollection = Mage::getModel('sales/order')->getCollection();
             $orderCollection->addAttributeToFilter('store_id', array('eq' => $this->store->getId()));
             $orderCollection->addAttributeToFilter('ae_sent_to_visual', array('eq' => 0));
+            $orderCollection->addAttributeToFilter('state', array('neq' => 'canceled'));
 
             if($orderCollection->count() == 0){
                 $message .= 'Store ' . $storeId . ' - No orders to push';
@@ -100,7 +118,16 @@ class Americaneagle_Visual_Model_Task_Ordersync
                 }
 
                 $billingAddress = $order->getBillingAddress();
-                $vCustomer = $this->customerHelper->createVisualCustomer($customer, $billingAddress);
+
+                if($order->getIncrementId() == 'D700000431') {
+                    $foo = 'bar';
+                }
+
+                if($customer->getGroupId() == 5) {
+                    $vCustomer = $this->customerHelper->createVisualCustomer($customer, $billingAddress);
+                } else {
+                    $vCustomer = $this->customerHelper->getVisualCustomerById($customer->getData()[visual_customer_id]);
+                }
                 if (is_null($vCustomer)) {
                     $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create customer ' . $customer->getEmail() . ' in VISUAL');
                     continue;
@@ -127,7 +154,14 @@ class Americaneagle_Visual_Model_Task_Ordersync
 
                 $vOrder = $this->orderHelper->addNewOrderForAddress($order, $vCustomer->getCustomerID(), $shipToId, null, $shippingAddress->getRegionCode() == "CT");
                 if (is_null($vOrder)) {
-                    $this->errors[] = array('OrderID' => $order->getID(), 'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                    $this->errors[] = array(
+                        'OrderID' => $order->getID(),
+                        'Error' => 'Unable to create order ' . $vCustomer->getCustomerID() . ' in VISUAL');
+                    $messages = $this->orderHelper->getErrorMessages();
+                    if(count($messages) > 0 ) {
+                        $c = current($this->errors);
+                        $c['Error'] .= sprintf("\n%s", implode("\n", $messages));
+                    }
                     continue;
                 }
                 $order->setAeSentToVisual(1);

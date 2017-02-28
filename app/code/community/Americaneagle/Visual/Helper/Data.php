@@ -19,6 +19,7 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_PART_ID = 'aevisual/general/part_id';
 	const CONFIG_SALES_REP_ID = 'aevisual/general/sales_rep_id';
 	const CONFIG_TERRITORY_ID = 'aevisual/general/territory_id';
+	const CONFIG_FORCE_WAREHOUSE_ID = 'aevisual/general/force_warehouse';
 	const CONFIG_WAREHOUSE_ID = 'aevisual/general/warehouse_id';
 	const CONFIG_FOB = 'aevisual/general/fob';
 	const CONFIG_GENERAL_GROUP_ID = 'aevisual/general/general_group_id';
@@ -32,6 +33,7 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	const CONFIG_PUSH_FAIL_FROM_EMAIL = 'trans_email/ident_general/email';
 
 	const CONFIG_TLX_LEAD_TIME = 'carriers/totalogistix/lead_time';
+
 
 	/** @var  Mage_Core_Model_Store store */
 	private $store;
@@ -84,8 +86,14 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function getTerritoryId() {
 		return Mage::getStoreConfig(self::CONFIG_TERRITORY_ID, $this->store);
 	}
+	public function getForceWarehouseID() {
+		return Mage::getStoreConfig(self::CONFIG_FORCE_WAREHOUSE_ID, $this->store);
+	}
 	public function getWarehouseId() {
-		return Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID, $this->store);
+		$id = Mage::getStoreConfig(self::CONFIG_WAREHOUSE_ID, $this->store);
+		$options = Mage::getModel('americaneagle_visual/system_config_source_warehouse')
+			->getOptions();
+		return $options[$id];
 	}
 	public function getFob(){
 		return Mage::getStoreConfig(self::CONFIG_FOB, $this->store);
@@ -120,6 +128,7 @@ class Americaneagle_Visual_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function setStore($store)
 	{
 		$this->store = $store;
+		return $this;
 	}
 
 }

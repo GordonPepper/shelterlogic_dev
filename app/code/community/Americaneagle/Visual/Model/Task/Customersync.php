@@ -56,7 +56,7 @@ class Americaneagle_Visual_Model_Task_Customersync
             } else {
                 return false;
             }
-            if ($parameters->page_size) {
+            if (isset($parameters->page_size)) {
                 $this->pageSize = (int)$parameters->page_size;
             }
             if ($parameters->skip_date_filter) {
@@ -94,13 +94,13 @@ class Americaneagle_Visual_Model_Task_Customersync
      * @throws Exception
      */
     function getRecursiveCustomers($page){
-        printf("\nGetting page %d\n", $page + 1);
+//        printf("\nGetting page %d\n", $page + 1);
 
         /** @var Visual\CustomerService\CustomerDataResponse $newCustomersResponse */
         $newCustomersResponse = $this->helper->getNewCustomers($page * $this->pageSize + 1, $this->pageSize, $this->startDate);
         $customerList = $newCustomersResponse->getCustomerList()->getCustomerListItem();
 
-        printf("Processing %d items\n", count($customerList));
+//        printf("Processing %d items\n", count($customerList));
 
         $fail = false;
 
@@ -109,6 +109,10 @@ class Americaneagle_Visual_Model_Task_Customersync
             /** @var Mage_Customer_Model_Customer $customer */
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
+
+            if($vCustomer->getCustomerID() == 'A801144') {
+                $foo = 'bar';
+            }
 
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
@@ -234,8 +238,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
                     ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
-                    if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
-                        $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
+                if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
+                    $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 
                 try {
                     $customer->save();
@@ -244,12 +248,52 @@ class Americaneagle_Visual_Model_Task_Customersync
                 catch (Exception $e) {
                     $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                 }
+
+                $customer = Mage::getModel('customer/customer')->load($customer->getId());
+                $address = Mage::getModel('customer/address');
+
+                $countryId = $vCustomer->getCountry();
+                if(strtoupper($vCustomer->getCountry()) == 'USA') {
+                    $countryId = 'US';
+                }
+                if ($default_billing_id = $customer->getDefaultBilling()) {
+                    $address->load($default_billing_id);
+                } else {
+
+                    $address
+                        ->setCustomerId($customer->getId())
+                        ->setIsDefaultShipping('1')
+                        ->setSaveInAddressBook('1');
+
+                    $customer->addAddress($address);
+                }
+
+                $dataShipping = array(
+                    'firstname'  => $vCustomer->getContactFirstName(),
+                    'middlename' =>$vCustomer->getContactMiddleInitial(),
+                    'lastname'   => $vCustomer->getContactLastName(),
+                    'street'     => array($vCustomer->getBillingAddress1(), $vCustomer->getBillingAddress2(), $vCustomer->getBillingAddress3()),
+                    'city'       => $vCustomer->getBillingCity(),
+//                  'region'     => $someFixedState,
+                    'region_id'  => $this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()),
+                    'postcode'   => $vCustomer->getBillingZipCode(),
+                    'country_id' => $countryId,
+                    'telephone'  => $vCustomer->getContactPhoneNumber(),
+                );
+
+                try{
+                    $address
+                        ->addData($dataShipping)
+                        ->save();
+                } catch (Exception $e) {
+                    $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                }
             }
-            $this->helper->progressBar($i + 1, count($customerList));
+            //$this->helper->progressBar($i + 1, count($customerList));
         }
 
         if ($newCustomersResponse->getCustomerCount() == $this->pageSize) {
-           $this->getRecursiveCustomers($page + 1);
+            $this->getRecursiveCustomers($page + 1);
         }
     }
 

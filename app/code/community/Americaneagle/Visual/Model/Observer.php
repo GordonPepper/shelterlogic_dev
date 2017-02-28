@@ -13,12 +13,12 @@ class Americaneagle_Visual_Model_Observer extends Mage_Core_Model_Abstract {
 	/** @var  Americaneagle_Visual_Helper_UserDefinedFieldService $customerHelper */
 	private $customerHelper;
 
-    public function __construct()
-    {
-        $this->config = Mage::helper('americaneagle_visual');
-    }
+	public function __construct()
+	{
+		$this->config = Mage::helper('americaneagle_visual');
+	}
 
-    public function cleanSoaplog(Mage_Cron_Model_Schedule $observer) {
+	public function cleanSoaplog(Mage_Cron_Model_Schedule $observer) {
 		$ttl = Mage::getStoreConfig('aevisual/logging/soaplog_ttl');
 
 		if($this->config->getSoaplogEnable() == 0)
