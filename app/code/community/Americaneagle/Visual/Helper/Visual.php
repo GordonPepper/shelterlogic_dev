@@ -48,6 +48,9 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract
         return $this->header;
     }
 
+    public function setHeader(SoapHeader $header) {
+        $this->header = $header;
+    }
     public function getOptions()
     {
         return $this->options;
@@ -91,10 +94,10 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract
 
     }
 
-    function progressBar($done, $total) {
-        $perc = floor(($done / $total) * 100);
-        $left = 100 - $perc;
-        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
-        fwrite(STDERR, $write);
-    }
-} 
+//    function progressBar($done, $total) {
+//        $perc = floor(($done / $total) * 100);
+//        $left = 100 - $perc;
+//        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
+//        fwrite(STDERR, $write);
+//    }
+}

@@ -33,7 +33,7 @@ class Americaneagle_Visual_Helper_Inventory extends Americaneagle_Visual_Helper_
             $params = new InventoryService\GetPartList($this->getConfig()->getSiteId(), "N", $start, $count, null, null);
 
             $res = $this->inventoryService->GetPartList($params)->getGetPartListResult();
-            $this->soapLog($this->inventoryService, 'InventoryService:GetPartList', sprintf('Search for %s', 'Fred%'));
+            $this->soapLog($this->inventoryService, 'InventoryService:GetPartList', sprintf('Parts List, SiteID: %s, Start: %d, Count: %d', $this->getConfig()->getSiteId(), $start, $count));
 
             return $res;
         } catch (Exception $e) {
@@ -42,5 +42,9 @@ class Americaneagle_Visual_Helper_Inventory extends Americaneagle_Visual_Helper_
         }
 
         return null;
+    }
+    public function resetHeader()
+    {
+        $this->inventoryService->__setSoapHeaders($this->getHeader());
     }
 }

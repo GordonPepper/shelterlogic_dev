@@ -55,9 +55,15 @@ class Americaneagle_Visual_Model_Task_Pricesync
         }
 
         foreach ($store_ids as $storeId) {
+            $this->store = Mage::getModel('core/store');
+
             $this->store->load($storeId);
             $this->helper->getConfig()->setStore($this->store);
+            $this->helper->setHeader(new SoapHeader('http://tempuri.org/', 'Header', array(
+                'Key' => $this->helper->getConfig()->getServiceKey(),
+                'ExternalRefGroup' => $this->helper->getConfig()->getExternalRefGroup())));
 
+            $this->helper->resetHeader();
             $startTime = microtime(true);
 
             $cache = Mage::getSingleton('core/cache');
@@ -77,7 +83,7 @@ class Americaneagle_Visual_Model_Task_Pricesync
                 $this->productSkuList = unserialize($data);
             }
 
-            printf('Magento Products loading time: %d', (microtime(true)-$startTime));
+            //printf('Magento Products loading time: %d', (microtime(true)-$startTime));
 
             $this->getRecursiveItems(0);
 
@@ -101,13 +107,13 @@ class Americaneagle_Visual_Model_Task_Pricesync
      * @throws Exception
      */
     function getRecursiveItems($page){
-        printf("\nGetting page %d\n", $page + 1);
+//        printf("\nGetting page %d\n", $page + 1);
 
         /** @var Visual\InventoryService\PartDataResponse $productDataResponse */
         $productDataResponse = $this->helper->getProducts($page * $this->pageSize + 1, $this->pageSize);
         $productList = $productDataResponse->getPartList()->getPartListItem();
 
-        printf("Processing %d items\n", count($productList));
+//        printf("Processing %d items\n", count($productList));
 
         for ($i = 0; $i < count($productList); $i++) {
             $productItem = $productList[$i];
@@ -132,7 +138,7 @@ class Americaneagle_Visual_Model_Task_Pricesync
         }
 
         if ($productDataResponse->getPartCount() == $this->pageSize) {
-           $this->getRecursiveItems($page + 1);
+            $this->getRecursiveItems($page + 1);
         }
     }
 }

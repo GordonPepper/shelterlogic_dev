@@ -15,12 +15,27 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
     private $orderService;
 
     private $longestLeadTime = false;
+    private $errorMessages = [];
 
     public function __construct()
     {
         parent::__construct();
-        $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
-        $this->orderService->__setSoapHeaders($this->getHeader());
+        try {
+            $this->orderService = new SalesOrderService\SalesOrderService($this->getOptions());
+            $this->orderService->__setSoapHeaders($this->getHeader());
+        } catch(Exception $e) {
+            $email = $this->getConfig()->getPushFailEmail() . ", dbates@shelterlogic.com";
+            $f_name = $this->getConfig()->getPushFailFromName();
+            $f_email =$this->getConfig()->getPushFailFromEmail();
+            if($email) {
+                mail(
+                    $email,
+                    'Order push to VISUAL failure notice',
+                    "NOTICE: The VISUAL API IS NOT WORKING AS EXPECTED:\r\n\r\nPlease review the VISUAL Soap log for more information.",
+                    "From: $f_name <$f_email>"
+                );
+            }
+        }
     }
 
     /**
@@ -38,15 +53,15 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             $isLTL = false;
             /** @var Mage_Sales_Model_Order_Item $item */
             $orderStockSource = Mage::getModel('gaboli_warehouse/order_stock_source')
-                    ->getCollection()
-                    ->join(array('l' => 'gaboli_warehouse/location'),
-                        'location_id = l.id',
-                        array('warehouse_code' => 'name'))
-                    ->join(array('oi' => 'sales/order_item'),
-                        'sales_quote_item_id = oi.quote_item_id',
-                        array('item_id'))
-                    ->addFieldToFilter('oi.order_id', array('eq' => $order->getId()))
-                    ->load();
+                ->getCollection()
+                ->join(array('l' => 'gaboli_warehouse/location'),
+                    'location_id = l.id',
+                    array('warehouse_code' => 'name'))
+                ->join(array('oi' => 'sales/order_item'),
+                    'sales_quote_item_id = oi.quote_item_id',
+                    array('item_id'))
+                ->addFieldToFilter('oi.order_id', array('eq' => $order->getId()))
+                ->load();
 
             $nonManagedStockItems = array(43814, 44105, 22926);
 //            $longestLeadTime = false;
@@ -71,33 +86,32 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                     }
                     if ($stockItem->getItemId() == $item->getId() ||
                         (!is_null($childItem) && $stockItem->getItemId() == $childItem->getId())) {
-                        $name = $item->getName();
-                        if( $product->getAttributeText('width') ) {
-                            $width = $product->getAttributeText('width');
+
+//                        $lineDescription = '';
+//                        $attributes_info = $item->getProductOptions();
+//                        if(isset($attributes_info['attributes_info'])) {
+//                            $lineDescription = $item->getName();
+//                            for($i = 0; $i< count($attributes_info['attributes_info']); $i++) {
+//                                $lineDescription = $lineDescription.' '.$attributes_info['attributes_info'][$i]['value'];
+//                            }
+//                        }
+
+                        $warehouseId = $stockItem->getWarehouseCode();
+                        $myconfig = $this->getConfig();
+                        $myconfig->setStore($order->getStore());
+                        if($myconfig->getForceWarehouseID()) {
+                            $warehouseId = $myconfig->getWarehouseID();
                         }
-                        if( $product->getAttributeText('length') ) {
-                            $length = $product->getAttributeText('length');
-                        }
-                        if( $product->getAttributeText('height') ) {
-                            $height = $product->getAttributeText('height');
-                        }
-                        if( $product->getAttributeText('fabric_material') ) {
-                            $fabricMaterial = $product->getAttributeText('fabric_material');
-                        }
-                        if( $product->getAttributeText('fabric_color') ) {
-                            $fabricColor = $product->getAttributeText('fabric_color');
-                        }
-                        $lineDescription = $name.', '.$width.', '.$length.', '.$height.', '.$fabricMaterial.', '.$fabricColor;
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
                             ->setPartID($item->getSku())
                             ->setUnitPrice($item->getPrice())
-                            ->setLineDescription($lineDescription)
+//                            ->setLineDescription($lineDescription)
                             ->setLineStatus('A')
                             ->setCreateNewWorkOrder(1)
                             ->setQTY($stockItem->getQty())
                             ->setFreightCost($index == 0 ? $order->getShippingAmount() : 0)
-                            ->setWarehouseID($stockItem->getWarehouseCode());
+                            ->setWarehouseID($warehouseId);
 
                         $discountPercent = ($item->getDiscountAmount() / $item->getPrice()) * 100;
                         $lineItem->setDiscountPercent(number_format((float)$discountPercent, 2, '.', ''));
@@ -118,6 +132,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
 
             /** return nothing if there are no line items. */
             if (count($lines) == 0) {
+                $this->errorMessages[] = 'There are no line items for this order';
                 return null;
             }
 
@@ -157,8 +172,8 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 }
                 /** adding the payment to the order */
                 $orderHeaderPayment = (new SalesOrderService\NewOrderPayment(
-                                    new DateTime($order->getCreatedAt()),
-                                    $orderPayment->getAmountAuthorized()))
+                    new DateTime($order->getCreatedAt()),
+                    $orderPayment->getAmountAuthorized()))
                     ->setCustomerOrderID($order->getIncrementId())
                     ->setSequenceId(1)
                     ->setPaymentType("CC")
@@ -179,9 +194,13 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 $leadTime = date('Y-m-d H:i:s', strtotime("+3 days"));
                 $desiredShipDate = new DateTime($leadTime . " UTC");
             }
+
+            if($order->getIncrementId() == 'W700000439') {
+                $foo = 'bar';
+            }
             /** @var SalesOrderService\CustomerOrderHeader $newOrderHeader */
             $newOrderHeader = (new SalesOrderService\CustomerOrderHeader())
-                ->setCustomerOrderID($order->getIncrementId())
+                ->setCustomerOrderID("TS" . $order->getIncrementId())
                 ->setOrderDate(new DateTime($order->getCreatedAt()))
                 ->setCustomerID($customerId)
                 ->setDesiredShipDate($desiredShipDate)
@@ -197,11 +216,21 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setCurrencyID($this->getConfig()->getCurrencyId())
                 ->setCustomerPurchaseOrderID($poNumber)
                 ->setFOB($this->getConfig()->getFob())
-                ->setTerritoryID($this->getConfig()->getTerritoryId())
+//                ->setTerritoryID($this->getConfig()->getTerritoryId())
                 ->setLines((new SalesOrderService\ArrayOfCustomerOrderLine())
                     ->setCustomerOrderLine($lines))
                 ->setOrderPayment($orderHeaderPayment)
                 ->setDiscountCodeID($order->getCouponCode());
+
+
+            $customer_id = $order->getCustomerId();
+            $customer = Mage::getModel('customer/customer')->load($customer_id);
+            if($customer->getGroupId() == 5) {
+                $newOrderHeader->setTerritoryID($this->getConfig()->getTerritoryId());
+            } else {
+                $territory = Mage::getSingleton('core/session')->getTerritory();
+                $newOrderHeader->setTerritoryID($territory);
+            }
 
 //            if ($isCT) {
 //                $newOrderHeader->setSalesTaxID("CT_SLSTX");
@@ -214,10 +243,19 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             $res = $this->orderService->CreateSalesOrder(new SalesOrderService\CreateSalesOrder($newOrderData));
 
             $this->soapLog($this->orderService, 'CustomerService:addNewOrderForAddress', sprintf('Add New Order'));
-            return $res->getCreateSalesOrderResult() ? $res->getCreateSalesOrderResult() : null;
+            $result = $res->getCreateSalesOrderResult();
+            if(isset($result)) {
+                return $result;
+            } else {
+                $this->errorMessages[] = 'Visual did not return a result, see the soap log for more information';
+                return $res->getCreateSalesOrderResult() ? $res->getCreateSalesOrderResult() : null;
+            }
+
+
         } catch (Exception $e) {
             $this->soapLogException(isset($this->orderService) ? $this->orderService : null, 'CustomerService:addNewOrderForAddress', sprintf('Exception: %s', $e->getMessage()));
             //throw $e;
+            $this->errorMessages[] = sprintf("\nThere has been an exception: %s", $e->getMessage());
             return null;
         }
 
@@ -252,5 +290,11 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 );
             }
         }
+    }
+    public function resetHeader() {
+        $this->orderService->__setSoapHeaders($this->getHeader());
+    }
+    public function getErrorMessages() {
+        return $this->errorMessages;
     }
 }
