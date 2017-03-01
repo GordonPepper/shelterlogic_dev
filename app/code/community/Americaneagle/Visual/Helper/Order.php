@@ -97,11 +97,11 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
 //                        }
 
                         $warehouseId = $stockItem->getWarehouseCode();
-                        $myconfig = $this->getConfig();
-                        $myconfig->setStore($order->getStore());
-                        if($myconfig->getForceWarehouseID()) {
-                            $warehouseId = $myconfig->getWarehouseID();
-                        }
+//                        $myconfig = $this->getConfig();
+//                        $myconfig->setStore($order->getStore());
+//                        if($myconfig->getForceWarehouseID()) {
+//                            $warehouseId = $myconfig->getWarehouseID();
+//                        }
 
                         $lineItem = (new SalesOrderService\CustomerOrderLine($item->getQtyOrdered(), false))
                             ->setLineNo($line)
