@@ -100,4 +100,6 @@ class Americaneagle_Visual_Helper_Visual extends Mage_Core_Helper_Abstract
 //        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
 //        fwrite(STDERR, $write);
 //    }
-}
+
+} 
+
