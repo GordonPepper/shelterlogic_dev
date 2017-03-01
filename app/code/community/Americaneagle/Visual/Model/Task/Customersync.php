@@ -110,6 +110,10 @@ class Americaneagle_Visual_Model_Task_Customersync
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
 
+            if($vCustomer->getCustomerID() == 'A801144') {
+                $foo = 'bar';
+            }
+
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
             if ($customer == null) {
@@ -243,6 +247,46 @@ class Americaneagle_Visual_Model_Task_Customersync
                 }
                 catch (Exception $e) {
                     $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
+                }
+
+                $customer = Mage::getModel('customer/customer')->load($customer->getId());
+                $address = Mage::getModel('customer/address');
+
+                $countryId = $vCustomer->getCountry();
+                if(strtoupper($vCustomer->getCountry()) == 'USA') {
+                    $countryId = 'US';
+                }
+                if ($default_billing_id = $customer->getDefaultBilling()) {
+                    $address->load($default_billing_id);
+                } else {
+
+                    $address
+                        ->setCustomerId($customer->getId())
+                        ->setIsDefaultShipping('1')
+                        ->setSaveInAddressBook('1');
+
+                    $customer->addAddress($address);
+                }
+
+                $dataShipping = array(
+                    'firstname'  => $vCustomer->getContactFirstName(),
+                    'middlename' =>$vCustomer->getContactMiddleInitial(),
+                    'lastname'   => $vCustomer->getContactLastName(),
+                    'street'     => array($vCustomer->getBillingAddress1(), $vCustomer->getBillingAddress2(), $vCustomer->getBillingAddress3()),
+                    'city'       => $vCustomer->getBillingCity(),
+//                  'region'     => $someFixedState,
+                    'region_id'  => $this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()),
+                    'postcode'   => $vCustomer->getBillingZipCode(),
+                    'country_id' => $countryId,
+                    'telephone'  => $vCustomer->getContactPhoneNumber(),
+                );
+
+                try{
+                    $address
+                        ->addData($dataShipping)
+                        ->save();
+                } catch (Exception $e) {
+                        $this->errors[] = array('ID' => $customerItem->getID(), 'Error' => $e->getMessage());
                 }
             }
             //$this->helper->progressBar($i + 1, count($customerList));
