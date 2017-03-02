@@ -262,8 +262,6 @@ class Americaneagle_Visual_Model_Task_Customersync
 
                     $address
                         ->setCustomerId($customer->getId())
-                        ->setCountryId($this->helper->findCountryId($vCustomer->getCountry()))
-                        ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
                         ->setIsDefaultShipping('1')
                         ->setSaveInAddressBook('1');
 
