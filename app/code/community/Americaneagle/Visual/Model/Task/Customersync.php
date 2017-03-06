@@ -110,10 +110,6 @@ class Americaneagle_Visual_Model_Task_Customersync
             $customer = $this->findCustomerByVisualId($customerItem->getID());
             $vCustomer = $customerItem->getCustomer();
 
-            if($vCustomer->getCustomerID() == 'A801144') {
-                $foo = 'bar';
-            }
-
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
             if ($customer == null) {
@@ -146,12 +142,17 @@ class Americaneagle_Visual_Model_Task_Customersync
                     $fail = true;
                 }
 
+                $countryId = $vCustomer->getCountry();
+                if(strtoupper($vCustomer->getCountry()) == 'USA') {
+                    $countryId = 'US';
+                }
+
                 $address = Mage::getModel("customer/address")
                     ->setCustomerId($customer->getId())
                     ->setFirstname($vCustomer->getContactFirstName())
                     ->setMiddlename($vCustomer->getContactMiddleInitial())
                     ->setLastname($vCustomer->getContactLastName())
-                    ->setCountryID($vCustomer->getCountry())
+                    ->setCountryID($countryId)
                     ->setRegionId($this->helper->findRegionId($vCustomer->getBillingCountry(), $vCustomer->getBillingState()))
                     ->setPostcode($vCustomer->getBillingZipCode())
                     ->setCity($vCustomer->getBillingCity())
