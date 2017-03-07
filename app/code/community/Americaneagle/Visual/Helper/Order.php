@@ -170,6 +170,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                         $cardNumber = "XXXX-XXXX-XXXX-{$orderPayment->getCcLast4()}";
                     }
                 }
+                $poNumber = '';
                 /** adding the payment to the order */
                 $orderHeaderPayment = (new SalesOrderService\NewOrderPayment(
                                     new DateTime($order->getCreatedAt()),
@@ -195,9 +196,6 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 $desiredShipDate = new DateTime($leadTime . " UTC");
             }
 
-            if($order->getIncrementId() == 'W700000439') {
-                $foo = 'bar';
-            }
             /** @var SalesOrderService\CustomerOrderHeader $newOrderHeader */
             $newOrderHeader = (new SalesOrderService\CustomerOrderHeader())
                 ->setCustomerOrderID("TS" . $order->getIncrementId())
@@ -205,7 +203,7 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
                 ->setCustomerID($customerId)
                 ->setDesiredShipDate($desiredShipDate)
                 ->setShipToID($shipToId)
-                ->setStatus('R')
+//                ->setStatus('R')
                 ->setShipVIA(!is_null($shipVIA) ? $shipVIA : ($isLTL ? 'LTL' : 'PACKAGE'))
                 ->setCarrierID($this->getConfig()->stripCarrierCode($order->getShippingMethod()))
                 ->setContactFirstName($billingAddress->getFirstname())
@@ -227,7 +225,9 @@ class Americaneagle_Visual_Helper_Order extends Americaneagle_Visual_Helper_Visu
             $customer = Mage::getModel('customer/customer')->load($customer_id);
             if($customer->getGroupId() == 5) {
                 $newOrderHeader->setTerritoryID($this->getConfig()->getTerritoryId());
+                $newOrderHeader->setStatus('H');
             } else {
+                $newOrderHeader->setStatus('R');
                 $territory = Mage::getSingleton('core/session')->getTerritory();
                 $newOrderHeader->setTerritoryID($territory);
             }
