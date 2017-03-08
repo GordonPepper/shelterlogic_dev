@@ -77,6 +77,19 @@ class Shelterlogic_Stockimport_Model_Observer
                 }
             }
         } catch (Exception $e) {
+
+            $email = "oussama.saddane@americaneagle.com, dbates@shelterlogic.com";
+            $f_name = "Shelterlogic";
+            $f_email = "shelterlogic@shelterlogic.com";
+            if($email) {
+                mail(
+                    $email,
+                    'Stock Import failure notice',
+                    "NOTICE: THE STOCK IMPORT HAS FAILED:\r\n\r\nPlease review the VISUAL Soap log for more information.",
+                    "From: $f_name <$f_email>"
+                );
+            }
+
             Mage::logException($e);
             Mage::log('Error: ' . $e->getMessage(), Zend_Log::ERR, self::LOG_FILE);
         }
