@@ -112,6 +112,11 @@ class Americaneagle_Visual_Model_Task_Customersync
 
             $this->customerHelper = Mage::helper('americaneagle_visual/UserDefinedFieldService');
 
+            $webLogin = $this->customerHelper->getWebLogin($customerItem->getID());
+            if(is_null($webLogin)) {
+                continue;
+            }
+
             if ($customer == null) {
                 $customer = Mage::getModel("customer/customer");
                 $customer
@@ -121,7 +126,7 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setFirstname($vCustomer->getContactFirstName())
                     ->setMiddlename($vCustomer->getContactMiddleInitial())
                     ->setLastname($vCustomer->getContactLastName())
-                    ->setEmail($vCustomer->getContactEmail())
+                    ->setEmail($webLogin)
                     ->setPhone($vCustomer->getContactPhoneNumber())
                     ->setPassword($customer->generatePassword())
                     ->setVisualCustomerId(strtoupper($vCustomer->getCustomerID()))
@@ -130,8 +135,8 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
                     ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
-                if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
-                    $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
+//                if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
+//                    $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 
                 try {
                     $customer->save();
@@ -238,9 +243,10 @@ class Americaneagle_Visual_Model_Task_Customersync
                     ->setDiscountPercent($vCustomer->getDiscountPercent())
                     ->setTermsId($vCustomer->getTermsID())
                     ->setTaxExempt($vCustomer->getTaxExempt())
-                    ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()));
-                if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
-                    $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
+                    ->setCustomerTerms($this->customerHelper->getCustomerTerms($customerItem->getID()))
+                    ->setEmail($webLogin);
+//                    if($this->customerHelper->getWebLogin($customerItem->getID()) != null)
+//                        $customer->setEmail($this->customerHelper->getWebLogin($customerItem->getID()));
 
                 try {
                     $customer->save();
