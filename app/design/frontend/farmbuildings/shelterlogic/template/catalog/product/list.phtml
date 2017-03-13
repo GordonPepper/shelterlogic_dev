@@ -86,7 +86,7 @@
                         <?php echo $this->getPriceHtml($_product, true) ?>
                     </div>
                     <div class="product-secondary">
-                        <?php if($_product->isSaleable() && !$_product->canConfigure() && $_product->getSku() != '70435'): ?>
+                        <?php if($_product->isSaleable() && !$_product->canConfigure()): ?>
                             <p class="action"><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                         <?php elseif($_product->isSaleable()): ?>
                             <p class="action"><a title="<?php echo $this->__('View Details') ?>" class="button" href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->__('View Details') ?></a></p>
@@ -184,7 +184,7 @@
                                 <div class="product-east">
                                     <?php echo $this->getPriceHtml($_product, true) ?>
                                     <?php $stockQty = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(); ?>
-                                    <?php if($stockQty > 0 && $_product->getSku() != '70435') :?>
+                                    <?php if($stockQty > 0) :?>
                                         <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                                     <?php endif; ?>
                                 </div>
