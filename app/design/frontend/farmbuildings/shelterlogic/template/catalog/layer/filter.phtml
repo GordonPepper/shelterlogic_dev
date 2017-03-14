@@ -47,7 +47,13 @@
     <?php
         $categoryId = Mage::getModel('catalog/category')->load($_item->getValue())->getId();
         if(!is_null($categoryId)) {
-            $products_count = Mage::getModel('catalog/category')->load($categoryId)->getProductCount();
+//            $products_count = Mage::getModel('catalog/category')->load($categoryId)->getProductCount();
+            $products = Mage::getModel('catalog/category')->load($categoryId)
+                ->getProductCollection()
+                ->addAttributeToSelect('entity_id')
+                ->addAttributeToFilter('status', 1)
+                ->addAttributeToFilter('visibility', 4);
+            $products_count = $products->count();
         } else {
             $products_count = $_item->getCount();
         }
