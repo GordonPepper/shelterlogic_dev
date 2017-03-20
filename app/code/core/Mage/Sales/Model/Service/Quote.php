@@ -186,7 +186,6 @@ class Mage_Sales_Model_Service_Quote
         Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
         Mage::dispatchEvent('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
         try {
-            throw new Exception('test');
             $transaction->save();
             $this->_inactivateQuote();
             Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
