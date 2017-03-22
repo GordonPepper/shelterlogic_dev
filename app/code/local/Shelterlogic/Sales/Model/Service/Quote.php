@@ -70,24 +70,25 @@ class Shelterlogic_Sales_Model_Service_Quote extends Mage_Sales_Model_Service_Qu
         Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
         Mage::dispatchEvent('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
         try {
-            throw new Exception('test');
             $transaction->save();
             $this->_inactivateQuote();
             Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
         } catch (Exception $e) {
 
-            if(!is_null(Mage::getSingleton('customer/session')->getFraudCheck()) && Mage::getSingleton('customer/session')->getFraudCheck() < 3) {
+            $session = Mage::getSingleton('core/session');
+            $SID=$session->getEncryptedSessionId(); //current session id
+
+            $setSessionVariable = "set" . $SID;
+
+            if(!is_null(Mage::getSingleton('customer/session')->getFraudCheck())) {
                 $fraudCheck = Mage::getSingleton('customer/session')->getFraudCheck() + 1;
                 Mage::getSingleton('customer/session')->setFraudCheck($fraudCheck);
-                if($fraudCheck == 3) {
-                    Mage::getSingleton('customer/session')->setFraudCheck(null);
-//                    Mage::getSingleton('checkout/session')->addError("Gift Card is not currently active");
-//                    Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('checkout/cart'))->sendResponse();
-//                    $this->_redirect('checkout/cart');
-//                    $result['error_msg'] = $this->__('There there was an error processing your order. Please contact us or try again later.');
-                }
+                $sessionValue = $SID . $fraudCheck;
+                Mage::getSingleton('customer/session')->$setSessionVariable($sessionValue);
             } else {
                 Mage::getSingleton('customer/session')->setFraudCheck(1);
+                $sessionValue = $SID . Mage::getSingleton('customer/session')->getFraudCheck();
+                Mage::getSingleton('customer/session')->$setSessionVariable($sessionValue);
             }
 
 
