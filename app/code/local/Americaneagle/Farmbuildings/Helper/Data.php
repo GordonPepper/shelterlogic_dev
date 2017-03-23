@@ -71,6 +71,7 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 
 		if($sid == 8) {
             $fieldsAddition['is_in_stock'] = 'warehouse.is_in_stock';
+            $fieldsAddition['manage_stock'] = 'warehouse.manage_stock';
             $fieldsAddition['qty'] = 'warehouse.qty';
             $from = $select->from(
                 null,
@@ -116,8 +117,10 @@ class Americaneagle_Farmbuildings_Helper_Data extends Mage_Core_Helper_Abstract 
 						'pos' => $labelMap[$row[$att['code']]]['pos'],
 						'children' => array()
 					);
-                    if(isset($row['is_in_stock'])){
+                    if(isset($row['is_in_stock']) && $row['manage_stock']){
                         $root[$att['id']]['options'][$row[$att['code']]]['instock'] = ( $row['is_in_stock'] && $row['qty'] > 0);
+                    }else if(!$row['manage_stock'] ){
+                        $root[$att['id']]['options'][$row[$att['code']]]['instock'] =($row['is_in_stock'])?true:false;
                     }
 				}
 				$root = &$root[$att['id']]['options'][$row[$att['code']]]['children'];
