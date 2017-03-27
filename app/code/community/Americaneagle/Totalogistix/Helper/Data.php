@@ -12,7 +12,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
     private $req;
 
     private function getCartChecksum() {
-        $str = $this->req->getDestPostcode();
+        $str = substr($this->req->getDestPostcode(), 0, 5);
         foreach ($this->req->getAllItems() as $item) {
             $str .= $item->getProductId() . $item->getQty() * $item->getWeight();
         }
@@ -71,7 +71,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             $client = new Zend_Http_Client();
             $client->setUri($this->getServiceUri());
             $client->setConfig(array('timeout' => 60));
-            $client->setParameterPost('sZip', $this->getOriginZip($request));
+            $client->setParameterPost('sZip', substr($this->getOriginZip($request), 0, 5));
             $client->setParameterPost('AccessID', $this->getAccessId());
             $client->setParameterPost('Service', $this->getAccessorial());
             $client->setParameterPost('Date', $this->getShipDate());
@@ -156,7 +156,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
         }
        // if($this->getSt)
         if($request->getDestCountryId() == "CA"){
-            $warehouses = $this->getDistanceOrderedCAWarehouses($request->getDestPostcode());
+            $warehouses = $this->getDistanceOrderedCAWarehouses(substr($request->getDestPostcode(), 0, 5));
 
             // Hardcoded for currentlogic
             $warehouses = $this->addOtherWarehouses($warehouses);
@@ -173,7 +173,7 @@ class Americaneagle_Totalogistix_Helper_Data extends Mage_Core_Helper_Abstract
             }
             Mage::throwException('Closest warehouse mismatch');
         }else{
-            $warehouses = $this->getDistanceOrderedWarehouses($request->getDestPostcode());
+            $warehouses = $this->getDistanceOrderedWarehouses(substr($request->getDestPostcode(), 0, 5));
         }
         $this->addWarehouseStockToProducts($request);
         $closestWarehouse = $this->getClosestWarehouseWithAllProducts($request, $warehouses);
