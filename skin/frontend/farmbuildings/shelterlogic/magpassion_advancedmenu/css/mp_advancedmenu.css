@@ -84,7 +84,7 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
 
 @media only screen and (min-width:771px) {
     .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px;}
-    .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:auto; right:auto; top:-9999em; padding-top:12px; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
+    .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:auto; right:auto; top:-9999em; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
     ul.magpassion-menu-mega li.active ul.level1,
     ul.magpassion-menu-mega li:hover ul.level1 {opacity:1; top:98px; -webkit-transition:top 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:top 0s ease 0s, opacity 0.2s ease 0s; transition:top 0s ease 0s, opacity 0.2s ease 0s;}
     .magpassion-nav-container > ul > li:hover > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
