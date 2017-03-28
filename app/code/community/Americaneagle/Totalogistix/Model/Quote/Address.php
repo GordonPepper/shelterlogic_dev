@@ -25,7 +25,7 @@ class Americaneagle_Totalogistix_Model_Quote_Address extends Mage_Sales_Model_Qu
 		 */
 		$request->setDestStreet($this->getStreet(self::DEFAULT_DEST_STREET));
 		$request->setDestCity($this->getCity());
-		$request->setDestPostcode($this->getPostcode());
+		$request->setDestPostcode(substr($this->getPostcode(), 0, 5));
 		$request->setPackageValue($item ? $item->getBaseRowTotal() : $this->getBaseSubtotal());
 		$packageValueWithDiscount = $item
 			? $item->getBaseRowTotal() - $item->getBaseDiscountAmount()
