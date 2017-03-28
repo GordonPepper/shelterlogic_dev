@@ -14,7 +14,7 @@
  */
 
 .magpassion-nav-container {display:block;}
-.magpassion-menu-mega {display:block; height:34px; text-transform:uppercase; font-family:"open sans"; font-size:13px; line-height:18px;}
+.magpassion-menu-mega {display:block; height:34px; text-transform:uppercase; font-family:"open sans"; font-size:12px; line-height:18px;}
 .magpassion-menu-mega:after {content:""; display:table; clear:both;}
 
 /* All Levels */ /* Style consistent throughout all nav levels */
@@ -42,7 +42,7 @@
 .magpassion-nav-container > ul > li {float:left;}
 .magpassion-nav-container > ul > li ~ li {margin-left:5px;}
 .magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
-.magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:10px; width:0; height:0;}
+.magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:3px; width:0; height:0;}
 
 /* 1st Level */
 
@@ -83,10 +83,10 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
 .magpassion-nav-container span.hasImg {background-position:1% 40% !important; padding-left:32px !important;}
 
 @media only screen and (min-width:771px) {
-    .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 15px;}
-    .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:auto; right:auto; top:-9999em; padding-top:12px; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
+    .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px;}
+    .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:auto; right:auto; top:-9999em; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
     ul.magpassion-menu-mega li.active ul.level1,
-    ul.magpassion-menu-mega li:hover ul.level1 {opacity:1; top:53px; -webkit-transition:top 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:top 0s ease 0s, opacity 0.2s ease 0s; transition:top 0s ease 0s, opacity 0.2s ease 0s;}
+    ul.magpassion-menu-mega li:hover ul.level1 {opacity:1; top:98px; -webkit-transition:top 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:top 0s ease 0s, opacity 0.2s ease 0s; transition:top 0s ease 0s, opacity 0.2s ease 0s;}
     .magpassion-nav-container > ul > li:hover > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
     .magpassion-nav-container > ul > li:hover > a.hasChild span.mp-menu-title::after {border-bottom-color:#EAAB00;}
     .magpassion-nav-container > ul > li > a.hasChild:after {content:""; display:block; opacity:0; position:absolute; z-index:2001; width:16px; height:16px; left:50%; right:0; bottom:-19px; border-width:1px; border-style:none solid solid none; background-color:#ffffff; border-color:#f0f0f0; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg); -webkit-transition:opacity 0.5s ease 0s; -moz-transition:opacity 0.5s ease 0s; transition:opacity 0.5s ease 0s;}
