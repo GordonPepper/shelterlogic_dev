@@ -42,7 +42,7 @@
 .magpassion-nav-container > ul > li {float:left;}
 .magpassion-nav-container > ul > li ~ li {margin-left:5px;}
 .magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
-.magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:3px; width:0; height:0;}
+.magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:40%; right:3px; width:0; height:0;}
 
 /* 1st Level */
 
@@ -82,8 +82,8 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
 .magpassion-nav-container span.hasImg {background-repeat:no-repeat; background-position:1% 10%; padding-left:28px !important;}
 .magpassion-nav-container span.hasImg {background-position:1% 40% !important; padding-left:32px !important;}
 
-@media only screen and (min-width:771px) {
-    .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px;}
+@media only screen and (min-width:1266px) {
+    .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 8px 19px 8px;}
     .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:auto; right:auto; top:-9999em; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
     ul.magpassion-menu-mega li.active ul.level1,
     ul.magpassion-menu-mega li:hover ul.level1 {opacity:1; top:98px; -webkit-transition:top 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:top 0s ease 0s, opacity 0.2s ease 0s; transition:top 0s ease 0s, opacity 0.2s ease 0s;}
@@ -97,7 +97,7 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
     .magpassion-child-image-wrpr {display:table-cell; padding:0; vertical-align:top;}
 }
 
-@media only screen and (max-width:770px) {
+@media only screen and (max-width:1265px) {
     .magpassion-menu-mega {height:auto;}
     .magpassion-nav-container > ul > li {float:none;}
     .magpassion-nav-container > ul > li > a {float:none;}
