@@ -1159,7 +1159,7 @@ body:not(.customer-account) .block:first-child .block-title {
   clear:both;
 }
 .block .actions a {
-  float:left;
+  float:right;
 }
 .block .actions .button {
   float:right;
@@ -1648,32 +1648,27 @@ a.button2:hover {
   display:inline-block;
   width:20px;
   height:20px;
-  border:1px solid #ededed;
   text-align:center;
   /* Hide text */
   font:0/0 a;
   text-shadow:none;
   color:transparent;
   position:relative;
-}
-.btn-remove:hover,
-.btn-previous:hover {
-  background-color:#EAAB00;
-  border-color:#EAAB00;
+  transition: all 0.1s ease;
 }
 
 .btn-remove::after {
-  content:'X';
+  content:'\f00d';
   color:#EAAB00;
   height:20px;
   line-height:20px;
   width:100%;
-  font-size:10px;
-  font-family:"open sans";
+  font-size:14px;
+  font-family:"FontAwesome";
   font-weight:bold;
 }
 .btn-remove:hover::after {
-  color:#FFFFFF;
+  color:#666666;
   text-decoration:none;
 }
 
@@ -5680,12 +5675,10 @@ opacity:0;
 
   .block-layered-nav dl ol > li > a {
     color:#636363;
-    background-color:#f4f4f4;
     padding:5px 10px;
   }
   .block-layered-nav dl ol > li > a:hover {
     text-decoration:none;
-    background:#e7e7e7;
   }
 }
 .block-layered-nav .currently .block-subtitle {
@@ -5702,11 +5695,15 @@ opacity:0;
   text-transform:uppercase;
 }
 .block-layered-nav .currently ol {
-  padding-left:10px;
   margin-bottom:10px;
 }
 .block-layered-nav .currently ol li {
   margin-bottom:5px;
+  border: 1px solid #f0f0f0;
+  padding: 10px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
 }
 .block-layered-nav .currently ol li .label {
   font-weight:bold;
