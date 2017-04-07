@@ -1668,6 +1668,11 @@ a.button2:hover {
   font-family:"FontAwesome";
   font-weight:bold;
 }
+
+.btn-remove:hover {
+	text-decoration:none;
+}
+
 .btn-remove:hover::after {
   color:#666666;
   text-decoration:none;
