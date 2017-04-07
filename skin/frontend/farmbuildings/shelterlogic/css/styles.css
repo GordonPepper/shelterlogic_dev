@@ -1655,6 +1655,7 @@ a.button2:hover {
   color:transparent;
   position:relative;
   transition: all 0.1s ease;
+  text-decoration: none;
 }
 
 .btn-remove::after {
