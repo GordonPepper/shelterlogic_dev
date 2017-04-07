@@ -55,11 +55,11 @@
 .magpassion-nav-container ul div ul {position:static; width:auto; border:none;}
 
 .magpassion-nav-container .magpassion-child-content > a.level1 span.mp-menu {padding:0 0 10px 0; font-weight:700;}
-.magpassion-nav-container .magpassion-child-content > ul.level2 span.mp-menu {padding:0 0 10px 0;}
+.magpassion-nav-container .magpassion-child-content > ul.level2 span.mp-menu {padding:0 0 7px 0;}
 .magpassion-child-content > a.level1 {margin-bottom:10px; border-bottom:1px solid #f0f0f0;}
 .magpassion-child-content > a.level1 > span.mp-menu {display:inline-block !important; position:relative;}
 .magpassion-child-content > a.level1 > span.mp-menu:after {content:""; position:absolute; left:0; right:0; bottom:-1px; border-bottom:1px solid #EAAB00;}
-.magpassion-menu-mega ul.level1 li {height:auto !important;}
+.magpassion-menu-mega ul.level1 li {height:auto !important; width: 1200px;}
 
 /* 3rd+ Level */
 
@@ -84,7 +84,7 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
 
 @media only screen and (min-width:1266px) {
     .magpassion-nav-container > ul > li > a span.mp-menu-title {padding:8px 8px 19px 8px;}
-    .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:0; right:auto; top:-9999em; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s; width: 100%; display: block;}
+    .magpassion-nav-container > ul > li > ul {position:absolute; z-index:999; left:0; right:auto; top:-9999em; opacity:0; -webkit-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; -moz-transition:top 0s ease 0.5s, opacity 0.5s ease 0s; transition:top 0s ease 0.5s, opacity 0.5s ease 0s;}
     ul.magpassion-menu-mega li.active ul.level1,
     ul.magpassion-menu-mega li:hover ul.level1 {opacity:1; top:98px; -webkit-transition:top 0s ease 0s, opacity 0.2s ease 0s; -moz-transition:top 0s ease 0s, opacity 0.2s ease 0s; transition:top 0s ease 0s, opacity 0.2s ease 0s;}
     .magpassion-nav-container > ul > li:hover > a.hasChild:after {opacity:1; -webkit-transition:opacity 0.2s ease 0s; -moz-transition:opacity 0.2s ease 0s; transition:opacity 0.2s ease 0s;}
@@ -92,8 +92,8 @@ ul.magpassion-menu-dropline li .shown-sub li div.shown-sub {left:0; top:52px;}
     .magpassion-nav-container > ul > li > a.hasChild:after {content:""; display:block; opacity:0; position:absolute; z-index:2001; width:16px; height:16px; left:50%; right:0; bottom:-19px; border-width:1px; border-style:none solid solid none; background-color:#ffffff; border-color:#f0f0f0; -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); -moz-transform:rotate(45deg); transform:rotateZ(45deg); -webkit-transition:opacity 0.5s ease 0s; -moz-transition:opacity 0.5s ease 0s; transition:opacity 0.5s ease 0s;}
     .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {margin-top:4px; border-bottom:4px solid #666666; border-left:4px solid transparent;}
     .magpassion-nav-container > ul > li > ul > li {display:table; empty-cells:hide; border-collapse:collapse; border-spacing:0; table-layout:auto; float:none !important; margin:0; -webkit-box-shadow:0 2px 5px -2px rgba(0,0,0,.2); -moz-box-shadow:0 2px 5px -2px rgba(0,0,0,.2); box-shadow:0 2px 5px -2px rgba(0,0,0,.2)}
-    .magpassion-child-content-wrpr {display:table-cell; padding:0; vertical-align:top;}
-    .magpassion-child-content {display:block; float:left; padding:0 10px; margin:20px 0 0 0; min-width:190px; min-height:50px; width: 20%;}
+    .magpassion-child-content-wrpr {display:table-cell; padding:0 0 10px 0; vertical-align:top;}
+    .magpassion-child-content {display:block; float:left; padding:0 10px; margin:20px 0 10px 0; min-width:190px; min-height:50px; width: 20%;}
     .magpassion-child-image-wrpr {display:table-cell; padding:0; vertical-align:top;}
 }
 
