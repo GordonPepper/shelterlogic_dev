@@ -14,7 +14,7 @@
  */
 
 .magpassion-nav-container {display:block;}
-.magpassion-menu-mega {display:block; height:34px; text-transform:lowercase; font-family:"open sans"; font-size:13px; color:#393939; line-height:18px;}
+.magpassion-menu-mega {display:block; height:34px; text-transform:uppercase; font-family:"open sans"; font-size:13px; color:#393939; line-height:18px;}
 .magpassion-menu-mega:after {content:""; display:table; clear:both;}
 
 /* All Levels */ /* Style consistent throughout all nav levels */
