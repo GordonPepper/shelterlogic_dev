@@ -14,7 +14,7 @@
  */
 
 .magpassion-nav-container {display:block;}
-.magpassion-menu-mega {display:block; height:34px; text-transform:uppercase; font-family:"open sans"; font-size:13px; line-height:18px;}
+.magpassion-menu-mega {display:block; height:34px; text-transform:uppercase; font-family:"open sans"; font-size:113px; color:#393939; line-height:18px;}
 .magpassion-menu-mega:after {content:""; display:table; clear:both;}
 
 /* All Levels */ /* Style consistent throughout all nav levels */
@@ -41,7 +41,7 @@
 
 .magpassion-nav-container > ul > li {float:left;}
 .magpassion-nav-container > ul > li ~ li {margin-left:5px;}
-.magpassion-nav-container > ul > li > a {height:100%; float:left; color:#ff00ff;}
+.magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
 .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:10px; width:0; height:0;}
 
 /* 1st Level */
