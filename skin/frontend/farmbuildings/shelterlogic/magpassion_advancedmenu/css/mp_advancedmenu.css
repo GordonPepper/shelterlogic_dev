@@ -41,7 +41,7 @@
 
 .magpassion-nav-container > ul > li {float:left;}
 .magpassion-nav-container > ul > li ~ li {margin-left:5px;}
-.magpassion-nav-container > ul > li > a {height:100%; float:left; color:#666666;}
+.magpassion-nav-container > ul > li > a {height:100%; float:left; color:#ff00ff;}
 .magpassion-nav-container > ul > li > a.hasChild span.mp-menu-title:after {content:""; position:absolute; opacity:1; top:50%; right:10px; width:0; height:0;}
 
 /* 1st Level */
