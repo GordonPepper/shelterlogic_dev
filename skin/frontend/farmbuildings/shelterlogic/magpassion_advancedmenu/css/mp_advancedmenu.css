@@ -27,7 +27,7 @@
 .magpassion-nav-container ul li a:hover {text-decoration:none;}
 .magpassion-nav-container ul li span {display:block; cursor:pointer; white-space:nowrap;}
 .magpassion-nav-container ul li ul span {white-space:normal;}
-.magpassion-nav-container li span.mp-menu-title {position:relative;}
+.magpassion-nav-container li span.mp-menu-title {position:relative;color:#ff00ff;}
 
 .magpassion-child-content.magpassion-child-image {display:block; max-width:100%; margin:0; padding:0;}
 .megamenu-banner-image-wrpr {display:block; position:relative; max-width:100%; overflow:hidden;}
